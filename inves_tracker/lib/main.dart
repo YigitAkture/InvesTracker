@@ -9,7 +9,7 @@ void main() {
     ChangeNotifierProvider(
       create: (_) => ThemeNotifier(),
       child: ScreenUtilInit(
-        designSize: const Size(360, 780),
+        designSize: const Size(412, 915),
         minTextAdapt: true,
         splitScreenMode: true,
         builder:(context, child) => const MyApp(),

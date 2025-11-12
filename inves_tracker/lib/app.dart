@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inves_tracker/views/home/home_screen.dart';
+import 'package:inves_tracker/navigation/main_layout.dart';
 import 'package:provider/provider.dart';
 import 'package:inves_tracker/core/utils/theme_notifier.dart';
 
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'InvesTracker',
       debugShowCheckedModeBanner: false,
       theme: themeNotifier.currentTheme,
-      home: const HomeScreen(),
+      home: const MainLayout(),
     );
   }
 }
