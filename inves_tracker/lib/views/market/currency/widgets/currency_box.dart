@@ -16,12 +16,34 @@ class CurrencyBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.r)
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Image.asset(
-            'assets/img/flags/usd.png',
-            height: 24.h,
-            width: 24.w,
+          Wrap(
+            children: [
+              Image.asset(
+                'assets/img/flags/usd.png',
+                height: 24.h,
+                width: 24.w,
+              ),
+              SizedBox(width: 9.w),
+              Text('USD'),
+              SizedBox(width: 9.w),
+              Icon(
+                Icons.arrow_drop_up_outlined,
+                size: 24.sp,
+                color: AppColors.success,
+              ),
+              SizedBox(width: 0.5.w),
+              Text('%0,28', style: TextStyle(color: AppColors.success))
+            ]
           ),
+          Wrap(
+            children: [
+              Text('41,9649'),
+              SizedBox(width: 24.w),
+              Text('41,9649'),
+            ],
+          )
         ],
       ),
     );

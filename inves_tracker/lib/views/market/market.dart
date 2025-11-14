@@ -11,6 +11,23 @@ class Market extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 14.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Currency'),
+                SizedBox(height: 32.h),
+                Wrap(
+                  children: [
+                    Text('Buying'),
+                    SizedBox(width: 30.w),
+                    Text('Selling'),
+                  ],
+                )
+              ],
+            ),
+          ),
           CurrencyRates(),
           SizedBox(height: 8.h),
           GoldRates(),
