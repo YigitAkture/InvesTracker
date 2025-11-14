@@ -8,27 +8,24 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Assets', style: TextStyle(
-              fontSize: 20.sp
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Assets', style: TextStyle(
+            fontSize: 20.sp
           ),
-          SizedBox(height: 4.h),
-          Box(AppColors.primary(context)),
-          SizedBox(height: 12.h),
-          Text('Debts', style: TextStyle(
-              fontSize: 20.sp
-            ),
+        ),
+        SizedBox(height: 4.h),
+        Box(AppColors.primary(context)),
+        SizedBox(height: 12.h),
+        Text('Debts', style: TextStyle(
+            fontSize: 20.sp
           ),
-          SizedBox(height: 4.h),
-          Box(AppColors.secondary(context)),
-        ]
-      ),
+        ),
+        SizedBox(height: 4.h),
+        Box(AppColors.secondary(context)),
+      ]
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/utils/theme_notifier.dart';
 import 'package:provider/provider.dart';
-import '../../core/constants/app_colors.dart';
+import '../core/constants/app_colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;

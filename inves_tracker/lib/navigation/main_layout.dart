@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
-import 'package:inves_tracker/shared/widgets/custom_app_bar.dart';
+import 'package:inves_tracker/shared/custom_app_bar.dart';
+import 'package:inves_tracker/views/market/market.dart';
 import 'package:inves_tracker/views/home/home_screen.dart';
-import '../shared/widgets/custom_bottom_nav_bar.dart';
+import '../shared/custom_bottom_nav_bar.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -26,7 +28,7 @@ class _MainLayoutState extends State<MainLayout> {
   // Replace these placeholder widgets with your actual screens
   final List<Widget> _screens = [
     const HomeScreen(),
-    const PortfolioScreen(),
+    const Market(),
     const AddInvestmentScreen(),
     const AlertsScreen(),
     const ProfileScreen(),
@@ -45,9 +47,12 @@ class _MainLayoutState extends State<MainLayout> {
         title: _pageTitles[_currentIndex],
       ),
       backgroundColor: AppColors.background(context),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
+      body: Padding(
+        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
+        child: IndexedStack(
+          index: _currentIndex,
+          children: _screens,
+        ),
       ),
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: _currentIndex,
@@ -58,17 +63,6 @@ class _MainLayoutState extends State<MainLayout> {
 }
 
 // Placeholder screens - Replace these with your actual screen implementations
-class PortfolioScreen extends StatelessWidget {
-  const PortfolioScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Portfolio Screen')),
-    );
-  }
-}
-
 class AddInvestmentScreen extends StatelessWidget {
   const AddInvestmentScreen({super.key});
 
