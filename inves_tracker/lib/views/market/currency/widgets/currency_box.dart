@@ -1,49 +1,138 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/models/currency_data.dart';
 
 class CurrencyBox extends StatelessWidget {
-  const CurrencyBox({super.key});
+  final CurrencyData currency;
+
+  const CurrencyBox({
+    super.key,
+    required this.currency,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 48.h,
-      width: 390.w,
-      padding: EdgeInsets.symmetric(horizontal: 6.w),
+      height: 52.h,
+      width: double.infinity,
+      margin: EdgeInsets.only(bottom: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: AppColors.foreground(context),
-        borderRadius: BorderRadius.circular(10.r)
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 4.r,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Wrap(
-            children: [
-              Image.asset(
-                'assets/img/flags/usd.png',
-                height: 24.h,
-                width: 24.w,
-              ),
-              SizedBox(width: 9.w),
-              Text('USD'),
-              SizedBox(width: 9.w),
-              Icon(
-                Icons.arrow_drop_up_outlined,
-                size: 24.sp,
-                color: AppColors.success,
-              ),
-              SizedBox(width: 0.5.w),
-              Text('%0,28', style: TextStyle(color: AppColors.success))
-            ]
+          // Left side: Flag, Code, Change indicator
+          Expanded(
+            flex: 2,
+            child: Row(
+              children: [
+                // Flag image
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4.r),
+                  child: Image.asset(
+                    'assets/img/flags/${currency.code.toLowerCase()}.png',
+                    height: 30.h,
+                    width: 30.w,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 24.h,
+                        width: 32.w,
+                        decoration: BoxDecoration(
+                          color: AppColors.background2(context),
+                          borderRadius: BorderRadius.circular(4.r),
+                        ),
+                        child: Icon(
+                          Icons.currency_exchange,
+                          size: 16.sp,
+                          color: AppColors.primary(context),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(width: 10.w),
+                
+                // Currency code
+                Text(
+                  currency.code,
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(width: 8.w),
+                
+                // Change indicator
+                Row(
+                  children: [
+                    Icon(
+                      currency.isIncreasing
+                          ? Icons.arrow_drop_up
+                          : Icons.arrow_drop_down,
+                      size: 20.sp,
+                      color: currency.isIncreasing
+                          ? AppColors.success
+                          : AppColors.danger,
+                    ),
+                    Text(
+                      '%${currency.changeRate.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: currency.isIncreasing
+                            ? AppColors.success
+                            : AppColors.danger,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          Wrap(
+          
+          // Right side: Buying and Selling prices
+          Row(
             children: [
-              Text('41,9649'),
-              SizedBox(width: 24.w),
-              Text('41,9649'),
+              // Buying price
+              SizedBox(
+                width: 70.w,
+                child: Text(
+                  currency.buying.toStringAsFixed(4),
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              SizedBox(width: 16.w),
+              
+              // Selling price
+              SizedBox(
+                width: 70.w,
+                child: Text(
+                  currency.selling.toStringAsFixed(4),
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
