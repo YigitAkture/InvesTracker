@@ -9,4 +9,9 @@ final ThemeData lightTheme = ThemeData(
     backgroundColor: AppColors.backgroundLight,
     foregroundColor: Colors.black,
   ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      foregroundColor: Colors.black
+    )
+  ),
 ); 
