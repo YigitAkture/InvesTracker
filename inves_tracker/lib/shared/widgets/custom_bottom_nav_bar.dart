@@ -77,7 +77,7 @@ class CustomBottomNavBar extends StatelessWidget {
     required bool isDark,
   }) {
     final isSelected = currentIndex == index;
-    final selectColor = AppColors.teal;
+    final selectColor = AppColors.primary(context);
 
     return GestureDetector(
       onTap: () => onTap(index),

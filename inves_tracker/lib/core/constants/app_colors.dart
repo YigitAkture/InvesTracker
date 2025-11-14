@@ -20,15 +20,15 @@ class AppColors {
   static const Color purple = Color(0xFF9C50CC);
 
   // --- Light Colors ---
-  static const Color primaryLight = Color(0xFF04C5E7); // TODO: CHANGE THIS
-  static const Color secondaryLight = Color(0xFFFA9A00); // TODO: CHANGE THIS
-  static final Color backgroundLight = Color(0xFFEBEBEB); // TODO: CHANGE THIS
-  static const Color backgroundLight2 = Color(0xFF2D2D47); // TODO: CHANGE THIS
-  static const Color foregroundLight = Color(0xFF41415D); // TODO: CHANGE THIS
+  static const Color primaryLight = Color(0xFF004042);
+  static const Color secondaryLight = Color(0xFFFF7F3F);
+  static const Color backgroundLight = Color(0xFFC0CECF);
+  static const Color backgroundLight2 = Color(0xFFC5D1D1);
+  static const Color foregroundLight = Color(0xFFCEDDDE);
 
   // --- Dark Colors ---
-  static const Color primaryDark = Colors.blueAccent; // TODO: CHANGE THIS
-  static const Color secondaryDark = Colors.orange; // TODO: CHANGE THIS
+  static const Color primaryDark = Color(0xFF00F5FF);
+  static const Color secondaryDark = Color(0xFFE83C91);
   static const Color backgroundDark = Color(0xFF27283D);
   static const Color backgroundDark2 = Color(0xFF2D2D47);
   static const Color foregroundDark = Color(0xFF41415D);

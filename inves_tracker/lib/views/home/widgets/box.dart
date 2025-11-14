@@ -11,15 +11,15 @@ class Box extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 390.w,
-      height: 220.h,
+      height: 275.h,
       decoration: BoxDecoration(
         color: AppColors.foreground(context),
         borderRadius: BorderRadius.only(topRight: Radius.circular(35.r), bottomLeft: Radius.circular(35.r), bottomRight: Radius.circular(35.r)),
         border: Border(
-          left: BorderSide(color: color, width: 1.2.w),
-          top: BorderSide(color: color, width: 1.2.w),
-          right: BorderSide(color: color, width: 1.2.w),
-          bottom: BorderSide(color: color, width: 1.2.w),
+          left: BorderSide(color: color, width: 1.5.w),
+          top: BorderSide(color: color, width: 1.5.w),
+          right: BorderSide(color: color, width: 1.5.w),
+          bottom: BorderSide(color: color, width: 1.5.w),
         )
       ),
     );

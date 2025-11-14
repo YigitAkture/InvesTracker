@@ -12,20 +12,21 @@ class HomeScreen extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('Assets', style: TextStyle(
-              fontSize: 16.sp
+              fontSize: 20.sp
             ),
           ),
           SizedBox(height: 4.h),
-          Box(AppColors.teal),
+          Box(AppColors.primary(context)),
           SizedBox(height: 12.h),
           Text('Debts', style: TextStyle(
-              fontSize: 16.sp
+              fontSize: 20.sp
             ),
           ),
           SizedBox(height: 4.h),
-          Box(AppColors.pink),
+          Box(AppColors.secondary(context)),
         ]
       ),
     );
