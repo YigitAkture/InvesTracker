@@ -65,11 +65,13 @@ class CurrencyBox extends StatelessWidget {
                 SizedBox(width: 10.w),
                 
                 // Currency code
-                Text(
-                  currency.code,
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
+                Expanded(
+                  child: Text(
+                    currency.code,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 SizedBox(width: 8.w),

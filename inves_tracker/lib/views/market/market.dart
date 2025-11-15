@@ -107,34 +107,49 @@ class _MarketState extends State<Market> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 70.w,
-                        child: Text(
-                          'Buying',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey,
+                  Padding(
+                    padding: EdgeInsets.only(right: 16.w),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 70.w,
+                          child: Text(
+                            'Change',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(width: 16.w),
-                      SizedBox(
-                        width: 70.w,
-                        child: Text(
-                          'Selling',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey,
+                        SizedBox(
+                          width: 70.w,
+                          child: Text(
+                            'Buying',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 16.w),
+                        SizedBox(
+                          width: 70.w,
+                          child: Text(
+                            'Selling',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -160,34 +175,49 @@ class _MarketState extends State<Market> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 70.w,
-                        child: Text(
-                          'Buying',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey,
+                  Padding(
+                    padding: EdgeInsets.only(right: 16.w),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 70.w,
+                          child: Text(
+                            'Change',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(width: 16.w),
-                      SizedBox(
-                        width: 70.w,
-                        child: Text(
-                          'Selling',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey,
+                        SizedBox(
+                          width: 70.w,
+                          child: Text(
+                            'Buying',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 16.w),
+                        SizedBox(
+                          width: 70.w,
+                          child: Text(
+                            'Selling',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
