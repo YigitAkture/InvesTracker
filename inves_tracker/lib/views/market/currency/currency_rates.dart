@@ -11,12 +11,12 @@ class CurrencyRates extends StatefulWidget {
   final void Function(String updateTime)? onUpdate;
 
   @override
-  State<CurrencyRates> createState() => _CurrencyRatesState();
+  State<CurrencyRates> createState() => CurrencyRatesState();
 }
 
-class _CurrencyRatesState extends State<CurrencyRates> {
+class CurrencyRatesState extends State<CurrencyRates> {
   final CurrencyService _currencyService = CurrencyService();
-  List<CurrencyData> _currencies = [];
+  List<CurrencyData> _allCurrencies = []; // Cache all currencies
   String _updateTime = '';
   bool _isLoading = true;
   bool _showAll = false;
@@ -35,11 +35,12 @@ class _CurrencyRatesState extends State<CurrencyRates> {
     });
 
     try {
+      // Always fetch all currencies and cache them
       final response = await _currencyService.fetchCurrencies(
-        showAll: _showAll,
+        showAll: true, // Always fetch all
       );
       setState(() {
-        _currencies = response.currencies;
+        _allCurrencies = response.currencies;
         _updateTime = response.updateTime;
         _isLoading = false;
       });
@@ -64,7 +65,19 @@ class _CurrencyRatesState extends State<CurrencyRates> {
     setState(() {
       _showAll = !_showAll;
     });
-    _loadCurrencies();
+    // No need to reload - just toggle the display
+  }
+
+  List<CurrencyData> _getDisplayedCurrencies() {
+    if (_showAll) {
+      return _allCurrencies;
+    } else {
+      // Show only first 4 currencies (default ones)
+      const defaultCodes = ['USD', 'EUR', 'GBP', 'CHF'];
+      return _allCurrencies
+          .where((currency) => defaultCodes.contains(currency.code))
+          .toList();
+    }
   }
 
   @override
@@ -81,7 +94,7 @@ class _CurrencyRatesState extends State<CurrencyRates> {
           _buildCurrencyList(),
 
         // Show More/Less button
-        if (!_isLoading && _errorMessage == null)
+        if (!_isLoading && _errorMessage == null && _allCurrencies.length > 4)
           Padding(
             padding: EdgeInsets.only(top: 4.h, right: 4.w),
             child: TextButton(
@@ -164,8 +177,9 @@ class _CurrencyRatesState extends State<CurrencyRates> {
   }
 
   Widget _buildCurrencyList() {
+    final displayedCurrencies = _getDisplayedCurrencies();
     return Column(
-      children: _currencies
+      children: displayedCurrencies
           .map((currency) => CurrencyBox(currency: currency))
           .toList(),
     );
