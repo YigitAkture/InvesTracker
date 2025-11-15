@@ -53,7 +53,7 @@ class CustomBottomNavBar extends StatelessWidget {
               ),
               _buildNavItem(
                 context: context,
-                icon: Icons.bar_chart,
+                icon: Icons.currency_exchange_outlined,
                 index: 3,
                 isDark: isDark,
               ),

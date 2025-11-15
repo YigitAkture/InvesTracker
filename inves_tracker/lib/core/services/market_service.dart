@@ -1,24 +1,29 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:inves_tracker/core/models/currency_data.dart';
-import 'package:inves_tracker/core/models/currency_response.dart';
+import 'package:inves_tracker/core/models/gold_data.dart';
+import 'package:inves_tracker/core/models/market_response.dart';
 
-class CurrencyService {
+class MarketService {
   static const String _baseUrl = 'https://finans.truncgil.com/v4/today.json';
   
-  static const List<String> _defaultCurrencies = ['USD', 'EUR', 'GBP', 'CHF'];
   static const List<String> _allCurrencies = [
     'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'JPY', 'SAR', 
     'RUB', 'AED', 'KWD', 'AUD', 'DKK', 'SEK', 'NOK'
   ];
 
-  Future<CurrencyResponse> fetchCurrencies({bool showAll = false}) async {
+  static const List<String> _allGolds = [
+    'HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN', 'ATAALTIN',
+    'RESATALTIN', 'CUMHURIYETALTINI', 'GREMSEALTIN', '14AYARALTIN',
+    '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN'
+  ];
+
+  Future<MarketResponse> fetchMarketData() async {
     try {
       final response = await http.get(Uri.parse(_baseUrl));
       
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
-        final currencies = showAll ? _allCurrencies : _defaultCurrencies;
         
         // Extract update time
         String updateTime = 'N/A';
@@ -26,20 +31,28 @@ class CurrencyService {
           updateTime = _formatTime(data['Update_Date']);
         }
         
-        final currencyList = currencies
+        // Extract currencies
+        final currencyList = _allCurrencies
             .where((code) => data.containsKey(code))
             .map((code) => CurrencyData.fromJson(code, data[code]))
             .toList();
         
-        return CurrencyResponse(
+        // Extract golds
+        final goldList = _allGolds
+            .where((code) => data.containsKey(code))
+            .map((code) => GoldData.fromJson(code, data[code]))
+            .toList();
+        
+        return MarketResponse(
           currencies: currencyList,
+          golds: goldList,
           updateTime: updateTime,
         );
       } else {
-        throw Exception('Failed to load currency data');
+        throw Exception('Failed to load market data');
       }
     } catch (e) {
-      throw Exception('Error fetching currencies: $e');
+      throw Exception('Error fetching market data: $e');
     }
   }
 
