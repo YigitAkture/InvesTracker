@@ -84,7 +84,7 @@ class CryptoBox extends StatelessWidget {
                         crypto.name,
                         style: TextStyle(
                           fontSize: 10.sp, // Slightly smaller
-                          color: Colors.grey,
+                          color: AppColors.title(context),
                           height: 1.1, // Tighter line height
                         ),
                         overflow: TextOverflow.ellipsis,

@@ -66,12 +66,31 @@ class CurrencyBox extends StatelessWidget {
                 
                 // Currency code
                 Expanded(
-                  child: Text(
-                    currency.code,
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min, // Added to prevent overflow
+                    children: [
+                      Text(
+                        currency.code,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          height: 1.2, // Control line height
+                        ),
+                      ),
+                      SizedBox(height: 2.h), // Small spacing
+                      Text(
+                        currency.name,
+                        style: TextStyle(
+                          fontSize: 10.sp, // Slightly smaller
+                          color: AppColors.title(context),
+                          height: 1.1, // Tighter line height
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(width: 8.w),

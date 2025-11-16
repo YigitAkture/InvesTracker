@@ -21,7 +21,7 @@ class _MainLayoutState extends State<MainLayout> {
     'My Wallet',
     'Exhange Rates',
     'Add Investment',
-    'Investment History',
+    'Currency Converter',
     'Profile',
   ];
 
@@ -30,7 +30,7 @@ class _MainLayoutState extends State<MainLayout> {
     const HomeScreen(),
     const Market(),
     const AddInvestmentScreen(),
-    const AlertsScreen(),
+    const CurrencyConverterScreen(),
     const ProfileScreen(),
   ];
 
@@ -74,13 +74,13 @@ class AddInvestmentScreen extends StatelessWidget {
   }
 }
 
-class AlertsScreen extends StatelessWidget {
-  const AlertsScreen({super.key});
+class CurrencyConverterScreen extends StatelessWidget {
+  const CurrencyConverterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(child: Text('Alerts Screen')),
+      body: Center(child: Text('Currency Converter Screen')),
     );
   }
 }

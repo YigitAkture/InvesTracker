@@ -87,13 +87,13 @@ class _MarketState extends State<Market> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Icon(Icons.access_time, size: 14.sp, color: Colors.grey),
+                    Icon(Icons.access_time, size: 14.sp, color: AppColors.title(context)),
                     SizedBox(width: 4.w),
                     Text(
                       'Updated: $_updateTime',
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: Colors.grey,
+                        color: AppColors.title(context),
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -221,7 +221,7 @@ class _MarketState extends State<Market> {
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                        color: AppColors.title(context),
                       ),
                     ),
                   ),
@@ -233,7 +233,7 @@ class _MarketState extends State<Market> {
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                        color: AppColors.title(context),
                       ),
                     ),
                   ),
@@ -246,7 +246,7 @@ class _MarketState extends State<Market> {
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                        color: AppColors.title(context),
                       ),
                     ),
                   ),
@@ -284,7 +284,7 @@ class _MarketState extends State<Market> {
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                        color: AppColors.title(context),
                       ),
                     ),
                   ),
@@ -296,7 +296,7 @@ class _MarketState extends State<Market> {
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                        color: AppColors.title(context),
                       ),
                     ),
                   ),
@@ -309,7 +309,7 @@ class _MarketState extends State<Market> {
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                        color: AppColors.title(context),
                       ),
                     ),
                   ),
@@ -352,7 +352,7 @@ class _MarketState extends State<Market> {
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                        color: AppColors.title(context),
                       ),
                     ),
                   ),
@@ -365,7 +365,7 @@ class _MarketState extends State<Market> {
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                        color: AppColors.title(context),
                       ),
                     ),
                   ),
@@ -378,7 +378,7 @@ class _MarketState extends State<Market> {
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                        color: AppColors.title(context),
                       ),
                     ),
                   ),
@@ -406,7 +406,7 @@ class _MarketState extends State<Market> {
           SizedBox(height: 12.h),
           Text(
             'Loading market data...',
-            style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+            style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
           ),
         ],
       ),
@@ -425,7 +425,7 @@ class _MarketState extends State<Market> {
             Text(
               _errorMessage!,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+              style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
             ),
             SizedBox(height: 16.h),
             ElevatedButton(
