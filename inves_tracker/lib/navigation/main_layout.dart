@@ -48,7 +48,7 @@ class _MainLayoutState extends State<MainLayout> {
       ),
       backgroundColor: AppColors.background(context),
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
+        padding: EdgeInsets.symmetric(horizontal: 8.w),
         child: IndexedStack(
           index: _currentIndex,
           children: _screens,

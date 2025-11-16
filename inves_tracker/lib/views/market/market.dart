@@ -80,6 +80,7 @@ class _MarketState extends State<Market> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 8.h),
             // Update time header
             if (_updateTime.isNotEmpty)
               Padding(
