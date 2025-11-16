@@ -123,14 +123,14 @@ class CryptoBox extends StatelessWidget {
             ),
           ),
           
-          // Right side: Buying and Selling prices (TRY Price)
+          // Right side: Buying and Selling prices (USD Price)
           Row(
             children: [
-              // TRY Price (displayed as both buying and selling)
+              // USD Price (displayed as both buying and selling)
               SizedBox(
                 width: 70.w,
                 child: Text(
-                  _formatPrice(crypto.tryPrice),
+                  _formatPrice(crypto.usdPrice),
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14.sp,
@@ -140,11 +140,11 @@ class CryptoBox extends StatelessWidget {
               ),
               SizedBox(width: 16.w),
               
-              // TRY Price again (for consistency with layout)
+              // USD Price again (for consistency with layout)
               SizedBox(
                 width: 70.w,
                 child: Text(
-                  _formatPrice(crypto.tryPrice),
+                  _formatPrice(crypto.usdPrice),
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14.sp,
@@ -164,8 +164,11 @@ class CryptoBox extends StatelessWidget {
       return price.toStringAsFixed(0);
     } else if (price >= 1) {
       return price.toStringAsFixed(2);
+    }
+      else if (price < 1 && price >= 0.001) {
+        return price.toStringAsFixed(4);
     } else {
-      return price.toStringAsFixed(4);
+      return price.toStringAsFixed(6);
     }
   }
 }
