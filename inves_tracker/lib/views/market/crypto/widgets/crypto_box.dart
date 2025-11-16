@@ -14,10 +14,10 @@ class CryptoBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 52.h,
+      height: 56.h, // Increased height slightly
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 8.h),
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h), // Increased vertical padding
       decoration: BoxDecoration(
         color: AppColors.foreground(context),
         borderRadius: BorderRadius.circular(12.r),
@@ -38,17 +38,28 @@ class CryptoBox extends StatelessWidget {
             child: Row(
               children: [
                 // Crypto icon
-                Container(
-                  height: 30.h,
-                  width: 30.w,
-                  decoration: BoxDecoration(
-                    color: AppColors.primary(context).withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
-                  child: Icon(
-                    Icons.currency_bitcoin,
-                    size: 18.sp,
-                    color: AppColors.primary(context),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.r),
+                  child: Image.asset(
+                    'assets/img/cryptos/${crypto.code.toLowerCase()}.png',
+                    height: 30.h,
+                    width: 30.w,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 30.h,
+                        width: 30.w,
+                        decoration: BoxDecoration(
+                          color: AppColors.primary(context).withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(15.r),
+                        ),
+                        child: Icon(
+                          Icons.currency_bitcoin,
+                          size: 18.sp,
+                          color: AppColors.primary(context),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 SizedBox(width: 10.w),
@@ -58,21 +69,26 @@ class CryptoBox extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min, // Added to prevent overflow
                     children: [
                       Text(
                         crypto.code,
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
+                          height: 1.2, // Control line height
                         ),
                       ),
+                      SizedBox(height: 2.h), // Small spacing
                       Text(
                         crypto.name,
                         style: TextStyle(
-                          fontSize: 11.sp,
+                          fontSize: 10.sp, // Slightly smaller
                           color: Colors.grey,
+                          height: 1.1, // Tighter line height
                         ),
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ],
                   ),

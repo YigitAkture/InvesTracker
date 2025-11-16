@@ -356,11 +356,11 @@ class _MarketState extends State<Market> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 16.w),
+                  SizedBox(width: 8.w),
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      'Buying',
+                      'Buying (\$)',
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -369,11 +369,11 @@ class _MarketState extends State<Market> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 16.w),
+                  SizedBox(width: 8.w),
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      'Selling',
+                      'Selling (\$)',
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -382,6 +382,7 @@ class _MarketState extends State<Market> {
                       ),
                     ),
                   ),
+                  SizedBox(width: 8.w),
                 ],
               ),
             ],

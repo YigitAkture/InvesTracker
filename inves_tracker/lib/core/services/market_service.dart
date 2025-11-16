@@ -21,7 +21,7 @@ class MarketService {
 
   static const List<String> _allCryptos = [
     'BTC', 'ETH', 'USDT', 'XRP', 'BNB', 'SOL', 'USDC', 'STETH',
-    'DOGE', 'TRX', 'ADA', 'WSTETH', 'WBTC', 'HYPE', 'TON',
+    'DOGE', 'TRX', 'ADA', 'SHIB', 'WSTETH', 'WBTC', 'HYPE', 'TON',
     'LINK', 'BCH', 'AVAX', 'XLM', 'SUI', 'DOT', 'UNI',
     'ZEC', 'LTC', 'XMR', 'CRO', 'NEAR', 'WETH', 'LEO',
     'MNT', 'PYUSD', 'USDS', 'USDE', 'M', 'CBBTC', 'WEETH',
