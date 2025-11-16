@@ -28,8 +28,8 @@ class GoldRatesState extends State<GoldRates> {
     if (_showAll) {
       return widget.golds;
     } else {
-      // Show only first 6 gold types (default ones)
-      const defaultCodes = ['HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN', 'ATAALTIN'];
+      // Show only first 5 gold types (default ones)
+      const defaultCodes = ['HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN'];
       return widget.golds
           .where((gold) => defaultCodes.contains(gold.code))
           .toList();

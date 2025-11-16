@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
+import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
 
 class MarketService {
@@ -17,6 +18,16 @@ class MarketService {
     'RESATALTIN', 'CUMHURIYETALTINI', 'GREMSEALTIN', '14AYARALTIN',
     '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN'
   ];
+
+  static const List<String> _allCryptos = [
+    'BTC', 'ETH', 'USDT', 'XRP', 'BNB', 'SOL', 'USDC', 'STETH',
+    'DOGE', 'TRX', 'ADA', 'WSTETH', 'WBTC', 'HYPE', 'TON',
+    'LINK', 'BCH', 'AVAX', 'XLM', 'SUI', 'DOT', 'UNI',
+    'ZEC', 'LTC', 'XMR', 'CRO', 'NEAR', 'WETH', 'LEO',
+    'MNT', 'PYUSD', 'USDS', 'USDE', 'M', 'CBBTC', 'WEETH',
+    'SUSDE', 'SUSDS', 'TAO', 'WBETH', 'BSC-USD', 'USDT0', 'CC'
+  ];
+
 
   Future<MarketResponse> fetchMarketData() async {
     try {
@@ -43,9 +54,16 @@ class MarketService {
             .map((code) => GoldData.fromJson(code, data[code]))
             .toList();
         
+        // Extract cryptos
+        final cryptoList = _allCryptos
+            .where((code) => data.containsKey(code))
+            .map((code) => CryptoData.fromJson(code, data[code]))
+            .toList();
+        
         return MarketResponse(
           currencies: currencyList,
           golds: goldList,
+          cryptos: cryptoList,
           updateTime: updateTime,
         );
       } else {
