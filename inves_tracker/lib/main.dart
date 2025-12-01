@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/app.dart';
 import 'package:inves_tracker/core/utils/theme_notifier.dart';
+import 'package:inves_tracker/core/utils/locale_notifier.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeNotifier(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeNotifier()),
+        ChangeNotifierProvider(create: (_) => LocaleNotifier()),
+      ],
       child: ScreenUtilInit(
         designSize: const Size(412, 915),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder:(context, child) => const MyApp(),
-      )
+        builder: (context, child) => const MyApp(),
+      ),
     ),
   );
 }

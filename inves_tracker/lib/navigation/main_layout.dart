@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/custom_app_bar.dart';
 import 'package:inves_tracker/views/converter/converter_screen.dart';
 import 'package:inves_tracker/views/market/market.dart';
 import 'package:inves_tracker/views/home/home_screen.dart';
+import 'package:inves_tracker/views/profile/profile_screen.dart';
 import '../shared/custom_bottom_nav_bar.dart';
 
 class MainLayout extends StatefulWidget {
@@ -17,23 +19,13 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
 
-  // Page titles corresponding to each screen
-  final List<String> _pageTitles = [
-    'My Wallet',
-    'Exhange Rates',
-    'Add Investment',
-    'Currency Converter',
-    'Profile',
-  ];
-
-  // Replace these placeholder widgets with your actual screens
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const Market(),
-    const AddInvestmentScreen(),
-    const ConverterScreen(),
-    const ProfileScreen(),
-  ];
+  List<Widget> get _screens => [
+        const HomeScreen(),
+        const Market(),
+        const AddInvestmentScreen(),
+        const ConverterScreen(),
+        const ProfileScreen(),
+      ];
 
   void _onNavBarTap(int index) {
     setState(() {
@@ -43,9 +35,19 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    final List<String> pageTitles = [
+      l10n.myWallet,
+      l10n.exchangeRates,
+      l10n.addInvestment,
+      l10n.currencyConverter,
+      l10n.profile,
+    ];
+
     return Scaffold(
       appBar: CustomAppBar(
-        title: _pageTitles[_currentIndex],
+        title: pageTitles[_currentIndex],
       ),
       backgroundColor: AppColors.background(context),
       body: Padding(
@@ -69,18 +71,9 @@ class AddInvestmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Add Investment Screen')),
-    );
-  }
-}
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Profile Screen')),
+    final l10n = AppLocalizations.of(context)!;
+    return Scaffold(
+      body: Center(child: Text('${l10n.addInvestment} Screen')),
     );
   }
 }

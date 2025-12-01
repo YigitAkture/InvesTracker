@@ -5,6 +5,7 @@ import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
 import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/market/currency/currency_rates.dart';
 import 'package:inves_tracker/views/market/gold/gold_rates.dart';
 import 'package:inves_tracker/views/market/crypto/crypto_rates.dart';
@@ -26,7 +27,6 @@ class _MarketState extends State<Market> {
   bool _isLoading = true;
   String? _errorMessage;
 
-  // Tab selection: 0 = Currencies & Gold, 1 = Crypto
   int _selectedTab = 0;
 
   @override
@@ -42,7 +42,6 @@ class _MarketState extends State<Market> {
     });
 
     try {
-      // Single API call to fetch currencies, gold, and crypto
       final response = await _marketService.fetchMarketData();
       setState(() {
         _currencies = response.currencies;
@@ -65,12 +64,14 @@ class _MarketState extends State<Market> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (_isLoading) {
-      return _buildLoadingState();
+      return _buildLoadingState(l10n);
     }
 
     if (_errorMessage != null) {
-      return _buildErrorState();
+      return _buildErrorState(l10n);
     }
 
     return RefreshIndicator(
@@ -81,7 +82,6 @@ class _MarketState extends State<Market> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 8.h),
-            // Update time header
             if (_updateTime.isNotEmpty)
               Padding(
                 padding: EdgeInsets.only(bottom: 8.h, right: 4.w),
@@ -91,7 +91,7 @@ class _MarketState extends State<Market> {
                     Icon(Icons.access_time, size: 14.sp, color: AppColors.title(context)),
                     SizedBox(width: 4.w),
                     Text(
-                      'Updated: $_updateTime',
+                      '${l10n.updated}: $_updateTime',
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.title(context),
@@ -102,7 +102,6 @@ class _MarketState extends State<Market> {
                 ),
               ),
 
-            // Tab Bar
             Container(
               margin: EdgeInsets.symmetric(vertical: 8.h),
               decoration: BoxDecoration(
@@ -124,24 +123,21 @@ class _MarketState extends State<Market> {
                           padding: EdgeInsets.symmetric(vertical: 12.h),
                           decoration: BoxDecoration(
                             color: _selectedTab == 0
-                                ? AppColors.primary(
-                                    context,
-                                  ).withValues(alpha: 0.25)
+                                ? AppColors.primary(context).withValues(alpha: 0.25)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                           child: Text(
-                            'Currencies & Metals',
+                            l10n.currenciesAndMetals,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
                               color: _selectedTab == 0
                                   ? Colors.white
-                                  : Theme.of(context).brightness ==
-                                        Brightness.dark
-                                  ? Colors.white70
-                                  : Colors.black54,
+                                  : Theme.of(context).brightness == Brightness.dark
+                                      ? Colors.white70
+                                      : Colors.black54,
                             ),
                           ),
                         ),
@@ -154,24 +150,21 @@ class _MarketState extends State<Market> {
                           padding: EdgeInsets.symmetric(vertical: 12.h),
                           decoration: BoxDecoration(
                             color: _selectedTab == 1
-                                ? AppColors.primary(
-                                    context,
-                                  ).withValues(alpha: 0.25)
+                                ? AppColors.primary(context).withValues(alpha: 0.25)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                           child: Text(
-                            'Crypto Currencies',
+                            l10n.cryptoCurrencies,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
                               color: _selectedTab == 1
                                   ? Colors.white
-                                  : Theme.of(context).brightness ==
-                                        Brightness.dark
-                                  ? Colors.white70
-                                  : Colors.black54,
+                                  : Theme.of(context).brightness == Brightness.dark
+                                      ? Colors.white70
+                                      : Colors.black54,
                             ),
                           ),
                         ),
@@ -184,13 +177,10 @@ class _MarketState extends State<Market> {
 
             SizedBox(height: 8.h),
 
-            // Content based on selected tab
             if (_selectedTab == 0) ...[
-              // Currency & Gold Tab
-              _buildCurrencyAndGoldContent(),
+              _buildCurrencyAndGoldContent(l10n),
             ] else ...[
-              // Crypto Tab
-              _buildCryptoContent(),
+              _buildCryptoContent(l10n),
             ],
           ],
         ),
@@ -198,18 +188,17 @@ class _MarketState extends State<Market> {
     );
   }
 
-  Widget _buildCurrencyAndGoldContent() {
+  Widget _buildCurrencyAndGoldContent(AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Currency Section Header
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Currency',
+                l10n.currency,
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
               Row(
@@ -217,7 +206,7 @@ class _MarketState extends State<Market> {
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      'Change',
+                      l10n.change,
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -229,7 +218,7 @@ class _MarketState extends State<Market> {
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      'Buying',
+                      l10n.buying,
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -242,7 +231,7 @@ class _MarketState extends State<Market> {
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      'Selling',
+                      l10n.selling,
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -259,20 +248,17 @@ class _MarketState extends State<Market> {
         ),
 
         SizedBox(height: 4.h),
-
-        // Currency rates list
         CurrencyRates(currencies: _currencies),
 
         SizedBox(height: 24.h),
 
-        // Gold Section Header
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Gold',
+                l10n.gold,
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
               Row(
@@ -280,7 +266,7 @@ class _MarketState extends State<Market> {
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      'Change',
+                      l10n.change,
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -292,7 +278,7 @@ class _MarketState extends State<Market> {
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      'Buying',
+                      l10n.buying,
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -305,7 +291,7 @@ class _MarketState extends State<Market> {
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      'Selling',
+                      l10n.selling,
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -322,25 +308,22 @@ class _MarketState extends State<Market> {
         ),
 
         SizedBox(height: 4.h),
-
-        // Gold rates list
         GoldRates(golds: _golds),
       ],
     );
   }
 
-  Widget _buildCryptoContent() {
+  Widget _buildCryptoContent(AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Crypto Section Header
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Currency',
+                l10n.currency,
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
               Row(
@@ -348,7 +331,7 @@ class _MarketState extends State<Market> {
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      'Change',
+                      l10n.change,
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -361,7 +344,7 @@ class _MarketState extends State<Market> {
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      'Buying (\$)',
+                      '${l10n.buying} (\$)',
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -374,7 +357,7 @@ class _MarketState extends State<Market> {
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      'Selling (\$)',
+                      '${l10n.selling} (\$)',
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -391,14 +374,12 @@ class _MarketState extends State<Market> {
         ),
 
         SizedBox(height: 4.h),
-
-        // Crypto rates list
         CryptoRates(cryptos: _cryptos),
       ],
     );
   }
 
-  Widget _buildLoadingState() {
+  Widget _buildLoadingState(AppLocalizations l10n) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -406,7 +387,7 @@ class _MarketState extends State<Market> {
           CircularProgressIndicator(color: AppColors.primary(context)),
           SizedBox(height: 12.h),
           Text(
-            'Loading market data...',
+            l10n.loadingMarketData,
             style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
           ),
         ],
@@ -414,7 +395,7 @@ class _MarketState extends State<Market> {
     );
   }
 
-  Widget _buildErrorState() {
+  Widget _buildErrorState(AppLocalizations l10n) {
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -424,7 +405,7 @@ class _MarketState extends State<Market> {
             Icon(Icons.error_outline, size: 48.sp, color: AppColors.danger),
             SizedBox(height: 12.h),
             Text(
-              _errorMessage!,
+              l10n.failedToLoadMarketData,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
             ),
@@ -439,7 +420,7 @@ class _MarketState extends State<Market> {
                   borderRadius: BorderRadius.circular(8.r),
                 ),
               ),
-              child: Text('Retry', style: TextStyle(fontSize: 14.sp)),
+              child: Text(l10n.retry, style: TextStyle(fontSize: 14.sp)),
             ),
           ],
         ),
