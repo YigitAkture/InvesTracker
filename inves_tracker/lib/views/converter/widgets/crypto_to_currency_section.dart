@@ -110,18 +110,6 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
     return currency.buying;
   }
 
-  void _swapValues() {
-    setState(() {
-      final tempCrypto = _cryptoController.text;
-      final tempCurrency = _currencyController.text;
-      
-      _cryptoController.text = tempCurrency;
-      _currencyController.text = tempCrypto;
-      
-      _isEditingCrypto = !_isEditingCrypto;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return ConverterCard(
@@ -132,7 +120,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
           Row(
             children: [
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: CryptoDropdown(
                   cryptos: widget.cryptos,
                   selectedCode: _selectedCrypto,
@@ -150,7 +138,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: TextField(
                   controller: _cryptoController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -189,21 +177,18 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
 
           SizedBox(height: 12.h),
 
-          // Swap Button
+          // Arrow Icon
           Center(
-            child: GestureDetector(
-              onTap: _swapValues,
-              child: Container(
-                padding: EdgeInsets.all(8.r),
-                decoration: BoxDecoration(
-                  color: AppColors.primary(context).withValues(alpha: 0.15),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.swap_vert,
-                  size: 24.sp,
-                  color: AppColors.primary(context),
-                ),
+            child: Container(
+              padding: EdgeInsets.all(8.r),
+              decoration: BoxDecoration(
+                color: AppColors.pink.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.arrow_downward,
+                size: 24.sp,
+                color: AppColors.pink,
               ),
             ),
           ),
@@ -214,7 +199,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
           Row(
             children: [
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: CurrencyDropdown(
                   currencies: widget.currencies,
                   selectedCode: _selectedCurrency,
@@ -232,7 +217,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: TextField(
                   controller: _currencyController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),

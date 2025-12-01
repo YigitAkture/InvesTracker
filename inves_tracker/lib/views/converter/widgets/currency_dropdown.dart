@@ -66,7 +66,7 @@ class CurrencyDropdown extends StatelessWidget {
                     child: Image.asset(
                       'assets/img/flags/${currency.code.toLowerCase()}.png',
                       height: 20.h,
-                      width: 28.w,
+                      width: 20.w,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(

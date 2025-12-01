@@ -96,7 +96,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
           Row(
             children: [
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: GoldDropdown(
                   golds: widget.golds,
                   selectedCode: _selectedGold,
@@ -110,12 +110,12 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: TextField(
                   controller: _amountController,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: false),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    FilteringTextInputFormatter.digitsOnly,
                   ],
                   style: TextStyle(
                     fontSize: 16.sp,
@@ -164,7 +164,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
           Row(
             children: [
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: CurrencyDropdown(
                   currencies: widget.currencies,
                   selectedCode: _selectedCurrency,
@@ -178,7 +178,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 12.w,
