@@ -60,10 +60,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noCryptoDataAvailable => 'Kripto verisi mevcut değil';
 
   @override
-  String get showLess => 'Daha Az Göster';
+  String get showLess => 'Daha Az...';
 
   @override
-  String get seeMore => 'Daha Fazla Gör...';
+  String get showMore => 'Daha Fazla...';
 
   @override
   String get currenciesAndMetals => 'Döviz & Metaller';
@@ -121,4 +121,88 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get developer => 'Geliştirici';
+
+  @override
+  String get goldHAS => 'Has Altın';
+
+  @override
+  String get goldGRA => 'Gram Altın';
+
+  @override
+  String get goldCEYREKALTIN => 'Çeyrek Altın';
+
+  @override
+  String get goldYARIMALTIN => 'Yarım Altın';
+
+  @override
+  String get goldTAMALTIN => 'Tam Altın';
+
+  @override
+  String get goldATAALTIN => 'Ata Altın';
+
+  @override
+  String get goldRESATALTIN => 'Reşat Altın';
+
+  @override
+  String get goldCUMHURIYETALTINI => 'Cumhuriyet Altını';
+
+  @override
+  String get goldGREMSEALTIN => 'Gremse Altın';
+
+  @override
+  String get gold14AYARALTIN => '14 Ayar Altın';
+
+  @override
+  String get gold18AYARALTIN => '18 Ayar Altın';
+
+  @override
+  String get goldYIA => '22 Ayar Bilezik';
+
+  @override
+  String get goldIKIBUCUKALTIN => 'İkibuçuk Altın';
+
+  @override
+  String get goldBESLIALTIN => 'Beşli Altın';
+
+  @override
+  String get currencyUSD => 'Amerikan Doları';
+
+  @override
+  String get currencyEUR => 'Avro';
+
+  @override
+  String get currencyGBP => 'İngiliz Sterlini';
+
+  @override
+  String get currencyCHF => 'İsviçre Frangı';
+
+  @override
+  String get currencyCAD => 'Kanada Dolları';
+
+  @override
+  String get currencyJPY => 'Japon Yeni';
+
+  @override
+  String get currencySAR => 'Arabistan Riyali';
+
+  @override
+  String get currencyRUB => 'Rus Rublesi';
+
+  @override
+  String get currencyAED => 'BAE Dirhemi';
+
+  @override
+  String get currencyKWD => 'Kuveyt Dinarı';
+
+  @override
+  String get currencyAUD => 'Avustralya Doları';
+
+  @override
+  String get currencyDKK => 'Danimarka Kronu';
+
+  @override
+  String get currencySEK => 'İsveç Kronu';
+
+  @override
+  String get currencyNOK => 'Norveç Kronu';
 }

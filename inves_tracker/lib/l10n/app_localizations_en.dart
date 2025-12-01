@@ -60,10 +60,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noCryptoDataAvailable => 'No crypto data available';
 
   @override
-  String get showLess => 'Show Less';
+  String get showLess => 'Show Less...';
 
   @override
-  String get seeMore => 'See More...';
+  String get showMore => 'Show More...';
 
   @override
   String get currenciesAndMetals => 'Currencies & Metals';
@@ -121,4 +121,88 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get developer => 'Developer';
+
+  @override
+  String get goldHAS => 'Fine Gold';
+
+  @override
+  String get goldGRA => 'Gram of Gold';
+
+  @override
+  String get goldCEYREKALTIN => 'Quarter of Gold';
+
+  @override
+  String get goldYARIMALTIN => 'Half of Gold';
+
+  @override
+  String get goldTAMALTIN => 'Full of Gold';
+
+  @override
+  String get goldATAALTIN => 'Ata Gold';
+
+  @override
+  String get goldRESATALTIN => 'Resat Gold';
+
+  @override
+  String get goldCUMHURIYETALTINI => 'Republic Gold';
+
+  @override
+  String get goldGREMSEALTIN => 'Gremse Gold';
+
+  @override
+  String get gold14AYARALTIN => '14 Carat Gold';
+
+  @override
+  String get gold18AYARALTIN => '18 Carat Gold';
+
+  @override
+  String get goldYIA => '22 Carat Bracelet';
+
+  @override
+  String get goldIKIBUCUKALTIN => 'Two and a Half Gold';
+
+  @override
+  String get goldBESLIALTIN => 'Five Piece Gold';
+
+  @override
+  String get currencyUSD => 'US Dollar';
+
+  @override
+  String get currencyEUR => 'Euro';
+
+  @override
+  String get currencyGBP => 'British Pound';
+
+  @override
+  String get currencyCHF => 'Swiss Franc';
+
+  @override
+  String get currencyCAD => 'Canadian Dollar';
+
+  @override
+  String get currencyJPY => 'Japanese Yen';
+
+  @override
+  String get currencySAR => 'Saudi Riyal';
+
+  @override
+  String get currencyRUB => 'Russian Ruble';
+
+  @override
+  String get currencyAED => 'UAE Dirham';
+
+  @override
+  String get currencyKWD => 'Kuwaiti Dinar';
+
+  @override
+  String get currencyAUD => 'Australian Dollar';
+
+  @override
+  String get currencyDKK => 'Danish Krone';
+
+  @override
+  String get currencySEK => 'Swedish Krona';
+
+  @override
+  String get currencyNOK => 'Norwegian Krone';
 }

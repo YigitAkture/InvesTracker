@@ -4,9 +4,9 @@ import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/custom_app_bar.dart';
 import 'package:inves_tracker/views/converter/converter_screen.dart';
-import 'package:inves_tracker/views/market/market.dart';
+import 'package:inves_tracker/views/market/market_screen.dart';
 import 'package:inves_tracker/views/home/home_screen.dart';
-import 'package:inves_tracker/views/profile/profile_screen.dart';
+import 'package:inves_tracker/views/settings/settings_screen.dart';
 import '../shared/custom_bottom_nav_bar.dart';
 
 class MainLayout extends StatefulWidget {
@@ -21,10 +21,10 @@ class _MainLayoutState extends State<MainLayout> {
 
   List<Widget> get _screens => [
         const HomeScreen(),
-        const Market(),
+        const MarketScreen(),
         const AddInvestmentScreen(),
         const ConverterScreen(),
-        const ProfileScreen(),
+        const SettingsScreen(),
       ];
 
   void _onNavBarTap(int index) {
@@ -42,7 +42,7 @@ class _MainLayoutState extends State<MainLayout> {
       l10n.exchangeRates,
       l10n.addInvestment,
       l10n.currencyConverter,
-      l10n.profile,
+      l10n.settings,
     ];
 
     return Scaffold(

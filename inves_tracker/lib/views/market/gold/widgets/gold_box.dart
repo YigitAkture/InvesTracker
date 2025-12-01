@@ -56,7 +56,7 @@ class GoldBox extends StatelessWidget {
                 // Gold name
                 Expanded(
                   child: Text(
-                    gold.name,
+                    gold.getLocalizedName(context),
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
-import 'package:inves_tracker/views/profile/widgets/section_header.dart';
-import 'package:inves_tracker/views/profile/widgets/setting_card.dart';
-import 'package:inves_tracker/views/profile/widgets/theme_setting_item.dart';
-import 'package:inves_tracker/views/profile/widgets/language_setting_item.dart';
-import 'package:inves_tracker/views/profile/widgets/about_section.dart';
+import 'package:inves_tracker/views/settings/widgets/section_header.dart';
+import 'package:inves_tracker/views/settings/widgets/setting_card.dart';
+import 'package:inves_tracker/views/settings/widgets/theme_setting_item.dart';
+import 'package:inves_tracker/views/settings/widgets/language_setting_item.dart';
+import 'package:inves_tracker/views/settings/widgets/about_section.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,6 @@ class ProfileScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Settings Section Header
-            SectionHeader(title: l10n.settings),
             SizedBox(height: 8.h),
 
             // Dark Mode Setting Card

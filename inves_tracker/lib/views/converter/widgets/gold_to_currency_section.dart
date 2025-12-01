@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/converter/widgets/converter_card.dart';
 import 'package:inves_tracker/views/converter/widgets/gold_dropdown.dart';
 import 'package:inves_tracker/views/converter/widgets/currency_dropdown.dart';
@@ -88,8 +89,10 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return ConverterCard(
-      title: 'Gold to Currency',
+      title: l10n.goldToCurrency,
       child: Column(
         children: [
           // Gold Input
@@ -152,7 +155,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
               ),
               child: Icon(
                 Icons.arrow_downward,
-                size: 24.sp,
+                size: 28.sp,
                 color: AppColors.warning,
               ),
             ),

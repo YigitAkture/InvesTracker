@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
-import 'package:inves_tracker/views/profile/widgets/info_row.dart';
-import 'package:inves_tracker/views/profile/widgets/setting_card.dart';
+import 'package:inves_tracker/views/settings/widgets/info_row.dart';
+import 'package:inves_tracker/views/settings/widgets/setting_card.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
@@ -18,7 +18,7 @@ class AboutSection extends StatelessWidget {
           InfoRow(
             icon: Icons.info_outline,
             label: l10n.version,
-            value: '1.0.0',
+            value: '0.1.0',
             iconColor: AppColors.primary(context),
           ),
           Divider(

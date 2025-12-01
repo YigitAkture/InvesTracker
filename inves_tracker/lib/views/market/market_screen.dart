@@ -10,14 +10,14 @@ import 'package:inves_tracker/views/market/currency/currency_rates.dart';
 import 'package:inves_tracker/views/market/gold/gold_rates.dart';
 import 'package:inves_tracker/views/market/crypto/crypto_rates.dart';
 
-class Market extends StatefulWidget {
-  const Market({super.key});
+class MarketScreen extends StatefulWidget {
+  const MarketScreen({super.key});
 
   @override
-  State<Market> createState() => _MarketState();
+  State<MarketScreen> createState() => _MarketScreenState();
 }
 
-class _MarketState extends State<Market> {
+class _MarketScreenState extends State<MarketScreen> {
   final MarketService _marketService = MarketService();
 
   List<CurrencyData> _currencies = [];
@@ -36,6 +36,8 @@ class _MarketState extends State<Market> {
   }
 
   Future<void> _loadMarketData() async {
+    final l10n = AppLocalizations.of(context)!;
+
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -52,7 +54,7 @@ class _MarketState extends State<Market> {
       });
     } catch (e) {
       setState(() {
-        _errorMessage = 'Failed to load market data';
+        _errorMessage = l10n.failedToLoadMarketData;
         _isLoading = false;
       });
     }

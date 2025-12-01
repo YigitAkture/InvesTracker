@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/converter/widgets/currency_to_currency_section.dart';
 import 'package:inves_tracker/views/converter/widgets/gold_to_currency_section.dart';
 import 'package:inves_tracker/views/converter/widgets/crypto_to_currency_section.dart';
@@ -27,6 +28,8 @@ class _ConverterScreenState extends State<ConverterScreen> {
   }
 
   Future<void> _loadMarketData() async {
+    final l10n = AppLocalizations.of(context)!;
+
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -40,7 +43,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
       });
     } catch (e) {
       setState(() {
-        _errorMessage = 'Failed to load market data';
+        _errorMessage = l10n.failedToLoadMarketData;
         _isLoading = false;
       });
     }
@@ -94,6 +97,8 @@ class _ConverterScreenState extends State<ConverterScreen> {
   }
 
   Widget _buildLoadingState() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -101,7 +106,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
           CircularProgressIndicator(color: AppColors.primary(context)),
           SizedBox(height: 12.h),
           Text(
-            'Loading converter...',
+            l10n.loadingConverter,
             style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
           ),
         ],
@@ -110,6 +115,8 @@ class _ConverterScreenState extends State<ConverterScreen> {
   }
 
   Widget _buildErrorState() {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -119,7 +126,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
             Icon(Icons.error_outline, size: 48.sp, color: AppColors.danger),
             SizedBox(height: 12.h),
             Text(
-              _errorMessage ?? 'An error occurred',
+              _errorMessage ?? l10n.anErrorOccurred,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
             ),
@@ -134,7 +141,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
                   borderRadius: BorderRadius.circular(8.r),
                 ),
               ),
-              child: Text('Retry', style: TextStyle(fontSize: 14.sp)),
+              child: Text(l10n.retry, style: TextStyle(fontSize: 14.sp)),
             ),
           ],
         ),

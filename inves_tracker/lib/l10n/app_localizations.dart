@@ -203,14 +203,14 @@ abstract class AppLocalizations {
   /// No description provided for @showLess.
   ///
   /// In en, this message translates to:
-  /// **'Show Less'**
+  /// **'Show Less...'**
   String get showLess;
 
-  /// No description provided for @seeMore.
+  /// No description provided for @showMore.
   ///
   /// In en, this message translates to:
-  /// **'See More...'**
-  String get seeMore;
+  /// **'Show More...'**
+  String get showMore;
 
   /// No description provided for @currenciesAndMetals.
   ///
@@ -325,6 +325,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Developer'**
   String get developer;
+
+  /// No description provided for @goldHAS.
+  ///
+  /// In en, this message translates to:
+  /// **'Fine Gold'**
+  String get goldHAS;
+
+  /// No description provided for @goldGRA.
+  ///
+  /// In en, this message translates to:
+  /// **'Gram of Gold'**
+  String get goldGRA;
+
+  /// No description provided for @goldCEYREKALTIN.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarter of Gold'**
+  String get goldCEYREKALTIN;
+
+  /// No description provided for @goldYARIMALTIN.
+  ///
+  /// In en, this message translates to:
+  /// **'Half of Gold'**
+  String get goldYARIMALTIN;
+
+  /// No description provided for @goldTAMALTIN.
+  ///
+  /// In en, this message translates to:
+  /// **'Full of Gold'**
+  String get goldTAMALTIN;
+
+  /// No description provided for @goldATAALTIN.
+  ///
+  /// In en, this message translates to:
+  /// **'Ata Gold'**
+  String get goldATAALTIN;
+
+  /// No description provided for @goldRESATALTIN.
+  ///
+  /// In en, this message translates to:
+  /// **'Resat Gold'**
+  String get goldRESATALTIN;
+
+  /// No description provided for @goldCUMHURIYETALTINI.
+  ///
+  /// In en, this message translates to:
+  /// **'Republic Gold'**
+  String get goldCUMHURIYETALTINI;
+
+  /// No description provided for @goldGREMSEALTIN.
+  ///
+  /// In en, this message translates to:
+  /// **'Gremse Gold'**
+  String get goldGREMSEALTIN;
+
+  /// No description provided for @gold14AYARALTIN.
+  ///
+  /// In en, this message translates to:
+  /// **'14 Carat Gold'**
+  String get gold14AYARALTIN;
+
+  /// No description provided for @gold18AYARALTIN.
+  ///
+  /// In en, this message translates to:
+  /// **'18 Carat Gold'**
+  String get gold18AYARALTIN;
+
+  /// No description provided for @goldYIA.
+  ///
+  /// In en, this message translates to:
+  /// **'22 Carat Bracelet'**
+  String get goldYIA;
+
+  /// No description provided for @goldIKIBUCUKALTIN.
+  ///
+  /// In en, this message translates to:
+  /// **'Two and a Half Gold'**
+  String get goldIKIBUCUKALTIN;
+
+  /// No description provided for @goldBESLIALTIN.
+  ///
+  /// In en, this message translates to:
+  /// **'Five Piece Gold'**
+  String get goldBESLIALTIN;
+
+  /// No description provided for @currencyUSD.
+  ///
+  /// In en, this message translates to:
+  /// **'US Dollar'**
+  String get currencyUSD;
+
+  /// No description provided for @currencyEUR.
+  ///
+  /// In en, this message translates to:
+  /// **'Euro'**
+  String get currencyEUR;
+
+  /// No description provided for @currencyGBP.
+  ///
+  /// In en, this message translates to:
+  /// **'British Pound'**
+  String get currencyGBP;
+
+  /// No description provided for @currencyCHF.
+  ///
+  /// In en, this message translates to:
+  /// **'Swiss Franc'**
+  String get currencyCHF;
+
+  /// No description provided for @currencyCAD.
+  ///
+  /// In en, this message translates to:
+  /// **'Canadian Dollar'**
+  String get currencyCAD;
+
+  /// No description provided for @currencyJPY.
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese Yen'**
+  String get currencyJPY;
+
+  /// No description provided for @currencySAR.
+  ///
+  /// In en, this message translates to:
+  /// **'Saudi Riyal'**
+  String get currencySAR;
+
+  /// No description provided for @currencyRUB.
+  ///
+  /// In en, this message translates to:
+  /// **'Russian Ruble'**
+  String get currencyRUB;
+
+  /// No description provided for @currencyAED.
+  ///
+  /// In en, this message translates to:
+  /// **'UAE Dirham'**
+  String get currencyAED;
+
+  /// No description provided for @currencyKWD.
+  ///
+  /// In en, this message translates to:
+  /// **'Kuwaiti Dinar'**
+  String get currencyKWD;
+
+  /// No description provided for @currencyAUD.
+  ///
+  /// In en, this message translates to:
+  /// **'Australian Dollar'**
+  String get currencyAUD;
+
+  /// No description provided for @currencyDKK.
+  ///
+  /// In en, this message translates to:
+  /// **'Danish Krone'**
+  String get currencyDKK;
+
+  /// No description provided for @currencySEK.
+  ///
+  /// In en, this message translates to:
+  /// **'Swedish Krona'**
+  String get currencySEK;
+
+  /// No description provided for @currencyNOK.
+  ///
+  /// In en, this message translates to:
+  /// **'Norwegian Krone'**
+  String get currencyNOK;
 }
 
 class _AppLocalizationsDelegate

@@ -24,7 +24,6 @@ class CurrencyDropdown extends StatelessWidget {
         0,
         CurrencyData(
           code: 'TRY',
-          name: 'Turkish Lira',
           buying: 1.0,
           selling: 1.0,
           changeRate: 0.0,

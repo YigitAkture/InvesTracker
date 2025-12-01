@@ -61,7 +61,7 @@ class GoldDropdown extends StatelessWidget {
                   SizedBox(width: 8.w),
                   Expanded(
                     child: Text(
-                      gold.name,
+                      gold.getLocalizedName(context),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

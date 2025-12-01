@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/converter/widgets/converter_card.dart';
 import 'package:inves_tracker/views/converter/widgets/currency_dropdown.dart';
 
@@ -84,8 +85,10 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return ConverterCard(
-      title: 'Currency Converter',
+      title: l10n.currencyConverterTitle,
       child: Column(
         children: [
           // From Currency
@@ -150,7 +153,7 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
                 ),
                 child: Icon(
                   Icons.swap_vert,
-                  size: 24.sp,
+                  size: 28.sp,
                   color: AppColors.primary(context),
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/market/currency/widgets/currency_box.dart';
 
 class CurrencyRates extends StatefulWidget {
@@ -38,12 +39,14 @@ class CurrencyRatesState extends State<CurrencyRates> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (widget.currencies.isEmpty) {
       return Container(
         height: 100.h,
         alignment: Alignment.center,
         child: Text(
-          'No currency data available',
+          l10n.noCurrencyDataAvailable,
           style: TextStyle(fontSize: 14.sp, color: Colors.grey),
         ),
       );
@@ -71,7 +74,7 @@ class CurrencyRatesState extends State<CurrencyRates> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    _showAll ? 'Show Less' : 'See More...',
+                    _showAll ? l10n.showLess : l10n.showMore,
                     style: TextStyle(
                       fontSize: 13.sp,
                       decoration: TextDecoration.underline,

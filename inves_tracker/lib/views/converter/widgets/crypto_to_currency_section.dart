@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/converter/widgets/converter_card.dart';
 import 'package:inves_tracker/views/converter/widgets/crypto_dropdown.dart';
 import 'package:inves_tracker/views/converter/widgets/currency_dropdown.dart';
@@ -112,8 +113,10 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return ConverterCard(
-      title: 'Crypto to Currency',
+      title: l10n.cryptoToCurrency,
       child: Column(
         children: [
           // Crypto Input
@@ -186,8 +189,8 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                Icons.arrow_downward,
-                size: 24.sp,
+                Icons.height,
+                size: 28.sp,
                 color: AppColors.pink,
               ),
             ),
