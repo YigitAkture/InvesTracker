@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/shared/custom_app_bar.dart';
+import 'package:inves_tracker/views/converter/converter_screen.dart';
 import 'package:inves_tracker/views/market/market.dart';
 import 'package:inves_tracker/views/home/home_screen.dart';
 import '../shared/custom_bottom_nav_bar.dart';
@@ -30,7 +31,7 @@ class _MainLayoutState extends State<MainLayout> {
     const HomeScreen(),
     const Market(),
     const AddInvestmentScreen(),
-    const CurrencyConverterScreen(),
+    const ConverterScreen(),
     const ProfileScreen(),
   ];
 
@@ -73,18 +74,6 @@ class AddInvestmentScreen extends StatelessWidget {
     );
   }
 }
-
-class CurrencyConverterScreen extends StatelessWidget {
-  const CurrencyConverterScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Currency Converter Screen')),
-    );
-  }
-}
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
