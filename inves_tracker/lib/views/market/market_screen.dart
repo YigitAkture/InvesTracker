@@ -25,7 +25,7 @@ class _MarketScreenState extends State<MarketScreen> {
   List<CryptoData> _cryptos = [];
   String _updateTime = '';
   bool _isLoading = true;
-  String? _errorMessage;
+  bool _hasError = false;
 
   int _selectedTab = 0;
 
@@ -36,11 +36,9 @@ class _MarketScreenState extends State<MarketScreen> {
   }
 
   Future<void> _loadMarketData() async {
-    final l10n = AppLocalizations.of(context)!;
-
     setState(() {
       _isLoading = true;
-      _errorMessage = null;
+      _hasError = false;
     });
 
     try {
@@ -54,7 +52,7 @@ class _MarketScreenState extends State<MarketScreen> {
       });
     } catch (e) {
       setState(() {
-        _errorMessage = l10n.failedToLoadMarketData;
+        _hasError = true;
         _isLoading = false;
       });
     }
@@ -72,7 +70,7 @@ class _MarketScreenState extends State<MarketScreen> {
       return _buildLoadingState(l10n);
     }
 
-    if (_errorMessage != null) {
+    if (_hasError) {
       return _buildErrorState(l10n);
     }
 

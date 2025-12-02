@@ -19,7 +19,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
   final MarketService _marketService = MarketService();
   MarketResponse? _marketData;
   bool _isLoading = true;
-  String? _errorMessage;
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -28,11 +28,9 @@ class _ConverterScreenState extends State<ConverterScreen> {
   }
 
   Future<void> _loadMarketData() async {
-    final l10n = AppLocalizations.of(context)!;
-
     setState(() {
       _isLoading = true;
-      _errorMessage = null;
+      _hasError = false;
     });
 
     try {
@@ -43,7 +41,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
       });
     } catch (e) {
       setState(() {
-        _errorMessage = l10n.failedToLoadMarketData;
+        _hasError = true;
         _isLoading = false;
       });
     }
@@ -51,12 +49,14 @@ class _ConverterScreenState extends State<ConverterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (_isLoading) {
-      return _buildLoadingState();
+      return _buildLoadingState(l10n);
     }
 
-    if (_errorMessage != null || _marketData == null) {
-      return _buildErrorState();
+    if (_hasError || _marketData == null) {
+      return _buildErrorState(l10n);
     }
 
     return RefreshIndicator(
@@ -96,9 +96,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
     );
   }
 
-  Widget _buildLoadingState() {
-    final l10n = AppLocalizations.of(context)!;
-
+  Widget _buildLoadingState(AppLocalizations l10n) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -114,9 +112,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
     );
   }
 
-  Widget _buildErrorState() {
-    final l10n = AppLocalizations.of(context)!;
-
+  Widget _buildErrorState(AppLocalizations l10n) {
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -126,7 +122,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
             Icon(Icons.error_outline, size: 48.sp, color: AppColors.danger),
             SizedBox(height: 12.h),
             Text(
-              _errorMessage ?? l10n.anErrorOccurred,
+              l10n.failedToLoadMarketData,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
             ),
