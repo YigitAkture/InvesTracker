@@ -46,7 +46,7 @@ class LanguageSettingItem extends StatelessWidget {
               child: _LanguageButton(
                 flagAsset: 'assets/img/flags/gbp.png',
                 languageName: 'English',
-                isSelected: _isEnglish(localeNotifier),
+                isSelected: _isEnglish(localeNotifier, context),
                 onTap: () {
                   localeNotifier.setLocale(const Locale('en'));
                 },
@@ -59,7 +59,7 @@ class LanguageSettingItem extends StatelessWidget {
               child: _LanguageButton(
                 flagAsset: 'assets/img/flags/try.png',
                 languageName: 'Türkçe',
-                isSelected: _isTurkish(localeNotifier),
+                isSelected: _isTurkish(localeNotifier, context),
                 onTap: () {
                   localeNotifier.setLocale(const Locale('tr'));
                 },
@@ -71,18 +71,20 @@ class LanguageSettingItem extends StatelessWidget {
     );
   }
 
-  bool _isEnglish(LocaleNotifier localeNotifier) {
+  bool _isEnglish(LocaleNotifier localeNotifier, BuildContext context) {
     final currentLocale = localeNotifier.locale;
     if (currentLocale == null) {
-      return true; // Default to English
+      final systemLocale = Localizations.localeOf(context);
+      return systemLocale.languageCode == 'en';
     }
     return currentLocale.languageCode == 'en';
   }
 
-  bool _isTurkish(LocaleNotifier localeNotifier) {
+  bool _isTurkish(LocaleNotifier localeNotifier, BuildContext context) {
     final currentLocale = localeNotifier.locale;
     if (currentLocale == null) {
-      return false;
+      final systemLocale = Localizations.localeOf(context);
+      return systemLocale.languageCode == 'tr';
     }
     return currentLocale.languageCode == 'tr';
   }
