@@ -13,102 +13,159 @@ class LanguageSettingItem extends StatelessWidget {
     final localeNotifier = Provider.of<LocaleNotifier>(context);
     final l10n = AppLocalizations.of(context)!;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Language label
+        Padding(
+          padding: EdgeInsets.only(bottom: 12.h),
+          child: Row(
+            children: [
+              Icon(
+                Icons.language,
+                color: AppColors.secondary(context),
+                size: 24.sp,
+              ),
+              SizedBox(width: 12.w),
+              Text(
+                l10n.language,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+        
+        // Language buttons row
         Row(
           children: [
-            // Flag icon instead of language icon
-            Padding(
-              padding: EdgeInsets.all(8.r),
-              child: Image.asset(
-                _getFlagAsset(localeNotifier),
-                height: 32.h,
-                width: 32.w,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  // Fallback to icon if flag image not found
-                  return Icon(
-                    Icons.language,
-                    color: AppColors.secondary(context),
-                    size: 24.sp,
-                  );
+            // English button
+            Expanded(
+              child: _LanguageButton(
+                flagAsset: 'assets/img/flags/gbp.png',
+                languageName: 'English',
+                isSelected: _isEnglish(localeNotifier),
+                onTap: () {
+                  localeNotifier.setLocale(const Locale('en'));
                 },
               ),
             ),
-            SizedBox(width: 16.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l10n.language,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(height: 2.h),
-                Text(
-                  _getCurrentLanguage(context, localeNotifier),
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: AppColors.title(context),
-                  ),
-                ),
-              ],
+            SizedBox(width: 12.w),
+            
+            // Turkish button
+            Expanded(
+              child: _LanguageButton(
+                flagAsset: 'assets/img/flags/try.png',
+                languageName: 'Türkçe',
+                isSelected: _isTurkish(localeNotifier),
+                onTap: () {
+                  localeNotifier.setLocale(const Locale('tr'));
+                },
+              ),
             ),
           ],
-        ),
-        Switch(
-          value: _isTurkish(localeNotifier),
-          onChanged: (value) {
-            if (value) {
-              localeNotifier.setLocale(const Locale('tr'));
-            } else {
-              localeNotifier.setLocale(const Locale('en'));
-            }
-          },
-          activeThumbColor: AppColors.secondary(context),
         ),
       ],
     );
   }
 
-  String _getFlagAsset(LocaleNotifier localeNotifier) {
+  bool _isEnglish(LocaleNotifier localeNotifier) {
     final currentLocale = localeNotifier.locale;
     if (currentLocale == null) {
-      // Use system locale - default to English flag
-      return 'assets/img/flags/gbp.png';
+      return true; // Default to English
     }
-
-    if (currentLocale.languageCode == 'tr') {
-      return 'assets/img/flags/try.png';
-    } else {
-      return 'assets/img/flags/gbp.png';
-    }
-  }
-
-  String _getCurrentLanguage(
-    BuildContext context,
-    LocaleNotifier localeNotifier,
-  ) {
-    final l10n = AppLocalizations.of(context)!;
-    final currentLocale =
-        localeNotifier.locale ?? Localizations.localeOf(context);
-
-    if (currentLocale.languageCode == 'tr') {
-      return l10n.turkish;
-    } else {
-      return l10n.english;
-    }
+    return currentLocale.languageCode == 'en';
   }
 
   bool _isTurkish(LocaleNotifier localeNotifier) {
     final currentLocale = localeNotifier.locale;
     if (currentLocale == null) {
-      // Use system locale - default to English
       return false;
     }
     return currentLocale.languageCode == 'tr';
+  }
+}
+
+class _LanguageButton extends StatelessWidget {
+  final String flagAsset;
+  final String languageName;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _LanguageButton({
+    required this.flagAsset,
+    required this.languageName,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 12.w),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? AppColors.secondary(context).withValues(alpha: 0.1)
+              : AppColors.background2(context),
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(
+            color: isSelected
+                ? AppColors.secondary(context)
+                : Colors.transparent,
+            width: 2.w,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Flag image
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.r),
+              child: Image.asset(
+                flagAsset,
+                height: 40.h,
+                width: 40.w,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    height: 40.h,
+                    width: 56.w,
+                    decoration: BoxDecoration(
+                      color: AppColors.background2(context),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Icon(
+                      Icons.flag,
+                      size: 24.sp,
+                      color: AppColors.secondary(context),
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 12.h),
+            
+            // Language name
+            Text(
+              languageName,
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                color: isSelected
+                    ? AppColors.secondary(context)
+                    : Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
