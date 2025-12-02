@@ -6,7 +6,7 @@ import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
 
 class MarketService {
-  static const String _baseUrl = 'https://finans.truncgil.com/v4/today.json';
+  static const String _baseUrl = 'https://finance.truncgil.com/api/today.json';
   
   static const List<String> _allCurrencies = [
     'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'JPY', 'SAR', 
@@ -36,28 +36,31 @@ class MarketService {
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
         
-        // Extract update time
+        // Extract update time from Meta_Data
         String updateTime = 'N/A';
-        if (data.containsKey('Update_Date')) {
-          updateTime = _formatTime(data['Update_Date']);
+        if (data.containsKey('Meta_Data') && data['Meta_Data']['Update_Date'] != null) {
+          updateTime = _formatTime(data['Meta_Data']['Update_Date']);
         }
+        
+        // Get the Rates object
+        final Map<String, dynamic> rates = data['Rates'] ?? {};
         
         // Extract currencies
         final currencyList = _allCurrencies
-            .where((code) => data.containsKey(code))
-            .map((code) => CurrencyData.fromJson(code, data[code]))
+            .where((code) => rates.containsKey(code))
+            .map((code) => CurrencyData.fromJson(code, rates[code]))
             .toList();
         
         // Extract golds
         final goldList = _allGolds
-            .where((code) => data.containsKey(code))
-            .map((code) => GoldData.fromJson(code, data[code]))
+            .where((code) => rates.containsKey(code))
+            .map((code) => GoldData.fromJson(code, rates[code]))
             .toList();
         
         // Extract cryptos
         final cryptoList = _allCryptos
-            .where((code) => data.containsKey(code))
-            .map((code) => CryptoData.fromJson(code, data[code]))
+            .where((code) => rates.containsKey(code))
+            .map((code) => CryptoData.fromJson(code, rates[code]))
             .toList();
         
         return MarketResponse(
@@ -78,7 +81,7 @@ class MarketService {
     try {
       final parts = dateTimeString.split(' ');
       if (parts.length == 2) {
-        return parts[1]; // Return just the time part: "17:05:01"
+        return parts[1]; // Return just the time part: "15:26:02"
       }
       return dateTimeString;
     } catch (e) {
