@@ -14,7 +14,7 @@ class CurrencyBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 52.h,
+      height: 56.h,
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 8.h),
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
