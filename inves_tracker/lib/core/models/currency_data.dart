@@ -22,6 +22,19 @@ class CurrencyData {
     return _getCurrencyNameLocalized(code, l10n);
   }
 
+  // Factory for backend API response
+  factory CurrencyData.fromBackend(Map<String, dynamic> json) {
+    final change = (json['change'] ?? 0.0).toDouble();
+    
+    return CurrencyData(
+      code: json['code'] ?? '',
+      buying: (json['buying'] ?? 0.0).toDouble(),
+      selling: (json['selling'] ?? 0.0).toDouble(),
+      changeRate: change.abs(),
+      isIncreasing: change >= 0,
+    );
+  }
+
   factory CurrencyData.fromJson(String code, Map<String, dynamic> json) {
     final buying = (json['Buying'] ?? 0.0).toDouble();
     final change = (json['Change'] ?? 0.0).toDouble();

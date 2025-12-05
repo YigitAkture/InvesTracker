@@ -15,6 +15,20 @@ class CryptoData {
     required this.isIncreasing,
   });
 
+  // Factory for backend API response
+  factory CryptoData.fromBackend(Map<String, dynamic> json) {
+    final change = (json['change'] ?? 0.0).toDouble();
+    
+    return CryptoData(
+      code: json['code'] ?? '',
+      name: json['name'] ?? json['code'] ?? '',
+      usdPrice: (json['usdPrice'] ?? 0.0).toDouble(),
+      tryPrice: (json['tryPrice'] ?? 0.0).toDouble(),
+      changeRate: change.abs(),
+      isIncreasing: change >= 0,
+    );
+  }
+
   factory CryptoData.fromJson(String code, Map<String, dynamic> json) {
     final change = (json['Change'] ?? 0.0).toDouble();
     
