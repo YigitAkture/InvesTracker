@@ -7,6 +7,7 @@ import 'package:inves_tracker/views/converter/converter_screen.dart';
 import 'package:inves_tracker/views/market/market_screen.dart';
 import 'package:inves_tracker/views/home/home_screen.dart';
 import 'package:inves_tracker/views/settings/settings_screen.dart';
+import 'package:inves_tracker/views/wallet/wallet_screen.dart';
 import '../shared/custom_bottom_nav_bar.dart';
 
 class MainLayout extends StatefulWidget {
@@ -18,11 +19,12 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
+  String userId = '1bfe063c-1405-44c8-9e36-11dce55e96d0'; // TODO: This should come from auth/user management
 
   List<Widget> get _screens => [
         const HomeScreen(),
         const MarketScreen(),
-        const AddInvestmentScreen(),
+        WalletScreen(userId: userId),
         const ConverterScreen(),
         const SettingsScreen(),
       ];
@@ -61,19 +63,6 @@ class _MainLayoutState extends State<MainLayout> {
         currentIndex: _currentIndex,
         onTap: _onNavBarTap,
       ),
-    );
-  }
-}
-
-// Placeholder screens - Replace these with your actual screen implementations
-class AddInvestmentScreen extends StatelessWidget {
-  const AddInvestmentScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      body: Center(child: Text('${l10n.addInvestment} Screen')),
     );
   }
 }

@@ -140,6 +140,12 @@ abstract class AppLocalizations {
   /// **'Change'**
   String get change;
 
+  /// No description provided for @crypto.
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto'**
+  String get crypto;
+
   /// No description provided for @buying.
   ///
   /// In en, this message translates to:
@@ -493,6 +499,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Norwegian Krone'**
   String get currencyNOK;
+
+  /// No description provided for @addAsset.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Asset'**
+  String get addAsset;
+
+  /// No description provided for @addDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Debt'**
+  String get addDebt;
+
+  /// No description provided for @editAsset.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Asset'**
+  String get editAsset;
+
+  /// No description provided for @editDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Debt'**
+  String get editDebt;
+
+  /// No description provided for @debtDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt Details'**
+  String get debtDetails;
+
+  /// No description provided for @amount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get amount;
+
+  /// No description provided for @purchasePrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase Price'**
+  String get purchasePrice;
+
+  /// No description provided for @note.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get note;
+
+  /// No description provided for @dueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Due Date'**
+  String get dueDate;
+
+  /// No description provided for @optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get optional;
+
+  /// No description provided for @exchangeType.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange Type'**
+  String get exchangeType;
+
+  /// No description provided for @selectCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Currency'**
+  String get selectCurrency;
+
+  /// No description provided for @selectGold.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Gold'**
+  String get selectGold;
+
+  /// No description provided for @selectCrypto.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Crypto'**
+  String get selectCrypto;
+
+  /// No description provided for @preciousMetals.
+  ///
+  /// In en, this message translates to:
+  /// **'Precious Metals'**
+  String get preciousMetals;
+
+  /// No description provided for @totalAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Amount'**
+  String get totalAmount;
+
+  /// No description provided for @noAssetsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No assets yet'**
+  String get noAssetsYet;
+
+  /// No description provided for @noDebtsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No debts yet'**
+  String get noDebtsYet;
+
+  /// No description provided for @deleteAsset.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Asset'**
+  String get deleteAsset;
+
+  /// No description provided for @deleteDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Debt'**
+  String get deleteDebt;
+
+  /// No description provided for @confirmDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this?'**
+  String get confirmDelete;
+
+  /// No description provided for @confirmDeleteAsset.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this asset?'**
+  String get confirmDeleteAsset;
+
+  /// No description provided for @confirmDeleteDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this debt?'**
+  String get confirmDeleteDebt;
+
+  /// No description provided for @assetDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Asset deleted successfully'**
+  String get assetDeleted;
+
+  /// No description provided for @debtDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt deleted successfully'**
+  String get debtDeleted;
+
+  /// No description provided for @assetAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Asset added successfully'**
+  String get assetAdded;
+
+  /// No description provided for @debtAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt added successfully'**
+  String get debtAdded;
+
+  /// No description provided for @assetUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Asset updated successfully'**
+  String get assetUpdated;
+
+  /// No description provided for @debtUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt updated successfully'**
+  String get debtUpdated;
+
+  /// No description provided for @failedToDeleteAsset.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete asset'**
+  String get failedToDeleteAsset;
+
+  /// No description provided for @failedToDeleteDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete debt'**
+  String get failedToDeleteDebt;
+
+  /// No description provided for @subscriptionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium subscription required to add more debts'**
+  String get subscriptionRequired;
+
+  /// No description provided for @debtLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Free users can only have 1 debt'**
+  String get debtLimitReached;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @created.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get created;
+
+  /// No description provided for @totalDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Debt'**
+  String get totalDebt;
+
+  /// No description provided for @pleaseSelectCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a code'**
+  String get pleaseSelectCode;
 }
 
 class _AppLocalizationsDelegate

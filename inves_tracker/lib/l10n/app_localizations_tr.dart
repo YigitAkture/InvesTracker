@@ -30,6 +30,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get change => 'Değişim';
 
   @override
+  String get crypto => 'Kripto';
+
+  @override
   String get buying => 'Alış';
 
   @override
@@ -205,4 +208,125 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get currencyNOK => 'Norveç Kronu';
+
+  @override
+  String get addAsset => 'Varlık Ekle';
+
+  @override
+  String get addDebt => 'Borç Ekle';
+
+  @override
+  String get editAsset => 'Varlık Düzenle';
+
+  @override
+  String get editDebt => 'Borç Düzenle';
+
+  @override
+  String get debtDetails => 'Borç Detayları';
+
+  @override
+  String get amount => 'Miktar';
+
+  @override
+  String get purchasePrice => 'Alış Fiyatı';
+
+  @override
+  String get note => 'Not';
+
+  @override
+  String get dueDate => 'Son Ödeme Tarihi';
+
+  @override
+  String get optional => 'Opsiyonel';
+
+  @override
+  String get exchangeType => 'Döviz Tipi';
+
+  @override
+  String get selectCurrency => 'Para Birimi Seç';
+
+  @override
+  String get selectGold => 'Altın Seç';
+
+  @override
+  String get selectCrypto => 'Kripto Seç';
+
+  @override
+  String get preciousMetals => 'Değerli Madenler';
+
+  @override
+  String get totalAmount => 'Toplam Miktar';
+
+  @override
+  String get noAssetsYet => 'Henüz varlık yok';
+
+  @override
+  String get noDebtsYet => 'Henüz borç yok';
+
+  @override
+  String get deleteAsset => 'Varlık Sil';
+
+  @override
+  String get deleteDebt => 'Borç Sil';
+
+  @override
+  String get confirmDelete => 'Bunu silmek istediğinizden emin misiniz?';
+
+  @override
+  String get confirmDeleteAsset =>
+      'Bu varlığı silmek istediğinizden emin misiniz?';
+
+  @override
+  String get confirmDeleteDebt =>
+      'Bu borcu silmek istediğinizden emin misiniz?';
+
+  @override
+  String get assetDeleted => 'Varlık başarıyla silindi';
+
+  @override
+  String get debtDeleted => 'Borç başarıyla silindi';
+
+  @override
+  String get assetAdded => 'Varlık başarıyla eklendi';
+
+  @override
+  String get debtAdded => 'Borç başarıyla eklendi';
+
+  @override
+  String get assetUpdated => 'Varlık başarıyla güncellendi';
+
+  @override
+  String get debtUpdated => 'Borç başarıyla güncellendi';
+
+  @override
+  String get failedToDeleteAsset => 'Varlık silinemedi';
+
+  @override
+  String get failedToDeleteDebt => 'Borç silinemedi';
+
+  @override
+  String get subscriptionRequired =>
+      'Daha fazla borç eklemek için Premium abonelik gerekli';
+
+  @override
+  String get debtLimitReached =>
+      'Ücretsiz kullanıcılar sadece 1 borç ekleyebilir';
+
+  @override
+  String get cancel => 'İptal';
+
+  @override
+  String get update => 'Güncelle';
+
+  @override
+  String get delete => 'Sil';
+
+  @override
+  String get created => 'Oluşturuldu';
+
+  @override
+  String get totalDebt => 'Toplam Borç';
+
+  @override
+  String get pleaseSelectCode => 'Lütfen bir kod seçiniz';
 }

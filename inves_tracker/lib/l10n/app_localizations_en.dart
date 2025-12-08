@@ -30,6 +30,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get change => 'Change';
 
   @override
+  String get crypto => 'Crypto';
+
+  @override
   String get buying => 'Buying';
 
   @override
@@ -205,4 +208,123 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get currencyNOK => 'Norwegian Krone';
+
+  @override
+  String get addAsset => 'Add Asset';
+
+  @override
+  String get addDebt => 'Add Debt';
+
+  @override
+  String get editAsset => 'Edit Asset';
+
+  @override
+  String get editDebt => 'Edit Debt';
+
+  @override
+  String get debtDetails => 'Debt Details';
+
+  @override
+  String get amount => 'Amount';
+
+  @override
+  String get purchasePrice => 'Purchase Price';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get dueDate => 'Due Date';
+
+  @override
+  String get optional => 'Optional';
+
+  @override
+  String get exchangeType => 'Exchange Type';
+
+  @override
+  String get selectCurrency => 'Select Currency';
+
+  @override
+  String get selectGold => 'Select Gold';
+
+  @override
+  String get selectCrypto => 'Select Crypto';
+
+  @override
+  String get preciousMetals => 'Precious Metals';
+
+  @override
+  String get totalAmount => 'Total Amount';
+
+  @override
+  String get noAssetsYet => 'No assets yet';
+
+  @override
+  String get noDebtsYet => 'No debts yet';
+
+  @override
+  String get deleteAsset => 'Delete Asset';
+
+  @override
+  String get deleteDebt => 'Delete Debt';
+
+  @override
+  String get confirmDelete => 'Are you sure you want to delete this?';
+
+  @override
+  String get confirmDeleteAsset =>
+      'Are you sure you want to delete this asset?';
+
+  @override
+  String get confirmDeleteDebt => 'Are you sure you want to delete this debt?';
+
+  @override
+  String get assetDeleted => 'Asset deleted successfully';
+
+  @override
+  String get debtDeleted => 'Debt deleted successfully';
+
+  @override
+  String get assetAdded => 'Asset added successfully';
+
+  @override
+  String get debtAdded => 'Debt added successfully';
+
+  @override
+  String get assetUpdated => 'Asset updated successfully';
+
+  @override
+  String get debtUpdated => 'Debt updated successfully';
+
+  @override
+  String get failedToDeleteAsset => 'Failed to delete asset';
+
+  @override
+  String get failedToDeleteDebt => 'Failed to delete debt';
+
+  @override
+  String get subscriptionRequired =>
+      'Premium subscription required to add more debts';
+
+  @override
+  String get debtLimitReached => 'Free users can only have 1 debt';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get created => 'Created';
+
+  @override
+  String get totalDebt => 'Total Debt';
+
+  @override
+  String get pleaseSelectCode => 'Please select a code';
 }
