@@ -4,6 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/views/wallet/utils/crypto_dropdown.dart';
+import 'package:inves_tracker/views/wallet/utils/currency_dropdown.dart';
+import 'package:inves_tracker/views/wallet/utils/gold_dropdown.dart';
 
 enum ExchangeType { currency, gold, crypto }
 
@@ -90,18 +93,10 @@ class _AddAssetBoxState extends State<AddAssetBox> {
     }
 
     final amount = double.tryParse(_amountController.text);
-    final purchasePrice = double.tryParse(_purchasePriceController.text);
 
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.enterValidAmount)),
-      );
-      return;
-    }
-
-    if (purchasePrice == null || purchasePrice <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid purchase price')),
       );
       return;
     }
@@ -114,7 +109,6 @@ class _AddAssetBoxState extends State<AddAssetBox> {
         assetType: _getTypeApiName(_selectedType),
         assetCode: _selectedCode!,
         amount: amount,
-        purchasePrice: purchasePrice,
       );
 
       if (mounted) {
@@ -220,7 +214,14 @@ class _AddAssetBoxState extends State<AddAssetBox> {
               fillColor: AppColors.background2(context),
             ),
             items: _codesByType[_selectedType]!.map((code) {
-              return DropdownMenuItem(value: code, child: Text(code));
+              return DropdownMenuItem<String>(
+                value: code, 
+                child: _selectedType == ExchangeType.currency
+                  ? CurrencyDropdown(code: code)
+                  : _selectedType == ExchangeType.gold
+                    ? GoldDropdown(code: code)
+                    : CryptoDropdown(code: code)
+              );
             }).toList(),
             onChanged: (value) => setState(() => _selectedCode = value),
           ),
@@ -236,25 +237,6 @@ class _AddAssetBoxState extends State<AddAssetBox> {
             ],
             decoration: InputDecoration(
               labelText: l10n.amount,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              filled: true,
-              fillColor: AppColors.background2(context),
-            ),
-          ),
-
-          SizedBox(height: 12.h),
-
-          // Purchase Price Input
-          TextField(
-            controller: _purchasePriceController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-            ],
-            decoration: InputDecoration(
-              labelText: 'Purchase Price',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),

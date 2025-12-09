@@ -27,7 +27,6 @@ class AssetService {
     required String assetType,
     required String assetCode,
     required double amount,
-    required double purchasePrice,
   }) async {
     try {
       final response = await http.post(
@@ -37,7 +36,6 @@ class AssetService {
           'assetType': assetType,
           'assetCode': assetCode,
           'amount': amount,
-          'purchasePrice': purchasePrice,
         }),
       ).timeout(const Duration(seconds: 30));
 
