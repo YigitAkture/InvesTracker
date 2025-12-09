@@ -98,6 +98,14 @@ class _AssetsTabState extends State<AssetsTab> {
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
+            // Add Asset Box
+            AddAssetBox(
+              userId: widget.userId,
+              onAssetAdded: _loadAssets,
+            ),
+
+            SizedBox(height: 24.h),
+
             // Accordion Items
             if (groupedAssets.isEmpty)
               Padding(
@@ -118,16 +126,6 @@ class _AssetsTabState extends State<AssetsTab> {
                   onRefresh: _loadAssets,
                 );
               }),
-
-            SizedBox(height: 16.h),
-
-            // Add Asset Box
-            AddAssetBox(
-              userId: widget.userId,
-              onAssetAdded: _loadAssets,
-            ),
-
-            SizedBox(height: 16.h),
           ],
         ),
       ),

@@ -98,6 +98,15 @@ class _DebtsTabState extends State<DebtsTab> {
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
+            // Add Debt Box
+            AddDebtBox(
+              userId: widget.userId,
+              currentDebtCount: _debts.length,
+              onDebtAdded: _loadDebts,
+            ),
+
+            SizedBox(height: 24.h),
+
             // Accordion Items
             if (groupedDebts.isEmpty)
               Padding(
@@ -118,17 +127,6 @@ class _DebtsTabState extends State<DebtsTab> {
                   onRefresh: _loadDebts,
                 );
               }),
-
-            SizedBox(height: 16.h),
-
-            // Add Debt Box
-            AddDebtBox(
-              userId: widget.userId,
-              currentDebtCount: _debts.length,
-              onDebtAdded: _loadDebts,
-            ),
-
-            SizedBox(height: 16.h),
           ],
         ),
       ),
