@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/views/wallet/utils/crypto_dropdown.dart';
+import 'package:inves_tracker/views/wallet/utils/currency_dropdown.dart';
+import 'package:inves_tracker/views/wallet/utils/gold_dropdown.dart';
 
 enum ExchangeType { currency, gold, crypto }
 
@@ -27,6 +31,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
   final DebtService _debtService = DebtService();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+  final DateFormat _dateFormat = DateFormat('dd/MM/yyyy');
   
   ExchangeType _selectedType = ExchangeType.currency;
   String? _selectedCode;
@@ -35,7 +40,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
   final Map<ExchangeType, List<String>> _codesByType = {
     ExchangeType.currency: [
-      'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'JPY', 'SAR', 
+      'TRY', 'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'JPY', 'SAR', 
       'RUB', 'AED', 'KWD', 'AUD', 'DKK', 'SEK', 'NOK'
     ],
     ExchangeType.gold: [
@@ -237,22 +242,47 @@ class _AddDebtBoxState extends State<AddDebtBox> {
           SizedBox(height: 12.h),
 
           // Code Dropdown
-          DropdownButtonFormField<String>(
-            initialValue: _selectedCode,
-            decoration: InputDecoration(
-              labelText: _getTypeName(_selectedType, l10n),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              filled: true,
-              fillColor: AppColors.background2(context),
+          Theme(
+            data: Theme.of(context).copyWith(
+              canvasColor: AppColors.background2(context), // background of dropdown
             ),
-            items: _codesByType[_selectedType]!.map((code) {
-              return DropdownMenuItem(value: code, child: Text(code));
-            }).toList(),
-            onChanged: (value) => setState(() => _selectedCode = value),
-          ),
+            child: DropdownButtonFormField<String>(
+              initialValue: _selectedCode,
+              alignment: Alignment.centerLeft,
+              dropdownColor: AppColors.background2(context), // extra safety
+              menuMaxHeight: 450.h,
+              borderRadius: BorderRadius.circular(12.r),
+              items: _codesByType[_selectedType]!.map((code) {
+                return DropdownMenuItem<String>(
+                  value: code,
+                  child: IntrinsicWidth(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (_selectedType == ExchangeType.currency)
+                          CurrencyDropdown(code: code)
+                        else if (_selectedType == ExchangeType.gold)
+                          GoldDropdown(code: code)
+                        else
+                          CryptoDropdown(code: code),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
 
+              decoration: InputDecoration(
+                labelText: _getTypeName(_selectedType, l10n),
+                filled: true,
+                fillColor: AppColors.background2(context),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+
+              onChanged: (value) => setState(() => _selectedCode = value),
+            ),
+          ),
           SizedBox(height: 12.h),
 
           // Amount Input
@@ -305,7 +335,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
               ),
               child: Text(
                 _selectedDueDate != null
-                    ? _selectedDueDate!.toString().substring(0, 10)
+                    ? _dateFormat.format(_selectedDueDate!)
                     : l10n.selectDate,
                 style: TextStyle(
                   fontSize: 14.sp,

@@ -36,7 +36,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
   // Define available codes for each type
   final Map<ExchangeType, List<String>> _codesByType = {
     ExchangeType.currency: [
-      'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'JPY', 'SAR', 
+      'TRY', 'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'JPY', 'SAR', 
       'RUB', 'AED', 'KWD', 'AUD', 'DKK', 'SEK', 'NOK'
     ],
     ExchangeType.gold: [
@@ -203,29 +203,47 @@ class _AddAssetBoxState extends State<AddAssetBox> {
           SizedBox(height: 12.h),
 
           // Code Dropdown
-          DropdownButtonFormField<String>(
-            initialValue: _selectedCode,
-            decoration: InputDecoration(
-              labelText: _getTypeName(_selectedType, l10n),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              filled: true,
-              fillColor: AppColors.background2(context),
+          Theme(
+            data: Theme.of(context).copyWith(
+              canvasColor: AppColors.background2(context), // background of dropdown
             ),
-            items: _codesByType[_selectedType]!.map((code) {
-              return DropdownMenuItem<String>(
-                value: code, 
-                child: _selectedType == ExchangeType.currency
-                  ? CurrencyDropdown(code: code)
-                  : _selectedType == ExchangeType.gold
-                    ? GoldDropdown(code: code)
-                    : CryptoDropdown(code: code)
-              );
-            }).toList(),
-            onChanged: (value) => setState(() => _selectedCode = value),
-          ),
+            child: DropdownButtonFormField<String>(
+              initialValue: _selectedCode,
+              alignment: Alignment.centerLeft,
+              dropdownColor: AppColors.background2(context), // extra safety
+              menuMaxHeight: 450.h,
+              borderRadius: BorderRadius.circular(12.r),
+              items: _codesByType[_selectedType]!.map((code) {
+                return DropdownMenuItem<String>(
+                  value: code,
+                  child: IntrinsicWidth(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (_selectedType == ExchangeType.currency)
+                          CurrencyDropdown(code: code)
+                        else if (_selectedType == ExchangeType.gold)
+                          GoldDropdown(code: code)
+                        else
+                          CryptoDropdown(code: code),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
 
+              decoration: InputDecoration(
+                labelText: _getTypeName(_selectedType, l10n),
+                filled: true,
+                fillColor: AppColors.background2(context),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+
+              onChanged: (value) => setState(() => _selectedCode = value),
+            ),
+          ),
           SizedBox(height: 12.h),
 
           // Amount Input

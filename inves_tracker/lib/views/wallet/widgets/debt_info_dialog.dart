@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
@@ -111,8 +112,9 @@ class DebtInfoDialog extends StatelessWidget {
 class _DebtInfoItem extends StatelessWidget {
   final Debt debt;
   final int index;
+  final DateFormat _dateFormat = DateFormat('dd/MM/yyyy');
 
-  const _DebtInfoItem({required this.debt, required this.index});
+  _DebtInfoItem({required this.debt, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +179,7 @@ class _DebtInfoItem extends StatelessWidget {
             _InfoRow(
               icon: Icons.calendar_today_outlined,
               label: l10n.dueDate,
-              value: debt.dueDate!.toString().substring(0, 10),
+              value: _dateFormat.format(debt.dueDate!).toString().substring(0, 10),
               valueColor: AppColors.warning,
             ),
             SizedBox(height: 8.h),
@@ -186,7 +188,7 @@ class _DebtInfoItem extends StatelessWidget {
           // Created Date
           _InfoRow(
             icon: Icons.access_time,
-            label: l10n.created,
+            label: 'Created',
             value: debt.createdAt.toString().substring(0, 10),
           ),
         ],

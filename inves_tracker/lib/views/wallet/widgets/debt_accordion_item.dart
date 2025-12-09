@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
@@ -26,6 +27,7 @@ class DebtAccordionItem extends StatefulWidget {
 class _DebtAccordionItemState extends State<DebtAccordionItem> {
   bool _isExpanded = false;
   final DebtService _debtService = DebtService();
+  final DateFormat _dateFormat = DateFormat('dd/MM/yyyy');
 
   double get _totalAmount {
     return widget.debts.fold(0.0, (sum, debt) => sum + debt.amount);
@@ -217,7 +219,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                           if (debt.dueDate != null) ...[
                             SizedBox(height: 4.h),
                             Text(
-                              '${l10n.dueDate}: ${debt.dueDate!.toString().substring(0, 10)}',
+                              '${l10n.dueDate}: ${_dateFormat.format(debt.dueDate!).toString().substring(0, 10)}',
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: AppColors.warning,
