@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
@@ -197,7 +198,11 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.assetCode,
+                          WalletLocalizationHelper.getLocalizedName(
+                            context,
+                            widget.assetCode,
+                            widget.assetType,
+                          ),
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
@@ -205,7 +210,11 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          '${_totalAmount.toStringAsFixed(2)} ${widget.assetCode}',
+                          '${_totalAmount.toStringAsFixed(2)} ${widget.assetType != 'Gold' ? widget.assetCode : WalletLocalizationHelper.getLocalizedName(
+                            context,
+                            widget.assetCode,
+                            widget.assetType,
+                          )}',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.title(context),

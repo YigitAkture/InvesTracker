@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
@@ -206,7 +207,11 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.debtCode,
+                          WalletLocalizationHelper.getLocalizedName(
+                            context,
+                            widget.debtCode,
+                            widget.debtType,
+                          ),
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
@@ -214,7 +219,11 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          '${_totalAmount.toStringAsFixed(2)} ${widget.debtCode} (${widget.debts.length} ${l10n.debt}${l10n.english == 'English' && widget.debts.length > 1 ? 's' : ''})',
+                          '${_totalAmount.toStringAsFixed(2)} ${widget.debtType != 'Gold' ? widget.debtCode : WalletLocalizationHelper.getLocalizedName(
+                            context,
+                            widget.debtCode,
+                            widget.debtType,
+                          )} (${widget.debts.length} ${l10n.debt}${l10n.english == 'English' && widget.debts.length > 1 ? 's' : ''})',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.title(context),
@@ -278,7 +287,11 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${l10n.amount}: ${debt.amount.toStringAsFixed(2)} ${widget.debtCode}',
+                            '${l10n.amount}: ${debt.amount.toStringAsFixed(2)} ${widget.debtType != 'Gold' ? widget.debtCode : WalletLocalizationHelper.getLocalizedName(
+                            context,
+                            widget.debtCode,
+                            widget.debtType,
+                          )}',
                             style: TextStyle(fontSize: 14.sp),
                           ),
                           if (debtTryValue != null) ...[
