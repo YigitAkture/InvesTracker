@@ -8,13 +8,17 @@ import 'package:inves_tracker/views/wallet/widgets/edit_asset_dialog.dart';
 
 class AssetAccordionItem extends StatefulWidget {
   final String assetCode;
+  final String assetType;
   final List<Asset> assets;
+  final double? tryValue; // TRY value per unit
   final VoidCallback onRefresh;
 
   const AssetAccordionItem({
     super.key,
     required this.assetCode,
+    required this.assetType,
     required this.assets,
+    this.tryValue,
     required this.onRefresh,
   });
 
@@ -28,6 +32,11 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
 
   double get _totalAmount {
     return widget.assets.fold(0.0, (sum, asset) => sum + asset.amount);
+  }
+
+  double? get _totalTryValue {
+    if (widget.tryValue == null) return null;
+    return _totalAmount * widget.tryValue!;
   }
 
   Future<void> _deleteAsset(Asset asset) async {
@@ -82,6 +91,76 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
     }
   }
 
+  Widget _buildIcon() {
+    switch (widget.assetType.toLowerCase()) {
+      case 'currency':
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(4.r),
+          child: Image.asset(
+            'assets/img/flags/${widget.assetCode.toLowerCase()}.png',
+            width: 40.w,
+            height: 40.h,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: 40.w,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  color: AppColors.primary(context).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
+                child: Icon(
+                  Icons.currency_exchange,
+                  size: 20.sp,
+                  color: AppColors.primary(context),
+                ),
+              );
+            },
+          ),
+        );
+      case 'crypto':
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(20.r),
+          child: Image.asset(
+            'assets/img/cryptos/${widget.assetCode.toLowerCase()}.png',
+            width: 40.w,
+            height: 40.h,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: 40.w,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  color: AppColors.primary(context).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Icon(
+                  Icons.currency_bitcoin,
+                  size: 20.sp,
+                  color: AppColors.primary(context),
+                ),
+              );
+            },
+          ),
+        );
+      case 'gold':
+      default:
+        return Container(
+          width: 40.w,
+          height: 40.h,
+          decoration: BoxDecoration(
+            color: AppColors.warning.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          child: Icon(
+            Icons.monetization_on,
+            size: 24.sp,
+            color: AppColors.warning,
+          ),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -108,25 +187,8 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
               padding: EdgeInsets.all(12.r),
               child: Row(
                 children: [
-                  // Asset Code/Icon
-                  Container(
-                    width: 40.w,
-                    height: 40.h,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary(context).withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Center(
-                      child: Text(
-                        widget.assetCode,
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.primary(context),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Asset Icon
+                  _buildIcon(),
                   SizedBox(width: 12.w),
                   
                   // Details
@@ -143,12 +205,23 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          'Total: ${_totalAmount.toStringAsFixed(2)}',
+                          '${_totalAmount.toStringAsFixed(2)} ${widget.assetCode}',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.title(context),
                           ),
                         ),
+                        if (_totalTryValue != null) ...[
+                          SizedBox(height: 2.h),
+                          Text(
+                            '≈ ${_totalTryValue!.toStringAsFixed(2)} TRY',
+                            style: TextStyle(
+                              fontSize: 11.sp,
+                              color: AppColors.success,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -168,6 +241,10 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
           // Expanded Content
           if (_isExpanded)
             ...widget.assets.map((asset) {
+              final assetTryValue = widget.tryValue != null 
+                  ? asset.amount * widget.tryValue! 
+                  : null;
+              
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 decoration: BoxDecoration(
@@ -185,17 +262,20 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${l10n.amount}: ${asset.amount.toStringAsFixed(2)}',
+                            '${l10n.amount}: ${asset.amount.toStringAsFixed(2)} ${widget.assetCode}',
                             style: TextStyle(fontSize: 14.sp),
                           ),
-                          SizedBox(height: 4.h),
-                          Text(
-                            '${l10n.purchasePrice}: ${asset.purchasePrice.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: AppColors.title(context),
+                          if (assetTryValue != null) ...[
+                            SizedBox(height: 4.h),
+                            Text(
+                              '≈ ${assetTryValue.toStringAsFixed(2)} TRY',
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                color: AppColors.success,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
+                          ],
                         ],
                       ),
                     ),

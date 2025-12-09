@@ -242,11 +242,11 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                             padding: EdgeInsets.symmetric(vertical: 8.h),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? AppColors.danger.withValues(alpha: 0.15)
+                                  ? AppColors.secondary(context).withValues(alpha: 0.15)
                                   : AppColors.background2(context),
                               borderRadius: BorderRadius.circular(8.r),
                               border: isSelected
-                                  ? Border.all(color: AppColors.danger, width: 2)
+                                  ? Border.all(color: AppColors.secondary(context), width: 2)
                                   : null,
                             ),
                             child: Text(
@@ -255,7 +255,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                                color: isSelected ? AppColors.danger : null,
+                                color: isSelected ? AppColors.secondary(context) : null,
                               ),
                             ),
                           ),
@@ -376,7 +376,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                       onPressed: () => setState(() => _selectedDueDate = null),
                       icon: Icon(Icons.clear, size: 16.sp),
                       label: Text(l10n.clearDueDate),
-                      style: TextButton.styleFrom(foregroundColor: AppColors.danger),
+                      style: TextButton.styleFrom(foregroundColor: AppColors.secondary(context)),
                     ),
                   ],
 
@@ -388,7 +388,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                     child: ElevatedButton(
                       onPressed: _isLoading ? null : _addDebt,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.danger,
+                        backgroundColor: AppColors.secondary(context),
                         foregroundColor: Colors.white,
                         padding: EdgeInsets.symmetric(vertical: 12.h),
                         shape: RoundedRectangleBorder(

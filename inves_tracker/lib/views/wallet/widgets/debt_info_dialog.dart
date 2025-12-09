@@ -139,7 +139,7 @@ class _DebtInfoItem extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                 decoration: BoxDecoration(
-                  color: AppColors.danger.withValues(alpha: 0.15),
+                  color: AppColors.secondary(context).withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(4.r),
                 ),
                 child: Text(
@@ -147,7 +147,7 @@ class _DebtInfoItem extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.danger,
+                    color: AppColors.secondary(context),
                   ),
                 ),
               ),
@@ -189,7 +189,7 @@ class _DebtInfoItem extends StatelessWidget {
           _InfoRow(
             icon: Icons.access_time,
             label: 'Created',
-            value: debt.createdAt.toString().substring(0, 10),
+            value: _dateFormat.format(debt.createdAt).toString().substring(0, 10),
           ),
         ],
       ),

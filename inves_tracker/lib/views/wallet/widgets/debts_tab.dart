@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
+import 'package:inves_tracker/core/services/market_service.dart';
+import 'package:inves_tracker/core/models/market_response.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/wallet/widgets/debt_accordion_item.dart';
 import 'package:inves_tracker/views/wallet/widgets/add_debt_box.dart';
@@ -18,26 +20,31 @@ class DebtsTab extends StatefulWidget {
 
 class _DebtsTabState extends State<DebtsTab> {
   final DebtService _debtService = DebtService();
+  final MarketService _marketService = MarketService();
   List<Debt> _debts = [];
+  MarketResponse? _marketData;
   bool _isLoading = true;
   bool _hasError = false;
 
   @override
   void initState() {
     super.initState();
-    _loadDebts();
+    _loadData();
   }
 
-  Future<void> _loadDebts() async {
+  Future<void> _loadData() async {
     setState(() {
       _isLoading = true;
       _hasError = false;
     });
 
     try {
-      final debts = await _debtService.getUserDebts(widget.userId);
+      final debtsResult = await _debtService.getUserDebts(widget.userId);
+      final marketResult = await _marketService.fetchMarketData();
+      
       setState(() {
-        _debts = debts;
+        _debts = debtsResult;
+        _marketData = marketResult;
         _isLoading = false;
       });
     } catch (e) {
@@ -57,6 +64,37 @@ class _DebtsTabState extends State<DebtsTab> {
       grouped[debt.debtCode]!.add(debt);
     }
     return grouped;
+  }
+
+  double? _getTryValue(String debtCode, String debtType) {
+    if (_marketData == null) return null;
+
+    switch (debtType.toLowerCase()) {
+      case 'currency':
+        if (debtCode == 'TRY') return 1.0;
+        final currency = _marketData!.currencies.firstWhere(
+          (c) => c.code == debtCode,
+          orElse: () => _marketData!.currencies.first,
+        );
+        return currency.buying;
+      
+      case 'gold':
+        final gold = _marketData!.golds.firstWhere(
+          (g) => g.code == debtCode,
+          orElse: () => _marketData!.golds.first,
+        );
+        return gold.selling;
+      
+      case 'crypto':
+        final crypto = _marketData!.cryptos.firstWhere(
+          (c) => c.code == debtCode,
+          orElse: () => _marketData!.cryptos.first,
+        );
+        return crypto.tryPrice;
+      
+      default:
+        return null;
+    }
   }
 
   @override
@@ -82,7 +120,7 @@ class _DebtsTabState extends State<DebtsTab> {
             ),
             SizedBox(height: 16.h),
             ElevatedButton(
-              onPressed: _loadDebts,
+              onPressed: _loadData,
               child: Text(l10n.retry),
             ),
           ],
@@ -93,7 +131,7 @@ class _DebtsTabState extends State<DebtsTab> {
     final groupedDebts = _groupDebtsByCode();
 
     return RefreshIndicator(
-      onRefresh: _loadDebts,
+      onRefresh: _loadData,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
@@ -102,7 +140,7 @@ class _DebtsTabState extends State<DebtsTab> {
             AddDebtBox(
               userId: widget.userId,
               currentDebtCount: _debts.length,
-              onDebtAdded: _loadDebts,
+              onDebtAdded: _loadData,
             ),
 
             SizedBox(height: 24.h),
@@ -121,10 +159,15 @@ class _DebtsTabState extends State<DebtsTab> {
               )
             else
               ...groupedDebts.entries.map((entry) {
+                final debtType = entry.value.first.debtType;
+                final tryValue = _getTryValue(entry.key, debtType);
+                
                 return DebtAccordionItem(
                   debtCode: entry.key,
+                  debtType: debtType,
                   debts: entry.value,
-                  onRefresh: _loadDebts,
+                  tryValue: tryValue,
+                  onRefresh: _loadData,
                 );
               }),
           ],

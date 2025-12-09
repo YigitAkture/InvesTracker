@@ -10,13 +10,17 @@ import 'package:inves_tracker/views/wallet/widgets/debt_info_dialog.dart';
 
 class DebtAccordionItem extends StatefulWidget {
   final String debtCode;
+  final String debtType;
   final List<Debt> debts;
+  final double? tryValue; // TRY value per unit
   final VoidCallback onRefresh;
 
   const DebtAccordionItem({
     super.key,
     required this.debtCode,
+    required this.debtType,
     required this.debts,
+    this.tryValue,
     required this.onRefresh,
   });
 
@@ -33,6 +37,11 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
     return widget.debts.fold(0.0, (sum, debt) => sum + debt.amount);
   }
 
+  double? get _totalTryValue {
+    if (widget.tryValue == null) return null;
+    return _totalAmount * widget.tryValue!;
+  }
+
   Future<void> _deleteDebt(Debt debt) async {
     final l10n = AppLocalizations.of(context)!;
     final confirm = await showDialog<bool>(
@@ -47,7 +56,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.danger),
+            style: TextButton.styleFrom(foregroundColor: AppColors.secondary(context)),
             child: Text(l10n.delete),
           ),
         ],
@@ -91,6 +100,76 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
     );
   }
 
+  Widget _buildIcon() {
+    switch (widget.debtType.toLowerCase()) {
+      case 'currency':
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(4.r),
+          child: Image.asset(
+            'assets/img/flags/${widget.debtCode.toLowerCase()}.png',
+            width: 40.w,
+            height: 40.h,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: 40.w,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  color: AppColors.secondary(context).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
+                child: Icon(
+                  Icons.currency_exchange,
+                  size: 20.sp,
+                  color: AppColors.secondary(context),
+                ),
+              );
+            },
+          ),
+        );
+      case 'crypto':
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(20.r),
+          child: Image.asset(
+            'assets/img/cryptos/${widget.debtCode.toLowerCase()}.png',
+            width: 40.w,
+            height: 40.h,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: 40.w,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  color: AppColors.secondary(context).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Icon(
+                  Icons.currency_bitcoin,
+                  size: 20.sp,
+                  color: AppColors.secondary(context),
+                ),
+              );
+            },
+          ),
+        );
+      case 'gold':
+      default:
+        return Container(
+          width: 40.w,
+          height: 40.h,
+          decoration: BoxDecoration(
+            color: AppColors.warning.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          child: Icon(
+            Icons.monetization_on,
+            size: 24.sp,
+            color: AppColors.warning,
+          ),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -117,25 +196,8 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
               padding: EdgeInsets.all(12.r),
               child: Row(
                 children: [
-                  // Debt Code/Icon
-                  Container(
-                    width: 40.w,
-                    height: 40.h,
-                    decoration: BoxDecoration(
-                      color: AppColors.danger.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Center(
-                      child: Text(
-                        widget.debtCode,
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.danger,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Debt Icon
+                  _buildIcon(),
                   SizedBox(width: 12.w),
                   
                   // Details
@@ -152,12 +214,23 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          'Total: ${_totalAmount.toStringAsFixed(2)} (${widget.debts.length} ${l10n.debt}${l10n.english == 'English' && widget.debts.length > 1 ? 's' : ''})',
+                          '${_totalAmount.toStringAsFixed(2)} ${widget.debtCode} (${widget.debts.length} ${l10n.debt}${l10n.english == 'English' && widget.debts.length > 1 ? 's' : ''})',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.title(context),
                           ),
                         ),
+                        if (_totalTryValue != null) ...[
+                          SizedBox(height: 2.h),
+                          Text(
+                            '≈ ${_totalTryValue!.toStringAsFixed(2)} TRY',
+                            style: TextStyle(
+                              fontSize: 11.sp,
+                              color: AppColors.secondary(context),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -184,6 +257,10 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
           // Expanded Content
           if (_isExpanded)
             ...widget.debts.map((debt) {
+              final debtTryValue = widget.tryValue != null 
+                  ? debt.amount * widget.tryValue! 
+                  : null;
+              
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 decoration: BoxDecoration(
@@ -201,9 +278,20 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${l10n.amount}: ${debt.amount.toStringAsFixed(2)}',
+                            '${l10n.amount}: ${debt.amount.toStringAsFixed(2)} ${widget.debtCode}',
                             style: TextStyle(fontSize: 14.sp),
                           ),
+                          if (debtTryValue != null) ...[
+                            SizedBox(height: 4.h),
+                            Text(
+                              '≈ ${debtTryValue.toStringAsFixed(2)} TRY',
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                color: AppColors.danger,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                           if (debt.note != null && debt.note!.isNotEmpty) ...[
                             SizedBox(height: 4.h),
                             Text(
@@ -219,7 +307,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                           if (debt.dueDate != null) ...[
                             SizedBox(height: 4.h),
                             Text(
-                              '${l10n.dueDate}: ${_dateFormat.format(debt.dueDate!).toString().substring(0, 10)}',
+                              '${l10n.dueDate}: ${_dateFormat.format(debt.dueDate!)}',
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: AppColors.warning,
@@ -241,7 +329,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                     IconButton(
                       onPressed: () => _deleteDebt(debt),
                       icon: Icon(Icons.delete, size: 20.sp),
-                      color: AppColors.danger,
+                      color: AppColors.secondary(context),
                     ),
                   ],
                 ),
