@@ -19,8 +19,9 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
-  String userId = '1bfe063c-1405-44c8-9e36-11dce55e96d0'; // TODO: This should come from auth/user management
-
+  String userId = '1BFE063C-1405-44C8-9E36-11DCE55E96D0'; // TODO: This should come from auth/user management
+ // B19984A6-481D-4B3A-9C3F-0080930477C9 Free test user
+ // 1BFE063C-1405-44C8-9E36-11DCE55E96D0 Premium test user
   List<Widget> get _screens => [
         const HomeScreen(),
         const MarketScreen(),

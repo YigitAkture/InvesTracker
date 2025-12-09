@@ -69,6 +69,17 @@ class _AddAssetBoxState extends State<AddAssetBox> {
     }
   }
 
+  String _getTypeApiName(ExchangeType type) {
+    switch (type) {
+      case ExchangeType.currency:
+        return 'Currency';
+      case ExchangeType.gold:
+        return 'Gold';
+      case ExchangeType.crypto:
+        return 'Crypto';
+    }
+  }
+
   Future<void> _addAsset() async {
     final l10n = AppLocalizations.of(context)!;
     if (_selectedCode == null) {
@@ -100,7 +111,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
     try {
       await _assetService.createAsset(
         widget.userId,
-        assetType: _getTypeName(_selectedType, l10n),
+        assetType: _getTypeApiName(_selectedType),
         assetCode: _selectedCode!,
         amount: amount,
         purchasePrice: purchasePrice,

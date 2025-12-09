@@ -71,6 +71,17 @@ class _AddDebtBoxState extends State<AddDebtBox> {
     }
   }
 
+  String _getTypeApiName(ExchangeType type) {
+    switch (type) {
+      case ExchangeType.currency:
+        return 'Currency';
+      case ExchangeType.gold:
+        return 'Gold';
+      case ExchangeType.crypto:
+        return 'Crypto';
+    }
+  }
+
   Future<void> _selectDueDate() async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -106,7 +117,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
     try {
       await _debtService.createDebt(
         widget.userId,
-        debtType: _getTypeName(_selectedType, l10n),
+        debtType: _getTypeApiName(_selectedType),
         debtCode: _selectedCode!,
         amount: amount,
         note: _noteController.text.isEmpty ? null : _noteController.text,
