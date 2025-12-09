@@ -37,6 +37,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
   String? _selectedCode;
   DateTime? _selectedDueDate;
   bool _isLoading = false;
+  bool _isExpanded = true;
 
   final Map<ExchangeType, List<String>> _codesByType = {
     ExchangeType.currency: [
@@ -176,7 +177,6 @@ class _AddDebtBoxState extends State<AddDebtBox> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
-      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: AppColors.foreground(context),
         borderRadius: BorderRadius.circular(16.r),
@@ -191,200 +191,229 @@ class _AddDebtBoxState extends State<AddDebtBox> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            l10n.addDebt,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: 16.h),
-
-          // Exchange Type Selector
-          Row(
-            children: ExchangeType.values.map((type) {
-              final isSelected = _selectedType == type;
-              return Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedType = type;
-                      _selectedCode = null;
-                    });
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(right: 8.w),
-                    padding: EdgeInsets.symmetric(vertical: 8.h),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? AppColors.danger.withValues(alpha: 0.15)
-                          : AppColors.background2(context),
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: isSelected
-                          ? Border.all(color: AppColors.danger, width: 2)
-                          : null,
-                    ),
+          // Header Row (Always Visible)
+          InkWell(
+            onTap: () => setState(() => _isExpanded = !_isExpanded),
+            borderRadius: BorderRadius.circular(16.r),
+            child: Padding(
+              padding: EdgeInsets.all(16.r),
+              child: Row(
+                children: [
+                  Expanded(
                     child: Text(
-                      _getTypeName(type, l10n),
-                      textAlign: TextAlign.center,
+                      l10n.addDebt,
                       style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                        color: isSelected ? AppColors.danger : null,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                ),
-              );
-            }).toList(),
+                  Icon(
+                    _isExpanded ? Icons.expand_less : Icons.expand_more,
+                    size: 24.sp,
+                  ),
+                ],
+              ),
+            ),
           ),
 
-          SizedBox(height: 12.h),
+          // Collapsible Content
+          if (_isExpanded) ...[
+            Divider(height: 1, color: AppColors.background2(context)),
+            Padding(
+              padding: EdgeInsets.all(16.r),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Exchange Type Selector
+                  Row(
+                    children: ExchangeType.values.map((type) {
+                      final isSelected = _selectedType == type;
+                      return Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedType = type;
+                              _selectedCode = null;
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 8.w),
+                            padding: EdgeInsets.symmetric(vertical: 8.h),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? AppColors.danger.withValues(alpha: 0.15)
+                                  : AppColors.background2(context),
+                              borderRadius: BorderRadius.circular(8.r),
+                              border: isSelected
+                                  ? Border.all(color: AppColors.danger, width: 2)
+                                  : null,
+                            ),
+                            child: Text(
+                              _getTypeName(type, l10n),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                                color: isSelected ? AppColors.danger : null,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
 
-          // Code Dropdown
-          Theme(
-            data: Theme.of(context).copyWith(
-              canvasColor: AppColors.background2(context), // background of dropdown
-            ),
-            child: DropdownButtonFormField<String>(
-              initialValue: _selectedCode,
-              alignment: Alignment.centerLeft,
-              dropdownColor: AppColors.background2(context), // extra safety
-              menuMaxHeight: 450.h,
-              borderRadius: BorderRadius.circular(12.r),
-              items: _codesByType[_selectedType]!.map((code) {
-                return DropdownMenuItem<String>(
-                  value: code,
-                  child: IntrinsicWidth(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (_selectedType == ExchangeType.currency)
-                          CurrencyDropdown(code: code)
-                        else if (_selectedType == ExchangeType.gold)
-                          GoldDropdown(code: code)
-                        else
-                          CryptoDropdown(code: code),
-                      ],
+                  SizedBox(height: 12.h),
+
+                  // Code Dropdown
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      canvasColor: AppColors.background2(context),
+                    ),
+                    child: DropdownButtonFormField<String>(
+                      value: _selectedCode,
+                      alignment: Alignment.centerLeft,
+                      dropdownColor: AppColors.background2(context),
+                      menuMaxHeight: 450.h,
+                      borderRadius: BorderRadius.circular(12.r),
+                      items: _codesByType[_selectedType]!.map((code) {
+                        return DropdownMenuItem<String>(
+                          value: code,
+                          child: IntrinsicWidth(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (_selectedType == ExchangeType.currency)
+                                  CurrencyDropdown(code: code)
+                                else if (_selectedType == ExchangeType.gold)
+                                  GoldDropdown(code: code)
+                                else
+                                  CryptoDropdown(code: code),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
+
+                      decoration: InputDecoration(
+                        labelText: _getTypeName(_selectedType, l10n),
+                        filled: true,
+                        fillColor: AppColors.background2(context),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                      ),
+
+                      onChanged: (value) => setState(() => _selectedCode = value),
                     ),
                   ),
-                );
-              }).toList(),
+                  SizedBox(height: 12.h),
 
-              decoration: InputDecoration(
-                labelText: _getTypeName(_selectedType, l10n),
-                filled: true,
-                fillColor: AppColors.background2(context),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
+                  // Amount Input
+                  TextField(
+                    controller: _amountController,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    ],
+                    decoration: InputDecoration(
+                      labelText: l10n.amount,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      filled: true,
+                      fillColor: AppColors.background2(context),
+                    ),
+                  ),
+
+                  SizedBox(height: 12.h),
+
+                  // Note Input (Optional)
+                  TextField(
+                    controller: _noteController,
+                    maxLines: 2,
+                    decoration: InputDecoration(
+                      labelText: l10n.noteOptional,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      filled: true,
+                      fillColor: AppColors.background2(context),
+                    ),
+                  ),
+
+                  SizedBox(height: 12.h),
+
+                  // Due Date Selector (Optional)
+                  InkWell(
+                    onTap: _selectDueDate,
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        labelText: l10n.dueDateOptional,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        filled: true,
+                        fillColor: AppColors.background2(context),
+                        suffixIcon: Icon(Icons.calendar_today),
+                      ),
+                      child: Text(
+                        _selectedDueDate != null
+                            ? _dateFormat.format(_selectedDueDate!)
+                            : l10n.selectDate,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: _selectedDueDate != null ? null : Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  if (_selectedDueDate != null) ...[
+                    SizedBox(height: 8.h),
+                    TextButton.icon(
+                      onPressed: () => setState(() => _selectedDueDate = null),
+                      icon: Icon(Icons.clear, size: 16.sp),
+                      label: Text(l10n.clearDueDate),
+                      style: TextButton.styleFrom(foregroundColor: AppColors.danger),
+                    ),
+                  ],
+
+                  SizedBox(height: 16.h),
+
+                  // Add Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _isLoading ? null : _addDebt,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.danger,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      ),
+                      child: _isLoading
+                          ? SizedBox(
+                              width: 20.w,
+                              height: 20.h,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              l10n.addDebt,
+                              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+                            ),
+                    ),
+                  ),
+                ],
               ),
-
-              onChanged: (value) => setState(() => _selectedCode = value),
-            ),
-          ),
-          SizedBox(height: 12.h),
-
-          // Amount Input
-          TextField(
-            controller: _amountController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-            ],
-            decoration: InputDecoration(
-              labelText: l10n.amount,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              filled: true,
-              fillColor: AppColors.background2(context),
-            ),
-          ),
-
-          SizedBox(height: 12.h),
-
-          // Note Input (Optional)
-          TextField(
-            controller: _noteController,
-            maxLines: 2,
-            decoration: InputDecoration(
-              labelText: l10n.noteOptional,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              filled: true,
-              fillColor: AppColors.background2(context),
-            ),
-          ),
-
-          SizedBox(height: 12.h),
-
-          // Due Date Selector (Optional)
-          InkWell(
-            onTap: _selectDueDate,
-            child: InputDecorator(
-              decoration: InputDecoration(
-                labelText: l10n.dueDateOptional,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                filled: true,
-                fillColor: AppColors.background2(context),
-                suffixIcon: Icon(Icons.calendar_today),
-              ),
-              child: Text(
-                _selectedDueDate != null
-                    ? _dateFormat.format(_selectedDueDate!)
-                    : l10n.selectDate,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: _selectedDueDate != null ? null : Colors.grey,
-                ),
-              ),
-            ),
-          ),
-
-          if (_selectedDueDate != null) ...[
-            SizedBox(height: 8.h),
-            TextButton.icon(
-              onPressed: () => setState(() => _selectedDueDate = null),
-              icon: Icon(Icons.clear, size: 16.sp),
-              label: Text(l10n.clearDueDate),
-              style: TextButton.styleFrom(foregroundColor: AppColors.danger),
             ),
           ],
-
-          SizedBox(height: 16.h),
-
-          // Add Button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _isLoading ? null : _addDebt,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.danger,
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-              ),
-              child: _isLoading
-                  ? SizedBox(
-                      width: 20.w,
-                      height: 20.h,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : Text(
-                      l10n.addDebt,
-                      style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
-                    ),
-            ),
-          ),
         ],
       ),
     );

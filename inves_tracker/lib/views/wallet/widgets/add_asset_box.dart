@@ -32,6 +32,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
   ExchangeType _selectedType = ExchangeType.currency;
   String? _selectedCode;
   bool _isLoading = false;
+  bool _isExpanded = true;
 
   // Define available codes for each type
   final Map<ExchangeType, List<String>> _codesByType = {
@@ -137,7 +138,6 @@ class _AddAssetBoxState extends State<AddAssetBox> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
-      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: AppColors.foreground(context),
         borderRadius: BorderRadius.circular(16.r),
@@ -152,147 +152,176 @@ class _AddAssetBoxState extends State<AddAssetBox> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            l10n.addAsset,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: 16.h),
-
-          // Exchange Type Selector
-          Row(
-            children: ExchangeType.values.map((type) {
-              final isSelected = _selectedType == type;
-              return Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedType = type;
-                      _selectedCode = null;
-                    });
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(right: 8.w),
-                    padding: EdgeInsets.symmetric(vertical: 8.h),
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? AppColors.primary(context).withValues(alpha: 0.15)
-                          : AppColors.background2(context),
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: isSelected
-                          ? Border.all(color: AppColors.primary(context), width: 2)
-                          : null,
-                    ),
+          // Header Row (Always Visible)
+          InkWell(
+            onTap: () => setState(() => _isExpanded = !_isExpanded),
+            borderRadius: BorderRadius.circular(16.r),
+            child: Padding(
+              padding: EdgeInsets.all(16.r),
+              child: Row(
+                children: [
+                  Expanded(
                     child: Text(
-                      _getTypeName(type, l10n),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                        color: isSelected ? AppColors.primary(context) : null,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-
-          SizedBox(height: 12.h),
-
-          // Code Dropdown
-          Theme(
-            data: Theme.of(context).copyWith(
-              canvasColor: AppColors.background2(context), // background of dropdown
-            ),
-            child: DropdownButtonFormField<String>(
-              initialValue: _selectedCode,
-              alignment: Alignment.centerLeft,
-              dropdownColor: AppColors.background2(context), // extra safety
-              menuMaxHeight: 450.h,
-              borderRadius: BorderRadius.circular(12.r),
-              items: _codesByType[_selectedType]!.map((code) {
-                return DropdownMenuItem<String>(
-                  value: code,
-                  child: IntrinsicWidth(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (_selectedType == ExchangeType.currency)
-                          CurrencyDropdown(code: code)
-                        else if (_selectedType == ExchangeType.gold)
-                          GoldDropdown(code: code)
-                        else
-                          CryptoDropdown(code: code),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
-
-              decoration: InputDecoration(
-                labelText: _getTypeName(_selectedType, l10n),
-                filled: true,
-                fillColor: AppColors.background2(context),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-              ),
-
-              onChanged: (value) => setState(() => _selectedCode = value),
-            ),
-          ),
-          SizedBox(height: 12.h),
-
-          // Amount Input
-          TextField(
-            controller: _amountController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-            ],
-            decoration: InputDecoration(
-              labelText: l10n.amount,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              filled: true,
-              fillColor: AppColors.background2(context),
-            ),
-          ),
-
-          SizedBox(height: 16.h),
-
-          // Add Button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _isLoading ? null : _addAsset,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary(context),
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-              ),
-              child: _isLoading
-                  ? SizedBox(
-                      width: 20.w,
-                      height: 20.h,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : Text(
                       l10n.addAsset,
-                      style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
+                  ),
+                  Icon(
+                    _isExpanded ? Icons.expand_less : Icons.expand_more,
+                    size: 24.sp,
+                  ),
+                ],
+              ),
             ),
           ),
+
+          // Collapsible Content
+          if (_isExpanded) ...[
+            Divider(height: 1, color: AppColors.background2(context)),
+            Padding(
+              padding: EdgeInsets.all(16.r),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Exchange Type Selector
+                  Row(
+                    children: ExchangeType.values.map((type) {
+                      final isSelected = _selectedType == type;
+                      return Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedType = type;
+                              _selectedCode = null;
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 8.w),
+                            padding: EdgeInsets.symmetric(vertical: 8.h),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? AppColors.primary(context).withValues(alpha: 0.15)
+                                  : AppColors.background2(context),
+                              borderRadius: BorderRadius.circular(8.r),
+                              border: isSelected
+                                  ? Border.all(color: AppColors.primary(context), width: 2)
+                                  : null,
+                            ),
+                            child: Text(
+                              _getTypeName(type, l10n),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                                color: isSelected ? AppColors.primary(context) : null,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+
+                  SizedBox(height: 12.h),
+
+                  // Code Dropdown
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      canvasColor: AppColors.background2(context),
+                    ),
+                    child: DropdownButtonFormField<String>(
+                      value: _selectedCode,
+                      alignment: Alignment.centerLeft,
+                      dropdownColor: AppColors.background2(context),
+                      menuMaxHeight: 450.h,
+                      borderRadius: BorderRadius.circular(12.r),
+                      items: _codesByType[_selectedType]!.map((code) {
+                        return DropdownMenuItem<String>(
+                          value: code,
+                          child: IntrinsicWidth(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (_selectedType == ExchangeType.currency)
+                                  CurrencyDropdown(code: code)
+                                else if (_selectedType == ExchangeType.gold)
+                                  GoldDropdown(code: code)
+                                else
+                                  CryptoDropdown(code: code),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
+
+                      decoration: InputDecoration(
+                        labelText: _getTypeName(_selectedType, l10n),
+                        filled: true,
+                        fillColor: AppColors.background2(context),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                      ),
+
+                      onChanged: (value) => setState(() => _selectedCode = value),
+                    ),
+                  ),
+                  SizedBox(height: 12.h),
+
+                  // Amount Input
+                  TextField(
+                    controller: _amountController,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    ],
+                    decoration: InputDecoration(
+                      labelText: l10n.amount,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      filled: true,
+                      fillColor: AppColors.background2(context),
+                    ),
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  // Add Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _isLoading ? null : _addAsset,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary(context),
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      ),
+                      child: _isLoading
+                          ? SizedBox(
+                              width: 20.w,
+                              height: 20.h,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              l10n.addAsset,
+                              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ],
       ),
     );
