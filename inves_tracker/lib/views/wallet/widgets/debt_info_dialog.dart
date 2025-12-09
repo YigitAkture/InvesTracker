@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/debt.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 
 class DebtInfoDialog extends StatelessWidget {
   final List<Debt> debts;
@@ -10,6 +11,7 @@ class DebtInfoDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.r),
@@ -35,7 +37,7 @@ class DebtInfoDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Debt Details - ${debts.first.debtCode}',
+                    '${l10n.debtDetails} - ${debts.first.debtCode}',
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
@@ -82,7 +84,7 @@ class DebtInfoDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Total Debt:',
+                    '${l10n.totalDebt}:',
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
@@ -114,6 +116,7 @@ class _DebtInfoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
@@ -138,7 +141,7 @@ class _DebtInfoItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4.r),
                 ),
                 child: Text(
-                  'Debt #${index + 1}',
+                  '${l10n.debt} #${index + 1}',
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
@@ -163,7 +166,7 @@ class _DebtInfoItem extends StatelessWidget {
           if (debt.note != null && debt.note!.isNotEmpty) ...[
             _InfoRow(
               icon: Icons.note_outlined,
-              label: 'Note',
+              label: l10n.note,
               value: debt.note!,
             ),
             SizedBox(height: 8.h),
@@ -173,7 +176,7 @@ class _DebtInfoItem extends StatelessWidget {
           if (debt.dueDate != null) ...[
             _InfoRow(
               icon: Icons.calendar_today_outlined,
-              label: 'Due Date',
+              label: l10n.dueDate,
               value: debt.dueDate!.toString().substring(0, 10),
               valueColor: AppColors.warning,
             ),
@@ -183,7 +186,7 @@ class _DebtInfoItem extends StatelessWidget {
           // Created Date
           _InfoRow(
             icon: Icons.access_time,
-            label: 'Created',
+            label: l10n.created,
             value: debt.createdAt.toString().substring(0, 10),
           ),
         ],

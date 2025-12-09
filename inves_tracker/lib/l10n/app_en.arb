@@ -12,6 +12,8 @@
   "selling": "Selling",
   "gold": "Gold",
   "updated": "Updated",
+  "debt": "debt",
+  "asset": "asset",
   "loadingMarketData": "Loading market data...",
   "failedToLoadMarketData": "Failed to load market data",
   "retry": "Retry",
@@ -98,6 +100,10 @@
   "debtUpdated": "Debt updated successfully",
   "failedToDeleteAsset": "Failed to delete asset",
   "failedToDeleteDebt": "Failed to delete debt",
+  "failedToAddAsset": "Failed to add asset",
+  "failedToAddDebt": "Failed to add debt",
+  "failedToUpdateAsset": "Failed to update asset",
+  "failedToUpdateDebt": "Failed to update debt",
   "subscriptionRequired": "Premium subscription required to add more debts",
   "debtLimitReached": "Free users can only have 1 debt",
   "cancel": "Cancel",
@@ -105,5 +111,11 @@
   "delete": "Delete",
   "created": "Created",
   "totalDebt": "Total Debt",
-  "pleaseSelectCode": "Please select a code"
+  "pleaseSelectCode": "Please select a code",
+  "enterValidAmount": "Please enter a valid amount",
+  "noteOptional": "Note (Optional)",
+  "dueDateOptional": "Due Date (Optional)",
+  "clearDueDate": "Clear due date",
+  "selectDate": "Select date",
+  "freeUsersCanOnlyHaveOneDebt": "Free users can only have 1 debt record. Please upgrade to Premium to add unlimited debts."
 }

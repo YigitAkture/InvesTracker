@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 
 enum ExchangeType { currency, gold, crypto }
 
@@ -43,8 +44,12 @@ class _AddDebtBoxState extends State<AddDebtBox> {
       '14AYARALTIN', '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN'
     ],
     ExchangeType.crypto: [
-      'BTC', 'ETH', 'USDT', 'XRP', 'BNB', 'SOL', 'USDC', 'ADA',
-      'DOGE', 'TRX', 'SHIB', 'DOT', 'UNI', 'LTC', 'XMR', 'NEAR'
+      'BTC', 'ETH', 'USDT', 'XRP', 'BNB', 'SOL', 'USDC', 'STETH',
+      'DOGE', 'TRX', 'ADA', 'SHIB', 'WSTETH', 'WBTC', 'HYPE', 'TON',
+      'LINK', 'BCH', 'AVAX', 'XLM', 'SUI', 'DOT', 'UNI',
+      'ZEC', 'LTC', 'XMR', 'CRO', 'NEAR', 'WETH', 'LEO',
+      'MNT', 'PYUSD', 'USDS', 'USDE', 'M', 'CBBTC', 'WEETH',
+      'SUSDE', 'SUSDS', 'TAO', 'WBETH', 'CC'
     ],
   };
 
@@ -55,14 +60,14 @@ class _AddDebtBoxState extends State<AddDebtBox> {
     super.dispose();
   }
 
-  String _getTypeName(ExchangeType type) {
+  String _getTypeName(ExchangeType type, AppLocalizations l10n) {
     switch (type) {
       case ExchangeType.currency:
-        return 'Currency';
+        return l10n.currency;
       case ExchangeType.gold:
-        return 'Gold';
+        return l10n.gold;
       case ExchangeType.crypto:
-        return 'Crypto';
+        return l10n.crypto;
     }
   }
 
@@ -79,9 +84,10 @@ class _AddDebtBoxState extends State<AddDebtBox> {
   }
 
   Future<void> _addDebt() async {
+    final l10n = AppLocalizations.of(context)!;
     if (_selectedCode == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a code')),
+        SnackBar(content: Text(l10n.pleaseSelectCode)),
       );
       return;
     }
@@ -90,7 +96,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid amount')),
+        SnackBar(content: Text(l10n.enterValidAmount)),
       );
       return;
     }
@@ -100,7 +106,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
     try {
       await _debtService.createDebt(
         widget.userId,
-        debtType: _getTypeName(_selectedType),
+        debtType: _getTypeName(_selectedType, l10n),
         debtCode: _selectedCode!,
         amount: amount,
         note: _noteController.text.isEmpty ? null : _noteController.text,
@@ -117,7 +123,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
         });
         widget.onDebtAdded();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Debt added successfully')),
+          SnackBar(content: Text(l10n.debtAdded)),
         );
       }
     } catch (e) {
@@ -129,9 +135,9 @@ class _AddDebtBoxState extends State<AddDebtBox> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Subscription Required'),
+              title: Text(l10n.subscriptionRequired),
               content: Text(
-                'Free users can only have 1 debt. Please upgrade to Premium to add unlimited debts.',
+                l10n.freeUsersCanOnlyHaveOneDebt,
               ),
               actions: [
                 TextButton(
@@ -152,6 +158,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
@@ -169,7 +176,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Add New Debt',
+            l10n.addDebt,
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
@@ -202,7 +209,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                           : null,
                     ),
                     child: Text(
-                      _getTypeName(type),
+                      _getTypeName(type, l10n),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12.sp,
@@ -220,9 +227,9 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
           // Code Dropdown
           DropdownButtonFormField<String>(
-            value: _selectedCode,
+            initialValue: _selectedCode,
             decoration: InputDecoration(
-              labelText: 'Select ${_getTypeName(_selectedType)}',
+              labelText: _getTypeName(_selectedType, l10n),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
@@ -245,7 +252,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
               FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
             ],
             decoration: InputDecoration(
-              labelText: 'Amount',
+              labelText: l10n.amount,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
@@ -261,7 +268,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
             controller: _noteController,
             maxLines: 2,
             decoration: InputDecoration(
-              labelText: 'Note (Optional)',
+              labelText: l10n.noteOptional,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
@@ -277,7 +284,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
             onTap: _selectDueDate,
             child: InputDecorator(
               decoration: InputDecoration(
-                labelText: 'Due Date (Optional)',
+                labelText: l10n.dueDateOptional,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
@@ -288,7 +295,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
               child: Text(
                 _selectedDueDate != null
                     ? _selectedDueDate!.toString().substring(0, 10)
-                    : 'Select date',
+                    : l10n.selectDate,
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: _selectedDueDate != null ? null : Colors.grey,
@@ -302,7 +309,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
             TextButton.icon(
               onPressed: () => setState(() => _selectedDueDate = null),
               icon: Icon(Icons.clear, size: 16.sp),
-              label: Text('Clear due date'),
+              label: Text(l10n.clearDueDate),
               style: TextButton.styleFrom(foregroundColor: AppColors.danger),
             ),
           ],
@@ -332,7 +339,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                       ),
                     )
                   : Text(
-                      'Add Debt',
+                      l10n.addDebt,
                       style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
                     ),
             ),

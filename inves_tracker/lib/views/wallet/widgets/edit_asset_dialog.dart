@@ -33,11 +33,12 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
   }
 
   Future<void> _updateAsset() async {
+    final l10n = AppLocalizations.of(context)!;
     final amount = double.tryParse(_amountController.text);
     
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid amount')),
+        SnackBar(content: Text(l10n.enterValidAmount)),
       );
       return;
     }
@@ -49,14 +50,14 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
       if (mounted) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Asset updated successfully')),
+          SnackBar(content: Text(l10n.assetUpdated)),
         );
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update asset: $e')),
+          SnackBar(content: Text('${l10n.failedToUpdateAsset}: $e')),
         );
       }
     }
@@ -65,15 +66,14 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-
     return AlertDialog(
-      title: Text('Edit Asset'),
+      title: Text(l10n.editAsset),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${widget.asset.assetCode}',
+            widget.asset.assetCode,
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
@@ -88,7 +88,7 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
               FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
             ],
             decoration: InputDecoration(
-              labelText: 'Amount',
+              labelText: l10n.amount,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
@@ -101,7 +101,7 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
       actions: [
         TextButton(
           onPressed: _isLoading ? null : () => Navigator.pop(context, false),
-          child: Text('Cancel'),
+          child: Text(l10n.cancel),
         ),
         ElevatedButton(
           onPressed: _isLoading ? null : _updateAsset,
@@ -118,7 +118,7 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
                     color: Colors.white,
                   ),
                 )
-              : Text('Update'),
+              : Text(l10n.update),
         ),
       ],
     );

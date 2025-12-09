@@ -42,8 +42,12 @@ class _AddAssetBoxState extends State<AddAssetBox> {
       '14AYARALTIN', '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN'
     ],
     ExchangeType.crypto: [
-      'BTC', 'ETH', 'USDT', 'XRP', 'BNB', 'SOL', 'USDC', 'ADA',
-      'DOGE', 'TRX', 'SHIB', 'DOT', 'UNI', 'LTC', 'XMR', 'NEAR'
+      'BTC', 'ETH', 'USDT', 'XRP', 'BNB', 'SOL', 'USDC', 'STETH',
+      'DOGE', 'TRX', 'ADA', 'SHIB', 'WSTETH', 'WBTC', 'HYPE', 'TON',
+      'LINK', 'BCH', 'AVAX', 'XLM', 'SUI', 'DOT', 'UNI',
+      'ZEC', 'LTC', 'XMR', 'CRO', 'NEAR', 'WETH', 'LEO',
+      'MNT', 'PYUSD', 'USDS', 'USDE', 'M', 'CBBTC', 'WEETH',
+      'SUSDE', 'SUSDS', 'TAO', 'WBETH', 'CC'
     ],
   };
 
@@ -79,7 +83,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
 
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid amount')),
+        SnackBar(content: Text(l10n.enterValidAmount)),
       );
       return;
     }
@@ -111,14 +115,14 @@ class _AddAssetBoxState extends State<AddAssetBox> {
         });
         widget.onAssetAdded();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Asset added successfully')),
+          SnackBar(content: Text(l10n.assetAdded)),
         );
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to add asset: $e')),
+          SnackBar(content: Text('${l10n.failedToAddAsset}: $e')),
         );
       }
     }
@@ -144,7 +148,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Add New Asset',
+            l10n.addAsset,
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
@@ -197,7 +201,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
           DropdownButtonFormField<String>(
             initialValue: _selectedCode,
             decoration: InputDecoration(
-              labelText: 'Select ${_getTypeName(_selectedType, l10n)}',
+              labelText: _getTypeName(_selectedType, l10n),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
@@ -220,7 +224,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
               FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
             ],
             decoration: InputDecoration(
-              labelText: 'Amount',
+              labelText: l10n.amount,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
@@ -273,7 +277,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
                       ),
                     )
                   : Text(
-                      'Add Asset',
+                      l10n.addAsset,
                       style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
                     ),
             ),

@@ -45,6 +45,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get updated => 'Updated';
 
   @override
+  String get debt => 'debt';
+
+  @override
+  String get asset => 'asset';
+
+  @override
   String get loadingMarketData => 'Loading market data...';
 
   @override
@@ -304,6 +310,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get failedToDeleteDebt => 'Failed to delete debt';
 
   @override
+  String get failedToAddAsset => 'Failed to add asset';
+
+  @override
+  String get failedToAddDebt => 'Failed to add debt';
+
+  @override
+  String get failedToUpdateAsset => 'Failed to update asset';
+
+  @override
+  String get failedToUpdateDebt => 'Failed to update debt';
+
+  @override
   String get subscriptionRequired =>
       'Premium subscription required to add more debts';
 
@@ -327,4 +345,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseSelectCode => 'Please select a code';
+
+  @override
+  String get enterValidAmount => 'Please enter a valid amount';
+
+  @override
+  String get noteOptional => 'Note (Optional)';
+
+  @override
+  String get dueDateOptional => 'Due Date (Optional)';
+
+  @override
+  String get clearDueDate => 'Clear due date';
+
+  @override
+  String get selectDate => 'Select date';
+
+  @override
+  String get freeUsersCanOnlyHaveOneDebt =>
+      'Free users can only have 1 debt record. Please upgrade to Premium to add unlimited debts.';
 }

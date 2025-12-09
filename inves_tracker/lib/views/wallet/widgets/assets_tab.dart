@@ -103,7 +103,7 @@ class _AssetsTabState extends State<AssetsTab> {
               Padding(
                 padding: EdgeInsets.all(24.r),
                 child: Text(
-                  'No assets yet',
+                  l10n.noAssetsYet,
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: AppColors.title(context),

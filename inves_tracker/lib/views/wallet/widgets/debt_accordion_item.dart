@@ -32,20 +32,21 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
   }
 
   Future<void> _deleteDebt(Debt debt) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete Debt'),
-        content: Text('Are you sure you want to delete this debt?'),
+        title: Text(l10n.deleteDebt),
+        content: Text(l10n.confirmDeleteDebt),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(foregroundColor: AppColors.danger),
-            child: Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -57,13 +58,13 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
         widget.onRefresh();
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Debt deleted successfully')),
+            SnackBar(content: Text(l10n.debtDeleted)),
           );
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to delete debt')),
+            SnackBar(content: Text(l10n.failedToDeleteDebt)),
           );
         }
       }
@@ -90,6 +91,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       margin: EdgeInsets.only(bottom: 8.h),
       decoration: BoxDecoration(
@@ -148,7 +150,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          'Total: ${_totalAmount.toStringAsFixed(2)} (${widget.debts.length} debt${widget.debts.length > 1 ? 's' : ''})',
+                          'Total: ${_totalAmount.toStringAsFixed(2)} (${widget.debts.length} ${l10n.debt}${l10n.english == 'English' && widget.debts.length > 1 ? 's' : ''})',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.title(context),
@@ -197,13 +199,13 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Amount: ${debt.amount.toStringAsFixed(2)}',
+                            '${l10n.amount}: ${debt.amount.toStringAsFixed(2)}',
                             style: TextStyle(fontSize: 14.sp),
                           ),
                           if (debt.note != null && debt.note!.isNotEmpty) ...[
                             SizedBox(height: 4.h),
                             Text(
-                              'Note: ${debt.note}',
+                              '${l10n.note}: ${debt.note}',
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: AppColors.title(context),
@@ -215,7 +217,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                           if (debt.dueDate != null) ...[
                             SizedBox(height: 4.h),
                             Text(
-                              'Due: ${debt.dueDate!.toString().substring(0, 10)}',
+                              '${l10n.dueDate}: ${debt.dueDate!.toString().substring(0, 10)}',
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: AppColors.warning,

@@ -170,6 +170,18 @@ abstract class AppLocalizations {
   /// **'Updated'**
   String get updated;
 
+  /// No description provided for @debt.
+  ///
+  /// In en, this message translates to:
+  /// **'debt'**
+  String get debt;
+
+  /// No description provided for @asset.
+  ///
+  /// In en, this message translates to:
+  /// **'asset'**
+  String get asset;
+
   /// No description provided for @loadingMarketData.
   ///
   /// In en, this message translates to:
@@ -686,6 +698,30 @@ abstract class AppLocalizations {
   /// **'Failed to delete debt'**
   String get failedToDeleteDebt;
 
+  /// No description provided for @failedToAddAsset.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add asset'**
+  String get failedToAddAsset;
+
+  /// No description provided for @failedToAddDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add debt'**
+  String get failedToAddDebt;
+
+  /// No description provided for @failedToUpdateAsset.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update asset'**
+  String get failedToUpdateAsset;
+
+  /// No description provided for @failedToUpdateDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update debt'**
+  String get failedToUpdateDebt;
+
   /// No description provided for @subscriptionRequired.
   ///
   /// In en, this message translates to:
@@ -733,6 +769,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please select a code'**
   String get pleaseSelectCode;
+
+  /// No description provided for @enterValidAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid amount'**
+  String get enterValidAmount;
+
+  /// No description provided for @noteOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (Optional)'**
+  String get noteOptional;
+
+  /// No description provided for @dueDateOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Due Date (Optional)'**
+  String get dueDateOptional;
+
+  /// No description provided for @clearDueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear due date'**
+  String get clearDueDate;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date'**
+  String get selectDate;
+
+  /// No description provided for @freeUsersCanOnlyHaveOneDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Free users can only have 1 debt record. Please upgrade to Premium to add unlimited debts.'**
+  String get freeUsersCanOnlyHaveOneDebt;
 }
 
 class _AppLocalizationsDelegate

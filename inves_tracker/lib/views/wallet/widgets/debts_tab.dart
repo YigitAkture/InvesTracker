@@ -103,7 +103,7 @@ class _DebtsTabState extends State<DebtsTab> {
               Padding(
                 padding: EdgeInsets.all(24.r),
                 child: Text(
-                  'No debts yet',
+                  l10n.noDebtsYet,
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: AppColors.title(context),

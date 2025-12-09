@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 
 class EditDebtDialog extends StatefulWidget {
   final Debt debt;
@@ -49,11 +50,12 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
   }
 
   Future<void> _updateDebt() async {
+    final l10n = AppLocalizations.of(context)!;
     final amount = double.tryParse(_amountController.text);
     
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid amount')),
+        SnackBar(content: Text(l10n.enterValidAmount)),
       );
       return;
     }
@@ -71,14 +73,14 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
       if (mounted) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Debt updated successfully')),
+          SnackBar(content: Text(l10n.debtUpdated)),
         );
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update debt: $e')),
+          SnackBar(content: Text('${l10n.failedToUpdateDebt}: $e')),
         );
       }
     }
@@ -86,15 +88,16 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AlertDialog(
-      title: Text('Edit Debt'),
+      title: Text(l10n.editDebt),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${widget.debt.debtCode}',
+              widget.debt.debtCode,
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
@@ -111,7 +114,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
                 FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
               ],
               decoration: InputDecoration(
-                labelText: 'Amount',
+                labelText: l10n.amount,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
@@ -126,7 +129,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
               controller: _noteController,
               maxLines: 3,
               decoration: InputDecoration(
-                labelText: 'Note (Optional)',
+                labelText: l10n.noteOptional,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                 ),
@@ -141,7 +144,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
               onTap: _selectDueDate,
               child: InputDecorator(
                 decoration: InputDecoration(
-                  labelText: 'Due Date (Optional)',
+                  labelText: l10n.dueDateOptional,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.r),
                   ),
@@ -152,7 +155,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
                 child: Text(
                   _selectedDueDate != null
                       ? _selectedDueDate!.toString().substring(0, 10)
-                      : 'Select date',
+                      : l10n.selectDate,
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: _selectedDueDate != null ? null : Colors.grey,
@@ -166,7 +169,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
               TextButton.icon(
                 onPressed: () => setState(() => _selectedDueDate = null),
                 icon: Icon(Icons.clear, size: 16.sp),
-                label: Text('Clear due date'),
+                label: Text(l10n.clearDueDate),
                 style: TextButton.styleFrom(foregroundColor: AppColors.danger),
               ),
             ],
@@ -176,7 +179,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
       actions: [
         TextButton(
           onPressed: _isLoading ? null : () => Navigator.pop(context, false),
-          child: Text('Cancel'),
+          child: Text(l10n.cancel),
         ),
         ElevatedButton(
           onPressed: _isLoading ? null : _updateDebt,
@@ -193,7 +196,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
                     color: Colors.white,
                   ),
                 )
-              : Text('Update'),
+              : Text(l10n.update),
         ),
       ],
     );

@@ -45,6 +45,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get updated => 'Güncellendi';
 
   @override
+  String get debt => 'borç';
+
+  @override
+  String get asset => 'varlık';
+
+  @override
   String get loadingMarketData => 'Piyasa verileri yükleniyor...';
 
   @override
@@ -299,10 +305,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get debtUpdated => 'Borç başarıyla güncellendi';
 
   @override
-  String get failedToDeleteAsset => 'Varlık silinemedi';
+  String get failedToDeleteAsset => 'Varlık silinirken bir hata oluştu';
 
   @override
-  String get failedToDeleteDebt => 'Borç silinemedi';
+  String get failedToDeleteDebt => 'Borç silinirken bir hata oluştu';
+
+  @override
+  String get failedToAddAsset => 'Varlık eklenirken bir hata oluştu';
+
+  @override
+  String get failedToAddDebt => 'Borç eklenirken bir hata oluştu';
+
+  @override
+  String get failedToUpdateAsset => 'Varlık güncellenirken bir hata oluştu';
+
+  @override
+  String get failedToUpdateDebt => 'Borç güncellenirken bir hata oluştu';
 
   @override
   String get subscriptionRequired =>
@@ -329,4 +347,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get pleaseSelectCode => 'Lütfen bir kod seçiniz';
+
+  @override
+  String get enterValidAmount => 'Lütfen geçerli bir miktar giriniz';
+
+  @override
+  String get noteOptional => 'Not (Opsiyonel)';
+
+  @override
+  String get dueDateOptional => 'Ödeme Tarihi (Opsiyonel)';
+
+  @override
+  String get clearDueDate => 'Ödeme tarihini temizle';
+
+  @override
+  String get selectDate => 'Tarih seçiniz';
+
+  @override
+  String get freeUsersCanOnlyHaveOneDebt =>
+      'Ücretsiz kullanıcıların yalnızca 1 borç kaydedebilir. Sınırsız borç eklemek için lütfen Premium\'a yükseltin.';
 }
