@@ -143,9 +143,9 @@ class _AddAssetBoxState extends State<AddAssetBox> {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 8.r,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: 0.35),
+            blurRadius: 4.r,
+            offset: Offset(0, 2.h),
           ),
         ],
       ),
@@ -233,7 +233,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
                       canvasColor: AppColors.background2(context),
                     ),
                     child: DropdownButtonFormField<String>(
-                      value: _selectedCode,
+                      initialValue: _selectedCode,
                       alignment: Alignment.centerLeft,
                       dropdownColor: AppColors.background2(context),
                       menuMaxHeight: 450.h,

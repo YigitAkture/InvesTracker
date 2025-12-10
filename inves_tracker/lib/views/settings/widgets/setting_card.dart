@@ -20,9 +20,9 @@ class SettingCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8.r,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: 0.35),
+            blurRadius: 4.r,
+            offset: Offset(0, 2.h),
           ),
         ],
       ),

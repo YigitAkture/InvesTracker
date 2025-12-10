@@ -216,6 +216,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get currencyNOK => 'Norwegian Krone';
 
   @override
+  String get myAssets => 'My Assets';
+
+  @override
+  String get myDebts => 'My Debts';
+
+  @override
   String get addAsset => 'Add Asset';
 
   @override

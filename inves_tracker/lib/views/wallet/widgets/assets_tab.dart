@@ -135,6 +135,7 @@ class _AssetsTabState extends State<AssetsTab> {
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Add Asset Box
             AddAssetBox(
@@ -143,6 +144,20 @@ class _AssetsTabState extends State<AssetsTab> {
             ),
 
             SizedBox(height: 24.h),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
+              child: Text(
+                l10n.myAssets,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.title(context),
+                ),
+              ),
+            ),
+
+            SizedBox(height: 16.h),
 
             // Accordion Items
             if (groupedAssets.isEmpty)

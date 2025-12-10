@@ -69,6 +69,8 @@
   "currencyDKK": "Danish Krone",
   "currencySEK": "Swedish Krona",
   "currencyNOK": "Norwegian Krone",
+  "myAssets": "My Assets",
+  "myDebts": "My Debts",
   "addAsset": "Add Asset",
   "addDebt": "Add Debt",
   "editAsset": "Edit Asset",

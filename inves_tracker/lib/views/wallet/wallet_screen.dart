@@ -32,12 +32,26 @@ class _WalletScreenState extends State<WalletScreen> {
           decoration: BoxDecoration(
             color: AppColors.background2(context),
             borderRadius: BorderRadius.circular(10.r),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.35),
+                blurRadius: 4.r,
+                offset: Offset(0, 2.h),
+              ),
+            ],
           ),
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 5.w, vertical: 6.h),
             decoration: BoxDecoration(
               color: AppColors.foreground(context),
               borderRadius: BorderRadius.circular(10.r),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.2),
+                  blurRadius: 4.r,
+                  offset: Offset(0, 2.h),
+                ),
+              ],
             ),
             child: Row(
               children: [

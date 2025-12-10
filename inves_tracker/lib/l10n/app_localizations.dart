@@ -512,6 +512,18 @@ abstract class AppLocalizations {
   /// **'Norwegian Krone'**
   String get currencyNOK;
 
+  /// No description provided for @myAssets.
+  ///
+  /// In en, this message translates to:
+  /// **'My Assets'**
+  String get myAssets;
+
+  /// No description provided for @myDebts.
+  ///
+  /// In en, this message translates to:
+  /// **'My Debts'**
+  String get myDebts;
+
   /// No description provided for @addAsset.
   ///
   /// In en, this message translates to:

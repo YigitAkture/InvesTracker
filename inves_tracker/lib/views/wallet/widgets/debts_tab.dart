@@ -135,6 +135,7 @@ class _DebtsTabState extends State<DebtsTab> {
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Add Debt Box
             AddDebtBox(
@@ -144,6 +145,20 @@ class _DebtsTabState extends State<DebtsTab> {
             ),
 
             SizedBox(height: 24.h),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
+              child: Text(
+                l10n.myDebts,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.title(context),
+                ),
+              ),
+            ),
+
+            SizedBox(height: 16.h),
 
             // Accordion Items
             if (groupedDebts.isEmpty)

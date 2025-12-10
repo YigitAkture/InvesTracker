@@ -69,6 +69,8 @@
   "currencyDKK": "Danimarka Kronu",
   "currencySEK": "İsveç Kronu",
   "currencyNOK": "Norveç Kronu",
+  "myAssets": "Varlıklarım",
+  "myDebts": "Borçlarım",
   "addAsset": "Varlık Ekle",
   "addDebt": "Borç Ekle",
   "editAsset": "Varlık Düzenle",

@@ -172,7 +172,7 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withValues(alpha: 0.35),
             blurRadius: 4.r,
             offset: const Offset(0, 2),
           ),
