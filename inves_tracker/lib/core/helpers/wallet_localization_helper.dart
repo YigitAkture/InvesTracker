@@ -25,7 +25,7 @@ class WalletLocalizationHelper {
   static String _getCurrencyName(String code, AppLocalizations l10n) {
     switch (code) {
       case 'TRY':
-        return 'Turkish Lira';
+        return l10n.currencyTRY;
       case 'USD':
         return l10n.currencyUSD;
       case 'EUR':

@@ -9,6 +9,9 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get welcome => 'Welcome!';
+
+  @override
   String get myWallet => 'My Wallet';
 
   @override
@@ -172,6 +175,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goldBESLIALTIN => 'Five Piece Gold';
+
+  @override
+  String get currencyTRY => 'Turkish Lira';
 
   @override
   String get currencyUSD => 'US Dollar';
@@ -370,4 +376,74 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get freeUsersCanOnlyHaveOneDebt =>
       'Free users can only have 1 debt record. Please upgrade to Premium to add unlimited debts.';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get register => 'Register';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get repeatPassword => 'Repeat Password';
+
+  @override
+  String get firstName => 'First Name';
+
+  @override
+  String get lastName => 'Last Name';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get dontHaveAnAccount => 'Don\'t have an account?';
+
+  @override
+  String get alreadyHaveAccount => 'Already have an account?';
+
+  @override
+  String get pleaseEnterEmail => 'Please enter your email';
+
+  @override
+  String get pleaseEnterValidEmail => 'Please enter a valid email';
+
+  @override
+  String get pleaseEnterPassword => 'Please enter your password';
+
+  @override
+  String get pleaseRepeatPassword => 'Please repeat your password';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get passwordMustBeAtLeast6Characters =>
+      'Password must be at least 6 characters';
+
+  @override
+  String get pleaseEnterFirstName => 'Please enter your first name';
+
+  @override
+  String get pleaseEnterLastName => 'Please enter your last name';
+
+  @override
+  String get pleaseEnterPhoneNumber => 'Please enter your phone number';
+
+  @override
+  String get logoutConfirmation => 'Are you sure you want to logout?';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
 }

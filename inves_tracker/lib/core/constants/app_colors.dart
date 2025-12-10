@@ -73,4 +73,10 @@ class AppColors {
         ? titleDark
         : titleLight;
   }
+
+  static Color text(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
+  }
 }

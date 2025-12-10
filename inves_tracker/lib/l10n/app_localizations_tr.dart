@@ -9,6 +9,9 @@ class AppLocalizationsTr extends AppLocalizations {
   AppLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
+  String get welcome => 'Hoş Geldiniz!';
+
+  @override
   String get myWallet => 'Cüzdanım';
 
   @override
@@ -172,6 +175,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get goldBESLIALTIN => 'Beşli Altın';
+
+  @override
+  String get currencyTRY => 'Türk Lirası';
 
   @override
   String get currencyUSD => 'Amerikan Doları';
@@ -372,4 +378,74 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get freeUsersCanOnlyHaveOneDebt =>
       'Ücretsiz kullanıcıların yalnızca 1 borç kaydedebilir. Sınırsız borç eklemek için lütfen Premium\'a yükseltin.';
+
+  @override
+  String get login => 'Giriş Yap';
+
+  @override
+  String get register => 'Kayıt Ol';
+
+  @override
+  String get logout => 'Çıkış Yap';
+
+  @override
+  String get email => 'E-posta';
+
+  @override
+  String get password => 'Şifre';
+
+  @override
+  String get repeatPassword => 'Şifre Tekrar';
+
+  @override
+  String get firstName => 'Ad';
+
+  @override
+  String get lastName => 'Soyad';
+
+  @override
+  String get phoneNumber => 'Telefon Numarası';
+
+  @override
+  String get dontHaveAnAccount => 'Hesabınız yok mu?';
+
+  @override
+  String get alreadyHaveAccount => 'Zaten hesabınız var mı?';
+
+  @override
+  String get pleaseEnterEmail => 'Lütfen e-postanızı girin';
+
+  @override
+  String get pleaseEnterValidEmail => 'Lütfen geçerli bir e-posta girin';
+
+  @override
+  String get pleaseEnterPassword => 'Lütfen şifrenizi girin';
+
+  @override
+  String get pleaseRepeatPassword => 'Lütfen şifrenizi tekrar girin';
+
+  @override
+  String get passwordsDoNotMatch => 'Şifreler eşleşmiyor';
+
+  @override
+  String get passwordMustBeAtLeast6Characters =>
+      'Şifre en az 6 karakter olmalıdır';
+
+  @override
+  String get pleaseEnterFirstName => 'Lütfen adınızı girin';
+
+  @override
+  String get pleaseEnterLastName => 'Lütfen soyadınızı girin';
+
+  @override
+  String get pleaseEnterPhoneNumber => 'Lütfen telefon numaranızı girin';
+
+  @override
+  String get logoutConfirmation => 'Çıkış yapmak istediğinizden emin misiniz?';
+
+  @override
+  String get yes => 'Evet';
+
+  @override
+  String get no => 'Hayır';
 }

@@ -7,10 +7,9 @@ import 'package:inves_tracker/views/wallet/wallet_screen.dart';
 import 'package:inves_tracker/shared/custom_app_bar.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final String userId;
 
-  // TODO: Replace with actual user ID from authentication
-  static const String _testUserId = '1bfe063c-1405-44c8-9e36-11dce55e96d0';
+  const HomeScreen({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                   backgroundColor: AppColors.background(context),
                   body: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.w),
-                    child: const WalletScreen(userId: _testUserId),
+                    child: WalletScreen(userId: userId),
                   ),
                 ),
               ),
@@ -63,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                   backgroundColor: AppColors.background(context),
                   body: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.w),
-                    child: const WalletScreen(userId: _testUserId),
+                    child: WalletScreen(userId: userId),
                   ),
                 ),
               ),

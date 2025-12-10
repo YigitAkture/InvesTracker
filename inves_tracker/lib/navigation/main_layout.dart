@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/services/auth_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/custom_app_bar.dart';
 import 'package:inves_tracker/views/converter/converter_screen.dart';
@@ -18,14 +19,29 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
+  final AuthService _authService = AuthService();
   int _currentIndex = 0;
-  String userId = '1BFE063C-1405-44C8-9E36-11DCE55E96D0'; // TODO: This should come from auth/user management
- // B19984A6-481D-4B3A-9C3F-0080930477C9 Free test user
- // 1BFE063C-1405-44C8-9E36-11DCE55E96D0 Premium test user
+  String? _userId;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
+
+  Future<void> _loadUserId() async {
+    final userId = await _authService.getCurrentUserId();
+    setState(() {
+      _userId = userId;
+      _isLoading = false;
+    });
+  }
+
   List<Widget> get _screens => [
-        const HomeScreen(),
+        HomeScreen(userId: _userId ?? ''),
         const MarketScreen(),
-        WalletScreen(userId: userId),
+        WalletScreen(userId: _userId ?? ''),
         const ConverterScreen(),
         const SettingsScreen(),
       ];
@@ -40,6 +56,17 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     
+    if (_isLoading) {
+      return Scaffold(
+        backgroundColor: AppColors.background(context),
+        body: Center(
+          child: CircularProgressIndicator(
+            color: AppColors.primary(context),
+          ),
+        ),
+      );
+    }
+
     final List<String> pageTitles = [
       l10n.myWallet,
       l10n.exchangeRates,
