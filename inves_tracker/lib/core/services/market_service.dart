@@ -27,7 +27,7 @@ class MarketService {
     'DOGE', 'TRX', 'ADA', 'SHIB', 'WSTETH', 'WBTC', 'HYPE', 'TON',
     'LINK', 'BCH', 'AVAX', 'XLM', 'SUI', 'DOT', 'UNI',
     'ZEC', 'LTC', 'XMR', 'CRO', 'NEAR', 'WETH', 'LEO',
-    'MNT', 'PYUSD', 'USDS', 'USDE', 'M', 'CBBTC', 'WEETH',
+    'MNT', 'PYUSD', 'USDS', 'USDE', 'CBBTC', 'WEETH',
     'SUSDE', 'SUSDS', 'TAO', 'WBETH', 'CC'
   ];
 
