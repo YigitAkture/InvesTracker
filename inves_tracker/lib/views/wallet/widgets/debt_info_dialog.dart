@@ -143,7 +143,7 @@ class _DebtInfoItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4.r),
                 ),
                 child: Text(
-                  '${l10n.debt} #${index + 1}',
+                  '${l10n.debt[0].toUpperCase()}${l10n.debt.substring(1).toLowerCase()} #${index + 1}',
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
@@ -188,7 +188,7 @@ class _DebtInfoItem extends StatelessWidget {
           // Created Date
           _InfoRow(
             icon: Icons.access_time,
-            label: 'Created',
+            label: l10n.created,
             value: _dateFormat.format(debt.createdAt).toString().substring(0, 10),
           ),
         ],
