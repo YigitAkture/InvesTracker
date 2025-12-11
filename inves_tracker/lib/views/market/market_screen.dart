@@ -137,7 +137,7 @@ class _MarketScreenState extends State<MarketScreen> {
                           padding: EdgeInsets.symmetric(vertical: 12.h),
                           decoration: BoxDecoration(
                             color: _selectedTab == 0
-                                ? AppColors.primary(context).withValues(alpha: 0.25)
+                                ? AppColors.primary(context).withValues(alpha: 0.8)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(10.r),
                           ),
@@ -164,7 +164,7 @@ class _MarketScreenState extends State<MarketScreen> {
                           padding: EdgeInsets.symmetric(vertical: 12.h),
                           decoration: BoxDecoration(
                             color: _selectedTab == 1
-                                ? AppColors.primary(context).withValues(alpha: 0.25)
+                                ? AppColors.primary(context).withValues(alpha: 0.8)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(10.r),
                           ),

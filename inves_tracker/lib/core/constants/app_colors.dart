@@ -21,7 +21,7 @@ class AppColors {
   static const Color grey = Color(0xFF505050);
 
   // --- Light Colors ---
-  static const Color primaryLight = Color(0xFF004042);
+  static const Color primaryLight = Color(0xFF1B5448);
   static const Color secondaryLight = Color(0xFFFF7F3F);
   static const Color backgroundLight = Color(0xFFBABABA);
   static const Color backgroundLight2 = Color(0xFFDEDEDE);
@@ -29,13 +29,12 @@ class AppColors {
   static const Color titleLight = Color(0xFF333333);
 
   // --- Dark Colors ---
-  static const Color primaryDark = Color(0xFF00F5FF);
-  static const Color secondaryDark = Color(0xFFE83C91);
+  static const Color primaryDark = Color(0xFF49C0FF);
+  static const Color secondaryDark = Color(0xFFEC3B80);
   static const Color backgroundDark = Color(0xFF27283D);
   static const Color backgroundDark2 = Color(0xFF2D2D47);
   static const Color foregroundDark = Color(0xFF41415D);
   static const Color titleDark = Color(0xFFA5A5A5);
-  
 
   // --- Dynamic Getters ---
   static Color primary(BuildContext context) {
