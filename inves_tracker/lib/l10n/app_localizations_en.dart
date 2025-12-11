@@ -446,4 +446,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no => 'No';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get iAccept => 'I accept';
+
+  @override
+  String get dataProtectionNotice => 'Data Protection Notice';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get explicitConsent => 'Explicit Consent';
+
+  @override
+  String get pleaseAcceptAllConsents =>
+      'Please accept all consents to continue';
+
+  @override
+  String get dataProtectionNoticeText =>
+      'PERSONAL DATA PROCESSING NOTICE\n\nThis notice has been prepared by InvesTracker as the data controller in accordance with Article 10 of the Law on the Protection of Personal Data No. 6698 (“KVKK”). InvesTracker processes personal data within the scope of using the mobile application for account creation, financial tracking services, application functionality, and service continuity. The processed data includes first name, last name, phone number, password, and the foreign currency, gold, cryptocurrency asset, and debt information declared by the user.\n\nData is collected electronically and automatically. Processing is based on KVKK Article 5/2(c), 5/2(ç), and 5/2(f). No special categories of personal data are processed.\n\nPersonal data is not shared with any third party, is not transferred domestically or internationally, and is stored only on secure servers located in Turkey. Data may be shared only when legally required.\n\nData is retained as long as the account is active. Upon deletion request, all data is permanently removed.\n\nUnder Article 11 of KVKK, you may request information, correction, deletion, or restriction of your data. Requests can be submitted to [your email address].';
+
+  @override
+  String get privacyPolicyText =>
+      'PRIVACY POLICY\n\nAt InvesTracker, we prioritize the privacy and security of users’ personal data. This Privacy Policy explains how data collected through the mobile application is stored, processed, used, and protected. The application processes personal information such as name, surname, phone number, password, and user-declared foreign currency, gold, cryptocurrency assets, and debt information solely for providing financial tracking services.\n\nData is securely stored and not used for purposes other than account creation, application functionality, and service continuity. Data is not shared with third parties nor transferred domestically or internationally. It may be shared only with authorized authorities when required by law.\n\nUsers may request account or data deletion at any time. All data will be permanently erased. Updates to this Privacy Policy will be announced through the application.';
+
+  @override
+  String get explicitConsentText =>
+      'CONSENT FORM\n\nBy using the services offered by InvesTracker, the financial data you declare (foreign currency, gold, cryptocurrency assets, debts) is processed solely to enable financial tracking features. No special categories of personal data are processed.\n\nAlthough personal data related to account creation is processed under KVKK legal grounds, explicit consent is required for storing financial data within the application. These data are stored on secure servers in Turkey and not shared with third parties. Upon account or data deletion request, all financial data will be permanently erased.\n\nYou may withdraw your consent at any time by contacting [your email address]. Upon withdrawal, all related data will be deleted from our systems.';
 }

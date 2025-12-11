@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/auth_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/navigation/main_layout.dart';
+import 'package:inves_tracker/views/auth/widgets/legal_text_dialog.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -24,6 +26,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isLoading = false;
   bool _obscurePassword = true;
   bool _obscureRepeatPassword = true;
+  bool _acceptedDataProtection = false;
+  bool _acceptedPrivacyPolicy = false;
+  bool _acceptedExplicitConsent = false;
 
   @override
   void dispose() {
@@ -36,8 +41,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  void _showLegalDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (context) => LegalTextDialog(
+        title: title,
+        content: content,
+      ),
+    );
+  }
+
+  bool _validateConsents() {
+    if (!_acceptedDataProtection || !_acceptedPrivacyPolicy || !_acceptedExplicitConsent) {
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.pleaseAcceptAllConsents),
+          backgroundColor: AppColors.danger,
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
+
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (!_validateConsents()) {
       return;
     }
 
@@ -56,7 +89,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         setState(() => _isLoading = false);
 
         if (result['success']) {
-          // Navigate to main app
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (_) => const MainLayout()),
             (route) => false,
@@ -101,7 +133,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 SizedBox(height: 24.h),
                 
-                // Title
                 Text(
                   l10n.register,
                   textAlign: TextAlign.center,
@@ -270,6 +301,65 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
+                SizedBox(height: 24.h),
+
+                // Legal Consents Section
+                Container(
+                  padding: EdgeInsets.all(16.r),
+                  decoration: BoxDecoration(
+                    color: AppColors.foreground(context),
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(
+                      color: AppColors.primary(context).withValues(alpha: 0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Data Protection Notice
+                      _ConsentCheckbox(
+                        value: _acceptedDataProtection,
+                        onChanged: (value) {
+                          setState(() => _acceptedDataProtection = value ?? false);
+                        },
+                        label: l10n.dataProtectionNotice,
+                        onTap: () => _showLegalDialog(
+                          l10n.dataProtectionNotice,
+                          l10n.dataProtectionNoticeText,
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+
+                      // Privacy Policy
+                      _ConsentCheckbox(
+                        value: _acceptedPrivacyPolicy,
+                        onChanged: (value) {
+                          setState(() => _acceptedPrivacyPolicy = value ?? false);
+                        },
+                        label: l10n.privacyPolicy,
+                        onTap: () => _showLegalDialog(
+                          l10n.privacyPolicy,
+                          l10n.privacyPolicyText,
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+
+                      // Explicit Consent
+                      _ConsentCheckbox(
+                        value: _acceptedExplicitConsent,
+                        onChanged: (value) {
+                          setState(() => _acceptedExplicitConsent = value ?? false);
+                        },
+                        label: l10n.explicitConsent,
+                        onTap: () => _showLegalDialog(
+                          l10n.explicitConsent,
+                          l10n.explicitConsentText,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(height: 32.h),
 
                 // Register Button
@@ -306,6 +396,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ConsentCheckbox extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool?> onChanged;
+  final String label;
+  final VoidCallback onTap;
+
+  const _ConsentCheckbox({
+    required this.value,
+    required this.onChanged,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Checkbox(
+          value: value,
+          onChanged: onChanged,
+          activeColor: AppColors.primary(context),
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(top: 12.h),
+            child: RichText(
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: AppColors.text(context),
+                ),
+                children: [
+                  TextSpan(text: '${l10n.iAccept} '),
+                  TextSpan(
+                    text: label,
+                    style: TextStyle(
+                      color: AppColors.primary(context),
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    recognizer: TapGestureRecognizer()..onTap = onTap,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
