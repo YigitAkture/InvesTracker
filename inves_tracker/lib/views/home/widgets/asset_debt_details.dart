@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/home/models/portfolio_data.dart';
 
 class AssetDebtDetails extends StatefulWidget {
@@ -21,6 +22,7 @@ class _AssetDebtDetailsState extends State<AssetDebtDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.w),
       decoration: BoxDecoration(
@@ -54,7 +56,7 @@ class _AssetDebtDetailsState extends State<AssetDebtDetails> {
                   SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
-                      'Portfolio Breakdown',
+                      l10n.portfolioBreakdown,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
@@ -80,7 +82,7 @@ class _AssetDebtDetailsState extends State<AssetDebtDetails> {
               Padding(
                 padding: EdgeInsets.all(24.r),
                 child: Text(
-                  'No assets or debts yet',
+                  l10n.noAssetsOrDebtsYet,
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: AppColors.title(context),
@@ -114,6 +116,7 @@ class _AssetDebtRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
@@ -145,7 +148,7 @@ class _AssetDebtRow extends StatelessWidget {
           // Bars
           if (item.hasAsset)
             _BarRow(
-              label: 'Asset',
+              label: l10n.asset[0].toUpperCase() + l10n.asset.substring(1),
               amount: item.assetAmount,
               tryValue: item.assetTryValue,
               code: item.code,
@@ -159,7 +162,7 @@ class _AssetDebtRow extends StatelessWidget {
           
           if (item.hasDebt)
             _BarRow(
-              label: 'Debt',
+              label: l10n.debt[0].toUpperCase() + l10n.debt.substring(1),
               amount: item.debtAmount,
               tryValue: item.debtTryValue,
               code: item.code,

@@ -479,4 +479,16 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get explicitConsentText =>
       'AÇIK RIZA METNİ\n\nInvesTracker tarafından sunulan hizmetler kapsamında mobil uygulama üzerinden beyan ettiğiniz döviz, altın, kripto varlık ve borç bilgileri finansal takip fonksiyonunun yerine getirilmesi amacıyla işlenmektedir. Bu veriler yalnızca hizmetin sunulması için kullanılmakta olup özel nitelikli kişisel veri işlenmemektedir.\n\nKullanıcı hesabının oluşturulması ve hizmetlerin yürütülmesi KVKK’da belirtilen işleme şartlarına dayansa da, finansal verilerinizin saklanması için açık rızanız gerekmektedir. Veriler Türkiye’deki güvenli sunucularda tutulmakta ve üçüncü kişilere aktarılmamaktadır. Hesap veya veri silme talebi üzerine tüm finansal veriler kalıcı olarak silinir.\n\nAçık rızanızı dilediğiniz zaman [e-posta adresiniz] aracılığıyla geri çekebilirsiniz. Geri çekme halinde tüm verileriniz silinir.';
+
+  @override
+  String get totalBalance => 'Toplam Bakiye';
+
+  @override
+  String get totalAssets => 'Toplam Varlıklar';
+
+  @override
+  String get portfolioBreakdown => 'Portföy Dağılımı';
+
+  @override
+  String get noAssetsOrDebtsYet => 'Henüz bir varlık ya da borç yok';
 }

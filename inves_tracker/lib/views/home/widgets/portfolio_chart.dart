@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/home/models/portfolio_data.dart';
 import 'package:inves_tracker/views/home/utils/portfolio_chart_painter.dart';
 
@@ -43,6 +44,7 @@ class _PortfolioChartState extends State<PortfolioChart>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.all(20.r),
       child: Column(
@@ -65,7 +67,7 @@ class _PortfolioChartState extends State<PortfolioChart>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Total Assets',
+                          l10n.totalAssets,
                           style: TextStyle(
                             fontSize: 14.sp,
                             color: AppColors.title(context),

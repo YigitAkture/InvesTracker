@@ -1021,6 +1021,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'CONSENT FORM\n\nBy using the services offered by InvesTracker, the financial data you declare (foreign currency, gold, cryptocurrency assets, debts) is processed solely to enable financial tracking features. No special categories of personal data are processed.\n\nAlthough personal data related to account creation is processed under KVKK legal grounds, explicit consent is required for storing financial data within the application. These data are stored on secure servers in Turkey and not shared with third parties. Upon account or data deletion request, all financial data will be permanently erased.\n\nYou may withdraw your consent at any time by contacting [your email address]. Upon withdrawal, all related data will be deleted from our systems.'**
   String get explicitConsentText;
+
+  /// No description provided for @totalBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Balance'**
+  String get totalBalance;
+
+  /// No description provided for @totalAssets.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Assets'**
+  String get totalAssets;
+
+  /// No description provided for @portfolioBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Portfolio Breakdown'**
+  String get portfolioBreakdown;
+
+  /// No description provided for @noAssetsOrDebtsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No assets or debts yet'**
+  String get noAssetsOrDebtsYet;
 }
 
 class _AppLocalizationsDelegate

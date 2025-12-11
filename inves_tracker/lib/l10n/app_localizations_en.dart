@@ -477,4 +477,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get explicitConsentText =>
       'CONSENT FORM\n\nBy using the services offered by InvesTracker, the financial data you declare (foreign currency, gold, cryptocurrency assets, debts) is processed solely to enable financial tracking features. No special categories of personal data are processed.\n\nAlthough personal data related to account creation is processed under KVKK legal grounds, explicit consent is required for storing financial data within the application. These data are stored on secure servers in Turkey and not shared with third parties. Upon account or data deletion request, all financial data will be permanently erased.\n\nYou may withdraw your consent at any time by contacting [your email address]. Upon withdrawal, all related data will be deleted from our systems.';
+
+  @override
+  String get totalBalance => 'Total Balance';
+
+  @override
+  String get totalAssets => 'Total Assets';
+
+  @override
+  String get portfolioBreakdown => 'Portfolio Breakdown';
+
+  @override
+  String get noAssetsOrDebtsYet => 'No assets or debts yet';
 }

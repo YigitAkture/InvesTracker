@@ -7,10 +7,7 @@ import 'package:inves_tracker/l10n/app_localizations.dart';
 class TotalBalanceCard extends StatefulWidget {
   final PortfolioData portfolioData;
 
-  const TotalBalanceCard({
-    super.key,
-    required this.portfolioData,
-  });
+  const TotalBalanceCard({super.key, required this.portfolioData});
 
   @override
   State<TotalBalanceCard> createState() => _TotalBalanceCardState();
@@ -44,36 +41,49 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isPositive = widget.portfolioData.totalBalance >= 0;
+    final isPositive = widget.portfolioData.totalBalance > 0;
+    final isZero = widget.portfolioData.totalBalance == 0;
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.w),
       padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: isPositive
+          colors: isZero
               ? [
-                  AppColors.success.withValues(alpha: 0.15),
-                  AppColors.success.withValues(alpha: 0.05),
+                  AppColors.title(context).withValues(alpha: 0.2),
+                  AppColors.title(context).withValues(alpha: 0.1),
+                ]
+              : isPositive
+              ? [
+                  AppColors.success.withValues(alpha: 0.2),
+                  AppColors.success.withValues(alpha: 0.1),
                 ]
               : [
-                  AppColors.danger.withValues(alpha: 0.15),
-                  AppColors.danger.withValues(alpha: 0.05),
+                  AppColors.danger.withValues(alpha: 0.2),
+                  AppColors.danger.withValues(alpha: 0.1),
                 ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: isPositive
-              ? AppColors.success.withValues(alpha: 0.3)
-              : AppColors.danger.withValues(alpha: 0.3),
-          width: 2.w,
+          color: isZero
+              ? AppColors.title(context)
+              : isPositive
+              ? AppColors.success.withValues(alpha: 0.8)
+              : AppColors.danger.withValues(alpha: 0.8),
+          width: 3.w,
         ),
         boxShadow: [
           BoxShadow(
-            color: (isPositive ? AppColors.success : AppColors.danger)
-                .withValues(alpha: 0.1),
+            color:
+                (isZero
+                        ? AppColors.title(context)
+                        : isPositive
+                        ? AppColors.success
+                        : AppColors.danger)
+                    .withValues(alpha: 0.1),
             blurRadius: 20.r,
             offset: Offset(0, 10.h),
           ),
@@ -85,13 +95,17 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                isPositive ? Icons.trending_up : Icons.trending_down,
-                color: isPositive ? AppColors.success : AppColors.danger,
+                isZero
+                    ? Icons.trending_flat
+                    : isPositive
+                    ? Icons.trending_up
+                    : Icons.trending_down,
+                color: isZero ? AppColors.title(context) : isPositive ? AppColors.success : AppColors.danger,
                 size: 24.sp,
               ),
               SizedBox(width: 8.w),
               Text(
-                'Total Balance',
+                l10n.totalBalance,
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
@@ -107,21 +121,33 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
               final animatedValue =
                   widget.portfolioData.totalBalance * _animation.value;
               return Text(
-                '${isPositive ? '+' : ''}₺${_formatNumber(animatedValue.abs())}',
+                '${isZero
+                    ? ''
+                    : isPositive
+                    ? '+'
+                    : '-'} ₺${_formatNumber(animatedValue.abs())}',
                 style: TextStyle(
                   fontSize: 32.sp,
                   fontWeight: FontWeight.bold,
-                  color: isPositive ? AppColors.success : AppColors.danger,
+                  color: isZero
+                      ? AppColors.title(context)
+                      : isPositive
+                      ? AppColors.success
+                      : AppColors.danger,
                   letterSpacing: 1.2,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black54,
+                      blurRadius: 8.r,
+                      offset: Offset(0, 2.5.h),
+                    ),
+                  ],
                 ),
               );
             },
           ),
           SizedBox(height: 16.h),
-          Divider(
-            color: AppColors.background2(context),
-            thickness: 1,
-          ),
+          Divider(color: AppColors.background2(context), thickness: 1),
           SizedBox(height: 16.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
