@@ -1,8 +1,8 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/views/home/models/portfolio_data.dart';
+import 'package:inves_tracker/views/home/utils/portfolio_chart_painter.dart';
 
 class PortfolioChart extends StatefulWidget {
   final PortfolioData portfolioData;
@@ -58,7 +58,7 @@ class _PortfolioChartState extends State<PortfolioChart>
                   painter: PortfolioChartPainter(
                     segments: widget.portfolioData.segments,
                     progress: _animation.value,
-                    backgroundColor: AppColors.background2(context),
+                    backgroundColor: AppColors.foreground(context),
                   ),
                   child: Center(
                     child: Column(
@@ -156,76 +156,5 @@ class _LegendItem extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class PortfolioChartPainter extends CustomPainter {
-  final List<PortfolioSegment> segments;
-  final double progress;
-  final Color backgroundColor;
-
-  PortfolioChartPainter({
-    required this.segments,
-    required this.progress,
-    required this.backgroundColor,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = math.min(size.width, size.height) / 2;
-    final innerRadius = radius * 0.9;
-
-    // Draw background ring
-    final bgPaint = Paint()
-      ..color = backgroundColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = radius - innerRadius;
-
-
-    // Outter ring
-    canvas.drawCircle(
-      center,
-      radius,
-      bgPaint,
-    );
-
-    // inner ring
-    canvas.drawCircle(
-      center,
-      innerRadius * 0.9,
-      bgPaint,
-    );
-
-    if (segments.isEmpty) return;
-
-    // Draw segments
-    double startAngle = -math.pi / 2; // Start from top
-
-    for (var segment in segments) {
-      final sweepAngle = (segment.percentage / 100) * 2 * math.pi * progress;
-
-      final paint = Paint()
-        ..color = segment.color
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = radius - innerRadius
-        ..strokeCap = StrokeCap.round;
-
-      canvas.drawArc(
-        Rect.fromCircle(center: center, radius: (radius + innerRadius) / 2),
-        startAngle,
-        sweepAngle,
-        false,
-        paint,
-      );
-
-      startAngle += sweepAngle;
-    }
-  }
-
-  @override
-  bool shouldRepaint(PortfolioChartPainter oldDelegate) {
-    return oldDelegate.progress != progress ||
-        oldDelegate.segments != segments;
   }
 }
