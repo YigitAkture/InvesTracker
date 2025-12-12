@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/home/models/portfolio_data.dart';
 import 'package:inves_tracker/views/home/utils/portfolio_chart_painter.dart';
@@ -102,7 +103,10 @@ class _PortfolioChartState extends State<PortfolioChart>
               children: widget.portfolioData.segments.map((segment) {
                 return _LegendItem(
                   color: segment.color,
-                  code: segment.code,
+                  code: segment.type != 'Gold'
+                      ? segment.code
+                      : WalletLocalizationHelper.getLocalizedName(
+                          context, segment.code, segment.type),
                   percentage: segment.percentage,
                 );
               }).toList(),
