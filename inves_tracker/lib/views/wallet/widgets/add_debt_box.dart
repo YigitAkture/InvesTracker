@@ -32,7 +32,9 @@ class _AddDebtBoxState extends State<AddDebtBox> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   final DateFormat _dateFormat = DateFormat('dd/MM/yyyy');
-  
+
+  static const int _maxNoteLength = 56;
+
   ExchangeType _selectedType = ExchangeType.currency;
   String? _selectedCode;
   DateTime? _selectedDueDate;
@@ -41,11 +43,11 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
   final Map<ExchangeType, List<String>> _codesByType = {
     ExchangeType.currency: [
-      'TRY', 'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'JPY', 'SAR', 
+      'TRY', 'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'JPY', 'SAR',
       'RUB', 'AED', 'KWD', 'AUD', 'DKK', 'SEK', 'NOK'
     ],
     ExchangeType.gold: [
-      'HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN', 
+      'HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN',
       'ATAALTIN', 'RESATALTIN', 'CUMHURIYETALTINI', 'GREMSEALTIN',
       '14AYARALTIN', '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN'
     ],
@@ -102,6 +104,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
   Future<void> _addDebt() async {
     final l10n = AppLocalizations.of(context)!;
+
     if (_selectedCode == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.pleaseSelectCode)),
@@ -146,20 +149,17 @@ class _AddDebtBoxState extends State<AddDebtBox> {
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
-        
-        // Check if error is about debt limit
+
         if (e.toString().contains('one debt record')) {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
               title: Text(l10n.subscriptionRequired),
-              content: Text(
-                l10n.freeUsersCanOnlyHaveOneDebt,
-              ),
+              content: Text(l10n.freeUsersCanOnlyHaveOneDebt),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             ),
@@ -176,6 +176,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
     return Container(
       decoration: BoxDecoration(
         color: AppColors.foreground(context),
@@ -191,7 +192,6 @@ class _AddDebtBoxState extends State<AddDebtBox> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Row (Always Visible)
           InkWell(
             onTap: () => setState(() => _isExpanded = !_isExpanded),
             borderRadius: BorderRadius.circular(16.r),
@@ -217,7 +217,6 @@ class _AddDebtBoxState extends State<AddDebtBox> {
             ),
           ),
 
-          // Collapsible Content
           if (_isExpanded) ...[
             Divider(height: 1, color: AppColors.background2(context)),
             Padding(
@@ -225,7 +224,6 @@ class _AddDebtBoxState extends State<AddDebtBox> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Exchange Type Selector
                   Row(
                     children: ExchangeType.values.map((type) {
                       final isSelected = _selectedType == type;
@@ -254,8 +252,10 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 12.sp,
-                                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                                color: isSelected ? AppColors.secondary(context) : null,
+                                fontWeight:
+                                    isSelected ? FontWeight.w600 : FontWeight.w500,
+                                color:
+                                    isSelected ? AppColors.secondary(context) : null,
                               ),
                             ),
                           ),
@@ -266,7 +266,6 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
                   SizedBox(height: 12.h),
 
-                  // Code Dropdown
                   Theme(
                     data: Theme.of(context).copyWith(
                       canvasColor: AppColors.background2(context),
@@ -295,7 +294,6 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                           ),
                         );
                       }).toList(),
-
                       decoration: InputDecoration(
                         labelText: _getTypeName(_selectedType, l10n),
                         filled: true,
@@ -304,16 +302,16 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                       ),
-
                       onChanged: (value) => setState(() => _selectedCode = value),
                     ),
                   ),
+
                   SizedBox(height: 12.h),
 
-                  // Amount Input
                   TextField(
                     controller: _amountController,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
                     ],
@@ -329,10 +327,26 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
                   SizedBox(height: 12.h),
 
-                  // Note Input (Optional)
                   TextField(
                     controller: _noteController,
                     maxLines: 2,
+                    maxLength: _maxNoteLength,
+                    buildCounter: (
+                      BuildContext context, {
+                      required int currentLength,
+                      required int? maxLength,
+                      required bool isFocused,
+                    }) {
+                      return Text(
+                        "$currentLength/$maxLength",
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          color: currentLength >= _maxNoteLength
+                              ? AppColors.danger
+                              : AppColors.title(context),
+                        ),
+                      );
+                    },
                     decoration: InputDecoration(
                       labelText: l10n.noteOptional,
                       border: OutlineInputBorder(
@@ -345,7 +359,6 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
                   SizedBox(height: 12.h),
 
-                  // Due Date Selector (Optional)
                   InkWell(
                     onTap: _selectDueDate,
                     child: InputDecorator(
@@ -356,7 +369,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                         ),
                         filled: true,
                         fillColor: AppColors.background2(context),
-                        suffixIcon: Icon(Icons.calendar_today),
+                        suffixIcon: const Icon(Icons.calendar_today),
                       ),
                       child: Text(
                         _selectedDueDate != null
@@ -364,7 +377,8 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                             : l10n.selectDate,
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: _selectedDueDate != null ? null : Colors.grey,
+                          color:
+                              _selectedDueDate != null ? null : Colors.grey,
                         ),
                       ),
                     ),
@@ -376,13 +390,14 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                       onPressed: () => setState(() => _selectedDueDate = null),
                       icon: Icon(Icons.clear, size: 16.sp),
                       label: Text(l10n.clearDueDate),
-                      style: TextButton.styleFrom(foregroundColor: AppColors.secondary(context)),
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppColors.secondary(context),
+                      ),
                     ),
                   ],
 
                   SizedBox(height: 16.h),
 
-                  // Add Button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -406,7 +421,10 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                             )
                           : Text(
                               l10n.addDebt,
-                              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                     ),
                   ),
