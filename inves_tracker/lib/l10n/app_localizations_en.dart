@@ -135,6 +135,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get developer => 'Developer';
 
   @override
+  String get designer => 'Designer';
+
+  @override
+  String get email => 'Email';
+
+  @override
   String get goldHAS => 'Fine Gold';
 
   @override
@@ -385,9 +391,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logout => 'Logout';
-
-  @override
-  String get email => 'Email';
 
   @override
   String get password => 'Password';

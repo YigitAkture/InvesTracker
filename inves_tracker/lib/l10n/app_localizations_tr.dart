@@ -135,6 +135,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get developer => 'Geliştirici';
 
   @override
+  String get designer => 'Tasarımcı';
+
+  @override
+  String get email => 'E-posta';
+
+  @override
   String get goldHAS => 'Has Altın';
 
   @override
@@ -387,9 +393,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get logout => 'Çıkış Yap';
-
-  @override
-  String get email => 'E-posta';
 
   @override
   String get password => 'Şifre';

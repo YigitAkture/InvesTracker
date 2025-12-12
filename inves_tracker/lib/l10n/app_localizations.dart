@@ -350,6 +350,18 @@ abstract class AppLocalizations {
   /// **'Developer'**
   String get developer;
 
+  /// No description provided for @designer.
+  ///
+  /// In en, this message translates to:
+  /// **'Designer'**
+  String get designer;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
   /// No description provided for @goldHAS.
   ///
   /// In en, this message translates to:
@@ -847,12 +859,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logout'**
   String get logout;
-
-  /// No description provided for @email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
 
   /// No description provided for @password.
   ///

@@ -8,6 +8,104 @@ import 'package:inves_tracker/views/settings/widgets/setting_card.dart';
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
 
+  void _showDeveloperInfo(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(
+              Icons.info_outline,
+              color: AppColors.secondary(context),
+              size: 24.sp,
+            ),
+            SizedBox(width: 12.w),
+            Text(
+              'InvesTracker Team',
+              style: TextStyle(fontSize: 20.sp),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildInfoItem(
+              context,
+              icon: Icons.person_outline,
+              label: l10n.developer,
+              value: 'Yiğit Aktüre',
+            ),
+            SizedBox(height: 16.h),
+            _buildInfoItem(
+              context,
+              icon: Icons.design_services_outlined,
+              label: l10n.designer,
+              value: 'Nisa Dost',
+            ),
+            SizedBox(height: 16.h),
+            _buildInfoItem(
+              context,
+              icon: Icons.email_outlined,
+              label: l10n.email,
+              value: 'investracker@gmail.com',
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.close),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoItem(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          icon,
+          color: AppColors.primary(context),
+          size: 20.sp,
+        ),
+        SizedBox(width: 12.w),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 2.h),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -30,6 +128,14 @@ class AboutSection extends StatelessWidget {
             label: l10n.developer,
             value: 'InvesTracker Team',
             iconColor: AppColors.secondary(context),
+            trailingWidget: IconButton(
+              icon: Icon(
+                Icons.info_outline,
+                size: 24.sp,
+                color: AppColors.secondary(context),
+              ),
+              onPressed: () => _showDeveloperInfo(context),
+            ),
           ),
         ],
       ),

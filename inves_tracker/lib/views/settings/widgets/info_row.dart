@@ -6,6 +6,7 @@ class InfoRow extends StatelessWidget {
   final String label;
   final String value;
   final Color iconColor;
+  final Widget? trailingWidget;
 
   const InfoRow({
     super.key,
@@ -13,6 +14,7 @@ class InfoRow extends StatelessWidget {
     required this.label,
     required this.value,
     required this.iconColor,
+    this.trailingWidget,
   });
 
   @override
@@ -54,6 +56,7 @@ class InfoRow extends StatelessWidget {
             ],
           ),
         ),
+        if (trailingWidget != null) trailingWidget!,
       ],
     );
   }
