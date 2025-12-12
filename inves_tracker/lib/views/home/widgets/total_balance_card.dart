@@ -15,8 +15,8 @@ class TotalBalanceCard extends StatefulWidget {
 
 class _TotalBalanceCardState extends State<TotalBalanceCard>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
 
   @override
   void initState() {
@@ -30,6 +30,20 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
       curve: Curves.easeOutCubic,
     );
     _controller.forward();
+  }
+
+  @override
+  void didUpdateWidget(covariant TotalBalanceCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // If portfolio data changed — restart animation so children get new progress
+    if (oldWidget.portfolioData.totalBalance != widget.portfolioData.totalBalance ||
+        oldWidget.portfolioData.totalAssetValue != widget.portfolioData.totalAssetValue ||
+        oldWidget.portfolioData.totalDebtValue != widget.portfolioData.totalDebtValue) {
+      _controller
+        ..reset()
+        ..forward();
+    }
   }
 
   @override
@@ -55,14 +69,14 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
                   AppColors.title(context).withValues(alpha: 0.1),
                 ]
               : isPositive
-              ? [
-                  AppColors.success.withValues(alpha: 0.2),
-                  AppColors.success.withValues(alpha: 0.1),
-                ]
-              : [
-                  AppColors.danger.withValues(alpha: 0.2),
-                  AppColors.danger.withValues(alpha: 0.1),
-                ],
+                  ? [
+                      AppColors.success.withValues(alpha: 0.2),
+                      AppColors.success.withValues(alpha: 0.1),
+                    ]
+                  : [
+                      AppColors.danger.withValues(alpha: 0.2),
+                      AppColors.danger.withValues(alpha: 0.1),
+                    ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -71,69 +85,75 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
           color: isZero
               ? AppColors.title(context)
               : isPositive
-              ? AppColors.success.withValues(alpha: 0.8)
-              : AppColors.danger.withValues(alpha: 0.8),
+                  ? AppColors.success.withValues(alpha: 0.8)
+                  : AppColors.danger.withValues(alpha: 0.8),
           width: 3.w,
         ),
         boxShadow: [
           BoxShadow(
-            color:
-                (isZero
-                        ? AppColors.title(context)
-                        : isPositive
+            color: (isZero
+                    ? AppColors.title(context)
+                    : isPositive
                         ? AppColors.success
                         : AppColors.danger)
-                    .withValues(alpha: 0.1),
+                .withValues(alpha: 0.1),
             blurRadius: 20.r,
             offset: Offset(0, 10.h),
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      // Make the entire content reactive to the animation
+      child: AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) {
+          // progress value from 0 -> 1 while animation runs
+          final progress = _animation.value;
+          final animatedTotal = widget.portfolioData.totalBalance * progress;
+          final animatedAssets = widget.portfolioData.totalAssetValue * progress;
+          final animatedDebts = widget.portfolioData.totalDebtValue * progress;
+
+          return Column(
             children: [
-              Icon(
-                isZero
-                    ? Icons.trending_flat
-                    : isPositive
-                    ? Icons.trending_up
-                    : Icons.trending_down,
-                color: isZero ? AppColors.title(context) : isPositive ? AppColors.success : AppColors.danger,
-                size: 24.sp,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    isZero
+                        ? Icons.trending_flat
+                        : isPositive
+                            ? Icons.trending_up
+                            : Icons.trending_down,
+                    color: isZero
+                        ? AppColors.title(context)
+                        : isPositive
+                            ? AppColors.success
+                            : AppColors.danger,
+                    size: 24.sp,
+                  ),
+                  SizedBox(width: 8.w),
+                  Text(
+                    l10n.totalBalance,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.title(context),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(width: 8.w),
+              SizedBox(height: 12.h),
+
+              // Animated total balance text (driven by the same controller)
               Text(
-                l10n.totalBalance,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.title(context),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.h),
-          AnimatedBuilder(
-            animation: _animation,
-            builder: (context, child) {
-              final animatedValue =
-                  widget.portfolioData.totalBalance * _animation.value;
-              return Text(
-                '${isZero
-                    ? ''
-                    : isPositive
-                    ? '+'
-                    : '-'} ₺${_formatNumber(animatedValue.abs())}',
+                '${isZero ? '' : isPositive ? '+' : '-'} ₺${_formatNumber(animatedTotal.abs())}',
                 style: TextStyle(
                   fontSize: 32.sp,
                   fontWeight: FontWeight.bold,
                   color: isZero
                       ? AppColors.title(context)
                       : isPositive
-                      ? AppColors.success
-                      : AppColors.danger,
+                          ? AppColors.success
+                          : AppColors.danger,
                   letterSpacing: 1.2,
                   shadows: [
                     Shadow(
@@ -143,35 +163,36 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
                     ),
                   ],
                 ),
-              );
-            },
-          ),
-          SizedBox(height: 16.h),
-          Divider(color: AppColors.background2(context), thickness: 1),
-          SizedBox(height: 16.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _InfoColumn(
-                label: l10n.assets,
-                value: widget.portfolioData.totalAssetValue,
-                color: AppColors.primary(context),
-                progress: _animation.value,
               ),
-              Container(
-                width: 1.w,
-                height: 40.h,
-                color: AppColors.background2(context),
-              ),
-              _InfoColumn(
-                label: l10n.debts,
-                value: widget.portfolioData.totalDebtValue,
-                color: AppColors.secondary(context),
-                progress: _animation.value,
+
+              SizedBox(height: 16.h),
+              Divider(color: AppColors.background2(context), thickness: 1),
+              SizedBox(height: 16.h),
+
+              // Asset / Debt info — now rebuilds with animation progress
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _InfoColumn(
+                    label: l10n.assets,
+                    value: animatedAssets,
+                    color: AppColors.primary(context),
+                  ),
+                  Container(
+                    width: 1.w,
+                    height: 40.h,
+                    color: AppColors.background2(context),
+                  ),
+                  _InfoColumn(
+                    label: l10n.debts,
+                    value: animatedDebts,
+                    color: AppColors.secondary(context),
+                  ),
+                ],
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -191,13 +212,11 @@ class _InfoColumn extends StatelessWidget {
   final String label;
   final double value;
   final Color color;
-  final double progress;
 
   const _InfoColumn({
     required this.label,
     required this.value,
     required this.color,
-    required this.progress,
   });
 
   @override
@@ -214,7 +233,7 @@ class _InfoColumn extends StatelessWidget {
         ),
         SizedBox(height: 6.h),
         Text(
-          '₺${_formatNumber(value * progress)}',
+          '₺${_formatNumber(value)}',
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
