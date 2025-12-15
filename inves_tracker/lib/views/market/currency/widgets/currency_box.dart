@@ -122,13 +122,15 @@ class CurrencyBox extends StatelessWidget {
               ],
             ),
           ),
+
+          SizedBox(width: 8.w),
           
           // Right side: Buying and Selling prices
           Row(
             children: [
               // Buying price
               SizedBox(
-                width: 70.w,
+                width: 76.w,
                 child: Text(
                   currency.buying.toStringAsFixed(4),
                   textAlign: TextAlign.end,
@@ -138,11 +140,11 @@ class CurrencyBox extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 16.w),
+              SizedBox(width: 12.w),
               
               // Selling price
               SizedBox(
-                width: 70.w,
+                width: 76.w,
                 child: Text(
                   currency.selling.toStringAsFixed(4),
                   textAlign: TextAlign.end,
