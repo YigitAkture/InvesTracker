@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(result['message'] ?? 'Login failed')),
+            SnackBar(content: Text(result['message'] ?? 'Login failed'), showCloseIcon: true),
           );
         }
       }
@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
+          SnackBar(content: Text('Error: $e'), showCloseIcon: true),
         );
       }
     }

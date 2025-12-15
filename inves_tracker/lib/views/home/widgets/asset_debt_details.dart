@@ -298,7 +298,7 @@ class _BarRowState extends State<_BarRow>
   Widget build(BuildContext context) {
     // Calculate bar width with minimum width
     final maxWidth = MediaQuery.of(context).size.width - 120.w;
-    final minWidth = 80.w;
+    final minWidth = 50.w;
     final calculatedWidth = (maxWidth * widget.ratio).clamp(minWidth, maxWidth);
 
     return Row(

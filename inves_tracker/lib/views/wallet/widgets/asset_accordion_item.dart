@@ -68,13 +68,13 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
         widget.onRefresh();
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.assetDeleted)),
+            SnackBar(content: Text(l10n.assetDeleted), showCloseIcon: true),
           );
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.failedToDeleteAsset)),
+            SnackBar(content: Text(l10n.failedToDeleteAsset), showCloseIcon: true),
           );
         }
       }

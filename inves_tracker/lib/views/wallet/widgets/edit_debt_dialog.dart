@@ -55,7 +55,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
     
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.enterValidAmount)),
+        SnackBar(content: Text(l10n.enterValidAmount), showCloseIcon: true),
       );
       return;
     }
@@ -73,14 +73,14 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
       if (mounted) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.debtUpdated)),
+          SnackBar(content: Text(l10n.debtUpdated), showCloseIcon: true),
         );
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${l10n.failedToUpdateDebt}: $e')),
+          SnackBar(content: Text('${l10n.failedToUpdateDebt}: $e'), showCloseIcon: true),
         );
       }
     }

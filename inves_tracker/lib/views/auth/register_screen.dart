@@ -58,6 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         SnackBar(
           content: Text(l10n.pleaseAcceptAllConsents),
           backgroundColor: AppColors.danger,
+          showCloseIcon: true,
         ),
       );
       return false;
@@ -95,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(result['message'] ?? 'Registration failed')),
+            SnackBar(content: Text(result['message'] ?? 'Registration failed'), showCloseIcon: true),
           );
         }
       }
@@ -103,7 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
+          SnackBar(content: Text('Error: $e'), showCloseIcon: true),
         );
       }
     }

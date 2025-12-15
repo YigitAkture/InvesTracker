@@ -70,13 +70,13 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
         widget.onRefresh();
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.debtDeleted)),
+            SnackBar(content: Text(l10n.debtDeleted), showCloseIcon: true),
           );
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.failedToDeleteDebt)),
+            SnackBar(content: Text(l10n.failedToDeleteDebt), showCloseIcon: true),
           );
         }
       }

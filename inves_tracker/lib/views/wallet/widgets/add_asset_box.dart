@@ -88,7 +88,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
     final l10n = AppLocalizations.of(context)!;
     if (_selectedCode == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.pleaseSelectCode)),
+        SnackBar(content: Text(l10n.pleaseSelectCode), showCloseIcon: true),
       );
       return;
     }
@@ -97,7 +97,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
 
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.enterValidAmount)),
+        SnackBar(content: Text(l10n.enterValidAmount), showCloseIcon: true),
       );
       return;
     }
@@ -121,14 +121,14 @@ class _AddAssetBoxState extends State<AddAssetBox> {
         });
         widget.onAssetAdded();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.assetAdded)),
+          SnackBar(content: Text(l10n.assetAdded), showCloseIcon: true),
         );
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${l10n.failedToAddAsset}: $e')),
+          SnackBar(content: Text('${l10n.failedToAddAsset}: $e'), showCloseIcon: true),
         );
       }
     }
