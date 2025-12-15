@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/crypto_data.dart';
+import 'package:inves_tracker/core/utils/price_formatter.dart';
 
 class CryptoBox extends StatelessWidget {
   final CryptoData crypto;
@@ -126,11 +127,11 @@ class CryptoBox extends StatelessWidget {
           // Right side: Buying and Selling prices (USD Price)
           Row(
             children: [
-              // USD Price (displayed as both buying and selling)
+              // USD Price
               SizedBox(
                 width: 70.w,
                 child: Text(
-                  _formatPrice(crypto.usdPrice),
+                  PriceFormatter.formatPrice(crypto.usdPrice),
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14.sp,
@@ -140,11 +141,11 @@ class CryptoBox extends StatelessWidget {
               ),
               SizedBox(width: 16.w),
               
-              // USD Price again (for consistency with layout)
+              // USD Selling Price
               SizedBox(
                 width: 70.w,
                 child: Text(
-                  _formatPrice(crypto.usdPrice),
+                  PriceFormatter.formatPrice(crypto.sellingUsd),
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14.sp,
@@ -157,18 +158,5 @@ class CryptoBox extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _formatPrice(double price) {
-    if (price >= 1000) {
-      return price.toStringAsFixed(0);
-    } else if (price >= 1) {
-      return price.toStringAsFixed(2);
-    }
-      else if (price < 1 && price >= 0.001) {
-        return price.toStringAsFixed(4);
-    } else {
-      return price.toStringAsFixed(6);
-    }
   }
 }
