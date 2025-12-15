@@ -492,4 +492,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noAssetsOrDebtsYet => 'No assets or debts yet';
+
+  @override
+  String get thousand => 'K';
+
+  @override
+  String get million => 'M';
+
+  @override
+  String get billion => 'B';
 }

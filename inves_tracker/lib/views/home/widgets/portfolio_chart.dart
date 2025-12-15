@@ -77,7 +77,7 @@ class _PortfolioChartState extends State<PortfolioChart>
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          '₺${_formatNumber(widget.portfolioData.totalAssetValue * _animation.value)}',
+                          '₺${_formatNumber(widget.portfolioData.totalAssetValue * _animation.value, l10n)}',
                           style: TextStyle(
                             fontSize: 24.sp,
                             fontWeight: FontWeight.bold,
@@ -116,11 +116,13 @@ class _PortfolioChartState extends State<PortfolioChart>
     );
   }
 
-  String _formatNumber(double value) {
-    if (value >= 1000000) {
-      return '${(value / 1000000).toStringAsFixed(2)}M';
+  String _formatNumber(double value, AppLocalizations l10n) {
+    if (value >= 1000000000) {
+      return '${(value / 1000000000).toStringAsFixed(2)}${l10n.billion}';
+    } else if (value >= 1000000) {
+      return '${(value / 1000000).toStringAsFixed(2)}${l10n.million}';
     } else if (value >= 1000) {
-      return '${(value / 1000).toStringAsFixed(1)}K';
+      return '${(value / 1000).toStringAsFixed(1)}${l10n.thousand}';
     } else {
       return value.toStringAsFixed(0);
     }

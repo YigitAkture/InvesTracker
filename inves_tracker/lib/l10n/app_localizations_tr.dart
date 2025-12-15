@@ -494,4 +494,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get noAssetsOrDebtsYet => 'Henüz bir varlık ya da borç yok';
+
+  @override
+  String get thousand => 'B';
+
+  @override
+  String get million => 'M';
+
+  @override
+  String get billion => 'Mr';
 }

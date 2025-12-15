@@ -1051,6 +1051,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No assets or debts yet'**
   String get noAssetsOrDebtsYet;
+
+  /// No description provided for @thousand.
+  ///
+  /// In en, this message translates to:
+  /// **'K'**
+  String get thousand;
+
+  /// No description provided for @million.
+  ///
+  /// In en, this message translates to:
+  /// **'M'**
+  String get million;
+
+  /// No description provided for @billion.
+  ///
+  /// In en, this message translates to:
+  /// **'B'**
+  String get billion;
 }
 
 class _AppLocalizationsDelegate

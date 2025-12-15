@@ -145,7 +145,7 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
 
               // Animated total balance text (driven by the same controller)
               Text(
-                '${isZero ? '' : isPositive ? '+' : '-'} ₺${_formatNumber(animatedTotal.abs())}',
+                '${isZero ? '' : isPositive ? '+' : '-'} ₺${_formatNumber(animatedTotal.abs(), l10n)}',
                 style: TextStyle(
                   fontSize: 32.sp,
                   fontWeight: FontWeight.bold,
@@ -197,13 +197,15 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
     );
   }
 
-  String _formatNumber(double value) {
-    if (value >= 1000000) {
-      return '${(value / 1000000).toStringAsFixed(2)}M';
+  String _formatNumber(double value, AppLocalizations l10n) {
+    if (value >= 1000000000) {
+      return '${(value / 1000000000).toStringAsFixed(2)}${l10n.billion}';
+    } else if (value >= 1000000) {
+      return '${(value / 1000000).toStringAsFixed(2)}${l10n.million}';
     } else if (value >= 1000) {
-      return '${(value / 1000).toStringAsFixed(2)}K';
+      return '${(value / 1000).toStringAsFixed(1)}${l10n.thousand}';
     } else {
-      return value.toStringAsFixed(2);
+      return value.toStringAsFixed(0);
     }
   }
 }
@@ -221,6 +223,7 @@ class _InfoColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       children: [
         Text(
@@ -233,7 +236,7 @@ class _InfoColumn extends StatelessWidget {
         ),
         SizedBox(height: 6.h),
         Text(
-          '₺${_formatNumber(value)}',
+          '₺${_formatNumber(value, l10n)}',
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
@@ -244,13 +247,15 @@ class _InfoColumn extends StatelessWidget {
     );
   }
 
-  String _formatNumber(double value) {
-    if (value >= 1000000) {
-      return '${(value / 1000000).toStringAsFixed(2)}M';
+  String _formatNumber(double value, AppLocalizations l10n) {
+    if (value >= 1000000000) {
+      return '${(value / 1000000000).toStringAsFixed(2)}${l10n.billion}';
+    } else if (value >= 1000000) {
+      return '${(value / 1000000).toStringAsFixed(2)}${l10n.million}';
     } else if (value >= 1000) {
-      return '${(value / 1000).toStringAsFixed(2)}K';
+      return '${(value / 1000).toStringAsFixed(1)}${l10n.thousand}';
     } else {
-      return value.toStringAsFixed(2);
+      return value.toStringAsFixed(0);
     }
   }
 }

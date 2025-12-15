@@ -159,5 +159,8 @@
   "totalBalance": "Total Balance",
   "totalAssets": "Total Assets",
   "portfolioBreakdown": "Portfolio Breakdown",
-  "noAssetsOrDebtsYet": "No assets or debts yet"
+  "noAssetsOrDebtsYet": "No assets or debts yet",
+  "thousand": "K",
+  "million": "M",
+  "billion": "B"
 }

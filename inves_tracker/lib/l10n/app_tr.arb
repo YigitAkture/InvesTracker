@@ -159,5 +159,8 @@
   "totalBalance": "Toplam Bakiye",
   "totalAssets": "Toplam Varlıklar",
   "portfolioBreakdown": "Portföy Dağılımı",
-  "noAssetsOrDebtsYet": "Henüz bir varlık ya da borç yok"
+  "noAssetsOrDebtsYet": "Henüz bir varlık ya da borç yok",
+  "thousand": "B",
+  "million": "M",
+  "billion": "Mr"
 }
