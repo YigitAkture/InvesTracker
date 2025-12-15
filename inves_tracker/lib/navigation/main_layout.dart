@@ -20,6 +20,7 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   final AuthService _authService = AuthService();
+  late PageController _pageController;
   int _currentIndex = 0;
   String? _userId;
   bool _isLoading = true;
@@ -27,7 +28,14 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(initialPage: _currentIndex);
     _loadUserId();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadUserId() async {
@@ -47,6 +55,14 @@ class _MainLayoutState extends State<MainLayout> {
       ];
 
   void _onNavBarTap(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _onPageChanged(int index) {
     setState(() {
       _currentIndex = index;
     });
@@ -82,8 +98,9 @@ class _MainLayoutState extends State<MainLayout> {
       backgroundColor: AppColors.background(context),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.w),
-        child: IndexedStack(
-          index: _currentIndex,
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: _onPageChanged,
           children: _screens,
         ),
       ),
