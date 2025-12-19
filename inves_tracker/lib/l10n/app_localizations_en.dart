@@ -228,6 +228,153 @@ class AppLocalizationsEn extends AppLocalizations {
   String get currencyNOK => 'Norwegian Krone';
 
   @override
+  String get currencyNZD => 'New Zealand Dollar';
+
+  @override
+  String get currencySGD => 'Singapore Dollar';
+
+  @override
+  String get currencyHKD => 'Hong Kong Dollar';
+
+  @override
+  String get currencyTHB => 'Thai Baht';
+
+  @override
+  String get currencyPLN => 'Polish Zloty';
+
+  @override
+  String get currencyCZK => 'Czech Koruna';
+
+  @override
+  String get currencyHUF => 'Hungarian Forint';
+
+  @override
+  String get currencyRON => 'Romanian Leu';
+
+  @override
+  String get currencyQAR => 'Qatari Riyal';
+
+  @override
+  String get currencyBHD => 'Bahraini Dinar';
+
+  @override
+  String get currencyOMR => 'Omani Rial';
+
+  @override
+  String get currencyINR => 'Indian Rupee';
+
+  @override
+  String get currencyPKR => 'Pakistani Rupee';
+
+  @override
+  String get currencyIDR => 'Indonesian Rupiah';
+
+  @override
+  String get currencyMYR => 'Malaysian Ringgit';
+
+  @override
+  String get currencyPHP => 'Philippine Peso';
+
+  @override
+  String get currencyMXN => 'Mexican Peso';
+
+  @override
+  String get currencyBRL => 'Brazilian Real';
+
+  @override
+  String get currencyARS => 'Argentine Peso';
+
+  @override
+  String get currencyCLP => 'Chilean Peso';
+
+  @override
+  String get currencyCOP => 'Colombian Peso';
+
+  @override
+  String get currencyPEN => 'Peruvian Sol';
+
+  @override
+  String get currencyUYU => 'Uruguayan Peso';
+
+  @override
+  String get currencyCRC => 'Costa Rican Colon';
+
+  @override
+  String get currencyUAH => 'Ukrainian Hryvnia';
+
+  @override
+  String get currencyGEL => 'Georgian Lari';
+
+  @override
+  String get currencyAZN => 'Azerbaijani Manat';
+
+  @override
+  String get currencyMKD => 'Macedonian Denar';
+
+  @override
+  String get currencyBGN => 'Bulgarian Lev';
+
+  @override
+  String get currencyBAM => 'Bosnia and Herzegovina Mark';
+
+  @override
+  String get currencyMDL => 'Moldovan Leu';
+
+  @override
+  String get currencyALL => 'Albanian Lek';
+
+  @override
+  String get currencyLBP => 'Lebanese Pound';
+
+  @override
+  String get currencyEGP => 'Egyptian Pound';
+
+  @override
+  String get currencyDZD => 'Algerian Dinar';
+
+  @override
+  String get currencyTND => 'Tunisian Dinar';
+
+  @override
+  String get currencySYP => 'Syrian Pound';
+
+  @override
+  String get currencyISK => 'Icelandic Krona';
+
+  @override
+  String get currencyKZT => 'Kazakhstani Tenge';
+
+  @override
+  String get currencyCNY => 'Chinese Yuan';
+
+  @override
+  String get currencyTWD => 'New Taiwan Dollar';
+
+  @override
+  String get currencyKRW => 'South Korean Won';
+
+  @override
+  String get currencyILS => 'Israeli New Shekel';
+
+  @override
+  String get currencyIQD => 'Iraqi Dinar';
+
+  @override
+  String get currencyLYD => 'Libyan Dinar';
+
+  @override
+  String get currencyIRR => 'Iranian Rial';
+
+  @override
+  String get currencyMAD => 'Moroccan Dirham';
+
+  @override
+  String get currencyZAR => 'South African Rand';
+
+  @override
+  String get currencyLKR => 'Sri Lankan Rupee';
+
+  @override
   String get myAssets => 'My Assets';
 
   @override

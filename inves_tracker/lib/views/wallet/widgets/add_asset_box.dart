@@ -37,8 +37,12 @@ class _AddAssetBoxState extends State<AddAssetBox> {
   // Define available codes for each type
   final Map<ExchangeType, List<String>> _codesByType = {
     ExchangeType.currency: [
-      'TRY', 'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'JPY', 'SAR', 
-      'RUB', 'AED', 'KWD', 'AUD', 'DKK', 'SEK', 'NOK'
+      'TRY', 'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'RUB', 'AED', 'AUD', 'DKK', 'SEK', 
+      'NOK', 'ISK', 'JPY', 'SGD', 'NZD', 'HKD', 'THB', 'PLN', 'CZK', 'HUF', 'RON', 
+      'QAR', 'SAR', 'BHD', 'OMR', 'KWD', 'IQD', 'LYD', 'IRR', 'LKR', 'INR', 'PKR', 
+      'IDR', 'MYR', 'PHP', 'MXN', 'BRL', 'ARS', 'CLP', 'COP', 'PEN', 'UYU', 'CRC', 
+      'UAH', 'GEL', 'AZN', 'MKD', 'BGN', 'BAM', 'MDL', 'ALL', 'LBP', 'EGP', 'DZD', 
+      'TND', 'SYP', 'KZT', 'CNY', 'TWD'
     ],
     ExchangeType.gold: [
       'HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN', 

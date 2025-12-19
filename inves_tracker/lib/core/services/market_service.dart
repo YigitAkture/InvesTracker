@@ -12,8 +12,12 @@ class MarketService {
   static const String _baseUrl = 'http://10.0.2.2:5033/api/MarketData';
 
   static const List<String> _allCurrencies = [
-    'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'JPY', 'SAR', 
-    'RUB', 'AED', 'KWD', 'AUD', 'DKK', 'SEK', 'NOK'
+    "USD", "EUR", "GBP", "CHF", "CAD", "RUB", "AED", "AUD", "DKK", "SEK", "NOK",
+    "ISK", "JPY", "SGD", "NZD", "HKD", "THB", "PLN", "CZK", "HUF", "RON", "QAR", 
+    "SAR", "BHD", "OMR", "KWD", "IQD", "LYD", "IRR", "LKR", "INR", "PKR", "IDR", 
+    "MYR", "PHP", "MXN", "BRL", "ARS", "CLP", "COP", "PEN", "UYU", "CRC", "UAH", 
+    "GEL", "AZN", "MKD", "BGN", "BAM", "MDL", "ALL", "LBP", "EGP", "DZD", "TND", 
+    "SYP", "KZT", "CNY", "TWD"
   ];
 
   static const List<String> _allGolds = [

@@ -228,6 +228,153 @@ class AppLocalizationsTr extends AppLocalizations {
   String get currencyNOK => 'Norveç Kronu';
 
   @override
+  String get currencyNZD => 'Yeni Zelanda Doları';
+
+  @override
+  String get currencySGD => 'Singapur Doları';
+
+  @override
+  String get currencyHKD => 'Hong Kong Doları';
+
+  @override
+  String get currencyTHB => 'Tayland Bahtı';
+
+  @override
+  String get currencyPLN => 'Polonya Zlotisi';
+
+  @override
+  String get currencyCZK => 'Çek Korunası';
+
+  @override
+  String get currencyHUF => 'Macar Forinti';
+
+  @override
+  String get currencyRON => 'Romen Leyi';
+
+  @override
+  String get currencyQAR => 'Katar Riyali';
+
+  @override
+  String get currencyBHD => 'Bahreyn Dinarı';
+
+  @override
+  String get currencyOMR => 'Umman Riyali';
+
+  @override
+  String get currencyINR => 'Hindistan Rupisi';
+
+  @override
+  String get currencyPKR => 'Pakistan Rupisi';
+
+  @override
+  String get currencyIDR => 'Endonezya Rupisi';
+
+  @override
+  String get currencyMYR => 'Malezya Ringgiti';
+
+  @override
+  String get currencyPHP => 'Filipin Pesosu';
+
+  @override
+  String get currencyMXN => 'Meksika Pesosu';
+
+  @override
+  String get currencyBRL => 'Brezilya Reali';
+
+  @override
+  String get currencyARS => 'Arjantin Pesosu';
+
+  @override
+  String get currencyCLP => 'Şili Pesosu';
+
+  @override
+  String get currencyCOP => 'Kolombiya Pesosu';
+
+  @override
+  String get currencyPEN => 'Peru Solü';
+
+  @override
+  String get currencyUYU => 'Uruguay Pesosu';
+
+  @override
+  String get currencyCRC => 'Kosta Rika Kolonu';
+
+  @override
+  String get currencyUAH => 'Ukrayna Grivnası';
+
+  @override
+  String get currencyGEL => 'Gürcistan Larisi';
+
+  @override
+  String get currencyAZN => 'Azerbaycan Manatı';
+
+  @override
+  String get currencyMKD => 'Makedon Dinarı';
+
+  @override
+  String get currencyBGN => 'Bulgar Levası';
+
+  @override
+  String get currencyBAM => 'Bosna-Hersek Markı';
+
+  @override
+  String get currencyMDL => 'Moldova Leyi';
+
+  @override
+  String get currencyALL => 'Arnavutluk Leki';
+
+  @override
+  String get currencyLBP => 'Lübnan Lirası';
+
+  @override
+  String get currencyEGP => 'Mısır Lirası';
+
+  @override
+  String get currencyDZD => 'Cezayir Dinarı';
+
+  @override
+  String get currencyTND => 'Tunus Dinarı';
+
+  @override
+  String get currencySYP => 'Suriye Lirası';
+
+  @override
+  String get currencyISK => 'İzlanda Kronu';
+
+  @override
+  String get currencyKZT => 'Kazakistan Tengesi';
+
+  @override
+  String get currencyCNY => 'Çin Yuanı';
+
+  @override
+  String get currencyTWD => 'Yeni Tayvan Doları';
+
+  @override
+  String get currencyKRW => 'Güney Kore Wonu';
+
+  @override
+  String get currencyILS => 'İsrail Yeni Şekeli';
+
+  @override
+  String get currencyIQD => 'Irak Dinarı';
+
+  @override
+  String get currencyLYD => 'Libya Dinarı';
+
+  @override
+  String get currencyIRR => 'İran Riyali';
+
+  @override
+  String get currencyMAD => 'Fas Dirhemi';
+
+  @override
+  String get currencyZAR => 'Güney Afrika Randı';
+
+  @override
+  String get currencyLKR => 'Sri Lanka Rupisi';
+
+  @override
   String get myAssets => 'Varlıklarım';
 
   @override

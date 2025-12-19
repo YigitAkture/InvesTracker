@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class AssetColors {
   // Currency colors
-  static const Color usd = Color(0xFF2ECC71);
   static const Color eur = Color(0xFF3498DB);
+  static const Color usd = Color(0xFF2ECC71);
   static const Color gbp = Color(0xFFE74C3C);
   static const Color jpy = Color(0xFFE67E22);
   static const Color chf = Color(0xFF9B59B6);
@@ -17,6 +17,48 @@ class AssetColors {
   static const Color dkk = Color(0xFFD35400);
   static const Color sek = Color(0xFFC0392B);
   static const Color nok = Color(0xFF2C3E50);
+  static const Color nzd = Color(0xFF6AB04C);
+  static const Color sgd = Color(0xFF7ED6DF);
+  static const Color hkd = Color(0xFFEB4D4B);
+  static const Color thb = Color(0xFFF0932B);
+  static const Color pln = Color(0xFFBE2EDD);
+  static const Color czk = Color(0xFF22A6B3);
+  static const Color huf = Color(0xFF4834D4);
+  static const Color ron = Color(0xFF30336B);
+  static const Color qar = Color(0xFF6D214F);
+  static const Color bhd = Color(0xFF218C74);
+  static const Color omr = Color(0xFF40407A);
+  static const Color inr = Color(0xFFB33771);
+  static const Color pkr = Color(0xFF218F76);
+  static const Color idr = Color(0xFFCC8E35);
+  static const Color myr = Color(0xFF2C2C54);
+  static const Color php = Color(0xFF1B9CFC);
+  static const Color mxn = Color(0xFF009432);
+  static const Color brl = Color(0xFF006266);
+  static const Color ars = Color(0xFF74B9FF);
+  static const Color clp = Color(0xFFFF7675);
+  static const Color cop = Color(0xFFFBC531);
+  static const Color pen = Color(0xFFC23616);
+  static const Color uyu = Color(0xFF00CEC9);
+  static const Color crc = Color(0xFF0984E3);
+  static const Color uah = Color(0xFF0984E3);
+  static const Color gel = Color(0xFF6C5CE7);
+  static const Color azn = Color(0xFF10AC84);
+  static const Color mkd = Color(0xFFEE5253);
+  static const Color bgn = Color(0xFF1DD1A1);
+  static const Color bam = Color(0xFF576574);
+  static const Color mdl = Color(0xFF5F27CD);
+  static const Color all = Color(0xFFED4C67);
+  static const Color lbp = Color(0xFF2E86DE);
+  static const Color egp = Color(0xFFB71540);
+  static const Color dzd = Color(0xFF006266);
+  static const Color tnd = Color(0xFF833471);
+  static const Color syp = Color(0xFF3C6382);
+  static const Color isk = Color(0xFF0A3D62);
+  static const Color kzt = Color(0xFF079992);
+  static const Color cny = Color(0xFFC0392B);
+  static const Color twd = Color(0xFF60A3BC);
+  static const Color krw = Color(0xFF4A69BD);
 
   // Gold colors (various shades of gold/yellow)
   static const Color hasGold = Color(0xFFFFD700);
@@ -109,6 +151,88 @@ class AssetColors {
         return sek;
       case 'NOK':
         return nok;
+      case 'NZD':
+        return nzd;
+      case 'SGD':
+        return sgd;
+      case 'HKD':
+        return hkd;
+      case 'THB': 
+        return thb;
+      case 'PLN':
+        return pln;
+      case 'CZK':
+        return czk;
+      case 'HUF':
+        return huf;
+      case 'RON':
+        return ron;
+      case 'QAR':
+        return qar;
+      case 'BHD':
+        return bhd;
+      case 'OMR':
+        return omr;
+      case 'INR':
+        return inr;
+      case 'PKR':
+        return pkr;
+      case 'IDR':
+        return idr;
+      case 'MYR':
+        return myr;
+      case 'PHP':
+        return php;
+      case 'MXN':
+        return mxn;
+      case 'BRL':
+        return brl;
+      case 'ARS':
+        return ars;
+      case 'CLP':
+        return clp;
+      case 'COP': 
+        return cop;
+      case 'PEN': 
+        return pen;
+      case 'UYU':
+        return uyu;
+      case 'CRC': 
+        return crc;
+      case 'UAH': 
+        return uah;
+      case 'GEL':
+        return gel;
+      case 'AZN':
+        return azn;
+      case 'MKD':
+        return mkd;
+      case 'BGN':
+        return bgn;
+      case 'BAM':
+        return bam;
+      case 'MDL':
+        return mdl;
+      case 'ALL':
+        return all;
+      case 'LBP': 
+        return lbp;
+      case 'EGP':
+        return egp;
+      case 'DZD':
+        return dzd;
+      case 'TND':
+        return tnd;
+      case 'SYP':
+        return syp;
+      case 'ISK':
+        return isk;
+      case 'KZT':
+        return kzt;
+      case 'CNY':
+        return cny;
+      case 'TWD':
+        return twd;
       default:
         return defaultCurrency;
     }
