@@ -5,9 +5,27 @@ import 'package:inves_tracker/views/auth/auth_wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:inves_tracker/core/utils/theme_notifier.dart';
 import 'package:inves_tracker/core/utils/locale_notifier.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+
+  void initialization() async {
+    await Future.delayed(const Duration(seconds: 3));
+    FlutterNativeSplash.remove();
+  }
 
   @override
   Widget build(BuildContext context) {
