@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:inves_tracker/core/models/asset.dart';
 
 class AssetService {
-  static const String _baseUrl = 'http://10.0.2.2:5033/api/Assets';
+  static const String _baseUrl = 'http://45.131.3.173:5000/api/Assets';
 
   Future<List<Asset>> getUserAssets(String userId) async {
     try {

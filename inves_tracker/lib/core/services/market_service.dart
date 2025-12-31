@@ -9,7 +9,7 @@ class MarketService {
   // For Android Emulator, use 10.0.2.2 to access localhost
   // For iOS Simulator, use localhost or 127.0.0.1
   // For physical device, use your computer's IP address
-  static const String _baseUrl = 'http://10.0.2.2:5033/api/MarketData';
+  static const String _baseUrl = 'http://45.131.3.173:5000/api/MarketData';
 
   static const List<String> _allCurrencies = [
     "USD", "EUR", "GBP", "CHF", "CAD", "RUB", "AED", "AUD", "DKK", "SEK", "NOK",
