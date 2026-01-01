@@ -23,8 +23,8 @@ class AppColors {
   // --- Light Colors ---
   static const Color primaryLight = Color(0xFF1B5448);
   static const Color secondaryLight = Color(0xFFFF7F3F);
-  static const Color backgroundLight = Color(0xFFBABABA);
-  static const Color backgroundLight2 = Color(0xFFDEDEDE);
+  static const Color backgroundLight = Color(0xFFD4D4D4);
+  static const Color backgroundLight2 = Color(0xFFE6E6E6);
   static const Color foregroundLight = Color(0xFFF3F3F3);
   static const Color titleLight = Color(0xFF333333);
 
