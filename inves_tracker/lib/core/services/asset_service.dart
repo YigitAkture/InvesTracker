@@ -1,17 +1,15 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:inves_tracker/core/models/asset.dart';
+import 'package:inves_tracker/core/services/api_service.dart';
 
 class AssetService {
-  static const String _baseUrl = 'http://45.131.3.173:5000/api/Assets';
+  final ApiService _apiService = ApiService();
 
+  /// Get all assets for the authenticated user
   Future<List<Asset>> getUserAssets(String userId) async {
     try {
-      final response = await http.get(
-        Uri.parse('$_baseUrl/user/$userId'),
-        headers: {'Content-Type': 'application/json'},
-      ).timeout(const Duration(seconds: 30));
-
+      final response = await _apiService.get('Assets');
+      
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         return data.map((json) => Asset.fromJson(json)).toList();
@@ -23,40 +21,36 @@ class AssetService {
     }
   }
 
+  /// Create a new asset
   Future<Asset> createAsset(String userId, {
     required String assetType,
     required String assetCode,
     required double amount,
   }) async {
     try {
-      final response = await http.post(
-        Uri.parse('$_baseUrl/user/$userId'),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'assetType': assetType,
-          'assetCode': assetCode,
-          'amount': amount,
-        }),
-      ).timeout(const Duration(seconds: 30));
+      final response = await _apiService.post('Assets', {
+        'assetType': assetType,
+        'assetCode': assetCode,
+        'amount': amount,
+      });
 
       if (response.statusCode == 201) {
         return Asset.fromJson(json.decode(response.body));
       } else {
         final error = json.decode(response.body);
-        throw Exception(error['message'] ?? 'Failed to create asset');
+        throw Exception(error['error'] ?? error['message'] ?? 'Failed to create asset');
       }
     } catch (e) {
       throw Exception('Error creating asset: $e');
     }
   }
 
+  /// Update an existing asset
   Future<Asset> updateAsset(String assetId, double amount) async {
     try {
-      final response = await http.put(
-        Uri.parse('$_baseUrl/$assetId'),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({'amount': amount}),
-      ).timeout(const Duration(seconds: 30));
+      final response = await _apiService.put('Assets/$assetId', {
+        'amount': amount,
+      });
 
       if (response.statusCode == 200) {
         return Asset.fromJson(json.decode(response.body));
@@ -68,18 +62,33 @@ class AssetService {
     }
   }
 
+  /// Delete an asset
   Future<void> deleteAsset(String assetId) async {
     try {
-      final response = await http.delete(
-        Uri.parse('$_baseUrl/$assetId'),
-        headers: {'Content-Type': 'application/json'},
-      ).timeout(const Duration(seconds: 30));
-
+      final response = await _apiService.delete('Assets/$assetId');
+      
       if (response.statusCode != 204) {
         throw Exception('Failed to delete asset: ${response.statusCode}');
       }
     } catch (e) {
       throw Exception('Error deleting asset: $e');
+    }
+  }
+
+  /// Get a specific asset by ID
+  Future<Asset?> getAssetById(String assetId) async {
+    try {
+      final response = await _apiService.get('Assets/$assetId');
+      
+      if (response.statusCode == 200) {
+        return Asset.fromJson(json.decode(response.body));
+      } else if (response.statusCode == 404) {
+        return null;
+      } else {
+        throw Exception('Failed to load asset: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error fetching asset: $e');
     }
   }
 }

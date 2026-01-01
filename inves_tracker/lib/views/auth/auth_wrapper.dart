@@ -23,9 +23,33 @@ class _AuthWrapperState extends State<AuthWrapper> {
   }
 
   Future<void> _checkAuthStatus() async {
+    // Check if user has token
     final loggedIn = await _authService.isLoggedIn();
+    
+    if (!loggedIn) {
+      setState(() {
+        _isLoggedIn = false;
+        _isLoading = false;
+      });
+      return;
+    }
+
+    // Verify token is still valid
+    final isValid = await _authService.verifyToken();
+    
+    if (!isValid) {
+      // Token expired or invalid - logout
+      await _authService.logout();
+      setState(() {
+        _isLoggedIn = false;
+        _isLoading = false;
+      });
+      return;
+    }
+
+    // Token is valid
     setState(() {
-      _isLoggedIn = loggedIn;
+      _isLoggedIn = true;
       _isLoading = false;
     });
   }
@@ -36,8 +60,15 @@ class _AuthWrapperState extends State<AuthWrapper> {
       return Scaffold(
         backgroundColor: AppColors.background(context),
         body: Center(
-          child: CircularProgressIndicator(
-            color: AppColors.primary(context),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(
+                color: AppColors.primary(context),
+              ),
+              const SizedBox(height: 16),
+              const Text('Verifying session...'),
+            ],
           ),
         ),
       );

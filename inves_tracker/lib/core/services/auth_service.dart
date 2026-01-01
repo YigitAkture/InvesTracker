@@ -22,7 +22,10 @@ class AuthService {
     try {
       final response = await http.post(
         Uri.parse('$_baseUrl/register'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
         body: json.encode({
           'email': email,
           'phoneNumber': phoneNumber,
@@ -38,10 +41,13 @@ class AuthService {
         return {'success': true, 'data': data};
       } else {
         final error = json.decode(response.body);
-        return {'success': false, 'message': error['message'] ?? 'Registration failed'};
+        return {
+          'success': false,
+          'message': error['message'] ?? error['error'] ?? 'Registration failed'
+        };
       }
     } catch (e) {
-      return {'success': false, 'message': 'Error: $e'};
+      return {'success': false, 'message': 'Connection error: $e'};
     }
   }
 
@@ -53,7 +59,10 @@ class AuthService {
     try {
       final response = await http.post(
         Uri.parse('$_baseUrl/login'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
         body: json.encode({
           'email': email,
           'password': password,
@@ -64,12 +73,21 @@ class AuthService {
         final data = json.decode(response.body);
         await _saveUserData(data);
         return {'success': true, 'data': data};
+      } else if (response.statusCode == 401) {
+        final error = json.decode(response.body);
+        return {
+          'success': false,
+          'message': error['message'] ?? error['error'] ?? 'Invalid credentials'
+        };
       } else {
         final error = json.decode(response.body);
-        return {'success': false, 'message': error['message'] ?? 'Login failed'};
+        return {
+          'success': false,
+          'message': error['message'] ?? error['error'] ?? 'Login failed'
+        };
       }
     } catch (e) {
-      return {'success': false, 'message': 'Error: $e'};
+      return {'success': false, 'message': 'Connection error: $e'};
     }
   }
 
@@ -87,14 +105,21 @@ class AuthService {
   // Check if user is logged in
   Future<bool> isLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString(_tokenKey);
     final userId = prefs.getString(_userIdKey);
-    return userId != null;
+    return token != null && userId != null;
   }
 
   // Get current user ID
   Future<String?> getCurrentUserId() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_userIdKey);
+  }
+
+  // Get JWT token
+  Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_tokenKey);
   }
 
   // Get current user data
@@ -118,5 +143,27 @@ class AuthService {
     await prefs.setString(_firstNameKey, data['firstName'] ?? '');
     await prefs.setString(_lastNameKey, data['lastName'] ?? '');
     await prefs.setString(_phoneNumberKey, data['phoneNumber'] ?? '');
+  }
+
+  // Verify token is still valid
+  Future<bool> verifyToken() async {
+    final token = await getToken();
+    final userId = await getCurrentUserId();
+    
+    if (token == null || userId == null) return false;
+
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl/verify/$userId'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      ).timeout(const Duration(seconds: 10));
+
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
   }
 }
