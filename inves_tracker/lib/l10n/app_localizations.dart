@@ -1184,6 +1184,12 @@ abstract class AppLocalizations {
   /// **'Phone Number'**
   String get phoneNumber;
 
+  /// No description provided for @invalidEmailOrPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password'**
+  String get invalidEmailOrPassword;
+
   /// No description provided for @dontHaveAnAccount.
   ///
   /// In en, this message translates to:

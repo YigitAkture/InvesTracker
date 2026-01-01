@@ -557,6 +557,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get phoneNumber => 'Telefon Numarası';
 
   @override
+  String get invalidEmailOrPassword => 'E-posta veya şifre geçersiz';
+
+  @override
   String get dontHaveAnAccount => 'Hesabınız yok mu?';
 
   @override

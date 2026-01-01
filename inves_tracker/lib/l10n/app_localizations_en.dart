@@ -555,6 +555,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phoneNumber => 'Phone Number';
 
   @override
+  String get invalidEmailOrPassword => 'Invalid email or password';
+
+  @override
   String get dontHaveAnAccount => 'Don\'t have an account?';
 
   @override

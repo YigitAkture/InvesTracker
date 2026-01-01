@@ -50,7 +50,7 @@ class AboutSection extends StatelessWidget {
               context,
               icon: Icons.email_outlined,
               label: l10n.email,
-              value: 'investracker@gmail.com',
+              value: 'investrackerapp@gmail.com',
             ),
           ],
         ),

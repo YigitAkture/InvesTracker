@@ -182,6 +182,7 @@
   "firstName": "First Name",
   "lastName": "Last Name",
   "phoneNumber": "Phone Number",
+  "invalidEmailOrPassword": "Invalid email or password",
   "dontHaveAnAccount": "Don't have an account?",
   "alreadyHaveAccount": "Already have an account?",
   "pleaseEnterEmail": "Please enter your email",

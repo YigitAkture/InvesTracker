@@ -182,6 +182,7 @@
   "firstName": "Ad",
   "lastName": "Soyad",
   "phoneNumber": "Telefon Numarası",
+  "invalidEmailOrPassword": "E-posta veya şifre geçersiz",
   "dontHaveAnAccount": "Hesabınız yok mu?",
   "alreadyHaveAccount": "Zaten hesabınız var mı?",
   "pleaseEnterEmail": "Lütfen e-postanızı girin",
