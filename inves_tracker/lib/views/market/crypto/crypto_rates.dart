@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/market/crypto/widgets/crypto_box.dart';
 
 class CryptoRates extends StatelessWidget {
@@ -28,9 +29,18 @@ class CryptoRates extends StatelessWidget {
     }
 
     return Column(
-      children: cryptos
-          .map((crypto) => CryptoBox(crypto: crypto))
-          .toList(),
+      children: [
+        // Display crypto boxes with banner ad after the 5th item
+        for (int i = 0; i < cryptos.length; i++) ...[
+          CryptoBox(crypto: cryptos[i]),
+          // Add banner after the 5th crypto box (index 4)
+          if (i == 4) ...[
+            SizedBox(height: 8.h),
+            const Center(child: BannerAdd()),
+            SizedBox(height: 16.h),
+          ],
+        ],
+      ],
     );
   }
 }
