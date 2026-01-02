@@ -4,6 +4,7 @@ import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/converter/widgets/currency_to_currency_section.dart';
 import 'package:inves_tracker/views/converter/widgets/gold_to_currency_section.dart';
 import 'package:inves_tracker/views/converter/widgets/crypto_to_currency_section.dart';
@@ -67,6 +68,11 @@ class _ConverterScreenState extends State<ConverterScreen> {
           padding: EdgeInsets.symmetric(vertical: 12.h),
           child: Column(
             children: [
+              // Banner Ad
+              const Center(child: BannerAdd()),
+              
+              SizedBox(height: 20.h),
+
               // Currency to Currency Section
               CurrencyToCurrencySection(
                 currencies: _marketData!.currencies,

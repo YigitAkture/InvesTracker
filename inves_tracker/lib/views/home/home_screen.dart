@@ -7,6 +7,7 @@ import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
+import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/home/widgets/portfolio_chart.dart';
 import 'package:inves_tracker/views/home/widgets/total_balance_card.dart';
 import 'package:inves_tracker/views/home/widgets/asset_debt_details.dart';
@@ -120,11 +121,16 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.symmetric(vertical: 16.h),
           child: Column(
             children: [
+              // Banner Ad
+              const BannerAdd(),
+              
+              SizedBox(height: 24.h),
+              
               // Portfolio Chart
               PortfolioChart(portfolioData: portfolioData),
               
               SizedBox(height: 24.h),
-              
+
               // Total Balance Card
               TotalBalanceCard(portfolioData: portfolioData),
               

@@ -6,6 +6,7 @@ import 'package:inves_tracker/core/models/gold_data.dart';
 import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/market/currency/currency_rates.dart';
 import 'package:inves_tracker/views/market/gold/gold_rates.dart';
 import 'package:inves_tracker/views/market/crypto/crypto_rates.dart';

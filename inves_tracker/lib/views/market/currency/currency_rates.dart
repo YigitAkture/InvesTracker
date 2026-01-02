@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/market/currency/widgets/currency_box.dart';
 
 class CurrencyRates extends StatefulWidget {
@@ -92,6 +93,11 @@ class CurrencyRatesState extends State<CurrencyRates> {
               ),
             ),
           ),
+
+          // Banner Ad
+          SizedBox(height: 8.h),
+          const Center(child: BannerAdd()),
+          SizedBox(height: 8.h),
       ],
     );
   }
