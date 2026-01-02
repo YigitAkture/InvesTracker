@@ -16,7 +16,7 @@ class _BannerAddState extends State<BannerAdd> {
 
   // Add Unit ID
   final String adUnitId = Platform.isAndroid
-      ? 'ca-app-pub-3940256099942544/9214589741' // Test Ad Unit ID for Android
+      ? 'ca-app-pub-2938969901665451/8416786222' // Ad Unit ID for Android
       : 'ca-app-pub-3940256099942544/2435281174'; // Test Ad Unit ID for iOS
 
   @override
