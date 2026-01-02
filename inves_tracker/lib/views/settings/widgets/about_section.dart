@@ -116,7 +116,7 @@ class AboutSection extends StatelessWidget {
           InfoRow(
             icon: Icons.info_outline,
             label: l10n.version,
-            value: '0.1.0',
+            value: '0.1.2',
             iconColor: AppColors.primary(context),
           ),
           Divider(
