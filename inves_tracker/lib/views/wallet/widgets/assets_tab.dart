@@ -6,6 +6,7 @@ import 'package:inves_tracker/core/services/asset_service.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/wallet/widgets/asset_accordion_item.dart';
 import 'package:inves_tracker/views/wallet/widgets/add_asset_box.dart';
 
@@ -137,6 +138,10 @@ class _AssetsTabState extends State<AssetsTab> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Banner Ad
+            const Center(child: BannerAdd()),
+            SizedBox(height: 16.h),
+
             // Add Asset Box
             AddAssetBox(
               userId: widget.userId,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
-import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/wallet/widgets/assets_tab.dart';
 import 'package:inves_tracker/views/wallet/widgets/debts_tab.dart';
 
@@ -116,12 +115,7 @@ class _WalletScreenState extends State<WalletScreen> {
             ),
           ),
         ),
-
         SizedBox(height: 8.h),
-
-        // Banner Ad
-        const Center(child: BannerAdd()),
-        SizedBox(height: 16.h),
 
         // Tab Content
         Expanded(

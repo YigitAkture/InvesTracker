@@ -1,4 +1,4 @@
-package com.example.inves_tracker
+package com.yigit.investrackerapp
 
 import io.flutter.embedding.android.FlutterActivity
 
