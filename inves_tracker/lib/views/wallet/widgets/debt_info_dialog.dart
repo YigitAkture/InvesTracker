@@ -10,9 +10,40 @@ class DebtInfoDialog extends StatelessWidget {
 
   const DebtInfoDialog({super.key, required this.debts});
 
+  /// Sort debts by priority:
+  /// 1. Debts with due dates (nearest first)
+  /// 2. Debts without due dates (oldest created first)
+  List<Debt> _getSortedDebts() {
+    final sortedDebts = List<Debt>.from(debts);
+    
+    sortedDebts.sort((a, b) {
+      // Both have due dates - sort by nearest due date first
+      if (a.dueDate != null && b.dueDate != null) {
+        return a.dueDate!.compareTo(b.dueDate!);
+      }
+      
+      // Only 'a' has due date - 'a' comes first
+      if (a.dueDate != null && b.dueDate == null) {
+        return -1;
+      }
+      
+      // Only 'b' has due date - 'b' comes first
+      if (a.dueDate == null && b.dueDate != null) {
+        return 1;
+      }
+      
+      // Neither has due date - sort by creation date (oldest first)
+      return a.createdAt.compareTo(b.createdAt);
+    });
+    
+    return sortedDebts;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final sortedDebts = _getSortedDebts();
+    
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.r),
@@ -54,18 +85,18 @@ class DebtInfoDialog extends StatelessWidget {
               ),
             ),
 
-            // Content
+            // Content - Using sorted debts
             Flexible(
               child: ListView.separated(
                 shrinkWrap: true,
                 padding: EdgeInsets.all(16.r),
-                itemCount: debts.length,
+                itemCount: sortedDebts.length,
                 separatorBuilder: (context, index) => Divider(
                   height: 24.h,
                   color: AppColors.background2(context),
                 ),
                 itemBuilder: (context, index) {
-                  final debt = debts[index];
+                  final debt = sortedDebts[index];
                   return _DebtInfoItem(debt: debt, index: index);
                 },
               ),

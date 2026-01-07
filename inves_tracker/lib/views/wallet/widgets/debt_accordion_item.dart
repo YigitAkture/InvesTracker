@@ -57,7 +57,9 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.secondary(context)),
+            style: TextButton.styleFrom(
+              foregroundColor: AppColors.secondary(context),
+            ),
             child: Text(l10n.delete),
           ),
         ],
@@ -71,7 +73,10 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(l10n.debtDeleted, style: TextStyle(color: Colors.black)), 
+              content: Text(
+                l10n.debtDeleted,
+                style: TextStyle(color: Colors.black),
+              ),
               showCloseIcon: true,
               closeIconColor: Colors.black,
               backgroundColor: AppColors.success2,
@@ -82,7 +87,10 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(l10n.failedToDeleteDebt, style: TextStyle(color: Colors.black)), 
+              content: Text(
+                l10n.failedToDeleteDebt,
+                style: TextStyle(color: Colors.black),
+              ),
               showCloseIcon: true,
               closeIconColor: Colors.black,
               backgroundColor: AppColors.danger3,
@@ -102,6 +110,32 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
     if (result == true) {
       widget.onRefresh();
     }
+  }
+
+  List<Debt> _getSortedDebts() {
+    final debts = List<Debt>.from(widget.debts);
+
+    debts.sort((a, b) {
+      // Both have due dates - sort by nearest due date first
+      if (a.dueDate != null && b.dueDate != null) {
+        return a.dueDate!.compareTo(b.dueDate!);
+      }
+
+      // Only 'a' has due date - 'a' comes first
+      if (a.dueDate != null && b.dueDate == null) {
+        return -1;
+      }
+
+      // Only 'b' has due date - 'b' comes first
+      if (a.dueDate == null && b.dueDate != null) {
+        return 1;
+      }
+
+      // Neither has due date - sort by creation date (oldest first)
+      return a.createdAt.compareTo(b.createdAt);
+    });
+
+    return debts;
   }
 
   void _showDebtInfo() {
@@ -199,7 +233,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
       ),
       child: Column(
         children: [
-          // Header
+          // Header section remains unchanged
           InkWell(
             onTap: () => setState(() => _isExpanded = !_isExpanded),
             borderRadius: BorderRadius.circular(12.r),
@@ -207,11 +241,8 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
               padding: EdgeInsets.all(12.r),
               child: Row(
                 children: [
-                  // Debt Icon
                   _buildIcon(),
                   SizedBox(width: 12.w),
-                  
-                  // Details
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,11 +260,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          '${_totalAmount.toStringAsFixed(2)} ${widget.debtType != 'Gold' ? widget.debtCode : WalletLocalizationHelper.getLocalizedName(
-                            context,
-                            widget.debtCode,
-                            widget.debtType,
-                          )} (${widget.debts.length} ${l10n.debt}${l10n.english == 'English' && widget.debts.length > 1 ? 's' : ''})',
+                          '${_totalAmount.toStringAsFixed(2)} ${widget.debtType != 'Gold' ? widget.debtCode : WalletLocalizationHelper.getLocalizedName(context, widget.debtCode, widget.debtType)} (${widget.debts.length} ${l10n.debt}${l10n.english == 'English' && widget.debts.length > 1 ? 's' : ''})',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.title(context),
@@ -253,15 +280,11 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                       ],
                     ),
                   ),
-                  
-                  // Info Button
                   IconButton(
                     onPressed: _showDebtInfo,
                     icon: Icon(Icons.info_outline, size: 20.sp),
                     color: AppColors.primary(context),
                   ),
-                  
-                  // Expand Icon
                   Icon(
                     _isExpanded
                         ? Icons.keyboard_arrow_up
@@ -275,11 +298,11 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
 
           // Expanded Content
           if (_isExpanded)
-            ...widget.debts.map((debt) {
-              final debtTryValue = widget.tryValue != null 
-                  ? debt.amount * widget.tryValue! 
+            ..._getSortedDebts().map((debt) {
+              final debtTryValue = widget.tryValue != null
+                  ? debt.amount * widget.tryValue!
                   : null;
-              
+
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 decoration: BoxDecoration(
@@ -297,11 +320,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${l10n.amount}: ${debt.amount.toStringAsFixed(2)} ${widget.debtType != 'Gold' ? widget.debtCode : WalletLocalizationHelper.getLocalizedName(
-                            context,
-                            widget.debtCode,
-                            widget.debtType,
-                          )}',
+                            '${l10n.amount}: ${debt.amount.toStringAsFixed(2)} ${widget.debtType != 'Gold' ? widget.debtCode : WalletLocalizationHelper.getLocalizedName(context, widget.debtCode, widget.debtType)}',
                             style: TextStyle(fontSize: 14.sp),
                           ),
                           if (debtTryValue != null) ...[
@@ -342,15 +361,11 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         ],
                       ),
                     ),
-                    
-                    // Edit Button
                     IconButton(
                       onPressed: () => _editDebt(debt),
                       icon: Icon(Icons.edit, size: 20.sp),
                       color: AppColors.primary(context),
                     ),
-                    
-                    // Delete Button
                     IconButton(
                       onPressed: () => _deleteDebt(debt),
                       icon: Icon(Icons.delete, size: 20.sp),
