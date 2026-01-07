@@ -56,8 +56,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(l10n.pleaseAcceptAllConsents),
-          backgroundColor: AppColors.danger,
+          closeIconColor: Colors.white,
+          content: Text(l10n.pleaseAcceptAllConsents, style: TextStyle(color: Colors.white)),
+          backgroundColor: AppColors.danger3,
           showCloseIcon: true,
         ),
       );
@@ -261,8 +262,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (value == null || value.isEmpty) {
                       return l10n.pleaseEnterPassword;
                     }
-                    if (value.length < 6) {
-                      return l10n.passwordMustBeAtLeast6Characters;
+                    if (value.length < 8) {
+                      return l10n.passwordMustBeAtLeast8Characters;
                     }
                     return null;
                   },

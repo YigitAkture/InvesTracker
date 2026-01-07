@@ -38,7 +38,12 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
     
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.enterValidAmount), showCloseIcon: true),
+        SnackBar(
+          content: Text(l10n.enterValidAmount, style: TextStyle(color: Colors.black)), 
+          showCloseIcon: true,
+          closeIconColor: Colors.black,
+          backgroundColor: AppColors.warning2,
+        ),
       );
       return;
     }
@@ -50,14 +55,24 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
       if (mounted) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.assetUpdated), showCloseIcon: true),
+          SnackBar(
+            content: Text(l10n.assetUpdated, style: TextStyle(color: Colors.black)), 
+            showCloseIcon: true,
+            closeIconColor: Colors.black,
+            backgroundColor: AppColors.success2,
+          ),
         );
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${l10n.failedToUpdateAsset}: $e'), showCloseIcon: true),
+          SnackBar(
+            content: Text('${l10n.failedToUpdateAsset}: $e', style: TextStyle(color: Colors.black)), 
+            showCloseIcon: true,
+            closeIconColor: Colors.black,
+            backgroundColor: AppColors.danger3,
+          ),
         );
       }
     }

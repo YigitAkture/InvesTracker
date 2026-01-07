@@ -509,7 +509,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalDebt => 'Total Debt';
 
   @override
-  String get pleaseSelectCode => 'Please select a code';
+  String get pleaseSelectEntity => 'Please select an entity';
 
   @override
   String get enterValidAmount => 'Please enter a valid amount';
@@ -579,8 +579,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordsDoNotMatch => 'Passwords do not match';
 
   @override
-  String get passwordMustBeAtLeast6Characters =>
-      'Password must be at least 6 characters';
+  String get passwordMustBeAtLeast8Characters =>
+      'Password must be at least 8 characters';
 
   @override
   String get pleaseEnterFirstName => 'Please enter your first name';

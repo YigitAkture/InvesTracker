@@ -180,7 +180,9 @@ class _DebtInfoItem extends StatelessWidget {
               icon: Icons.calendar_today_outlined,
               label: l10n.dueDate,
               value: _dateFormat.format(debt.dueDate!).toString().substring(0, 10),
-              valueColor: AppColors.warning,
+              valueColor: debt.dueDate!.isBefore(DateTime.now())
+                  ? AppColors.danger2
+                  : AppColors.warning2,
             ),
             SizedBox(height: 8.h),
           ],

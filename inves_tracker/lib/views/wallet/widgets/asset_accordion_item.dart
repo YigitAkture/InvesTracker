@@ -68,13 +68,23 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
         widget.onRefresh();
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.assetDeleted), showCloseIcon: true),
+            SnackBar(
+              content: Text(l10n.assetDeleted, style: TextStyle(color: Colors.black)), 
+              showCloseIcon: true,
+              closeIconColor: Colors.black,
+              backgroundColor: AppColors.success2,
+            ),
           );
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.failedToDeleteAsset), showCloseIcon: true),
+            SnackBar(
+              content: Text(l10n.failedToDeleteAsset, style: TextStyle(color: Colors.black)), 
+              showCloseIcon: true,
+              closeIconColor: Colors.black,
+              backgroundColor: AppColors.danger3,
+            ),
           );
         }
       }
@@ -271,7 +281,11 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${l10n.amount}: ${asset.amount.toStringAsFixed(2)} ${widget.assetCode}',
+                            '${l10n.amount}: ${asset.amount.toStringAsFixed(2)} ${widget.assetType != 'Gold' ? widget.assetCode : WalletLocalizationHelper.getLocalizedName(
+                            context,
+                            widget.assetCode,
+                            widget.assetType,
+                            )}',
                             style: TextStyle(fontSize: 14.sp),
                           ),
                           if (assetTryValue != null) ...[

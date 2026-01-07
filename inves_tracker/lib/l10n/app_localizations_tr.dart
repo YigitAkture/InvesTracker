@@ -198,7 +198,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get currencyCHF => 'İsviçre Frangı';
 
   @override
-  String get currencyCAD => 'Kanada Dolları';
+  String get currencyCAD => 'Kanada Doları';
 
   @override
   String get currencyJPY => 'Japon Yeni';
@@ -511,7 +511,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get totalDebt => 'Toplam Borç';
 
   @override
-  String get pleaseSelectCode => 'Lütfen bir kod seçiniz';
+  String get pleaseSelectEntity => 'Lütfen bir birim seçiniz';
 
   @override
   String get enterValidAmount => 'Lütfen geçerli bir miktar giriniz';
@@ -581,8 +581,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get passwordsDoNotMatch => 'Şifreler eşleşmiyor';
 
   @override
-  String get passwordMustBeAtLeast6Characters =>
-      'Şifre en az 6 karakter olmalıdır';
+  String get passwordMustBeAtLeast8Characters =>
+      'Şifre en az 8 karakter olmalıdır';
 
   @override
   String get pleaseEnterFirstName => 'Lütfen adınızı girin';

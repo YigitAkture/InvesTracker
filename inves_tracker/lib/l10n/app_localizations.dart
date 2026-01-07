@@ -1094,11 +1094,11 @@ abstract class AppLocalizations {
   /// **'Total Debt'**
   String get totalDebt;
 
-  /// No description provided for @pleaseSelectCode.
+  /// No description provided for @pleaseSelectEntity.
   ///
   /// In en, this message translates to:
-  /// **'Please select a code'**
-  String get pleaseSelectCode;
+  /// **'Please select an entity'**
+  String get pleaseSelectEntity;
 
   /// No description provided for @enterValidAmount.
   ///
@@ -1232,11 +1232,11 @@ abstract class AppLocalizations {
   /// **'Passwords do not match'**
   String get passwordsDoNotMatch;
 
-  /// No description provided for @passwordMustBeAtLeast6Characters.
+  /// No description provided for @passwordMustBeAtLeast8Characters.
   ///
   /// In en, this message translates to:
-  /// **'Password must be at least 6 characters'**
-  String get passwordMustBeAtLeast6Characters;
+  /// **'Password must be at least 8 characters'**
+  String get passwordMustBeAtLeast8Characters;
 
   /// No description provided for @pleaseEnterFirstName.
   ///

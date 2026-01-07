@@ -111,7 +111,12 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
     if (_selectedCode == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.pleaseSelectCode), showCloseIcon: true),
+        SnackBar(
+          content: Text(l10n.pleaseSelectEntity, style: TextStyle(color: Colors.black)), 
+          showCloseIcon: true,
+          closeIconColor: Colors.black,
+          backgroundColor: AppColors.warning2,
+        ),
       );
       return;
     }
@@ -120,7 +125,12 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.enterValidAmount), showCloseIcon: true),
+        SnackBar(
+          content: Text(l10n.enterValidAmount, style: TextStyle(color: Colors.black)), 
+          showCloseIcon: true,
+          closeIconColor: Colors.black,
+          backgroundColor: AppColors.warning2,
+        ),
       );
       return;
     }
@@ -147,7 +157,12 @@ class _AddDebtBoxState extends State<AddDebtBox> {
         });
         widget.onDebtAdded();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.debtAdded), showCloseIcon: true),
+          SnackBar(
+            content: Text(l10n.debtAdded, style: TextStyle(color: Colors.black)), 
+            showCloseIcon: true,
+            backgroundColor: AppColors.success2,
+            closeIconColor: Colors.black,
+          ),
         );
       }
     } catch (e) {
@@ -170,7 +185,12 @@ class _AddDebtBoxState extends State<AddDebtBox> {
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to add debt: $e'), showCloseIcon: true),
+            SnackBar(
+              content: Text('Failed to add debt: $e', style: TextStyle(color: Colors.white)), 
+              showCloseIcon: true,
+              backgroundColor: AppColors.danger3,
+              closeIconColor: Colors.white,
+            ),
           );
         }
       }

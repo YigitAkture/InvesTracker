@@ -298,7 +298,7 @@ class _BarRowState extends State<_BarRow>
   Widget build(BuildContext context) {
     // Calculate bar width with minimum width
     final maxWidth = MediaQuery.of(context).size.width - 120.w;
-    final minWidth = 50.w;
+    final minWidth = 60.w;
     final calculatedWidth = (maxWidth * widget.ratio).clamp(minWidth, maxWidth);
 
     return Row(
@@ -357,7 +357,7 @@ class _BarRowState extends State<_BarRow>
                     alignment: Alignment.centerRight,
                     padding: EdgeInsets.symmetric(horizontal: 8.w),
                     child: Text(
-                      '₺${_formatNumber(widget.tryValue)}',
+                      '${widget.tryValue > 1 ? _formatNumber(widget.tryValue) : '< 1'}₺',
                       style: TextStyle(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w600,

@@ -43,6 +43,17 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      builder: (context, child) {
+        final mediaQueryData = MediaQuery.of(context);
+        final scale = mediaQueryData.textScaler.clamp(
+          minScaleFactor: 0.8,
+          maxScaleFactor: 1.2,
+        );
+        return MediaQuery(
+          data: mediaQueryData.copyWith(textScaler: scale),
+          child: child!,
+        );
+      },
       supportedLocales: const [
         Locale('en'),
         Locale('tr'),

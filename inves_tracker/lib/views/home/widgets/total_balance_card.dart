@@ -146,7 +146,7 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
 
               // Animated total balance text (driven by the same controller)
               Text(
-                '${isZero ? '' : isPositive ? '+' : '-'} ₺${formatNumber(animatedTotal.abs(), l10n)}',
+                '${isZero ? '' : isPositive ? '+' : '-'} ${formatNumber(animatedTotal.abs(), l10n)}₺',
                 style: TextStyle(
                   fontSize: 32.sp,
                   fontWeight: FontWeight.bold,
@@ -225,7 +225,7 @@ class _InfoColumn extends StatelessWidget {
         ),
         SizedBox(height: 6.h),
         Text(
-          '₺${formatNumber(value, l10n)}',
+          '${formatNumber(value, l10n)}₺',
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,

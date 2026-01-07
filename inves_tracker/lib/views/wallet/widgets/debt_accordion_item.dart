@@ -70,13 +70,23 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
         widget.onRefresh();
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.debtDeleted), showCloseIcon: true),
+            SnackBar(
+              content: Text(l10n.debtDeleted, style: TextStyle(color: Colors.black)), 
+              showCloseIcon: true,
+              closeIconColor: Colors.black,
+              backgroundColor: AppColors.success2,
+            ),
           );
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.failedToDeleteDebt), showCloseIcon: true),
+            SnackBar(
+              content: Text(l10n.failedToDeleteDebt, style: TextStyle(color: Colors.black)), 
+              showCloseIcon: true,
+              closeIconColor: Colors.black,
+              backgroundColor: AppColors.danger3,
+            ),
           );
         }
       }
@@ -323,7 +333,9 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                               '${l10n.dueDate}: ${_dateFormat.format(debt.dueDate!)}',
                               style: TextStyle(
                                 fontSize: 12.sp,
-                                color: AppColors.warning,
+                                color: debt.dueDate!.isBefore(DateTime.now())
+                                    ? AppColors.danger2
+                                    : AppColors.warning2,
                               ),
                             ),
                           ],

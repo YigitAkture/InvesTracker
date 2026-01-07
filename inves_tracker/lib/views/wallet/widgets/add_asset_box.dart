@@ -92,7 +92,12 @@ class _AddAssetBoxState extends State<AddAssetBox> {
     final l10n = AppLocalizations.of(context)!;
     if (_selectedCode == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.pleaseSelectCode), showCloseIcon: true),
+        SnackBar(
+          content: Text(l10n.pleaseSelectEntity, style: TextStyle(color: Colors.black)), 
+          showCloseIcon: true,
+          closeIconColor: Colors.black,
+          backgroundColor: AppColors.warning2,
+        ),
       );
       return;
     }
@@ -101,7 +106,12 @@ class _AddAssetBoxState extends State<AddAssetBox> {
 
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.enterValidAmount), showCloseIcon: true),
+        SnackBar(
+          content: Text(l10n.enterValidAmount, style: TextStyle(color: Colors.black)), 
+          showCloseIcon: true,
+          closeIconColor: Colors.black,
+          backgroundColor: AppColors.warning2,
+        ),
       );
       return;
     }
@@ -125,14 +135,24 @@ class _AddAssetBoxState extends State<AddAssetBox> {
         });
         widget.onAssetAdded();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.assetAdded), showCloseIcon: true),
+          SnackBar(
+            content: Text(l10n.assetAdded, style: TextStyle(color: Colors.black)), 
+            showCloseIcon: true,
+            closeIconColor: Colors.black,
+            backgroundColor: AppColors.success2,
+          ),
         );
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${l10n.failedToAddAsset}: $e'), showCloseIcon: true),
+          SnackBar(
+            content: Text('${l10n.failedToAddAsset}: $e', style: TextStyle(color: Colors.white)), 
+            showCloseIcon: true,
+            closeIconColor: Colors.white,
+            backgroundColor: AppColors.danger3,
+          ),
         );
       }
     }

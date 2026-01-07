@@ -22,6 +22,7 @@ class _PortfolioChartState extends State<PortfolioChart>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  bool _isExpanded = false;
 
   @override
   void initState() {
@@ -46,6 +47,11 @@ class _PortfolioChartState extends State<PortfolioChart>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final hasMoreThan5 = widget.portfolioData.segments.length > 5;
+    final displayedSegments = _isExpanded || !hasMoreThan5
+        ? widget.portfolioData.segments
+        : widget.portfolioData.segments.take(5).toList();
+
     return Container(
       padding: EdgeInsets.all(20.r),
       child: Column(
@@ -96,20 +102,65 @@ class _PortfolioChartState extends State<PortfolioChart>
           
           // Legend
           if (widget.portfolioData.segments.isNotEmpty)
-            Wrap(
-              spacing: 16.w,
-              runSpacing: 12.h,
-              alignment: WrapAlignment.center,
-              children: widget.portfolioData.segments.map((segment) {
-                return _LegendItem(
-                  color: segment.color,
-                  code: segment.type != 'Gold'
-                      ? segment.code
-                      : WalletLocalizationHelper.getLocalizedName(
-                          context, segment.code, segment.type),
-                  percentage: segment.percentage,
-                );
-              }).toList(),
+            Column(
+              children: [
+                Wrap(
+                  spacing: 16.w,
+                  runSpacing: 12.h,
+                  alignment: WrapAlignment.center,
+                  children: displayedSegments.map((segment) {
+                    return _LegendItem(
+                      color: segment.color,
+                      code: segment.type != 'Gold'
+                          ? segment.code
+                          : WalletLocalizationHelper.getLocalizedName(
+                              context, segment.code, segment.type),
+                      percentage: segment.percentage,
+                    );
+                  }).toList(),
+                ),
+                
+                // Show More/Less Button
+                if (hasMoreThan5)
+                  Padding(
+                    padding: EdgeInsets.only(top: 12.h),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _isExpanded = !_isExpanded;
+                        });
+                      },
+                      borderRadius: BorderRadius.circular(8.r),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 6.h,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              _isExpanded ? l10n.showLess : l10n.showMore,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.primary(context),
+                              ),
+                            ),
+                            SizedBox(width: 4.w),
+                            Icon(
+                              _isExpanded
+                                  ? Icons.keyboard_arrow_up
+                                  : Icons.keyboard_arrow_down,
+                              size: 16.sp,
+                              color: AppColors.primary(context),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
         ],
       ),
@@ -122,7 +173,7 @@ class _PortfolioChartState extends State<PortfolioChart>
     } else if (value >= 1000000) {
       return '${(value / 1000000).toStringAsFixed(2)}${l10n.million}';
     } else if (value >= 1000) {
-      return '${(value / 1000).toStringAsFixed(1)}${l10n.thousand}';
+      return '${(value / 1000).toStringAsFixed(2)}${l10n.thousand}';
     } else {
       return value.toStringAsFixed(0);
     }
@@ -155,7 +206,7 @@ class _LegendItem extends StatelessWidget {
         ),
         SizedBox(width: 6.w),
         Text(
-          '$code ${percentage.toStringAsFixed(1)}%',
+          '$code ${percentage > 0.09 ? percentage.toStringAsFixed(1) : '< 0.1'}%',
           style: TextStyle(
             fontSize: 12.sp,
             fontWeight: FontWeight.w500,

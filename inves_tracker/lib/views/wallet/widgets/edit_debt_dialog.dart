@@ -73,14 +73,24 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
       if (mounted) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.debtUpdated), showCloseIcon: true),
+          SnackBar(
+            content: Text(l10n.debtUpdated, style: TextStyle(color: Colors.black)), 
+            showCloseIcon: true,
+            backgroundColor: AppColors.success2,
+            closeIconColor: Colors.black,
+          ),
         );
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${l10n.failedToUpdateDebt}: $e'), showCloseIcon: true),
+          SnackBar(
+            content: Text('${l10n.failedToUpdateDebt}: $e', style: TextStyle(color: Colors.black)), 
+            showCloseIcon: true,
+            backgroundColor: AppColors.danger3,
+            closeIconColor: Colors.black,
+          ),
         );
       }
     }
