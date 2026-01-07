@@ -653,4 +653,39 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get billion => 'Mr';
+
+  @override
+  String get deleteMyAccount => 'Hesabımı Sil';
+
+  @override
+  String get profileUpdatedSuccessfully => 'Profil başarıyla güncellendi';
+
+  @override
+  String get profileDeletedSuccessfully => 'Profil başarıyla silindi';
+
+  @override
+  String get errorUpdatingProfile => 'Profil güncellenmemedi';
+
+  @override
+  String get editProfile => 'Profili Düzenle';
+
+  @override
+  String get failedToDeleteProfile => 'Profil silinirken bir hata oluştu';
+
+  @override
+  String get userInformation => 'Kullanıcı Bilgileri';
+
+  @override
+  String get enterPasswordToDeleteAccount =>
+      'Hesabınızı silmek için lütfen şifrenizi girin. Bu işlem geri alınamaz.';
+
+  @override
+  String get warning => 'Uyarı';
+
+  @override
+  String get areYouSureToDeleteYourAccount =>
+      'Hesabınızı silmek üzeresiniz. Bu işlem geri alınamaz ve tüm verileriniz kalıcı olarak silinecektir. Emin misiniz?';
+
+  @override
+  String get wordContinue => 'Devam Et';
 }

@@ -212,5 +212,17 @@
   "noAssetsOrDebtsYet": "Henüz bir varlık ya da borç yok",
   "thousand": "B",
   "million": "M",
-  "billion": "Mr"
+  "billion": "Mr",
+  "deleteMyAccount": "Hesabımı Sil",
+  "profileUpdatedSuccessfully": "Profil başarıyla güncellendi",
+  "profileDeletedSuccessfully": "Profil başarıyla silindi",
+  "failedToDeleteProfile": "Profil silinirken bir hata oluştu",
+  "errorUpdatingProfile": "Profil güncellenmemedi",
+  "editProfile": "Profili Düzenle",
+  "userInformation": "Kullanıcı Bilgileri",
+  "enterPasswordToDeleteAccount": "Hesabınızı silmek için lütfen şifrenizi girin. Bu işlem geri alınamaz.",
+  "warning": "Uyarı",
+  "areYouSureToDeleteYourAccount": "Hesabınızı silmek üzeresiniz. Bu işlem geri alınamaz ve tüm verileriniz kalıcı olarak silinecektir. Emin misiniz?",
+  "wordContinue": "Devam Et"
+
 }

@@ -651,4 +651,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get billion => 'B';
+
+  @override
+  String get deleteMyAccount => 'Delete My Account';
+
+  @override
+  String get profileUpdatedSuccessfully => 'Profile updated successfully';
+
+  @override
+  String get profileDeletedSuccessfully => 'Profile deleted successfully';
+
+  @override
+  String get errorUpdatingProfile => 'Error updating profile';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get failedToDeleteProfile => 'Failed to delete profile';
+
+  @override
+  String get userInformation => 'User Informaitons';
+
+  @override
+  String get enterPasswordToDeleteAccount =>
+      'To delete your account, please enter your password. This action is irreversible.';
+
+  @override
+  String get warning => 'Warning';
+
+  @override
+  String get areYouSureToDeleteYourAccount =>
+      'You are about to delete your account. This action is irreversible and all your data will be permanently deleted. Are you sure?';
+
+  @override
+  String get wordContinue => 'Continue';
 }

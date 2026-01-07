@@ -8,6 +8,7 @@ import 'package:inves_tracker/views/settings/widgets/theme_setting_item.dart';
 import 'package:inves_tracker/views/settings/widgets/language_setting_item.dart';
 import 'package:inves_tracker/views/settings/widgets/logout_setting_item.dart';
 import 'package:inves_tracker/views/settings/widgets/about_section.dart';
+import 'package:inves_tracker/views/settings/widgets/user_profile_section.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -33,6 +34,12 @@ class SettingsScreen extends StatelessWidget {
 
                 // Language Setting Card
                 const SettingCard(child: LanguageSettingItem()),
+                SizedBox(height: 12.h),
+
+                // User Profile Section
+                SectionHeader(title: l10n.userInformation),
+                SizedBox(height: 8.h),
+                const UserProfileSection(),
                 SizedBox(height: 12.h),
 
                 // About Section Header

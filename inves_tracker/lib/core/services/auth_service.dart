@@ -34,7 +34,7 @@ class AuthService {
 
       if (response.statusCode == 201) {
         final data = json.decode(response.body);
-        await _saveUserData(data);
+        await saveUserData(data);
         return {'success': true, 'data': data};
       } else {
         final error = json.decode(response.body);
@@ -68,7 +68,7 @@ class AuthService {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        await _saveUserData(data);
+        await saveUserData(data);
         return {'success': true, 'data': data};
       } else if (response.statusCode == 401) {
         final error = json.decode(response.body);
@@ -130,7 +130,7 @@ class AuthService {
   }
 
   // Save user data to SharedPreferences
-  Future<void> _saveUserData(Map<String, dynamic> data) async {
+  Future<void> saveUserData(Map<String, dynamic> data) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_userIdKey, data['userId']);
     await prefs.setString(_tokenKey, data['token'] ?? '');

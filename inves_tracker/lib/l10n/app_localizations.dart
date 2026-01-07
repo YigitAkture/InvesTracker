@@ -1369,6 +1369,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'B'**
   String get billion;
+
+  /// No description provided for @deleteMyAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete My Account'**
+  String get deleteMyAccount;
+
+  /// No description provided for @profileUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully'**
+  String get profileUpdatedSuccessfully;
+
+  /// No description provided for @profileDeletedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile deleted successfully'**
+  String get profileDeletedSuccessfully;
+
+  /// No description provided for @errorUpdatingProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Error updating profile'**
+  String get errorUpdatingProfile;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @failedToDeleteProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete profile'**
+  String get failedToDeleteProfile;
+
+  /// No description provided for @userInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'User Informaitons'**
+  String get userInformation;
+
+  /// No description provided for @enterPasswordToDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'To delete your account, please enter your password. This action is irreversible.'**
+  String get enterPasswordToDeleteAccount;
+
+  /// No description provided for @warning.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning'**
+  String get warning;
+
+  /// No description provided for @areYouSureToDeleteYourAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'You are about to delete your account. This action is irreversible and all your data will be permanently deleted. Are you sure?'**
+  String get areYouSureToDeleteYourAccount;
+
+  /// No description provided for @wordContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get wordContinue;
 }
 
 class _AppLocalizationsDelegate
