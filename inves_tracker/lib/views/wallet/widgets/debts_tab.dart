@@ -98,6 +98,32 @@ class _DebtsTabState extends State<DebtsTab> {
     }
   }
 
+  double _getTotalTryValue(List<Debt> debts, double? tryValue) {
+    if (tryValue == null) return 0.0;
+    final totalAmount = debts.fold(0.0, (sum, debt) => sum + debt.amount);
+    return totalAmount * tryValue;
+  }
+
+  List<MapEntry<String, List<Debt>>> _getSortedDebts(Map<String, List<Debt>> groupedDebts) {
+    final entries = groupedDebts.entries.toList();
+    
+    entries.sort((a, b) {
+      final debtTypeA = a.value.first.debtType;
+      final debtTypeB = b.value.first.debtType;
+      
+      final tryValueA = _getTryValue(a.key, debtTypeA);
+      final tryValueB = _getTryValue(b.key, debtTypeB);
+      
+      final totalValueA = _getTotalTryValue(a.value, tryValueA);
+      final totalValueB = _getTotalTryValue(b.value, tryValueB);
+      
+      // Sort in descending order (highest value first)
+      return totalValueB.compareTo(totalValueA);
+    });
+    
+    return entries;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -130,6 +156,7 @@ class _DebtsTabState extends State<DebtsTab> {
     }
 
     final groupedDebts = _groupDebtsByCode();
+    final sortedDebts = _getSortedDebts(groupedDebts);
 
     return RefreshIndicator(
       onRefresh: _loadData,
@@ -166,7 +193,7 @@ class _DebtsTabState extends State<DebtsTab> {
             SizedBox(height: 16.h),
 
             // Accordion Items
-            if (groupedDebts.isEmpty)
+            if (sortedDebts.isEmpty)
               Padding(
                 padding: EdgeInsets.all(24.r),
                 child: Text(
@@ -178,7 +205,7 @@ class _DebtsTabState extends State<DebtsTab> {
                 ),
               )
             else
-              ...groupedDebts.entries.map((entry) {
+              ...sortedDebts.map((entry) {
                 final debtType = entry.value.first.debtType;
                 final tryValue = _getTryValue(entry.key, debtType);
                 

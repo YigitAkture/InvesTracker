@@ -98,6 +98,32 @@ class _AssetsTabState extends State<AssetsTab> {
     }
   }
 
+  double _getTotalTryValue(List<Asset> assets, double? tryValue) {
+    if (tryValue == null) return 0.0;
+    final totalAmount = assets.fold(0.0, (sum, asset) => sum + asset.amount);
+    return totalAmount * tryValue;
+  }
+
+  List<MapEntry<String, List<Asset>>> _getSortedAssets(Map<String, List<Asset>> groupedAssets) {
+    final entries = groupedAssets.entries.toList();
+    
+    entries.sort((a, b) {
+      final assetTypeA = a.value.first.assetType;
+      final assetTypeB = b.value.first.assetType;
+      
+      final tryValueA = _getTryValue(a.key, assetTypeA);
+      final tryValueB = _getTryValue(b.key, assetTypeB);
+      
+      final totalValueA = _getTotalTryValue(a.value, tryValueA);
+      final totalValueB = _getTotalTryValue(b.value, tryValueB);
+      
+      // Sort in descending order (highest value first)
+      return totalValueB.compareTo(totalValueA);
+    });
+    
+    return entries;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -130,6 +156,7 @@ class _AssetsTabState extends State<AssetsTab> {
     }
 
     final groupedAssets = _groupAssetsByCode();
+    final sortedAssets = _getSortedAssets(groupedAssets);
 
     return RefreshIndicator(
       onRefresh: _loadData,
@@ -165,7 +192,7 @@ class _AssetsTabState extends State<AssetsTab> {
             SizedBox(height: 16.h),
 
             // Accordion Items
-            if (groupedAssets.isEmpty)
+            if (sortedAssets.isEmpty)
               Padding(
                 padding: EdgeInsets.all(24.r),
                 child: Text(
@@ -177,7 +204,7 @@ class _AssetsTabState extends State<AssetsTab> {
                 ),
               )
             else
-              ...groupedAssets.entries.map((entry) {
+              ...sortedAssets.map((entry) {
                 final assetType = entry.value.first.assetType;
                 final tryValue = _getTryValue(entry.key, assetType);
                 
