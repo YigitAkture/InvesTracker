@@ -27,7 +27,6 @@ class AddAssetBox extends StatefulWidget {
 class _AddAssetBoxState extends State<AddAssetBox> {
   final AssetService _assetService = AssetService();
   final TextEditingController _amountController = TextEditingController();
-  final TextEditingController _purchasePriceController = TextEditingController();
   
   ExchangeType _selectedType = ExchangeType.currency;
   String? _selectedCode;
@@ -62,7 +61,6 @@ class _AddAssetBoxState extends State<AddAssetBox> {
   @override
   void dispose() {
     _amountController.dispose();
-    _purchasePriceController.dispose();
     super.dispose();
   }
 
@@ -128,7 +126,6 @@ class _AddAssetBoxState extends State<AddAssetBox> {
 
       if (mounted) {
         _amountController.clear();
-        _purchasePriceController.clear();
         setState(() {
           _selectedCode = null;
           _isLoading = false;

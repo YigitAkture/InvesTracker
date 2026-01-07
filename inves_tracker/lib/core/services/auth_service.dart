@@ -9,12 +9,10 @@ class AuthService {
   static const String _emailKey = 'email';
   static const String _firstNameKey = 'firstName';
   static const String _lastNameKey = 'lastName';
-  static const String _phoneNumberKey = 'phoneNumber';
 
   // Register new user
   Future<Map<String, dynamic>> register({
     required String email,
-    required String phoneNumber,
     required String password,
     required String firstName,
     required String lastName,
@@ -28,7 +26,6 @@ class AuthService {
         },
         body: json.encode({
           'email': email,
-          'phoneNumber': phoneNumber,
           'password': password,
           'firstName': firstName,
           'lastName': lastName,
@@ -99,7 +96,6 @@ class AuthService {
     await prefs.remove(_emailKey);
     await prefs.remove(_firstNameKey);
     await prefs.remove(_lastNameKey);
-    await prefs.remove(_phoneNumberKey);
   }
 
   // Check if user is logged in
@@ -130,7 +126,6 @@ class AuthService {
       'email': prefs.getString(_emailKey),
       'firstName': prefs.getString(_firstNameKey),
       'lastName': prefs.getString(_lastNameKey),
-      'phoneNumber': prefs.getString(_phoneNumberKey),
     };
   }
 
@@ -142,7 +137,6 @@ class AuthService {
     await prefs.setString(_emailKey, data['email'] ?? '');
     await prefs.setString(_firstNameKey, data['firstName'] ?? '');
     await prefs.setString(_lastNameKey, data['lastName'] ?? '');
-    await prefs.setString(_phoneNumberKey, data['phoneNumber'] ?? '');
   }
 
   // Verify token is still valid

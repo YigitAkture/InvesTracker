@@ -4,7 +4,6 @@ class Asset {
   final String assetType; // "Currency", "Gold", "Crypto"
   final String assetCode; // "USD", "GRA", "BTC", etc.
   final double amount;
-  final double purchasePrice;
   final DateTime createdAt;
   final DateTime? updatedAt;
 
@@ -14,7 +13,6 @@ class Asset {
     required this.assetType,
     required this.assetCode,
     required this.amount,
-    required this.purchasePrice,
     required this.createdAt,
     this.updatedAt,
   });
@@ -26,7 +24,6 @@ class Asset {
       assetType: json['assetType'] ?? '',
       assetCode: json['assetCode'] ?? '',
       amount: (json['amount'] ?? 0.0).toDouble(),
-      purchasePrice: (json['purchasePrice'] ?? 0.0).toDouble(),
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: json['updatedAt'] != null 
           ? DateTime.parse(json['updatedAt']) 
@@ -41,7 +38,6 @@ class Asset {
       'assetType': assetType,
       'assetCode': assetCode,
       'amount': amount,
-      'purchasePrice': purchasePrice,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
     };
@@ -53,7 +49,6 @@ class Asset {
     String? assetType,
     String? assetCode,
     double? amount,
-    double? purchasePrice,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -63,7 +58,6 @@ class Asset {
       assetType: assetType ?? this.assetType,
       assetCode: assetCode ?? this.assetCode,
       amount: amount ?? this.amount,
-      purchasePrice: purchasePrice ?? this.purchasePrice,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

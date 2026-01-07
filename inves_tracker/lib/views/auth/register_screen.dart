@@ -81,7 +81,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     try {
       final result = await _authService.register(
         email: _emailController.text.trim(),
-        phoneNumber: _phoneController.text.trim(),
         password: _passwordController.text,
         firstName: _firstNameController.text.trim(),
         lastName: _lastNameController.text.trim(),
@@ -207,28 +206,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     }
                     if (!value.contains('@')) {
                       return l10n.pleaseEnterValidEmail;
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 16.h),
-
-                // Phone Number Field
-                TextFormField(
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    labelText: l10n.phoneNumber,
-                    prefixIcon: Icon(Icons.phone_outlined),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    filled: true,
-                    fillColor: AppColors.foreground(context),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return l10n.pleaseEnterPhoneNumber;
                     }
                     return null;
                   },
