@@ -49,6 +49,8 @@ class SettingsScreen extends StatelessWidget {
                 // About Section Card
                 const AboutSection(),
 
+                SizedBox(height: 18.h),
+
                 // Logout Setting Card
                 const Expanded(child: SizedBox()),
                 Container(
