@@ -39,17 +39,13 @@ class GoldBox extends StatelessWidget {
             child: Row(
               children: [
                 // Gold icon
-                Container(
+                SizedBox(
                   height: 30.h,
                   width: 30.w,
-                  decoration: BoxDecoration(
-                    color: AppColors.warning.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(4.r),
-                  ),
                   child: Icon(
-                    Icons.monetization_on,
-                    size: 20.sp,
-                    color: AppColors.warning,
+                    Icons.diamond,
+                    size: 30.sp,
+                    color: AppColors.warning2,
                   ),
                 ),
                 SizedBox(width: 10.w),

@@ -95,7 +95,13 @@ class _AssetDebtDetailsState extends State<AssetDebtDetails> {
                 physics: const NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(vertical: 12.h),
                 itemCount: widget.portfolioData.items.length,
-                separatorBuilder: (context, index) => SizedBox(height: 12.h),
+                separatorBuilder: (context, index) => Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Divider(
+                    height: 30.h,
+                    color: AppColors.background2(context).withValues(alpha: 0.5),  
+                  ),
+                ),
                 itemBuilder: (context, index) {
                   return _AssetDebtRow(
                     item: widget.portfolioData.items[index],
@@ -229,16 +235,12 @@ class _AssetDebtRow extends StatelessWidget {
         );
       case 'gold':
       default:
-        return Container(
+        return SizedBox(
           width: 32.w,
           height: 32.h,
-          decoration: BoxDecoration(
-            color: item.color.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(8.r),
-          ),
           child: Icon(
-            Icons.monetization_on,
-            size: 20.sp,
+            Icons.diamond,
+            size: 32.sp,
             color: item.color,
           ),
         );

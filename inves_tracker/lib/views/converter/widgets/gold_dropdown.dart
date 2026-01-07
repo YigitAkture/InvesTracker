@@ -45,17 +45,13 @@ class GoldDropdown extends StatelessWidget {
               value: gold.code,
               child: Row(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 20.h,
                     width: 20.w,
-                    decoration: BoxDecoration(
-                      color: AppColors.warning.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(4.r),
-                    ),
                     child: Icon(
-                      Icons.monetization_on,
-                      size: 14.sp,
-                      color: AppColors.warning,
+                      Icons.diamond,
+                      size: 22.sp,
+                      color: AppColors.warning2,
                     ),
                   ),
                   SizedBox(width: 8.w),

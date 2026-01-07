@@ -199,17 +199,13 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
         );
       case 'gold':
       default:
-        return Container(
+        return SizedBox(
           width: 40.w,
           height: 40.h,
-          decoration: BoxDecoration(
-            color: AppColors.warning.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(8.r),
-          ),
           child: Icon(
-            Icons.monetization_on,
-            size: 24.sp,
-            color: AppColors.warning,
+            Icons.diamond,
+            size: 40.sp,
+            color: AppColors.warning2,
           ),
         );
     }

@@ -156,16 +156,12 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
         );
       case 'gold':
       default:
-        return Container(
+        return SizedBox(
           width: 40.w,
           height: 40.h,
-          decoration: BoxDecoration(
-            color: AppColors.warning.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(8.r),
-          ),
           child: Icon(
-            Icons.monetization_on,
-            size: 24.sp,
+            Icons.diamond,
+            size: 40.sp,
             color: AppColors.warning,
           ),
         );
