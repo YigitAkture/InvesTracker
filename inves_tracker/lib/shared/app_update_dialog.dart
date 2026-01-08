@@ -90,26 +90,42 @@ class AppUpdateDialog extends StatelessWidget {
           ],
         ),
         actions: [
-          if (!forceUpdate)
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(l10n.later),
-            ),
-          ElevatedButton.icon(
-            onPressed: () => _launchStore(updateUrl),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary(context),
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () => SystemNavigator.pop(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.danger3,
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                ),
+                icon: Icon(Icons.close, size: 18.sp),
+                label: Text(
+                  l10n.later,
+                  style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+                ),
               ),
-            ),
-            icon: Icon(Icons.download, size: 20.sp),
-            label: Text(
-              l10n.updateNow,
-              style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
-            ),
+              ElevatedButton.icon(
+                onPressed: () => _launchStore(updateUrl),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary(context),
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                ),
+                icon: Icon(Icons.download, size: 18.sp),
+                label: Text(
+                  l10n.updateNow,
+                  style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
           ),
         ],
       ),

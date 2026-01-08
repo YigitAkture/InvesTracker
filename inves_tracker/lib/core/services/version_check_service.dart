@@ -15,9 +15,10 @@ class VersionCheckService {
       final packageInfo = await PackageInfo.fromPlatform();
       final currentVersion = packageInfo.version;
 
-      // Make a lightweight request to check version
+      // Use dedicated version check endpoint
+      // This endpoint is NOT in the skip list
       final client = HttpClient();
-      final response = await client.get('MarketData').timeout(
+      final response = await client.get('Version/check').timeout(
         const Duration(seconds: 5),
       );
 
@@ -35,6 +36,7 @@ class VersionCheckService {
         };
       }
 
+      // 200 OK - version is supported
       return {'updateRequired': false};
     } catch (e) {
       _isChecking = false;
