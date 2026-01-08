@@ -15,7 +15,7 @@ class GoldBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 56.h,
+      height: 62.h,
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 8.h),
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
@@ -58,6 +58,7 @@ class GoldBox extends StatelessWidget {
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
                     ),
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -98,7 +99,7 @@ class GoldBox extends StatelessWidget {
             children: [
               // Buying price
               SizedBox(
-                width: 76.w,
+                width: 80.w,
                 child: Text(
                   PriceFormatter.formatNumber(gold.buying),
                   textAlign: TextAlign.end,
@@ -112,7 +113,7 @@ class GoldBox extends StatelessWidget {
               
               // Selling price
               SizedBox(
-                width: 76.w,
+                width: 80.w,
                 child: Text(
                   PriceFormatter.formatNumber(gold.selling),
                   textAlign: TextAlign.end,

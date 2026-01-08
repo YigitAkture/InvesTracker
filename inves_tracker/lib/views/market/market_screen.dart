@@ -229,6 +229,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(width: 8.w),
                   SizedBox(
                     width: 70.w,
                     child: Text(
@@ -289,6 +290,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(width: 12.w),
                   SizedBox(
                     width: 70.w,
                     child: Text(
@@ -358,7 +360,7 @@ class _MarketScreenState extends State<MarketScreen> {
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      '${l10n.buying} (\$)',
+                      '${l10n.buying}(\$)',
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,
@@ -371,7 +373,7 @@ class _MarketScreenState extends State<MarketScreen> {
                   SizedBox(
                     width: 70.w,
                     child: Text(
-                      '${l10n.selling} (\$)',
+                      '${l10n.selling}(\$)',
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         fontSize: 13.sp,

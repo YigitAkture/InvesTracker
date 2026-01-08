@@ -15,7 +15,7 @@ class CryptoBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 56.h, // Increased height slightly
+      height: 64.h, // Increased height slightly
       width: double.infinity,
       margin: EdgeInsets.only(bottom: 8.h),
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h), // Increased vertical padding
@@ -89,7 +89,7 @@ class CryptoBox extends StatelessWidget {
                           height: 1.1, // Tighter line height
                         ),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                        maxLines: 2,
                       ),
                     ],
                   ),
