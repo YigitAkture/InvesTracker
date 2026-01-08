@@ -799,4 +799,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ok => 'Ok';
+
+  @override
+  String get incorrectPassword => 'Incorrect password. Please try again.';
 }

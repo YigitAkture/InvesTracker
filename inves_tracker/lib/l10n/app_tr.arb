@@ -259,5 +259,6 @@
   "enterEmailForVerification": "E-posta adresinizi girin, size şifrenizi sıfırlamak için bir doğrulama kodu göndereceğiz.",
   "failedToResetPassword": "Şifre sıfırlama başarısız oldu",
   "success": "Başarılı!",
-  "ok": "Tamam"
+  "ok": "Tamam",
+  "incorrectPassword": "Şifre hatalı. Lütfen tekrar deneyin."
 }

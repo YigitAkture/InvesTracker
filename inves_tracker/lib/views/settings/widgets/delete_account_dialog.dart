@@ -31,54 +31,91 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
   Future<void> _deleteAccount() async {
     if (!_formKey.currentState!.validate()) return;
 
-    // First confirmation dialog
-    final confirm = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) {
-        final l10n = AppLocalizations.of(dialogContext)!;
-
-        return AlertDialog(
-          title: Row(
-            children: [
-              Icon(Icons.warning_amber_rounded,
-                  color: AppColors.danger, size: 24.sp),
-              SizedBox(width: 8.w),
-              Text(l10n.warning),
-            ],
-          ),
-          content: Text(
-            l10n.areYouSureToDeleteYourAccount,
-            style: TextStyle(fontSize: 14.sp),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext, false),
-              child: Text(l10n.cancel),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext, true),
-              style: TextButton.styleFrom(
-                foregroundColor: AppColors.danger,
-              ),
-              child: Text(l10n.wordContinue),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (confirm != true || !mounted) return;
+    final l10n = AppLocalizations.of(context)!;
 
     setState(() => _isLoading = true);
 
     try {
-      final result = await _userService.deleteAccount(
+      // STEP 1: Verify password first
+      final userData = await _authService.getCurrentUserData();
+      final email = userData['email'];
+
+      if (email == null) {
+        throw Exception('User email not found');
+      }
+
+      // Attempt to login with provided password to verify it
+      final loginResult = await _authService.login(
+        email: email,
         password: _passwordController.text,
       );
 
       if (!mounted) return;
 
-      final l10n = AppLocalizations.of(context)!;
+      // If password is incorrect, show error and stop
+      if (loginResult['success'] != true) {
+        setState(() => _isLoading = false);
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.incorrectPassword,
+              style: const TextStyle(color: Colors.white),
+            ),
+            backgroundColor: AppColors.danger3,
+            showCloseIcon: true,
+            closeIconColor: Colors.white,
+          ),
+        );
+        return;
+      }
+
+      // STEP 2: Password is correct, now show warning confirmation
+      setState(() => _isLoading = false);
+
+      final confirm = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                Icon(Icons.warning_amber_rounded,
+                    color: AppColors.danger, size: 24.sp),
+                SizedBox(width: 8.w),
+                Text(l10n.warning),
+              ],
+            ),
+            content: Text(
+              l10n.areYouSureToDeleteYourAccount,
+              style: TextStyle(fontSize: 14.sp),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, false),
+                child: Text(l10n.cancel),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, true),
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColors.danger,
+                ),
+                child: Text(l10n.wordContinue),
+              ),
+            ],
+          );
+        },
+      );
+
+      if (confirm != true || !mounted) return;
+
+      // STEP 3: User confirmed, proceed with deletion
+      setState(() => _isLoading = true);
+
+      final result = await _userService.deleteAccount(
+        password: _passwordController.text,
+      );
+
+      if (!mounted) return;
 
       if (result['success'] == true) {
         await _authService.logout();

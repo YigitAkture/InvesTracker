@@ -802,4 +802,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get ok => 'Tamam';
+
+  @override
+  String get incorrectPassword => 'Şifre hatalı. Lütfen tekrar deneyin.';
 }

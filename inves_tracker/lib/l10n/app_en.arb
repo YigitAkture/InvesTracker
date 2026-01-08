@@ -259,5 +259,6 @@
   "enterEmailForVerification": "Enter your email address and we'll send you a verification code to reset your password.",
   "failedToResetPassword": "Failed to reset password",
   "success": "Success!",
-  "ok": "Ok"
+  "ok": "Ok",
+  "incorrectPassword": "Incorrect password. Please try again."
 }
