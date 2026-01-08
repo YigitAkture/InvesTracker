@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
   bool _isLoading = false;
   bool _obscurePassword = true;
 
@@ -32,9 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _login() async {
     final l10n = AppLocalizations.of(context)!;
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
+
+    if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
@@ -44,222 +44,246 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text,
       );
 
-      if (mounted) {
-        setState(() => _isLoading = false);
+      if (!mounted) return;
 
-        if (result['success']) {
-          // Navigate to main app
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const MainLayout()),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              closeIconColor: Colors.white,
-              content: Text(l10n.invalidEmailOrPassword, style: TextStyle(color: Colors.white)),
-              backgroundColor: AppColors.danger3,
-              showCloseIcon: true
-            ),
-          );
-        }
+      setState(() => _isLoading = false);
+
+      if (result['success']) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const MainLayout()),
+        );
+      } else {
+        _showError(l10n.invalidEmailOrPassword);
       }
     } catch (e) {
-      if (mounted) {
-        setState(() => _isLoading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), showCloseIcon: true),
-        );
-      }
+      if (!mounted) return;
+      setState(() => _isLoading = false);
+      _showError(e.toString());
     }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: const TextStyle(color: Colors.white)),
+        backgroundColor: AppColors.danger3,
+        showCloseIcon: true,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final localeNotifier = Provider.of<LocaleNotifier>(context);
-    
+    final localeNotifier = context.watch<LocaleNotifier>();
+
     return Scaffold(
       backgroundColor: AppColors.background(context),
+      resizeToAvoidBottomInset: true,
+
+      // ✅ Language selector safely placed in AppBar
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 16.w),
+            child: _buildLanguageSelector(localeNotifier, context),
+          ),
+        ],
+      ),
+
       body: SafeArea(
-        child: Stack(
-          children: [
-            // Language Selector - Top Right
-            Positioned(
-              top: 16.h,
-              right: 16.w,
-              child: _buildLanguageSelector(localeNotifier, context),
-            ),
-            
-            // Main Content
-            Center(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 24.h),
+
+                  // Welcome Text
+                  Text(
+                    l10n.welcome,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 32.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.text(context),
+                    ),
+                  ),
+
+                  SizedBox(height: 32.h),
+
+                  // Logo
+                  Image.asset(
+                    'assets/img/splash/logo.png',
+                    height: 152.h,
+                    width: 152.w,
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  Text(
+                    'InvesTracker',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 32.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary(context),
+                    ),
+                  ),
+
+                  SizedBox(height: 48.h),
+
+                  // Email Field
+                  TextFormField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: _inputDecoration(
+                      context,
+                      label: l10n.email,
+                      icon: Icons.email_outlined,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return l10n.pleaseEnterEmail;
+                      }
+                      if (!value.contains('@')) {
+                        return l10n.pleaseEnterValidEmail;
+                      }
+                      return null;
+                    },
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  // Password Field
+                  TextFormField(
+                    controller: _passwordController,
+                    obscureText: _obscurePassword,
+                    decoration: _inputDecoration(
+                      context,
+                      label: l10n.password,
+                      icon: Icons.lock_outline,
+                      suffix: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          setState(() => _obscurePassword = !_obscurePassword);
+                        },
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return l10n.pleaseEnterPassword;
+                      }
+                      if (value.length < 8) {
+                        return l10n.passwordMustBeAtLeast8Characters;
+                      }
+                      return null;
+                    },
+                  ),
+
+                  SizedBox(height: 24.h),
+
+                  // Login Button
+                  ElevatedButton(
+                    onPressed: _isLoading ? null : _login,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary(context),
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                    ),
+                    child: _isLoading
+                        ? SizedBox(
+                            height: 20.h,
+                            width: 20.w,
+                            child: const CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Text(
+                            l10n.login,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  // Register
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Logo/App Name
-                      Text(
-                        l10n.welcome,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.text(context),
-                        ),
-                      ),
-                      SizedBox(height: 32.h),
-                      Image.asset(
-                        'assets/img/splash/logo.png',
-                        height: 152.h,
-                        width: 152.w,
-                      ),
-                      SizedBox(height: 16.h),
-                      Text(
-                        'InvesTracker',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 32.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary(context),
-                        ),
-                      ),
-                      SizedBox(height: 48.h),
-
-                      // Email Field
-                      TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          labelText: l10n.email,
-                          prefixIcon: Icon(Icons.email_outlined),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          filled: true,
-                          fillColor: AppColors.foreground(context),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return l10n.pleaseEnterEmail;
-                          }
-                          if (!value.contains('@')) {
-                            return l10n.pleaseEnterValidEmail;
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 16.h),
-
-                      // Password Field
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: _obscurePassword,
-                        decoration: InputDecoration(
-                          labelText: l10n.password,
-                          prefixIcon: Icon(Icons.lock_outline),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscurePassword
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
+                      Text(l10n.dontHaveAnAccount),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const RegisterScreen(),
                             ),
-                            onPressed: () {
-                              setState(() => _obscurePassword = !_obscurePassword);
-                            },
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          filled: true,
-                          fillColor: AppColors.foreground(context),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return l10n.pleaseEnterPassword;
-                          }
-                          if (value.length < 8) {
-                            return l10n.passwordMustBeAtLeast8Characters;
-                          }
-                          return null;
+                          );
                         },
-                      ),
-                      SizedBox(height: 24.h),
-
-                      // Login Button
-                      ElevatedButton(
-                        onPressed: _isLoading ? null : _login,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary(context),
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: 16.h),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
+                        child: Text(
+                          l10n.register,
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
-                        child: _isLoading
-                            ? SizedBox(
-                                height: 20.h,
-                                width: 20.w,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : Text(
-                                l10n.login,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                      ),
-                      SizedBox(height: 16.h),
-
-                      // Register Link
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            l10n.dontHaveAnAccount,
-                            style: TextStyle(fontSize: 14.sp),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const RegisterScreen(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              l10n.register,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildLanguageSelector(LocaleNotifier localeNotifier, BuildContext context) {
-    final currentLocale = localeNotifier.locale ?? Localizations.localeOf(context);
+  // =======================
+  // Widgets
+  // =======================
+
+  InputDecoration _inputDecoration(
+    BuildContext context, {
+    required String label,
+    required IconData icon,
+    Widget? suffix,
+  }) {
+    return InputDecoration(
+      labelText: label,
+      prefixIcon: Icon(icon),
+      suffixIcon: suffix,
+      filled: true,
+      fillColor: AppColors.foreground(context),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12.r),
+      ),
+    );
+  }
+
+  Widget _buildLanguageSelector(
+    LocaleNotifier localeNotifier,
+    BuildContext context,
+  ) {
+    final currentLocale =
+        localeNotifier.locale ?? Localizations.localeOf(context);
     final isEnglish = currentLocale.languageCode == 'en';
-    
+
     return Container(
       padding: EdgeInsets.all(4.r),
       decoration: BoxDecoration(
@@ -269,7 +293,7 @@ class _LoginScreenState extends State<LoginScreen> {
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 8.r,
-            offset: Offset(0, 2.h),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -278,14 +302,12 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           _LanguageButton(
             flagAsset: 'assets/img/flags/gbp.png',
-            languageCode: 'en',
             isSelected: isEnglish,
             onTap: () => localeNotifier.setLocale(const Locale('en')),
           ),
           SizedBox(width: 4.w),
           _LanguageButton(
             flagAsset: 'assets/img/flags/try.png',
-            languageCode: 'tr',
             isSelected: !isEnglish,
             onTap: () => localeNotifier.setLocale(const Locale('tr')),
           ),
@@ -297,20 +319,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
 class _LanguageButton extends StatelessWidget {
   final String flagAsset;
-  final String languageCode;
   final bool isSelected;
   final VoidCallback onTap;
 
   const _LanguageButton({
     required this.flagAsset,
-    required this.languageCode,
     required this.isSelected,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
+      borderRadius: BorderRadius.circular(8.r),
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.all(8.r),
@@ -333,21 +354,6 @@ class _LanguageButton extends StatelessWidget {
             height: 24.h,
             width: 24.w,
             fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                height: 24.h,
-                width: 24.w,
-                decoration: BoxDecoration(
-                  color: AppColors.background2(context),
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-                child: Icon(
-                  Icons.language,
-                  size: 16.sp,
-                  color: AppColors.primary(context),
-                ),
-              );
-            },
           ),
         ),
       ),
