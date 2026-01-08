@@ -23,7 +23,12 @@ class ApiService {
 
     try {
       final response = await _httpClient.get(endpoint, headers: headers);
-      await _handleResponse(context, response);
+      // Check if context is still mounted before using it
+      if (context != null && !context.mounted) {
+        await _handleResponse(null, response);
+      } else {
+        await _handleResponse(context, response);
+      }
       return response;
     } catch (e) {
       throw _handleError(e);
@@ -40,7 +45,12 @@ class ApiService {
 
     try {
       final response = await _httpClient.post(endpoint, body, headers: headers);
-      await _handleResponse(context, response);
+      // Check if context is still mounted before using it
+      if (context != null && !context.mounted) {
+        await _handleResponse(null, response);
+      } else {
+        await _handleResponse(context, response);
+      }
       return response;
     } catch (e) {
       throw _handleError(e);
@@ -57,7 +67,12 @@ class ApiService {
 
     try {
       final response = await _httpClient.put(endpoint, body, headers: headers);
-      await _handleResponse(context, response);
+      // Check if context is still mounted before using it
+      if (context != null && !context.mounted) {
+        await _handleResponse(null, response);
+      } else {
+        await _handleResponse(context, response);
+      }
       return response;
     } catch (e) {
       throw _handleError(e);
@@ -70,7 +85,12 @@ class ApiService {
 
     try {
       final response = await _httpClient.delete(endpoint, headers: headers);
-      await _handleResponse(context, response);
+      // Check if context is still mounted before using it
+      if (context != null && !context.mounted) {
+        await _handleResponse(null, response);
+      } else {
+        await _handleResponse(context, response);
+      }
       return response;
     } catch (e) {
       throw _handleError(e);
@@ -83,9 +103,11 @@ class ApiService {
     http.Response response,
   ) async {
     /// App update required (Force Update)
-    if (response.statusCode == 426 && context != null && context.mounted) {
+    if (response.statusCode == 426) {
       final error = AppUpdateRequiredException(response.body);
-      await ApiErrorHandler.handleError(context, error);
+      if (context != null) {
+        await ApiErrorHandler.handleError(context, error);
+      }
       throw error;
     }
 
