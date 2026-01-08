@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:inves_tracker/core/services/http_client.dart';
 
 class AuthService {
+  final HttpClient _httpClient = HttpClient();
   
-  static const String _baseUrl = 'http://10.0.2.2:5033/api/Auth';
   static const String _userIdKey = 'userId';
   static const String _tokenKey = 'token';
   static const String _emailKey = 'email';
@@ -19,19 +19,15 @@ class AuthService {
     required String lastName,
   }) async {
     try {
-      final response = await http.post(
-        Uri.parse('$_baseUrl/register'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: json.encode({
+      final response = await _httpClient.post(
+        'Auth/register',
+        {
           'email': email,
           'password': password,
           'firstName': firstName,
           'lastName': lastName,
-        }),
-      ).timeout(const Duration(seconds: 30));
+        },
+      );
 
       if (response.statusCode == 201) {
         final data = json.decode(response.body);
@@ -55,17 +51,13 @@ class AuthService {
     required String password,
   }) async {
     try {
-      final response = await http.post(
-        Uri.parse('$_baseUrl/login'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: json.encode({
+      final response = await _httpClient.post(
+        'Auth/login',
+        {
           'email': email,
           'password': password,
-        }),
-      ).timeout(const Duration(seconds: 30));
+        },
+      );
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -148,13 +140,10 @@ class AuthService {
     if (token == null || userId == null) return false;
 
     try {
-      final response = await http.get(
-        Uri.parse('$_baseUrl/verify/$userId'),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-      ).timeout(const Duration(seconds: 10));
+      final response = await _httpClient.get(
+        'Auth/verify/$userId',
+        headers: {'Authorization': 'Bearer $token'},
+      );
 
       return response.statusCode == 200;
     } catch (e) {

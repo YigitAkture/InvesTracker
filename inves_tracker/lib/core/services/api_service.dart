@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:inves_tracker/core/services/auth_service.dart';
+import 'package:inves_tracker/core/services/http_client.dart';
 
-/// Base API service with authentication handling
+/// API service with authentication handling
 class ApiService {
-  // For Android Emulator, use 10.0.2.2:5033 to access localhost
-  // For iOS Simulator, use localhost or 127.0.0.1
-  // For server, use 45.131.3.173:5000 to access the API
-  static const String baseUrl = 'http://10.0.2.2:5033/api';
+  final HttpClient _httpClient = HttpClient();
   final AuthService _authService = AuthService();
 
   /// Get headers with authentication token
@@ -15,8 +13,6 @@ class ApiService {
     final token = await _authService.getToken();
     
     return {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
       if (token != null) 'Authorization': 'Bearer $token',
     };
   }
@@ -26,11 +22,7 @@ class ApiService {
     final headers = await _getHeaders();
     
     try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/$endpoint'),
-        headers: headers,
-      ).timeout(const Duration(seconds: 30));
-
+      final response = await _httpClient.get(endpoint, headers: headers);
       await _handleResponse(response);
       return response;
     } catch (e) {
@@ -46,12 +38,7 @@ class ApiService {
     final headers = await _getHeaders();
     
     try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/$endpoint'),
-        headers: headers,
-        body: json.encode(body),
-      ).timeout(const Duration(seconds: 30));
-
+      final response = await _httpClient.post(endpoint, body, headers: headers);
       await _handleResponse(response);
       return response;
     } catch (e) {
@@ -67,12 +54,7 @@ class ApiService {
     final headers = await _getHeaders();
     
     try {
-      final response = await http.put(
-        Uri.parse('$baseUrl/$endpoint'),
-        headers: headers,
-        body: json.encode(body),
-      ).timeout(const Duration(seconds: 30));
-
+      final response = await _httpClient.put(endpoint, body, headers: headers);
       await _handleResponse(response);
       return response;
     } catch (e) {
@@ -85,11 +67,7 @@ class ApiService {
     final headers = await _getHeaders();
     
     try {
-      final response = await http.delete(
-        Uri.parse('$baseUrl/$endpoint'),
-        headers: headers,
-      ).timeout(const Duration(seconds: 30));
-
+      final response = await _httpClient.delete(endpoint, headers: headers);
       await _handleResponse(response);
       return response;
     } catch (e) {
@@ -138,6 +116,10 @@ class ApiService {
   Exception _handleError(dynamic error) {
     if (error is ApiException) {
       return error;
+    }
+    
+    if (error is NetworkException) {
+      return ApiException(error.message);
     }
     
     if (error.toString().contains('SocketException') || 
