@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
@@ -22,6 +23,12 @@ class AppUpdateDialog extends StatelessWidget {
 
     return PopScope(
       canPop: !forceUpdate, // Prevent back button if force update
+      onPopInvokedWithResult: (didPop, result) {
+        // If force update and user tries to go back, exit app
+        if (forceUpdate && !didPop) {
+          SystemNavigator.pop(); // Exit the app
+        }
+      },
       child: AlertDialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.r),

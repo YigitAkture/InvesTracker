@@ -126,7 +126,13 @@ class HttpClient {
   void _checkVersionResponse(http.Response response) {
     if (response.statusCode == 426) {
       // 426 Upgrade Required
-      throw AppUpdateRequiredException(response.body);
+      final Map<String, dynamic> data = json.decode(response.body);
+      throw AppUpdateRequiredException(
+        responseBody: response.body,
+        forceUpdate: data['forceUpdate'] ?? true,
+        updateUrl: data['updateUrl'] ?? '',
+        minimumVersion: data['minimumVersion'] ?? '',
+      );
     }
   }
 
@@ -160,23 +166,17 @@ class NetworkException extends HttpException {
 
 class AppUpdateRequiredException implements Exception {
   final String responseBody;
-  final Map<String, dynamic>? parsedResponse;
+  final bool forceUpdate;
+  final String updateUrl;
+  final String minimumVersion;
+  final String message;
 
-  AppUpdateRequiredException(this.responseBody)
-    : parsedResponse = _tryParse(responseBody);
-
-  static Map<String, dynamic>? _tryParse(String body) {
-    try {
-      return json.decode(body) as Map<String, dynamic>;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  bool get forceUpdate => parsedResponse?['forceUpdate'] ?? true;
-  String get updateUrl => parsedResponse?['updateUrl'] ?? '';
-  String get minimumVersion => parsedResponse?['minimumVersion'] ?? '';
-  String get message => parsedResponse?['message'] ?? 'Update required';
+  AppUpdateRequiredException({
+    required this.responseBody,
+    required this.forceUpdate,
+    required this.updateUrl,
+    required this.minimumVersion,
+  }) : message = json.decode(responseBody)['message'] ?? 'Update required';
 
   @override
   String toString() => 'AppUpdateRequiredException: $message';

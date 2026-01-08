@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/auth_service.dart';
+import 'package:inves_tracker/core/services/version_check_service.dart';
 import 'package:inves_tracker/navigation/main_layout.dart';
+import 'package:inves_tracker/shared/app_update_dialog.dart';
 import 'package:inves_tracker/views/auth/login_screen.dart';
 
 class AuthWrapper extends StatefulWidget {
@@ -19,7 +21,33 @@ class _AuthWrapperState extends State<AuthWrapper> {
   @override
   void initState() {
     super.initState();
-    _checkAuthStatus();
+    _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    // STEP 1: Check version FIRST
+    final versionCheck = await VersionCheckService.checkVersion();
+    
+    if (!mounted) return;
+
+    // STEP 2: Show update dialog if needed
+    if (versionCheck != null && versionCheck['updateRequired'] == true) {
+      await AppUpdateDialog.show(
+        context,
+        updateUrl: versionCheck['updateUrl'] ?? '',
+        minimumVersion: versionCheck['minimumVersion'] ?? '',
+        forceUpdate: versionCheck['forceUpdate'] ?? true,
+      );
+      
+      // If force update, don't proceed
+      if (versionCheck['forceUpdate'] == true) {
+        setState(() => _isLoading = false);
+        return;
+      }
+    }
+
+    // STEP 3: Check authentication status
+    await _checkAuthStatus();
   }
 
   Future<void> _checkAuthStatus() async {
@@ -67,7 +95,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
                 color: AppColors.primary(context),
               ),
               const SizedBox(height: 16),
-              const Text('Verifying session...'),
+              const Text('Loading...'),
             ],
           ),
         ),
