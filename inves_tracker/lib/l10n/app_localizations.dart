@@ -1507,6 +1507,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Security'**
   String get security;
+
+  /// No description provided for @updateRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Required'**
+  String get updateRequired;
+
+  /// No description provided for @updateRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'A new version of InvesTracker is required to continue. Please update from the Play Store.'**
+  String get updateRequiredMessage;
+
+  /// No description provided for @updateRecommendedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'A new version of InvesTracker is available. We recommend updating for the best experience.'**
+  String get updateRecommendedMessage;
+
+  /// No description provided for @minimumVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum version'**
+  String get minimumVersion;
+
+  /// No description provided for @updateNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Now'**
+  String get updateNow;
+
+  /// No description provided for @later.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get later;
 }
 
 class _AppLocalizationsDelegate

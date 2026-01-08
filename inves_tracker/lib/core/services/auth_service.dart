@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inves_tracker/core/services/http_client.dart';
 
@@ -49,6 +50,7 @@ class AuthService {
   Future<Map<String, dynamic>> login({
     required String email,
     required String password,
+    BuildContext? context,
   }) async {
     try {
       final response = await _httpClient.post(

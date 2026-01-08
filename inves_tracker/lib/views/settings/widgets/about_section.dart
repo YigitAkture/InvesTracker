@@ -1,31 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/settings/widgets/info_row.dart';
 import 'package:inves_tracker/views/settings/widgets/setting_card.dart';
 
-class AboutSection extends StatelessWidget {
+class AboutSection extends StatefulWidget {
   const AboutSection({super.key});
+
+  @override
+  State<AboutSection> createState() => _AboutSectionState();
+}
+
+class _AboutSectionState extends State<AboutSection> {
+  String _appVersion = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _appVersion = packageInfo.version;
+    });
+  }
 
   void _showDeveloperInfo(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            Icon(
-              Icons.info_outline,
-              color: AppColors.secondary(context),
-              size: 24.sp,
-            ),
+            Icon(Icons.info_outline,
+                color: AppColors.secondary(context), size: 24.sp),
             SizedBox(width: 12.w),
-            Text(
-              'InvesTracker Team',
-              style: TextStyle(fontSize: 20.sp),
-            ),
+            Text('InvesTracker Team', style: TextStyle(fontSize: 20.sp)),
           ],
         ),
         content: Column(
@@ -73,11 +88,7 @@ class AboutSection extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          icon,
-          color: AppColors.primary(context),
-          size: 20.sp,
-        ),
+        Icon(icon, color: AppColors.primary(context), size: 20.sp),
         SizedBox(width: 12.w),
         Expanded(
           child: Column(
@@ -94,10 +105,7 @@ class AboutSection extends StatelessWidget {
               SizedBox(height: 2.h),
               Text(
                 value,
-                style: TextStyle(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -116,7 +124,7 @@ class AboutSection extends StatelessWidget {
           InfoRow(
             icon: Icons.info_outline,
             label: l10n.version,
-            value: '0.1.2',
+            value: _appVersion.isEmpty ? '-' : _appVersion,
             iconColor: AppColors.primary(context),
           ),
           Divider(
@@ -129,11 +137,8 @@ class AboutSection extends StatelessWidget {
             value: 'InvesTracker Team',
             iconColor: AppColors.secondary(context),
             trailingWidget: IconButton(
-              icon: Icon(
-                Icons.info_outline,
-                size: 24.sp,
-                color: AppColors.secondary(context),
-              ),
+              icon: Icon(Icons.info_outline,
+                  size: 24.sp, color: AppColors.secondary(context)),
               onPressed: () => _showDeveloperInfo(context),
             ),
           ),

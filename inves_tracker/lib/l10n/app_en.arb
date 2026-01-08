@@ -235,5 +235,11 @@
   "passwordChangedSuccessfully": "Password changed successfully",
   "failedToChangePassword": "Failed to change password",
   "errorChangingPassword": "Error changing password",
-  "security": "Security"
+  "security": "Security",
+  "updateRequired": "Update Required",
+  "updateRequiredMessage": "A new version of InvesTracker is required to continue. Please update from the Play Store.",
+  "updateRecommendedMessage": "A new version of InvesTracker is available. We recommend updating for the best experience.",
+  "minimumVersion": "Minimum version",
+  "updateNow": "Update Now",
+  "later": "Later"
 }
