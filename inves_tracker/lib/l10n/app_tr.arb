@@ -223,6 +223,18 @@
   "enterPasswordToDeleteAccount": "Hesabınızı silmek için lütfen şifrenizi girin. Bu işlem geri alınamaz.",
   "warning": "Uyarı",
   "areYouSureToDeleteYourAccount": "Hesabınızı silmek üzeresiniz. Bu işlem geri alınamaz ve tüm verileriniz kalıcı olarak silinecektir. Emin misiniz?",
-  "wordContinue": "Devam Et"
+  "wordContinue": "Devam Et",
+  "changePassword": "Şifreyi Değiştir",
+  "currentPassword": "Mevcut Şifre",
+  "newPassword": "Yeni Şifre",
+  "confirmNewPassword": "Yeni Şifre Tekrar",
+  "pleaseEnterCurrentPassword": "Lütfen mevcut şifrenizi girin",
+  "pleaseEnterNewPassword": "Lütfen yeni şifrenizi girin",
+  "pleaseConfirmNewPassword": "Lütfen yeni şifrenizi onaylayın",
+  "newPasswordMustBeDifferent": "Yeni şifre mevcut şifreden farklı olmalıdır",
+  "passwordChangedSuccessfully": "Şifre başarıyla değiştirildi",
+  "failedToChangePassword": "Şifre değiştirilemedi",
+  "errorChangingPassword": "Şifre değiştirme hatası",
+  "security": "Güvenlik"  
 
 }

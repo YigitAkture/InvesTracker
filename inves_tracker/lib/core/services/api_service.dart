@@ -4,7 +4,10 @@ import 'package:inves_tracker/core/services/auth_service.dart';
 
 /// Base API service with authentication handling
 class ApiService {
-  static const String baseUrl = 'http://45.131.3.173:5000/api';
+  // For Android Emulator, use 10.0.2.2:5033 to access localhost
+  // For iOS Simulator, use localhost or 127.0.0.1
+  // For server, use 45.131.3.173:5000 to access the API
+  static const String baseUrl = 'http://10.0.2.2:5033/api';
   final AuthService _authService = AuthService();
 
   /// Get headers with authentication token

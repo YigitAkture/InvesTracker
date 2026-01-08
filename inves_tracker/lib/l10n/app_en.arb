@@ -223,5 +223,17 @@
   "enterPasswordToDeleteAccount": "To delete your account, please enter your password. This action is irreversible.",
   "warning": "Warning",
   "areYouSureToDeleteYourAccount": "You are about to delete your account. This action is irreversible and all your data will be permanently deleted. Are you sure?",
-  "wordContinue": "Continue"
+  "wordContinue": "Continue",
+  "changePassword": "Change Password",
+  "currentPassword": "Current Password",
+  "newPassword": "New Password",
+  "confirmNewPassword": "Confirm New Password",
+  "pleaseEnterCurrentPassword": "Please enter your current password",
+  "pleaseEnterNewPassword": "Please enter your new password",
+  "pleaseConfirmNewPassword": "Please confirm your new password",
+  "newPasswordMustBeDifferent": "New password must be different from current password",
+  "passwordChangedSuccessfully": "Password changed successfully",
+  "failedToChangePassword": "Failed to change password",
+  "errorChangingPassword": "Error changing password",
+  "security": "Security"
 }

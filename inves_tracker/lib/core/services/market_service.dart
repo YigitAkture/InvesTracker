@@ -4,12 +4,10 @@ import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
 import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
+import 'package:inves_tracker/core/services/api_service.dart';
 
 class MarketService {
-  // For Android Emulator, use 10.0.2.2 to access localhost
-  // For iOS Simulator, use localhost or 127.0.0.1
-  // For physical device, use your computer's IP address
-  static const String _baseUrl = 'http://45.131.3.173:5000/api/MarketData';
+  final ApiService _apiService = ApiService();
 
   static const List<String> _allCurrencies = [
     "USD", "EUR", "GBP", "CHF", "CAD", "RUB", "AED", "AUD", "DKK", "SEK", "NOK",
@@ -37,14 +35,8 @@ class MarketService {
 
   Future<MarketResponse> fetchMarketData() async {
     try {
-      final response = await http
-          .get(
-            Uri.parse(_baseUrl),
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-          )
+      final response = await _apiService
+          .get('MarketData')
           .timeout(
             const Duration(seconds: 30),
             onTimeout: () {

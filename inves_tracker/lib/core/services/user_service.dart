@@ -39,6 +39,37 @@ class UserService {
     }
   }
 
+  /// Change password for logged-in user (Scenario 1)
+  Future<Map<String, dynamic>> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmNewPassword,
+  }) async {
+    try {
+      final response = await _apiService.post('Auth/change-password', {
+        'currentPassword': currentPassword,
+        'newPassword': newPassword,
+        'confirmNewPassword': confirmNewPassword,
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return {
+          'success': data['success'] ?? true,
+          'message': data['message'] ?? 'Password changed successfully'
+        };
+      } else {
+        final error = json.decode(response.body);
+        return {
+          'success': false,
+          'message': error['message'] ?? error['error'] ?? 'Failed to change password'
+        };
+      }
+    } catch (e) {
+      return {'success': false, 'message': 'Connection error: $e'};
+    }
+  }
+
   /// Delete user account with password verification
   Future<Map<String, dynamic>> deleteAccount({
     required String password,

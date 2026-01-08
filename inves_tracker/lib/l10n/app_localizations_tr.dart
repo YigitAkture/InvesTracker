@@ -688,4 +688,41 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get wordContinue => 'Devam Et';
+
+  @override
+  String get changePassword => 'Şifreyi Değiştir';
+
+  @override
+  String get currentPassword => 'Mevcut Şifre';
+
+  @override
+  String get newPassword => 'Yeni Şifre';
+
+  @override
+  String get confirmNewPassword => 'Yeni Şifre Tekrar';
+
+  @override
+  String get pleaseEnterCurrentPassword => 'Lütfen mevcut şifrenizi girin';
+
+  @override
+  String get pleaseEnterNewPassword => 'Lütfen yeni şifrenizi girin';
+
+  @override
+  String get pleaseConfirmNewPassword => 'Lütfen yeni şifrenizi onaylayın';
+
+  @override
+  String get newPasswordMustBeDifferent =>
+      'Yeni şifre mevcut şifreden farklı olmalıdır';
+
+  @override
+  String get passwordChangedSuccessfully => 'Şifre başarıyla değiştirildi';
+
+  @override
+  String get failedToChangePassword => 'Şifre değiştirilemedi';
+
+  @override
+  String get errorChangingPassword => 'Şifre değiştirme hatası';
+
+  @override
+  String get security => 'Güvenlik';
 }
