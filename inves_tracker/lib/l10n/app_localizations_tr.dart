@@ -725,4 +725,24 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get security => 'Güvenlik';
+
+  @override
+  String get updateRequired => 'Güncelleme Gerekli';
+
+  @override
+  String get updateRequiredMessage =>
+      'InvesTracker\'ı kullanmaya devam etmek için yeni bir sürüm gereklidir. Lütfen Play Store\'dan güncelleyin.';
+
+  @override
+  String get updateRecommendedMessage =>
+      'InvesTracker\'ın yeni bir sürümü mevcut. En iyi deneyim için güncellemenizi öneririz.';
+
+  @override
+  String get minimumVersion => 'Minimum sürüm';
+
+  @override
+  String get updateNow => 'Şimdi Güncelle';
+
+  @override
+  String get later => 'Sonra';
 }

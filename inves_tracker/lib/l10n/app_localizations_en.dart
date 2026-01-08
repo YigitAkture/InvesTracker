@@ -723,4 +723,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get security => 'Security';
+
+  @override
+  String get updateRequired => 'Update Required';
+
+  @override
+  String get updateRequiredMessage =>
+      'A new version of InvesTracker is required to continue. Please update from the Play Store.';
+
+  @override
+  String get updateRecommendedMessage =>
+      'A new version of InvesTracker is available. We recommend updating for the best experience.';
+
+  @override
+  String get minimumVersion => 'Minimum version';
+
+  @override
+  String get updateNow => 'Update Now';
+
+  @override
+  String get later => 'Later';
 }

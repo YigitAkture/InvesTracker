@@ -235,6 +235,12 @@
   "passwordChangedSuccessfully": "Şifre başarıyla değiştirildi",
   "failedToChangePassword": "Şifre değiştirilemedi",
   "errorChangingPassword": "Şifre değiştirme hatası",
-  "security": "Güvenlik"  
+  "security": "Güvenlik",
+  "updateRequired": "Güncelleme Gerekli",
+  "updateRequiredMessage": "InvesTracker'ı kullanmaya devam etmek için yeni bir sürüm gereklidir. Lütfen Play Store'dan güncelleyin.",
+  "updateRecommendedMessage": "InvesTracker'ın yeni bir sürümü mevcut. En iyi deneyim için güncellemenizi öneririz.",
+  "minimumVersion": "Minimum sürüm",
+  "updateNow": "Şimdi Güncelle",
+  "later": "Sonra"
 
 }
