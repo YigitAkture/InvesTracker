@@ -743,4 +743,60 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get later => 'Later';
+
+  @override
+  String get forgotPassword => 'Forgot Password';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get sendVerificationCode => 'Send Verification Code';
+
+  @override
+  String get verificationCode => 'Verification Code';
+
+  @override
+  String get enterVerificationCode => 'Please enter the verification code';
+
+  @override
+  String get codeMustBe6Digits => 'Code must be 6 digits';
+
+  @override
+  String get checkYourEmail => 'Check your email';
+
+  @override
+  String get weSentCodeTo => 'We sent a 6-digit code to';
+
+  @override
+  String get didntReceiveCode => 'Didn\'t receive code? Request new one';
+
+  @override
+  String get resetPasswordSuccess => 'Password reset successfully';
+
+  @override
+  String get passwordResetSuccessMessage =>
+      'Your password has been reset successfully. You can now log in with your new password.';
+
+  @override
+  String get backToLogin => 'Back to Login';
+
+  @override
+  String get verificationCodeSent => 'Verification code sent to your email';
+
+  @override
+  String get failedToSendVerificationCode => 'Failed to send verification code';
+
+  @override
+  String get enterEmailForVerification =>
+      'Enter your email address and we\'ll send you a verification code to reset your password.';
+
+  @override
+  String get failedToResetPassword => 'Failed to reset password';
+
+  @override
+  String get success => 'Success!';
+
+  @override
+  String get ok => 'Ok';
 }

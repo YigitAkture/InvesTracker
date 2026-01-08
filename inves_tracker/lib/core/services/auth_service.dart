@@ -5,7 +5,7 @@ import 'package:inves_tracker/core/services/http_client.dart';
 
 class AuthService {
   final HttpClient _httpClient = HttpClient();
-  
+
   static const String _userIdKey = 'userId';
   static const String _tokenKey = 'token';
   static const String _emailKey = 'email';
@@ -20,15 +20,12 @@ class AuthService {
     required String lastName,
   }) async {
     try {
-      final response = await _httpClient.post(
-        'Auth/register',
-        {
-          'email': email,
-          'password': password,
-          'firstName': firstName,
-          'lastName': lastName,
-        },
-      );
+      final response = await _httpClient.post('Auth/register', {
+        'email': email,
+        'password': password,
+        'firstName': firstName,
+        'lastName': lastName,
+      });
 
       if (response.statusCode == 201) {
         final data = json.decode(response.body);
@@ -38,7 +35,8 @@ class AuthService {
         final error = json.decode(response.body);
         return {
           'success': false,
-          'message': error['message'] ?? error['error'] ?? 'Registration failed'
+          'message':
+              error['message'] ?? error['error'] ?? 'Registration failed',
         };
       }
     } catch (e) {
@@ -53,13 +51,10 @@ class AuthService {
     BuildContext? context,
   }) async {
     try {
-      final response = await _httpClient.post(
-        'Auth/login',
-        {
-          'email': email,
-          'password': password,
-        },
-      );
+      final response = await _httpClient.post('Auth/login', {
+        'email': email,
+        'password': password,
+      });
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -69,13 +64,76 @@ class AuthService {
         final error = json.decode(response.body);
         return {
           'success': false,
-          'message': error['message'] ?? error['error'] ?? 'Invalid credentials'
+          'message':
+              error['message'] ?? error['error'] ?? 'Invalid credentials',
         };
       } else {
         final error = json.decode(response.body);
         return {
           'success': false,
-          'message': error['message'] ?? error['error'] ?? 'Login failed'
+          'message': error['message'] ?? error['error'] ?? 'Login failed',
+        };
+      }
+    } catch (e) {
+      return {'success': false, 'message': 'Connection error: $e'};
+    }
+  }
+
+  /// Request forgot password (Step 1)
+  /// Sends a 6-digit verification code to the user's email
+  Future<Map<String, dynamic>> requestPasswordReset({
+    required String email,
+  }) async {
+    try {
+      final response = await _httpClient.post('Auth/forgot-password', {
+        'email': email,
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return {
+          'success': data['success'] ?? true,
+          'message': data['message'] ?? 'Verification code sent to your email',
+        };
+      } else {
+        final error = json.decode(response.body);
+        return {
+          'success': false,
+          'message': error['message'] ?? 'Failed to send verification code',
+        };
+      }
+    } catch (e) {
+      return {'success': false, 'message': 'Connection error: $e'};
+    }
+  }
+
+  /// Reset password with verification code (Step 2)
+  /// Verifies the code and sets a new password
+  Future<Map<String, dynamic>> resetPassword({
+    required String email,
+    required String verificationCode,
+    required String newPassword,
+    required String confirmNewPassword,
+  }) async {
+    try {
+      final response = await _httpClient.post('Auth/reset-password', {
+        'email': email,
+        'verificationCode': verificationCode,
+        'newPassword': newPassword,
+        'confirmNewPassword': confirmNewPassword,
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return {
+          'success': data['success'] ?? true,
+          'message': data['message'] ?? 'Password reset successfully',
+        };
+      } else {
+        final error = json.decode(response.body);
+        return {
+          'success': false,
+          'message': error['message'] ?? 'Failed to reset password',
         };
       }
     } catch (e) {
@@ -138,7 +196,7 @@ class AuthService {
   Future<bool> verifyToken() async {
     final token = await getToken();
     final userId = await getCurrentUserId();
-    
+
     if (token == null || userId == null) return false;
 
     try {

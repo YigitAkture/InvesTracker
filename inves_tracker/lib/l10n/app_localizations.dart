@@ -1543,6 +1543,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Later'**
   String get later;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password'**
+  String get forgotPassword;
+
+  /// No description provided for @resetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get resetPassword;
+
+  /// No description provided for @sendVerificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Verification Code'**
+  String get sendVerificationCode;
+
+  /// No description provided for @verificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification Code'**
+  String get verificationCode;
+
+  /// No description provided for @enterVerificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the verification code'**
+  String get enterVerificationCode;
+
+  /// No description provided for @codeMustBe6Digits.
+  ///
+  /// In en, this message translates to:
+  /// **'Code must be 6 digits'**
+  String get codeMustBe6Digits;
+
+  /// No description provided for @checkYourEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email'**
+  String get checkYourEmail;
+
+  /// No description provided for @weSentCodeTo.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a 6-digit code to'**
+  String get weSentCodeTo;
+
+  /// No description provided for @didntReceiveCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t receive code? Request new one'**
+  String get didntReceiveCode;
+
+  /// No description provided for @resetPasswordSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset successfully'**
+  String get resetPasswordSuccess;
+
+  /// No description provided for @passwordResetSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password has been reset successfully. You can now log in with your new password.'**
+  String get passwordResetSuccessMessage;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get backToLogin;
+
+  /// No description provided for @verificationCodeSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code sent to your email'**
+  String get verificationCodeSent;
+
+  /// No description provided for @failedToSendVerificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send verification code'**
+  String get failedToSendVerificationCode;
+
+  /// No description provided for @enterEmailForVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address and we\'ll send you a verification code to reset your password.'**
+  String get enterEmailForVerification;
+
+  /// No description provided for @failedToResetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to reset password'**
+  String get failedToResetPassword;
+
+  /// No description provided for @success.
+  ///
+  /// In en, this message translates to:
+  /// **'Success!'**
+  String get success;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get ok;
 }
 
 class _AppLocalizationsDelegate

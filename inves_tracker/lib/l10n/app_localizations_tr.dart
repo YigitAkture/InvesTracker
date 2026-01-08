@@ -745,4 +745,61 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get later => 'Sonra';
+
+  @override
+  String get forgotPassword => 'Şifremi unuttum';
+
+  @override
+  String get resetPassword => 'Şifreyi sıfırla';
+
+  @override
+  String get sendVerificationCode => 'Doğrulama kodu gönder';
+
+  @override
+  String get verificationCode => 'Doğrulama kodu';
+
+  @override
+  String get enterVerificationCode => 'Lütfen doğrulama kodunu giriniz';
+
+  @override
+  String get codeMustBe6Digits => 'Kod 6 haneli olmalıdır';
+
+  @override
+  String get checkYourEmail => 'E-postanızı kontrol ediniz';
+
+  @override
+  String get weSentCodeTo => '6 haneli bir kod gönderdik';
+
+  @override
+  String get didntReceiveCode => 'Kod almadınız mı? Yeni bir kod isteyin.';
+
+  @override
+  String get resetPasswordSuccess => 'Şifre başarıyla sıfırlandı';
+
+  @override
+  String get passwordResetSuccessMessage =>
+      'Parolanız başarıyla sıfırlandı. Artık yeni parolanızla giriş yapabilirsiniz.';
+
+  @override
+  String get backToLogin => 'Girişe Geri Dön';
+
+  @override
+  String get verificationCodeSent =>
+      'Doğrulama kodu e-posta adresinize gönderildi';
+
+  @override
+  String get failedToSendVerificationCode => 'Doğrulama kodu gönderilemedi';
+
+  @override
+  String get enterEmailForVerification =>
+      'E-posta adresinizi girin, size şifrenizi sıfırlamak için bir doğrulama kodu göndereceğiz.';
+
+  @override
+  String get failedToResetPassword => 'Şifre sıfırlama başarısız oldu';
+
+  @override
+  String get success => 'Başarılı!';
+
+  @override
+  String get ok => 'Tamam';
 }

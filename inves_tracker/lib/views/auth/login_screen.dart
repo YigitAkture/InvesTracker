@@ -5,6 +5,7 @@ import 'package:inves_tracker/core/services/auth_service.dart';
 import 'package:inves_tracker/core/utils/locale_notifier.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/navigation/main_layout.dart';
+import 'package:inves_tracker/views/auth/forgot_password_screen.dart';
 import 'package:inves_tracker/views/auth/register_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -244,6 +245,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ],
+                  ),
+
+                  SizedBox(height: 12.h),
+
+                  // Forgot Password
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ForgotPasswordScreen(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      l10n.forgotPassword,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ],
               ),

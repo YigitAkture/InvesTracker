@@ -241,6 +241,23 @@
   "updateRecommendedMessage": "InvesTracker'ın yeni bir sürümü mevcut. En iyi deneyim için güncellemenizi öneririz.",
   "minimumVersion": "Minimum sürüm",
   "updateNow": "Şimdi Güncelle",
-  "later": "Sonra"
-
+  "later": "Sonra",
+  "forgotPassword": "Şifremi unuttum",
+  "resetPassword": "Şifreyi sıfırla",
+  "sendVerificationCode": "Doğrulama kodu gönder",
+  "verificationCode": "Doğrulama kodu",
+  "enterVerificationCode": "Lütfen doğrulama kodunu giriniz",
+  "codeMustBe6Digits": "Kod 6 haneli olmalıdır",
+  "checkYourEmail": "E-postanızı kontrol ediniz",
+  "weSentCodeTo": "6 haneli bir kod gönderdik",
+  "didntReceiveCode": "Kod almadınız mı? Yeni bir kod isteyin.",
+  "resetPasswordSuccess": "Şifre başarıyla sıfırlandı",
+  "passwordResetSuccessMessage": "Parolanız başarıyla sıfırlandı. Artık yeni parolanızla giriş yapabilirsiniz.",
+  "backToLogin": "Girişe Geri Dön",
+  "verificationCodeSent": "Doğrulama kodu e-posta adresinize gönderildi",
+  "failedToSendVerificationCode": "Doğrulama kodu gönderilemedi",
+  "enterEmailForVerification": "E-posta adresinizi girin, size şifrenizi sıfırlamak için bir doğrulama kodu göndereceğiz.",
+  "failedToResetPassword": "Şifre sıfırlama başarısız oldu",
+  "success": "Başarılı!",
+  "ok": "Tamam"
 }
