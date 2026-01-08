@@ -3,23 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/settings/widgets/section_header.dart';
+import 'package:inves_tracker/views/settings/widgets/security_section.dart';
 import 'package:inves_tracker/views/settings/widgets/setting_card.dart';
 import 'package:inves_tracker/views/settings/widgets/theme_setting_item.dart';
 import 'package:inves_tracker/views/settings/widgets/language_setting_item.dart';
 import 'package:inves_tracker/views/settings/widgets/logout_setting_item.dart';
 import 'package:inves_tracker/views/settings/widgets/about_section.dart';
 import 'package:inves_tracker/views/settings/widgets/user_profile_section.dart';
-import 'package:inves_tracker/views/settings/widgets/change_password_dialog.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
-
-  void _showChangePasswordDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => const ChangePasswordDialog(),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,43 +46,7 @@ class SettingsScreen extends StatelessWidget {
                 // Change Password Section
                 SectionHeader(title: l10n.security),
                 SizedBox(height: 8.h),
-                SettingCard(
-                  child: InkWell(
-                    onTap: () => _showChangePasswordDialog(context),
-                    borderRadius: BorderRadius.circular(10.r),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10.r),
-                          decoration: BoxDecoration(
-                            color: AppColors.secondary(context).withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                          child: Icon(
-                            Icons.lock_reset,
-                            color: AppColors.secondary(context),
-                            size: 24.sp,
-                          ),
-                        ),
-                        SizedBox(width: 16.w),
-                        Text(
-                          l10n.changePassword,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.text(context),
-                          ),
-                        ),
-                        const Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 18.sp,
-                          color: Colors.grey,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                const SecuritySection(),
                 SizedBox(height: 12.h),
 
                 // About Section Header
