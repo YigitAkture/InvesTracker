@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/settings/widgets/info_row.dart';
 import 'package:inves_tracker/views/settings/widgets/setting_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutSection extends StatefulWidget {
   const AboutSection({super.key});
@@ -47,6 +49,7 @@ class _AboutSectionState extends State<AboutSection> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 24.h),
             _buildInfoItem(
               context,
               icon: Icons.person_outline,
@@ -59,13 +62,6 @@ class _AboutSectionState extends State<AboutSection> {
               icon: Icons.design_services_outlined,
               label: l10n.designer,
               value: 'Nisa Dost',
-            ),
-            SizedBox(height: 16.h),
-            _buildInfoItem(
-              context,
-              icon: Icons.email_outlined,
-              label: l10n.email,
-              value: 'investrackerapp@gmail.com',
             ),
           ],
         ),
@@ -140,6 +136,51 @@ class _AboutSectionState extends State<AboutSection> {
               icon: Icon(Icons.info_outline,
                   size: 24.sp, color: AppColors.secondary(context)),
               onPressed: () => _showDeveloperInfo(context),
+            ),
+          ),
+          Divider(
+            height: 24.h,
+            color: AppColors.background2(context).withValues(alpha: 0.5),
+          ),
+          InfoRow(
+            icon: Icons.language,
+            label: l10n.website,
+            value: 'yigitakture.github.io',
+            iconColor: AppColors.primary(context),
+            trailingWidget: IconButton(
+              icon: Icon(Icons.open_in_new,
+                  size: 24.sp, color: AppColors.primary(context)),
+              onPressed: () async {
+                final url = Uri.parse('https://yigitakture.github.io/');
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                }
+              },
+            ),
+          ),
+          Divider(
+            height: 24.h,
+            color: AppColors.background2(context).withValues(alpha: 0.5),
+          ),
+          InfoRow(
+            icon: Icons.email_outlined,
+            label: l10n.email,
+            value: 'investrackerapp@gmail.com',
+            iconColor: AppColors.secondary(context),
+            trailingWidget: IconButton(
+              icon: Icon(Icons.copy,
+                  size: 24.sp, color: AppColors.secondary(context)),
+              onPressed: () {
+                Clipboard.setData(
+                    const ClipboardData(text: 'investrackerapp@gmail.com'));
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(l10n.copiedToClipboard),
+                    backgroundColor: AppColors.primary(context),
+                  ),
+                );
+              },
             ),
           ),
         ],

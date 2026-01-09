@@ -260,5 +260,7 @@
   "failedToResetPassword": "Şifre sıfırlama başarısız oldu",
   "success": "Başarılı!",
   "ok": "Tamam",
-  "incorrectPassword": "Şifre hatalı. Lütfen tekrar deneyin."
+  "incorrectPassword": "Şifre hatalı. Lütfen tekrar deneyin.",
+  "website": "Web Sitesi",
+  "copiedToClipboard": "E-posta panoya kopyalandı"
 }

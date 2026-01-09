@@ -802,4 +802,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get incorrectPassword => 'Incorrect password. Please try again.';
+
+  @override
+  String get website => 'Website';
+
+  @override
+  String get copiedToClipboard => 'Email copied to clipboard';
 }

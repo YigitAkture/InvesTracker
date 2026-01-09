@@ -1657,6 +1657,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Incorrect password. Please try again.'**
   String get incorrectPassword;
+
+  /// No description provided for @website.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get website;
+
+  /// No description provided for @copiedToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Email copied to clipboard'**
+  String get copiedToClipboard;
 }
 
 class _AppLocalizationsDelegate

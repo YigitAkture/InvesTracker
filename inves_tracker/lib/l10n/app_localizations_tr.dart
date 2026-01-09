@@ -805,4 +805,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get incorrectPassword => 'Şifre hatalı. Lütfen tekrar deneyin.';
+
+  @override
+  String get website => 'Web Sitesi';
+
+  @override
+  String get copiedToClipboard => 'E-posta panoya kopyalandı';
 }

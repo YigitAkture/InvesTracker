@@ -260,5 +260,7 @@
   "failedToResetPassword": "Failed to reset password",
   "success": "Success!",
   "ok": "Ok",
-  "incorrectPassword": "Incorrect password. Please try again."
+  "incorrectPassword": "Incorrect password. Please try again.",
+  "website": "Website",
+  "copiedToClipboard": "Email copied to clipboard"
 }
