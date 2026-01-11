@@ -218,9 +218,29 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          widget.assetType.toLowerCase() == 'gold'
-                              ? '${GoldInputHelper.formatAmount(widget.assetCode, _totalAmount)} ${WalletLocalizationHelper.getLocalizedName(context, widget.assetCode, widget.assetType)}'
-                              : '${PriceFormatter.formatCurrency(_totalAmount)} ${widget.assetCode}',
+                          () {
+                            final assetType = widget.assetType.toLowerCase();
+                            final assetCode = widget.assetCode;
+                            final totalAmount = _totalAmount;
+                            
+                            // Format the amount
+                            final formattedAmount = assetType == 'gold' 
+                                ? GoldInputHelper.formatAmount(assetCode, totalAmount)
+                                : PriceFormatter.formatCurrency(totalAmount);
+                            
+                            // Determine unit
+                            String unit;
+                            if (assetType == 'gold') {
+                              final isDecimalType = GoldInputHelper.allowsDecimal(assetCode);
+                              unit = isDecimalType 
+                                  ? (totalAmount == 1 ? l10n.gram : l10n.grams)
+                                  : (totalAmount == 1 ? l10n.piece : l10n.pieces);
+                            } else {
+                              unit = assetCode;
+                            }
+                            
+                            return '$formattedAmount $unit';
+                          }(),
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.title(context),
@@ -277,10 +297,33 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.assetType.toLowerCase() == 'gold'
-                                ? '${l10n.amount}: ${GoldInputHelper.formatAmount(widget.assetCode, asset.amount)} ${WalletLocalizationHelper.getLocalizedName(context, widget.assetCode, widget.assetType)}'
-                                : '${l10n.amount}: ${PriceFormatter.formatCurrency(asset.amount)} ${widget.assetCode}',
-                            style: TextStyle(fontSize: 14.sp),
+                            () {
+                              final assetType = widget.assetType.toLowerCase();
+                              final assetCode = widget.assetCode;
+                              final totalAmount = _totalAmount;
+                              
+                              // Format the amount
+                              final formattedAmount = assetType == 'gold' 
+                                  ? GoldInputHelper.formatAmount(assetCode, totalAmount)
+                                  : PriceFormatter.formatCurrency(totalAmount);
+                              
+                              // Determine unit
+                              String unit;
+                              if (assetType == 'gold') {
+                                final isDecimalType = GoldInputHelper.allowsDecimal(assetCode);
+                                unit = isDecimalType 
+                                    ? (totalAmount == 1 ? l10n.gram : l10n.grams)
+                                    : (totalAmount == 1 ? l10n.piece : l10n.pieces);
+                              } else {
+                                unit = assetCode;
+                              }
+                              
+                              return '$formattedAmount $unit';
+                            }(),
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: AppColors.title(context),
+                            ),
                           ),
                           if (assetTryValue != null) ...[
                             SizedBox(height: 4.h),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
+import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
@@ -25,7 +27,15 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
   @override
   void initState() {
     super.initState();
-    _amountController.text = widget.debt.amount.toString();
+    // Format the initial value based on debt type
+    if (widget.debt.debtType.toLowerCase() == 'gold') {
+      _amountController.text = GoldInputHelper.formatAmount(
+        widget.debt.debtCode,
+        widget.debt.amount,
+      );
+    } else {
+      _amountController.text = widget.debt.amount.toString();
+    }
     _noteController.text = widget.debt.note ?? '';
     _selectedDueDate = widget.debt.dueDate;
   }
@@ -58,6 +68,25 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
         SnackBar(content: Text(l10n.enterValidAmount), showCloseIcon: true),
       );
       return;
+    }
+
+    // Additional validation for gold types
+    if (widget.debt.debtType.toLowerCase() == 'gold') {
+      final validationError = GoldInputHelper.validateAmount(
+        widget.debt.debtCode,
+        _amountController.text,
+      );
+      if (validationError != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(validationError, style: TextStyle(color: Colors.black)), 
+            showCloseIcon: true,
+            closeIconColor: Colors.black,
+            backgroundColor: AppColors.warning2,
+          ),
+        );
+        return;
+      }
     }
 
     setState(() => _isLoading = true);
@@ -99,6 +128,8 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isGold = widget.debt.debtType.toLowerCase() == 'gold';
+    
     return AlertDialog(
       title: Text(l10n.editDebt),
       content: SingleChildScrollView(
@@ -107,7 +138,11 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.debt.debtCode,
+              WalletLocalizationHelper.getLocalizedName(
+                context,
+                widget.debt.debtCode,
+                widget.debt.debtType,
+              ),
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
@@ -119,10 +154,15 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
             // Amount
             TextField(
               controller: _amountController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-              ],
+              // Dynamic keyboard type and formatters for gold
+              keyboardType: isGold
+                  ? GoldInputHelper.getKeyboardType(widget.debt.debtCode)
+                  : const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: isGold
+                  ? GoldInputHelper.getInputFormatters(widget.debt.debtCode)
+                  : [
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    ],
               decoration: InputDecoration(
                 labelText: l10n.amount,
                 border: OutlineInputBorder(

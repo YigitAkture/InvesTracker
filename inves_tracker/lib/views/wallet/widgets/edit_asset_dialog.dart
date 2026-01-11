@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
+import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
@@ -23,7 +25,15 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
   @override
   void initState() {
     super.initState();
-    _amountController.text = widget.asset.amount.toString();
+    // Format the initial value based on asset type
+    if (widget.asset.assetType.toLowerCase() == 'gold') {
+      _amountController.text = GoldInputHelper.formatAmount(
+        widget.asset.assetCode,
+        widget.asset.amount,
+      );
+    } else {
+      _amountController.text = widget.asset.amount.toString();
+    }
   }
 
   @override
@@ -46,6 +56,25 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
         ),
       );
       return;
+    }
+
+    // Additional validation for gold types
+    if (widget.asset.assetType.toLowerCase() == 'gold') {
+      final validationError = GoldInputHelper.validateAmount(
+        widget.asset.assetCode,
+        _amountController.text,
+      );
+      if (validationError != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(validationError, style: TextStyle(color: Colors.black)), 
+            showCloseIcon: true,
+            closeIconColor: Colors.black,
+            backgroundColor: AppColors.warning2,
+          ),
+        );
+        return;
+      }
     }
 
     setState(() => _isLoading = true);
@@ -81,6 +110,8 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isGold = widget.asset.assetType.toLowerCase() == 'gold';
+    
     return AlertDialog(
       title: Text(l10n.editAsset),
       content: Column(
@@ -88,7 +119,11 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.asset.assetCode,
+            WalletLocalizationHelper.getLocalizedName(
+              context,
+              widget.asset.assetCode,
+              widget.asset.assetType,
+            ),
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
@@ -98,10 +133,15 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
           SizedBox(height: 16.h),
           TextField(
             controller: _amountController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-            ],
+            // Dynamic keyboard type and formatters for gold
+            keyboardType: isGold
+                ? GoldInputHelper.getKeyboardType(widget.asset.assetCode)
+                : const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: isGold
+                ? GoldInputHelper.getInputFormatters(widget.asset.assetCode)
+                : [
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                  ],
             decoration: InputDecoration(
               labelText: l10n.amount,
               border: OutlineInputBorder(
