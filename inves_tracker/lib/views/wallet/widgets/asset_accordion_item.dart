@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
@@ -217,11 +218,9 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          '${_totalAmount.toStringAsFixed(2)} ${widget.assetType != 'Gold' ? widget.assetCode : WalletLocalizationHelper.getLocalizedName(
-                            context,
-                            widget.assetCode,
-                            widget.assetType,
-                          )}',
+                          widget.assetType.toLowerCase() == 'gold'
+                              ? '${GoldInputHelper.formatAmount(widget.assetCode, _totalAmount)} ${WalletLocalizationHelper.getLocalizedName(context, widget.assetCode, widget.assetType)}'
+                              : '${PriceFormatter.formatCurrency(_totalAmount)} ${widget.assetCode}',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.title(context),
@@ -278,17 +277,15 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${l10n.amount}: ${asset.amount.toStringAsFixed(2)} ${widget.assetType != 'Gold' ? widget.assetCode : WalletLocalizationHelper.getLocalizedName(
-                            context,
-                            widget.assetCode,
-                            widget.assetType,
-                            )}',
+                            widget.assetType.toLowerCase() == 'gold'
+                                ? '${l10n.amount}: ${GoldInputHelper.formatAmount(widget.assetCode, asset.amount)} ${WalletLocalizationHelper.getLocalizedName(context, widget.assetCode, widget.assetType)}'
+                                : '${l10n.amount}: ${PriceFormatter.formatCurrency(asset.amount)} ${widget.assetCode}',
                             style: TextStyle(fontSize: 14.sp),
                           ),
                           if (assetTryValue != null) ...[
                             SizedBox(height: 4.h),
                             Text(
-                              '≈ ${assetTryValue.toStringAsFixed(2)} TRY',
+                              '≈ ${PriceFormatter.formatCurrency(assetTryValue)} TRY',
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: AppColors.success,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
@@ -39,6 +40,23 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
   void dispose() {
     _amountController.dispose();
     super.dispose();
+  }
+
+  void _onGoldTypeChanged(String newGoldCode) {
+    setState(() {
+      _selectedGold = newGoldCode;
+      
+      // If the current amount contains decimal but new gold type doesn't allow it,
+      // remove the decimal part
+      if (!GoldInputHelper.allowsDecimal(newGoldCode)) {
+        final currentAmount = double.tryParse(_amountController.text);
+        if (currentAmount != null) {
+          _amountController.text = currentAmount.toInt().toString();
+        }
+      }
+      
+      _calculateConversion();
+    });
   }
 
   void _calculateConversion() {
@@ -103,12 +121,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                 child: GoldDropdown(
                   golds: widget.golds,
                   selectedCode: _selectedGold,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedGold = value;
-                      _calculateConversion();
-                    });
-                  },
+                  onChanged: _onGoldTypeChanged,
                 ),
               ),
               SizedBox(width: 12.w),
@@ -116,10 +129,10 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                 flex: 3,
                 child: TextField(
                   controller: _amountController,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: false),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
+                  // Dynamic keyboard type based on selected gold
+                  keyboardType: GoldInputHelper.getKeyboardType(_selectedGold),
+                  // Dynamic input formatters based on selected gold
+                  inputFormatters: GoldInputHelper.getInputFormatters(_selectedGold),
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,

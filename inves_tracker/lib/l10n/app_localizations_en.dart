@@ -808,4 +808,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get copiedToClipboard => 'Email copied to clipboard';
+
+  @override
+  String get piece => 'Piece';
+
+  @override
+  String get pieces => 'Pieces';
+
+  @override
+  String get gram => 'Gram';
+
+  @override
+  String get grams => 'Grams';
 }

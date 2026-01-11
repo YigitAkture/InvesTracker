@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/wallet/utils/crypto_dropdown.dart';
@@ -112,6 +113,22 @@ class _AddAssetBoxState extends State<AddAssetBox> {
         ),
       );
       return;
+    }
+
+    // Additional validation for gold types
+    if (_selectedType == ExchangeType.gold) {
+      final validationError = GoldInputHelper.validateAmount(_selectedCode!, _amountController.text);
+      if (validationError != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(validationError, style: TextStyle(color: Colors.black)), 
+            showCloseIcon: true,
+            closeIconColor: Colors.black,
+            backgroundColor: AppColors.warning2,
+          ),
+        );
+        return;
+      }
     }
 
     setState(() => _isLoading = true);
@@ -295,10 +312,16 @@ class _AddAssetBoxState extends State<AddAssetBox> {
                   // Amount Input
                   TextField(
                     controller: _amountController,
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-                    ],
+                    // Dynamic keyboard type based on selected type and code
+                    keyboardType: _selectedType == ExchangeType.gold && _selectedCode != null
+                        ? GoldInputHelper.getKeyboardType(_selectedCode!)
+                        : const TextInputType.numberWithOptions(decimal: true),
+                    // Dynamic input formatters based on selected type and code
+                    inputFormatters: _selectedType == ExchangeType.gold && _selectedCode != null
+                        ? GoldInputHelper.getInputFormatters(_selectedCode!)
+                        : [
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                          ],
                     decoration: InputDecoration(
                       labelText: l10n.amount,
                       border: OutlineInputBorder(
@@ -308,6 +331,7 @@ class _AddAssetBoxState extends State<AddAssetBox> {
                       fillColor: AppColors.background2(context),
                     ),
                   ),
+
 
                   SizedBox(height: 16.h),
 

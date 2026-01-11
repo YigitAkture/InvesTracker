@@ -811,4 +811,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get copiedToClipboard => 'E-posta panoya kopyalandı';
+
+  @override
+  String get piece => 'Adet';
+
+  @override
+  String get pieces => 'Adet';
+
+  @override
+  String get gram => 'Gram';
+
+  @override
+  String get grams => 'Gram';
 }

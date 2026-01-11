@@ -262,5 +262,9 @@
   "ok": "Tamam",
   "incorrectPassword": "Şifre hatalı. Lütfen tekrar deneyin.",
   "website": "Web Sitesi",
-  "copiedToClipboard": "E-posta panoya kopyalandı"
+  "copiedToClipboard": "E-posta panoya kopyalandı",
+  "piece": "Adet",
+  "pieces": "Adet",
+  "gram": "Gram",
+  "grams": "Gram"
 }

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
+import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
+import 'package:inves_tracker/core/utils/price_formatter.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 
 class DebtInfoDialog extends StatelessWidget {
@@ -15,27 +18,27 @@ class DebtInfoDialog extends StatelessWidget {
   /// 2. Debts without due dates (oldest created first)
   List<Debt> _getSortedDebts() {
     final sortedDebts = List<Debt>.from(debts);
-    
+
     sortedDebts.sort((a, b) {
       // Both have due dates - sort by nearest due date first
       if (a.dueDate != null && b.dueDate != null) {
         return a.dueDate!.compareTo(b.dueDate!);
       }
-      
+
       // Only 'a' has due date - 'a' comes first
       if (a.dueDate != null && b.dueDate == null) {
         return -1;
       }
-      
+
       // Only 'b' has due date - 'b' comes first
       if (a.dueDate == null && b.dueDate != null) {
         return 1;
       }
-      
+
       // Neither has due date - sort by creation date (oldest first)
       return a.createdAt.compareTo(b.createdAt);
     });
-    
+
     return sortedDebts;
   }
 
@@ -43,11 +46,9 @@ class DebtInfoDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final sortedDebts = _getSortedDebts();
-    
+
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.r),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       child: Container(
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 0.7,
@@ -68,11 +69,14 @@ class DebtInfoDialog extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${l10n.debtDetails} - ${debts.first.debtCode}',
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
+                  Expanded(
+                    child: Text(
+                      '${l10n.debtDetails} - ${WalletLocalizationHelper.getLocalizedName(context, debts.first.debtCode, debts.first.debtType)}',
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 2,
                     ),
                   ),
                   IconButton(
@@ -123,7 +127,27 @@ class DebtInfoDialog extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    debts.fold(0.0, (sum, d) => sum + d.amount).toStringAsFixed(2),
+                    debts.first.debtType.toLowerCase() == 'gold'
+                        ? () {
+                            final totalAmount = debts.fold(
+                              0.0,
+                              (sum, d) => sum + d.amount,
+                            );
+                            final formattedAmount =
+                                GoldInputHelper.formatAmount(
+                                  debts.first.debtCode,
+                                  totalAmount,
+                                );
+                            final isDecimalType = GoldInputHelper.allowsDecimal(
+                              debts.first.debtCode,
+                            );
+                            final unit = isDecimalType
+                                ? (totalAmount == 1 ? l10n.gram : l10n.grams)
+                                : (totalAmount == 1 ? l10n.piece : l10n.pieces);
+                            return '$formattedAmount $unit';
+                          }()
+                        : '${PriceFormatter.formatCurrency(debts.fold(0.0, (sum, d) => sum + d.amount))} ${debts.first.debtCode}',
+
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w700,
@@ -155,10 +179,7 @@ class _DebtInfoItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.foreground(context),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(
-          color: AppColors.background2(context),
-          width: 1,
-        ),
+        border: Border.all(color: AppColors.background2(context), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,7 +204,18 @@ class _DebtInfoItem extends StatelessWidget {
                 ),
               ),
               Text(
-                debt.amount.toStringAsFixed(2),
+                debt.debtType.toLowerCase() == 'gold'
+                    ? () {
+                      final totalAmount = debt.amount;
+                      final formattedAmount = GoldInputHelper.formatAmount(debt.debtCode, totalAmount);
+                      final isDecimalType = GoldInputHelper.allowsDecimal(debt.debtCode);
+                      final unit = isDecimalType 
+                          ? (totalAmount == 1 ? l10n.gram : l10n.grams)
+                          : (totalAmount == 1 ? l10n.piece : l10n.pieces);
+                      return '$formattedAmount $unit';
+                    }()
+                  : '${PriceFormatter.formatCurrency(debt.amount)} ${debt.debtCode}',
+
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
@@ -210,7 +242,10 @@ class _DebtInfoItem extends StatelessWidget {
             _InfoRow(
               icon: Icons.calendar_today_outlined,
               label: l10n.dueDate,
-              value: _dateFormat.format(debt.dueDate!).toString().substring(0, 10),
+              value: _dateFormat
+                  .format(debt.dueDate!)
+                  .toString()
+                  .substring(0, 10),
               valueColor: debt.dueDate!.isBefore(DateTime.now())
                   ? AppColors.danger2
                   : AppColors.warning2,
@@ -222,7 +257,10 @@ class _DebtInfoItem extends StatelessWidget {
           _InfoRow(
             icon: Icons.access_time,
             label: l10n.created,
-            value: _dateFormat.format(debt.createdAt).toString().substring(0, 10),
+            value: _dateFormat
+                .format(debt.createdAt)
+                .toString()
+                .substring(0, 10),
           ),
         ],
       ),
@@ -247,11 +285,7 @@ class _InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 16.sp,
-          color: AppColors.title(context),
-        ),
+        Icon(icon, size: 16.sp, color: AppColors.title(context)),
         SizedBox(width: 8.w),
         Text(
           '$label: ',

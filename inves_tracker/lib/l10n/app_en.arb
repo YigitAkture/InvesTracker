@@ -262,5 +262,9 @@
   "ok": "Ok",
   "incorrectPassword": "Incorrect password. Please try again.",
   "website": "Website",
-  "copiedToClipboard": "Email copied to clipboard"
+  "copiedToClipboard": "Email copied to clipboard",
+  "piece": "Piece",
+  "pieces": "Pieces",
+  "gram": "Gram",
+  "grams": "Grams"
 }

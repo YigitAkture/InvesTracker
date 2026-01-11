@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
@@ -257,7 +258,33 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          '${_totalAmount.toStringAsFixed(2)} ${widget.debtType != 'Gold' ? widget.debtCode : WalletLocalizationHelper.getLocalizedName(context, widget.debtCode, widget.debtType)} (${widget.debts.length} ${l10n.debt}${l10n.english == 'English' && widget.debts.length > 1 ? 's' : ''})',
+                          () {
+                            final debtType = widget.debtType.toLowerCase();
+                            final debtCode = widget.debtCode;
+                            final totalAmount = _totalAmount;
+                            final debtCount = widget.debts.length;
+                            
+                            // Format the amount
+                            final formattedAmount = debtType == 'gold' 
+                                ? GoldInputHelper.formatAmount(debtCode, totalAmount)
+                                : PriceFormatter.formatCurrency(totalAmount);
+                            
+                            // Determine unit for gold types
+                            String unit;
+                            if (debtType == 'gold') {
+                              final isDecimalType = GoldInputHelper.allowsDecimal(debtCode);
+                              unit = isDecimalType 
+                                  ? (totalAmount == 1 ? l10n.gram : l10n.grams)
+                                  : (totalAmount == 1 ? l10n.piece : l10n.pieces);
+                            } else {
+                              unit = debtCode;
+                            }
+                            
+                            // Handle debt count pluralization
+                            final debtLabel = debtCount > 1 ? l10n.debts : l10n.debt;
+                            
+                            return '$formattedAmount $unit ($debtCount $debtLabel)';
+                          }(),
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.title(context),
@@ -317,13 +344,30 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${l10n.amount}: ${debt.amount.toStringAsFixed(2)} ${widget.debtType != 'Gold' ? widget.debtCode : WalletLocalizationHelper.getLocalizedName(context, widget.debtCode, widget.debtType)}',
+                            () {
+                              final debtType = widget.debtType.toLowerCase();
+                              final debtCode = widget.debtCode;
+                              final amount = debt.amount;
+                              final formattedAmount = debtType == 'gold' 
+                                  ? GoldInputHelper.formatAmount(debtCode, amount)
+                                  : PriceFormatter.formatCurrency(amount);
+                              
+                              if (debtType == 'gold') {
+                                final isDecimalType = GoldInputHelper.allowsDecimal(debtCode);
+                                final unit = isDecimalType 
+                                    ? (amount == 1 ? l10n.gram : l10n.grams)
+                                    : (amount == 1 ? l10n.piece : l10n.pieces);
+                                return '${l10n.amount}: $formattedAmount $unit';
+                              } else {
+                                return '${l10n.amount}: $formattedAmount $debtCode';
+                              }
+                            }(),
                             style: TextStyle(fontSize: 14.sp),
                           ),
                           if (debtTryValue != null) ...[
                             SizedBox(height: 4.h),
                             Text(
-                              '≈ ${debtTryValue.toStringAsFixed(2)} TRY',
+                              '≈ ${PriceFormatter.formatCurrency(debtTryValue)} TRY',
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: AppColors.danger,

@@ -1669,6 +1669,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email copied to clipboard'**
   String get copiedToClipboard;
+
+  /// No description provided for @piece.
+  ///
+  /// In en, this message translates to:
+  /// **'Piece'**
+  String get piece;
+
+  /// No description provided for @pieces.
+  ///
+  /// In en, this message translates to:
+  /// **'Pieces'**
+  String get pieces;
+
+  /// No description provided for @gram.
+  ///
+  /// In en, this message translates to:
+  /// **'Gram'**
+  String get gram;
+
+  /// No description provided for @grams.
+  ///
+  /// In en, this message translates to:
+  /// **'Grams'**
+  String get grams;
 }
 
 class _AppLocalizationsDelegate
