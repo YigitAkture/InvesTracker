@@ -5,6 +5,7 @@ import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
+import 'package:inves_tracker/core/utils/price_formatter.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/wallet/widgets/edit_debt_dialog.dart';
 import 'package:inves_tracker/views/wallet/widgets/debt_info_dialog.dart';
@@ -265,7 +266,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         if (_totalTryValue != null) ...[
                           SizedBox(height: 2.h),
                           Text(
-                            '≈ ${_totalTryValue!.toStringAsFixed(2)} TRY',
+                            '≈ ${PriceFormatter.formatCurrency(_totalTryValue!)} TRY',
                             style: TextStyle(
                               fontSize: 11.sp,
                               color: AppColors.secondary(context),

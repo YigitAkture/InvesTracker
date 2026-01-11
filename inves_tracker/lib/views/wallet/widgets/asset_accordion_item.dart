@@ -4,6 +4,7 @@ import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
+import 'package:inves_tracker/core/utils/price_formatter.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/wallet/widgets/edit_asset_dialog.dart';
 
@@ -229,7 +230,7 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         if (_totalTryValue != null) ...[
                           SizedBox(height: 2.h),
                           Text(
-                            '≈ ${_totalTryValue!.toStringAsFixed(2)} TRY',
+                            '≈ ${PriceFormatter.formatCurrency(_totalTryValue!)} TRY',
                             style: TextStyle(
                               fontSize: 11.sp,
                               color: AppColors.success,
