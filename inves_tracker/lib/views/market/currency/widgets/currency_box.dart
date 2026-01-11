@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
+import 'package:inves_tracker/core/utils/price_formatter.dart';
 
 class CurrencyBox extends StatelessWidget {
   final CurrencyData currency;
@@ -132,7 +134,7 @@ class CurrencyBox extends StatelessWidget {
               SizedBox(
                 width: 76.w,
                 child: Text(
-                  currency.buying.toStringAsFixed(4),
+                  PriceFormatter.formatNumber(currency.buying, 4, context.localeString),
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14.sp,
@@ -146,7 +148,7 @@ class CurrencyBox extends StatelessWidget {
               SizedBox(
                 width: 76.w,
                 child: Text(
-                  currency.selling.toStringAsFixed(4),
+                  PriceFormatter.formatNumber(currency.selling, 4, context.localeString),
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14.sp,

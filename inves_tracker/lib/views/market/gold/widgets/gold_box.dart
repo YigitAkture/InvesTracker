@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
 
@@ -101,7 +102,7 @@ class GoldBox extends StatelessWidget {
               SizedBox(
                 width: 80.w,
                 child: Text(
-                  PriceFormatter.formatNumber(gold.buying),
+                  PriceFormatter.formatCurrency(gold.buying, context.localeString),
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14.sp,
@@ -115,7 +116,7 @@ class GoldBox extends StatelessWidget {
               SizedBox(
                 width: 80.w,
                 child: Text(
-                  PriceFormatter.formatNumber(gold.selling),
+                  PriceFormatter.formatCurrency(gold.selling, context.localeString),
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14.sp,

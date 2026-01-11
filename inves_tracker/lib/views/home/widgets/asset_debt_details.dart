@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/home/models/portfolio_data.dart';
+import 'package:inves_tracker/core/utils/price_formatter.dart';
 
 class AssetDebtDetails extends StatefulWidget {
   final PortfolioData portfolioData;
@@ -300,7 +302,7 @@ class _BarRowState extends State<_BarRow>
   Widget build(BuildContext context) {
     // Calculate bar width with minimum width
     final maxWidth = MediaQuery.of(context).size.width - 120.w;
-    final minWidth = 60.w;
+    final minWidth = 65.w;
     final calculatedWidth = (maxWidth * widget.ratio).clamp(minWidth, maxWidth);
 
     return Row(
@@ -380,13 +382,13 @@ class _BarRowState extends State<_BarRow>
   String _formatNumber(double value) {
     final AppLocalizations l10n = AppLocalizations.of(context)!;
     if (value >= 1000000000) {
-      return '${(value / 1000000000).toStringAsFixed(2)}${l10n.billion}';
+      return '${PriceFormatter.formatCurrency(value / 1000000000, context.localeString)}${l10n.billion}';
     } else if (value >= 1000000) {
-      return '${(value / 1000000).toStringAsFixed(2)}${l10n.million}';
+      return '${PriceFormatter.formatCurrency(value / 1000000, context.localeString)}${l10n.million}';
     } else if (value >= 1000) {
-      return '${(value / 1000).toStringAsFixed(1)}${l10n.thousand}';
+      return '${PriceFormatter.formatCurrency(value / 1000, context.localeString)}${l10n.thousand}';
     } else {
-      return value.toStringAsFixed(0);
+      return PriceFormatter.formatCurrency(value, context.localeString);
     }
   }
 }

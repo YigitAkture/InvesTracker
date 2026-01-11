@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
 import 'package:inves_tracker/views/home/models/portfolio_data.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
@@ -146,7 +147,7 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
 
               // Animated total balance text (driven by the same controller)
               Text(
-                '${isZero ? '' : isPositive ? '+' : '-'} ${formatNumber(animatedTotal.abs(), l10n)}₺',
+                '${isZero ? '' : isPositive ? '+' : '-'} ${formatNumber(animatedTotal.abs(), l10n, context)}₺',
                 style: TextStyle(
                   fontSize: 32.sp,
                   fontWeight: FontWeight.bold,
@@ -225,7 +226,7 @@ class _InfoColumn extends StatelessWidget {
         ),
         SizedBox(height: 6.h),
         Text(
-          '${formatNumber(value, l10n)}₺',
+          '${formatNumber(value, l10n, context)}₺',
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,
@@ -237,16 +238,16 @@ class _InfoColumn extends StatelessWidget {
   }
 }
 
-String formatNumber(double value, AppLocalizations l10n) {
+String formatNumber(double value, AppLocalizations l10n, BuildContext context) {
   if (value >= 1000000000) {
-    return '${(value / 1000000000).toStringAsFixed(2)}${l10n.billion}';
+    return '${PriceFormatter.formatCurrency(value / 1000000000, context.localeString)}${l10n.billion}';
   } else if (value >= 1000000) {
-    return '${(value / 1000000).toStringAsFixed(2)}${l10n.million}';
+    return '${PriceFormatter.formatCurrency(value / 1000000, context.localeString)}${l10n.million}';
   } else if (value >= 100000) {
-    return '${(value / 1000).toStringAsFixed(2)}${l10n.thousand}';
+    return '${PriceFormatter.formatCurrency(value / 1000, context.localeString)}${l10n.thousand}';
   } else if (value < 100000) {
-    return PriceFormatter.formatNumber(value, 2);
+    return PriceFormatter.formatCurrency(value, context.localeString);
   } else {
-    return value.toStringAsFixed(0);
+    return PriceFormatter.formatNumber(value, 0, context.localeString);
   }
 }

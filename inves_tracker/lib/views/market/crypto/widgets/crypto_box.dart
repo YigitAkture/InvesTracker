@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
 
@@ -131,7 +132,7 @@ class CryptoBox extends StatelessWidget {
               SizedBox(
                 width: 70.w,
                 child: Text(
-                  PriceFormatter.formatPrice(crypto.usdPrice),
+                  PriceFormatter.formatPrice(crypto.usdPrice, context.localeString),
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14.sp,
@@ -145,7 +146,7 @@ class CryptoBox extends StatelessWidget {
               SizedBox(
                 width: 70.w,
                 child: Text(
-                  PriceFormatter.formatPrice(crypto.sellingUsd),
+                  PriceFormatter.formatPrice(crypto.sellingUsd, context.localeString),
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     fontSize: 14.sp,

@@ -7,7 +7,7 @@ import 'package:inves_tracker/core/utils/theme_notifier.dart';
 import 'package:inves_tracker/core/utils/locale_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-
+ 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

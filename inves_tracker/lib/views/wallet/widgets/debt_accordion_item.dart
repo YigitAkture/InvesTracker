@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
+import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
@@ -267,7 +268,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                             // Format the amount
                             final formattedAmount = debtType == 'gold' 
                                 ? GoldInputHelper.formatAmount(debtCode, totalAmount)
-                                : PriceFormatter.formatCurrency(totalAmount);
+                                : PriceFormatter.formatCurrency(totalAmount, context.localeString);
                             
                             // Determine unit for gold types
                             String unit;
@@ -293,7 +294,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                         if (_totalTryValue != null) ...[
                           SizedBox(height: 2.h),
                           Text(
-                            '≈ ${PriceFormatter.formatCurrency(_totalTryValue!)} TRY',
+                            '≈ ${PriceFormatter.formatCurrency(_totalTryValue!, context.localeString)} TRY',
                             style: TextStyle(
                               fontSize: 11.sp,
                               color: AppColors.secondary(context),
@@ -350,7 +351,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                               final amount = debt.amount;
                               final formattedAmount = debtType == 'gold' 
                                   ? GoldInputHelper.formatAmount(debtCode, amount)
-                                  : PriceFormatter.formatCurrency(amount);
+                                  : PriceFormatter.formatCurrency(amount, context.localeString);
                               
                               if (debtType == 'gold') {
                                 final isDecimalType = GoldInputHelper.allowsDecimal(debtCode);
@@ -367,7 +368,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                           if (debtTryValue != null) ...[
                             SizedBox(height: 4.h),
                             Text(
-                              '≈ ${PriceFormatter.formatCurrency(debtTryValue)} TRY',
+                              '≈ ${PriceFormatter.formatCurrency(debtTryValue, context.localeString)} TRY',
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: AppColors.danger,

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
+import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
@@ -146,7 +147,7 @@ class DebtInfoDialog extends StatelessWidget {
                                 : (totalAmount == 1 ? l10n.piece : l10n.pieces);
                             return '$formattedAmount $unit';
                           }()
-                        : '${PriceFormatter.formatCurrency(debts.fold(0.0, (sum, d) => sum + d.amount))} ${debts.first.debtCode}',
+                        : '${PriceFormatter.formatCurrency(debts.fold(0.0, (sum, d) => sum + d.amount), context.localeString)} ${debts.first.debtCode}',
 
                     style: TextStyle(
                       fontSize: 16.sp,
@@ -214,7 +215,7 @@ class _DebtInfoItem extends StatelessWidget {
                           : (totalAmount == 1 ? l10n.piece : l10n.pieces);
                       return '$formattedAmount $unit';
                     }()
-                  : '${PriceFormatter.formatCurrency(debt.amount)} ${debt.debtCode}',
+                  : '${PriceFormatter.formatCurrency(debt.amount, context.localeString)} ${debt.debtCode}',
 
                 style: TextStyle(
                   fontSize: 18.sp,

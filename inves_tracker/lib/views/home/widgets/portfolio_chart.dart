@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
+import 'package:inves_tracker/core/utils/price_formatter.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/home/models/portfolio_data.dart';
 import 'package:inves_tracker/views/home/utils/portfolio_chart_painter.dart';
@@ -169,13 +171,13 @@ class _PortfolioChartState extends State<PortfolioChart>
 
   String _formatNumber(double value, AppLocalizations l10n) {
     if (value >= 1000000000) {
-      return '${(value / 1000000000).toStringAsFixed(2)}${l10n.billion}';
+      return '${PriceFormatter.formatCurrency(value / 1000000000, context.localeString)}${l10n.billion}';
     } else if (value >= 1000000) {
-      return '${(value / 1000000).toStringAsFixed(2)}${l10n.million}';
+      return '${PriceFormatter.formatCurrency(value / 1000000, context.localeString)}${l10n.million}';
     } else if (value >= 1000) {
-      return '${(value / 1000).toStringAsFixed(2)}${l10n.thousand}';
+      return '${PriceFormatter.formatCurrency(value / 1000, context.localeString)}${l10n.thousand}';
     } else {
-      return value.toStringAsFixed(0);
+      return PriceFormatter.formatNumber(value, 0, context.localeString);
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
+import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
@@ -226,7 +227,7 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                             // Format the amount
                             final formattedAmount = assetType == 'gold' 
                                 ? GoldInputHelper.formatAmount(assetCode, totalAmount)
-                                : PriceFormatter.formatCurrency(totalAmount);
+                                : PriceFormatter.formatCurrency(totalAmount, context.localeString);
                             
                             // Determine unit
                             String unit;
@@ -249,7 +250,7 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         if (_totalTryValue != null) ...[
                           SizedBox(height: 2.h),
                           Text(
-                            '≈ ${PriceFormatter.formatCurrency(_totalTryValue!)} TRY',
+                            '≈ ${PriceFormatter.formatCurrency(_totalTryValue!, context.localeString)} TRY',
                             style: TextStyle(
                               fontSize: 11.sp,
                               color: AppColors.success,
@@ -300,20 +301,20 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                             () {
                               final assetType = widget.assetType.toLowerCase();
                               final assetCode = widget.assetCode;
-                              final totalAmount = _totalAmount;
+                              final amount = widget.assets.firstWhere((a) => a.id == asset.id).amount;
                               
                               // Format the amount
                               final formattedAmount = assetType == 'gold' 
-                                  ? GoldInputHelper.formatAmount(assetCode, totalAmount)
-                                  : PriceFormatter.formatCurrency(totalAmount);
+                                  ? GoldInputHelper.formatAmount(assetCode, amount)
+                                  : PriceFormatter.formatCurrency(amount, context.localeString);
                               
                               // Determine unit
                               String unit;
                               if (assetType == 'gold') {
                                 final isDecimalType = GoldInputHelper.allowsDecimal(assetCode);
                                 unit = isDecimalType 
-                                    ? (totalAmount == 1 ? l10n.gram : l10n.grams)
-                                    : (totalAmount == 1 ? l10n.piece : l10n.pieces);
+                                    ? (amount == 1 ? l10n.gram : l10n.grams)
+                                    : (amount == 1 ? l10n.piece : l10n.pieces);
                               } else {
                                 unit = assetCode;
                               }
@@ -328,7 +329,7 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                           if (assetTryValue != null) ...[
                             SizedBox(height: 4.h),
                             Text(
-                              '≈ ${PriceFormatter.formatCurrency(assetTryValue)} TRY',
+                              '≈ ${PriceFormatter.formatCurrency(assetTryValue, context.localeString)} TRY',
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 color: AppColors.success,
