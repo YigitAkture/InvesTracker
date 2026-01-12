@@ -2,7 +2,7 @@ import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
 import 'package:inves_tracker/views/home/models/portfolio_data.dart';
-import 'package:inves_tracker/core/utils/asset_colors.dart';
+import 'package:inves_tracker/core/constants/asset_colors.dart';
 
 class PortfolioCalculator {
   static PortfolioData calculatePortfolio({

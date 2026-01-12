@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:inves_tracker/core/utils/asset_colors.dart';
+import 'package:inves_tracker/core/constants/asset_colors.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 
 class GoldDropdown extends StatelessWidget {
