@@ -22,19 +22,23 @@ class AssetService {
   }
 
   /// Create a new asset
-  Future<Asset> createAsset(String userId, {
+  /// IMPORTANT: currentTryValue must be calculated as: tryValue * amount
+  Future<Asset> createAsset(
+    String userId, {
     required String assetType,
     required String assetCode,
     required double amount,
-    double? initialTryValue,
+    required double currentTryValue, // This is tryValue * amount
   }) async {
     try {
-      final response = await _apiService.post('Assets', {
+      final body = {
         'assetType': assetType,
         'assetCode': assetCode,
         'amount': amount,
-        'currentTryValue': initialTryValue,
-      });
+        'currentTryValue': currentTryValue, // Send calculated value
+      };
+
+      final response = await _apiService.post('Assets', body);
 
       if (response.statusCode == 201) {
         return Asset.fromJson(json.decode(response.body));
@@ -48,12 +52,19 @@ class AssetService {
   }
 
   /// Update an existing asset
-  Future<Asset> updateAsset(String assetId, double amount, double? currentTryValue) async {
+  /// IMPORTANT: currentTryValue must be calculated as: tryValue * amount
+  Future<Asset> updateAsset(
+    String assetId,
+    double amount,
+    double currentTryValue, // This is tryValue * amount
+  ) async {
     try {
-      final response = await _apiService.put('Assets/$assetId', {
+      final body = {
         'amount': amount,
-        'currentTryValue': currentTryValue,
-      });
+        'currentTryValue': currentTryValue, // Send calculated value
+      };
+
+      final response = await _apiService.put('Assets/$assetId', body);
 
       if (response.statusCode == 200) {
         return Asset.fromJson(json.decode(response.body));

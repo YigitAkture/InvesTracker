@@ -6,6 +6,7 @@ import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
+import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 
 class EditDebtDialog extends StatefulWidget {
@@ -21,6 +22,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   final DebtService _debtService = DebtService();
+  final MarketService _marketService = MarketService();
   DateTime? _selectedDueDate;
   bool _isLoading = false;
 
@@ -59,6 +61,45 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
     }
   }
 
+  /// Calculate currentTryValue = tryValue * amount
+  Future<double?> _calculateCurrentTryValue(double amount) async {
+    try {
+      final marketData = await _marketService.fetchMarketData();
+      final debtType = widget.debt.debtType.toLowerCase();
+      final debtCode = widget.debt.debtCode;
+      
+      switch (debtType) {
+        case 'currency':
+          if (debtCode == 'TRY') return amount * 1.0;
+          final currency = marketData.currencies.firstWhere(
+            (c) => c.code == debtCode,
+            orElse: () => throw Exception('Currency not found'),
+          );
+          return amount * currency.buying;
+        
+        case 'gold':
+          final gold = marketData.golds.firstWhere(
+            (g) => g.code == debtCode,
+            orElse: () => throw Exception('Gold not found'),
+          );
+          return amount * gold.selling;
+        
+        case 'crypto':
+          final crypto = marketData.cryptos.firstWhere(
+            (c) => c.code == debtCode,
+            orElse: () => throw Exception('Crypto not found'),
+          );
+          return amount * crypto.tryPrice;
+        
+        default:
+          return null;
+      }
+    } catch (e) {
+      print('Error calculating currentTryValue: $e');
+      return null;
+    }
+  }
+
   Future<void> _updateDebt() async {
     final l10n = AppLocalizations.of(context)!;
     final amount = double.tryParse(_amountController.text);
@@ -92,9 +133,17 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
     setState(() => _isLoading = true);
 
     try {
+      // Calculate currentTryValue = tryValue * amount
+      final currentTryValue = await _calculateCurrentTryValue(amount);
+
+      if (currentTryValue == null) {
+        throw Exception('Failed to calculate current TRY value');
+      }
+
       await _debtService.updateDebt(
         widget.debt.id,
         amount: amount,
+        currentTryValue: currentTryValue, // Send calculated value
         note: _noteController.text.isEmpty ? null : _noteController.text,
         dueDate: _selectedDueDate,
       );

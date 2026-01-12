@@ -51,7 +51,7 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
       showDialog(
         context: context,
         builder: (context) => AssetInfoDialog(
-          asset: widget.assets.first,
+          assets: widget.assets,
           currentTryValue: widget.tryValue,
         ),
       );
@@ -61,7 +61,7 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
       showDialog(
         context: context,
         builder: (context) => AssetInfoDialog(
-          asset: widget.assets.first,
+          assets: widget.assets,
           currentTryValue: widget.tryValue,
         ),
       );

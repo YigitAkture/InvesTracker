@@ -145,7 +145,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
   void _showDebtInfo() {
     showDialog(
       context: context,
-      builder: (context) => DebtInfoDialog(debts: widget.debts),
+      builder: (context) => DebtInfoDialog(debts: widget.debts, currentTryValue: widget.tryValue),
     );
   }
 
