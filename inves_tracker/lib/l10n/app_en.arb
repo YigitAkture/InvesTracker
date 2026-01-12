@@ -271,5 +271,16 @@
   "piece": "Piece",
   "pieces": "Pieces",
   "gram": "Gram",
-  "grams": "Grams"
+  "grams": "Grams",
+  "assetDetails": "Asset Details",
+  "lastUpdated": "Last Updated",
+  "initialValue": "Initial Value",
+  "valueAtUpdate": "Value at Update",
+  "currentValue": "Current Value",
+  "notAvailable": "Not Available",
+  "profit": "Profit",
+  "loss": "Loss",
+  "change": "Change",
+  "debtIncreased": "Debt Increased",
+  "debtDecreased": "Debt Decreased"
 }

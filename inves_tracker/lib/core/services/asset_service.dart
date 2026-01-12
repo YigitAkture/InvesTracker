@@ -26,12 +26,14 @@ class AssetService {
     required String assetType,
     required String assetCode,
     required double amount,
+    double? initialTryValue,
   }) async {
     try {
       final response = await _apiService.post('Assets', {
         'assetType': assetType,
         'assetCode': assetCode,
         'amount': amount,
+        'currentTryValue': initialTryValue,
       });
 
       if (response.statusCode == 201) {
@@ -46,10 +48,11 @@ class AssetService {
   }
 
   /// Update an existing asset
-  Future<Asset> updateAsset(String assetId, double amount) async {
+  Future<Asset> updateAsset(String assetId, double amount, double? currentTryValue) async {
     try {
       final response = await _apiService.put('Assets/$assetId', {
         'amount': amount,
+        'currentTryValue': currentTryValue,
       });
 
       if (response.statusCode == 200) {

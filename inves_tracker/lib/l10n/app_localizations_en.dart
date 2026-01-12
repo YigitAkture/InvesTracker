@@ -835,4 +835,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get grams => 'Grams';
+
+  @override
+  String get assetDetails => 'Asset Details';
+
+  @override
+  String get lastUpdated => 'Last Updated';
+
+  @override
+  String get initialValue => 'Initial Value';
+
+  @override
+  String get valueAtUpdate => 'Value at Update';
+
+  @override
+  String get currentValue => 'Current Value';
+
+  @override
+  String get notAvailable => 'Not Available';
+
+  @override
+  String get profit => 'Profit';
+
+  @override
+  String get loss => 'Loss';
+
+  @override
+  String get debtIncreased => 'Debt Increased';
+
+  @override
+  String get debtDecreased => 'Debt Decreased';
 }

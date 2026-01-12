@@ -80,7 +80,7 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
     setState(() => _isLoading = true);
 
     try {
-      await _assetService.updateAsset(widget.asset.id, amount);
+      await _assetService.updateAsset(widget.asset.id, amount, 0);
       if (mounted) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(

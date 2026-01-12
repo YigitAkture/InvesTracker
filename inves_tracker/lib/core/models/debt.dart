@@ -4,6 +4,7 @@ class Debt {
   final String debtType; // "Currency", "Gold", "Crypto"
   final String debtCode; // "USD", "GRA", "BTC", etc.
   final double amount;
+  final double? initialTryValue; // Nullable for backward compatibility
   final String? note;
   final DateTime? dueDate;
   final DateTime createdAt;
@@ -15,6 +16,7 @@ class Debt {
     required this.debtType,
     required this.debtCode,
     required this.amount,
+    this.initialTryValue,
     this.note,
     this.dueDate,
     required this.createdAt,
@@ -28,6 +30,9 @@ class Debt {
       debtType: json['debtType'] ?? '',
       debtCode: json['debtCode'] ?? '',
       amount: (json['amount'] ?? 0.0).toDouble(),
+      initialTryValue: json['initialTryValue'] != null 
+          ? (json['initialTryValue'] as num).toDouble() 
+          : null,
       note: json['note'],
       dueDate: json['dueDate'] != null 
           ? DateTime.parse(json['dueDate']) 
@@ -46,6 +51,7 @@ class Debt {
       'debtType': debtType,
       'debtCode': debtCode,
       'amount': amount,
+      'initialTryValue': initialTryValue,
       'note': note,
       'dueDate': dueDate?.toIso8601String(),
       'createdAt': createdAt.toIso8601String(),
@@ -59,6 +65,7 @@ class Debt {
     String? debtType,
     String? debtCode,
     double? amount,
+    double? initialTryValue,
     String? note,
     DateTime? dueDate,
     DateTime? createdAt,
@@ -70,6 +77,7 @@ class Debt {
       debtType: debtType ?? this.debtType,
       debtCode: debtCode ?? this.debtCode,
       amount: amount ?? this.amount,
+      initialTryValue: initialTryValue ?? this.initialTryValue,
       note: note ?? this.note,
       dueDate: dueDate ?? this.dueDate,
       createdAt: createdAt ?? this.createdAt,

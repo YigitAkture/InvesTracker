@@ -271,5 +271,16 @@
   "piece": "Adet",
   "pieces": "Adet",
   "gram": "Gram",
-  "grams": "Gram"
+  "grams": "Gram",
+  "assetDetails": "Varlık Detayları",
+  "lastUpdated": "Son Güncelleme",
+  "initialValue": "İlk Değer",
+  "valueAtUpdate": "Güncelleme Anındaki Değer",
+  "currentValue": "Güncel Değer",
+  "notAvailable": "Mevcut Değil",
+  "profit": "Kâr",
+  "loss": "Zarar",
+  "change": "Değişim",
+  "debtIncreased": "Borç Arttı",
+  "debtDecreased": "Borç Azaldı"
 }

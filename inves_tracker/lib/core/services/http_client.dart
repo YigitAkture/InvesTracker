@@ -7,7 +7,7 @@ class HttpClient {
   // For Android Emulator, use 10.0.2.2:5033 to access localhost
   // For iOS Simulator, use localhost or 127.0.0.1
   // For server, use 45.131.3.173:5000 to access the API
-  static const String baseUrl = 'http://45.131.3.173:5000/api';
+  static const String baseUrl = 'http://10.0.2.2:5033/api';
 
   // Cache the app version to avoid repeated lookups
   static String? _appVersion;
