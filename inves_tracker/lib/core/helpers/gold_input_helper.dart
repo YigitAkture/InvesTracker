@@ -11,6 +11,9 @@ class GoldInputHelper {
     'GRA',
     '14AYARALTIN',
     '18AYARALTIN',
+    'GUMUS',
+    'PAL',
+    'GPL',
   ];
 
   /// Check if a gold type allows decimal input

@@ -76,6 +76,10 @@ class AssetColors {
   static const Color ikibucukGold = Color(0xFFFFA500);
   static const Color besliGold = Color(0xFFFF8C00);
 
+  static const Color gumusSilver = Color(0xFFC0C0C0);  // Silver color
+  static const Color palPalladium = Color(0xFFCED0DD); // Palladium color  
+  static const Color gplPlatinum = Color(0xFFE5E4E2);  // Platinum color
+
   // Crypto colors
   static const Color btc = Color(0xFFF7931A);
   static const Color eth = Color(0xFF627EEA);
@@ -268,6 +272,12 @@ class AssetColors {
         return ikibucukGold;
       case 'BESLIALTIN':
         return besliGold;
+      case 'GUMUS':
+        return gumusSilver;
+      case 'PAL': 
+        return palPalladium;
+      case 'GPL':
+        return gplPlatinum;
       default:
         return defaultGold;
     }

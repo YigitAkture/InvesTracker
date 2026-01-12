@@ -21,7 +21,7 @@ class MarketService {
   static const List<String> _allGolds = [
     'HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN', 'ATAALTIN',
     'RESATALTIN', 'CUMHURIYETALTINI', 'GREMSEALTIN', '14AYARALTIN',
-    '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN'
+    '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN', 'GUMUS', 'GPL', 'PAL'
   ];
 
   static const List<String> _allCryptos = [

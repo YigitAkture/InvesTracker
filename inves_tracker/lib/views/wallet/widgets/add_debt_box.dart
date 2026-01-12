@@ -54,7 +54,8 @@ class _AddDebtBoxState extends State<AddDebtBox> {
     ExchangeType.gold: [
       'HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN',
       'ATAALTIN', 'RESATALTIN', 'CUMHURIYETALTINI', 'GREMSEALTIN',
-      '14AYARALTIN', '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN'
+      '14AYARALTIN', '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN',
+      'GUMUS', 'GPL', 'PAL'
     ],
     ExchangeType.crypto: [
       'BTC', 'ETH', 'USDT', 'XRP', 'BNB', 'SOL', 'USDC', 'STETH',
@@ -78,7 +79,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
       case ExchangeType.currency:
         return l10n.currency;
       case ExchangeType.gold:
-        return l10n.gold;
+        return l10n.metal;
       case ExchangeType.crypto:
         return l10n.crypto;
     }

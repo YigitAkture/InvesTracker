@@ -7,6 +7,7 @@ import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
+import 'package:inves_tracker/core/utils/asset_colors.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/wallet/widgets/edit_debt_dialog.dart';
@@ -208,7 +209,7 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
           child: Icon(
             Icons.diamond,
             size: 40.sp,
-            color: AppColors.warning2,
+            color: AssetColors.getColorForAsset(widget.debtCode, 'gold'),
           ),
         );
     }

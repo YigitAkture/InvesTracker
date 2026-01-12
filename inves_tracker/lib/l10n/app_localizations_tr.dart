@@ -93,7 +93,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get currencyConverterTitle => 'Döviz Çevirici';
 
   @override
-  String get goldToCurrency => 'Altın\'dan Dövize';
+  String get metalToCurrency => 'Maden\'den Dövize';
 
   @override
   String get loadingConverter => 'Çevirici yükleniyor...';
@@ -142,6 +142,15 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get email => 'E-posta';
+
+  @override
+  String get goldGUMUS => 'Gram Gümüş';
+
+  @override
+  String get goldGPL => 'Platin';
+
+  @override
+  String get goldPAL => 'Paladyum';
 
   @override
   String get goldHAS => 'Has Altın';
@@ -427,6 +436,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get preciousMetals => 'Değerli Madenler';
+
+  @override
+  String get metal => 'Maden';
 
   @override
   String get totalAmount => 'Toplam Miktar';

@@ -273,7 +273,7 @@ class _MarketScreenState extends State<MarketScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                l10n.gold,
+                l10n.metal,
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
               Row(

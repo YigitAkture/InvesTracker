@@ -93,7 +93,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get currencyConverterTitle => 'Currency Converter';
 
   @override
-  String get goldToCurrency => 'Gold to Currency';
+  String get metalToCurrency => 'Metal to Currency';
 
   @override
   String get loadingConverter => 'Loading converter...';
@@ -142,6 +142,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get email => 'Email';
+
+  @override
+  String get goldGUMUS => 'Gram of Silver';
+
+  @override
+  String get goldGPL => 'Platinum';
+
+  @override
+  String get goldPAL => 'Palladium';
 
   @override
   String get goldHAS => 'Fine Gold';
@@ -427,6 +436,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get preciousMetals => 'Precious Metals';
+
+  @override
+  String get metal => 'Metal';
 
   @override
   String get totalAmount => 'Total Amount';

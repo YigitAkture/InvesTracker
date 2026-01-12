@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/utils/asset_colors.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 
 class GoldDropdown extends StatelessWidget {
@@ -17,7 +17,7 @@ class GoldDropdown extends StatelessWidget {
           child: Icon(
             Icons.diamond,
             size: 22.sp,
-            color: AppColors.warning2,
+            color: AssetColors.getColorForAsset(code, 'gold'),
           ),
         ),
         SizedBox(width: 8.w),
@@ -59,6 +59,12 @@ class GoldDropdown extends StatelessWidget {
         return l10n.goldIKIBUCUKALTIN;
       case 'BESLIALTIN':
         return l10n.goldBESLIALTIN;
+      case 'GUMUS':
+        return l10n.goldGUMUS;
+      case 'PAL':
+        return l10n.goldPAL;
+      case 'GPL':
+        return l10n.goldGPL;
       default:
         return code;
     }

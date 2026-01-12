@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
+import 'package:inves_tracker/core/utils/asset_colors.dart';
 
 class GoldDropdown extends StatelessWidget {
   final List<GoldData> golds;
@@ -30,7 +31,7 @@ class GoldDropdown extends StatelessWidget {
           icon: Icon(
             Icons.keyboard_arrow_down,
             size: 20.sp,
-            color: AppColors.warning,
+            color: AppColors.primary(context),
           ),
           style: TextStyle(
             fontSize: 14.sp,
@@ -51,7 +52,7 @@ class GoldDropdown extends StatelessWidget {
                     child: Icon(
                       Icons.diamond,
                       size: 22.sp,
-                      color: AppColors.warning2,
+                      color: AssetColors.getColorForAsset(gold.code, 'gold'),
                     ),
                   ),
                   SizedBox(width: 8.w),
@@ -59,6 +60,7 @@ class GoldDropdown extends StatelessWidget {
                     child: Text(
                       gold.getLocalizedName(context),
                       overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                     ),
                   ),
                 ],

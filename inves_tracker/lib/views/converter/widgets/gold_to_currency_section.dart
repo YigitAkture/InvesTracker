@@ -110,7 +110,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
     final l10n = AppLocalizations.of(context)!;
 
     return ConverterCard(
-      title: l10n.goldToCurrency,
+      title: l10n.metalToCurrency,
       child: Column(
         children: [
           // Gold Input

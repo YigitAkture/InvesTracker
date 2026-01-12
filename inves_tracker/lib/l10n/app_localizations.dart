@@ -266,11 +266,11 @@ abstract class AppLocalizations {
   /// **'Currency Converter'**
   String get currencyConverterTitle;
 
-  /// No description provided for @goldToCurrency.
+  /// No description provided for @metalToCurrency.
   ///
   /// In en, this message translates to:
-  /// **'Gold to Currency'**
-  String get goldToCurrency;
+  /// **'Metal to Currency'**
+  String get metalToCurrency;
 
   /// No description provided for @loadingConverter.
   ///
@@ -367,6 +367,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email'**
   String get email;
+
+  /// No description provided for @goldGUMUS.
+  ///
+  /// In en, this message translates to:
+  /// **'Gram of Silver'**
+  String get goldGUMUS;
+
+  /// No description provided for @goldGPL.
+  ///
+  /// In en, this message translates to:
+  /// **'Platinum'**
+  String get goldGPL;
+
+  /// No description provided for @goldPAL.
+  ///
+  /// In en, this message translates to:
+  /// **'Palladium'**
+  String get goldPAL;
 
   /// No description provided for @goldHAS.
   ///
@@ -937,6 +955,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Precious Metals'**
   String get preciousMetals;
+
+  /// No description provided for @metal.
+  ///
+  /// In en, this message translates to:
+  /// **'Metal'**
+  String get metal;
 
   /// No description provided for @totalAmount.
   ///

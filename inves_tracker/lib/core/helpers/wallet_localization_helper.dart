@@ -179,6 +179,12 @@ class WalletLocalizationHelper {
         return l10n.goldIKIBUCUKALTIN;
       case 'BESLIALTIN':
         return l10n.goldBESLIALTIN;
+      case 'GUMUS':
+        return l10n.goldGUMUS;
+      case 'PAL':
+        return l10n.goldPAL;
+      case 'GPL':
+        return l10n.goldGPL;
       default:
         return code;
     }

@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: AppColors.primary(context),
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Retry'),
+              child: Text(l10n.retry),
             ),
           ],
         ),
