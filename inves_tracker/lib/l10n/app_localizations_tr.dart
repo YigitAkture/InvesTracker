@@ -57,6 +57,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loadingMarketData => 'Piyasa verileri yükleniyor...';
 
   @override
+  String get failedToLoadData => 'Veriler yüklenemedi';
+
+  @override
   String get failedToLoadMarketData => 'Piyasa verileri yüklenemedi';
 
   @override

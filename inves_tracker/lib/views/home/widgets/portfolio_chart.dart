@@ -88,7 +88,7 @@ class _PortfolioChartState extends State<PortfolioChart>
                         SizedBox(height: 8.h),
                         Text(
                           widget.isVisible
-                              ? '₺${_formatNumber(widget.portfolioData.totalAssetValue * _animation.value, l10n)}'
+                              ? '${_formatNumber(widget.portfolioData.totalAssetValue * _animation.value, l10n)}₺'
                               : '••,•• ₺',
                           style: TextStyle(
                             fontSize: 24.sp,

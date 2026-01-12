@@ -194,6 +194,12 @@ abstract class AppLocalizations {
   /// **'Loading market data...'**
   String get loadingMarketData;
 
+  /// No description provided for @failedToLoadData.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load data'**
+  String get failedToLoadData;
+
   /// No description provided for @failedToLoadMarketData.
   ///
   /// In en, this message translates to:

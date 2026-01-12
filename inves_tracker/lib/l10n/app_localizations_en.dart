@@ -57,6 +57,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadingMarketData => 'Loading market data...';
 
   @override
+  String get failedToLoadData => 'Failed to load data';
+
+  @override
   String get failedToLoadMarketData => 'Failed to load market data';
 
   @override

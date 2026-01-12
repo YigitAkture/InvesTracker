@@ -8,6 +8,7 @@ import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
 import 'package:inves_tracker/core/utils/visibility_notifier.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/home/widgets/portfolio_chart.dart';
 import 'package:inves_tracker/views/home/widgets/total_balance_card.dart';
@@ -69,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final visibilityNotifier = Provider.of<VisibilityNotifier>(context);
+    final l10n = AppLocalizations.of(context)!;
 
     if (_isLoading) {
       return Center(
@@ -90,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 12.h),
             Text(
-              'Failed to load data',
+              l10n.failedToLoadData,
               style: TextStyle(
                 fontSize: 14.sp,
                 color: AppColors.title(context),
@@ -119,70 +121,71 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return RefreshIndicator(
       onRefresh: _loadData,
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.h),
-              child: Column(
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 16.h),
+          child: Column(
+            children: [
+              // Banner Ad
+              const BannerAdd(),
+              
+              SizedBox(height: 24.h),
+              
+              // Portfolio Chart with Visibility Button
+              Stack(
                 children: [
-                  // Banner Ad
-                  const BannerAdd(),
-                  
-                  SizedBox(height: 24.h),
-                  
-                  // Portfolio Chart
+                  // Chart (centered)
                   PortfolioChart(
                     portfolioData: portfolioData,
                     isVisible: visibilityNotifier.isBalanceVisible,
                   ),
                   
-                  SizedBox(height: 24.h),
-
-                  // Total Balance Card
-                  TotalBalanceCard(
-                    portfolioData: portfolioData,
-                    isVisible: visibilityNotifier.isBalanceVisible,
-                  ),
-                  
-                  SizedBox(height: 24.h),
-                  
-                  // Asset/Debt Details
-                  AssetDebtDetails(
-                    portfolioData: portfolioData,
-                    isVisible: visibilityNotifier.isBalanceVisible,
+                  // Visibility Toggle Button (top right)
+                  Positioned(
+                    top: 0,
+                    right: 8.w,
+                    child: Material(
+                      elevation: 3,
+                      shape: const CircleBorder(),
+                      color: AppColors.foreground(context),
+                      child: InkWell(
+                        onTap: () => visibilityNotifier.toggleVisibility(),
+                        customBorder: const CircleBorder(),
+                        child: Padding(
+                          padding: EdgeInsets.all(12.r),
+                          child: Icon(
+                            visibilityNotifier.isBalanceVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: AppColors.primary(context),
+                            size: 24.sp,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
-            ),
-          ),
-          
-          // Visibility Toggle Button (Floating)
-          Positioned(
-            top: 16.h,
-            right: 16.w,
-            child: Material(
-              elevation: 4,
-              shape: const CircleBorder(),
-              color: AppColors.foreground(context),
-              child: InkWell(
-                onTap: () => visibilityNotifier.toggleVisibility(),
-                customBorder: const CircleBorder(),
-                child: Padding(
-                  padding: EdgeInsets.all(12.r),
-                  child: Icon(
-                    visibilityNotifier.isBalanceVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    color: AppColors.primary(context),
-                    size: 24.sp,
-                  ),
-                ),
+              
+              SizedBox(height: 24.h),
+
+              // Total Balance Card
+              TotalBalanceCard(
+                portfolioData: portfolioData,
+                isVisible: visibilityNotifier.isBalanceVisible,
               ),
-            ),
+              
+              SizedBox(height: 24.h),
+              
+              // Asset/Debt Details
+              AssetDebtDetails(
+                portfolioData: portfolioData,
+                isVisible: visibilityNotifier.isBalanceVisible,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

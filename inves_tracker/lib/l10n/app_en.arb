@@ -16,6 +16,7 @@
   "debt": "debt",
   "asset": "asset",
   "loadingMarketData": "Loading market data...",
+  "failedToLoadData": "Failed to load data",
   "failedToLoadMarketData": "Failed to load market data",
   "retry": "Retry",
   "noCurrencyDataAvailable": "No currency data available",

@@ -16,6 +16,7 @@
   "asset": "varlık",
   "updated": "Güncellendi",
   "loadingMarketData": "Piyasa verileri yükleniyor...",
+  "failedToLoadData": "Veriler yüklenemedi",
   "failedToLoadMarketData": "Piyasa verileri yüklenemedi",
   "retry": "Tekrar Dene",
   "noCurrencyDataAvailable": "Döviz verisi mevcut değil",
