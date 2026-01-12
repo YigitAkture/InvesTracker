@@ -7,11 +7,13 @@ import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
+import 'package:inves_tracker/core/utils/visibility_notifier.dart';
 import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/home/widgets/portfolio_chart.dart';
 import 'package:inves_tracker/views/home/widgets/total_balance_card.dart';
 import 'package:inves_tracker/views/home/widgets/asset_debt_details.dart';
 import 'package:inves_tracker/views/home/utils/portfolio_calculator.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final String userId;
@@ -66,6 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final visibilityNotifier = Provider.of<VisibilityNotifier>(context);
+
     if (_isLoading) {
       return Center(
         child: CircularProgressIndicator(
@@ -115,32 +119,70 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return RefreshIndicator(
       onRefresh: _loadData,
-      child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.h),
-          child: Column(
-            children: [
-              // Banner Ad
-              const BannerAdd(),
-              
-              SizedBox(height: 24.h),
-              
-              // Portfolio Chart
-              PortfolioChart(portfolioData: portfolioData),
-              
-              SizedBox(height: 24.h),
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.h),
+              child: Column(
+                children: [
+                  // Banner Ad
+                  const BannerAdd(),
+                  
+                  SizedBox(height: 24.h),
+                  
+                  // Portfolio Chart
+                  PortfolioChart(
+                    portfolioData: portfolioData,
+                    isVisible: visibilityNotifier.isBalanceVisible,
+                  ),
+                  
+                  SizedBox(height: 24.h),
 
-              // Total Balance Card
-              TotalBalanceCard(portfolioData: portfolioData),
-              
-              SizedBox(height: 24.h),
-              
-              // Asset/Debt Details
-              AssetDebtDetails(portfolioData: portfolioData),
-            ],
+                  // Total Balance Card
+                  TotalBalanceCard(
+                    portfolioData: portfolioData,
+                    isVisible: visibilityNotifier.isBalanceVisible,
+                  ),
+                  
+                  SizedBox(height: 24.h),
+                  
+                  // Asset/Debt Details
+                  AssetDebtDetails(
+                    portfolioData: portfolioData,
+                    isVisible: visibilityNotifier.isBalanceVisible,
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
+          
+          // Visibility Toggle Button (Floating)
+          Positioned(
+            top: 16.h,
+            right: 16.w,
+            child: Material(
+              elevation: 4,
+              shape: const CircleBorder(),
+              color: AppColors.foreground(context),
+              child: InkWell(
+                onTap: () => visibilityNotifier.toggleVisibility(),
+                customBorder: const CircleBorder(),
+                child: Padding(
+                  padding: EdgeInsets.all(12.r),
+                  child: Icon(
+                    visibilityNotifier.isBalanceVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                    color: AppColors.primary(context),
+                    size: 24.sp,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

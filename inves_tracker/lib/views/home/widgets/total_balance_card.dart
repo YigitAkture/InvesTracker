@@ -8,8 +8,13 @@ import 'package:inves_tracker/l10n/app_localizations.dart';
 
 class TotalBalanceCard extends StatefulWidget {
   final PortfolioData portfolioData;
+  final bool isVisible;
 
-  const TotalBalanceCard({super.key, required this.portfolioData});
+  const TotalBalanceCard({
+    super.key,
+    required this.portfolioData,
+    required this.isVisible,
+  });
 
   @override
   State<TotalBalanceCard> createState() => _TotalBalanceCardState();
@@ -147,7 +152,9 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
 
               // Animated total balance text (driven by the same controller)
               Text(
-                '${isZero ? '' : isPositive ? '+' : '-'} ${formatNumber(animatedTotal.abs(), l10n, context)}₺',
+                widget.isVisible
+                    ? '${isZero ? '' : isPositive ? '+' : '-'} ${formatNumber(animatedTotal.abs(), l10n, context)}₺'
+                    : '••,•• ₺',
                 style: TextStyle(
                   fontSize: 32.sp,
                   fontWeight: FontWeight.bold,
@@ -179,6 +186,7 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
                     label: l10n.assets,
                     value: animatedAssets,
                     color: AppColors.primary(context),
+                    isVisible: widget.isVisible,
                   ),
                   Container(
                     width: 1.w,
@@ -189,6 +197,7 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
                     label: l10n.debts,
                     value: animatedDebts,
                     color: AppColors.secondary(context),
+                    isVisible: widget.isVisible,
                   ),
                 ],
               ),
@@ -204,11 +213,13 @@ class _InfoColumn extends StatelessWidget {
   final String label;
   final double value;
   final Color color;
+  final bool isVisible;
 
   const _InfoColumn({
     required this.label,
     required this.value,
     required this.color,
+    required this.isVisible,
   });
 
   @override
@@ -226,7 +237,7 @@ class _InfoColumn extends StatelessWidget {
         ),
         SizedBox(height: 6.h),
         Text(
-          '${formatNumber(value, l10n, context)}₺',
+          isVisible ? '${formatNumber(value, l10n, context)}₺' : '••,•• ₺',
           style: TextStyle(
             fontSize: 18.sp,
             fontWeight: FontWeight.bold,

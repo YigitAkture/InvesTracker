@@ -9,10 +9,12 @@ import 'package:inves_tracker/core/utils/price_formatter.dart';
 
 class AssetDebtDetails extends StatefulWidget {
   final PortfolioData portfolioData;
+  final bool isVisible;
 
   const AssetDebtDetails({
     super.key,
     required this.portfolioData,
+    required this.isVisible,
   });
 
   @override
@@ -107,6 +109,7 @@ class _AssetDebtDetailsState extends State<AssetDebtDetails> {
                 itemBuilder: (context, index) {
                   return _AssetDebtRow(
                     item: widget.portfolioData.items[index],
+                    isVisible: widget.isVisible,
                   );
                 },
               ),
@@ -119,8 +122,12 @@ class _AssetDebtDetailsState extends State<AssetDebtDetails> {
 
 class _AssetDebtRow extends StatelessWidget {
   final AssetDebtItem item;
+  final bool isVisible;
 
-  const _AssetDebtRow({required this.item});
+  const _AssetDebtRow({
+    required this.item,
+    required this.isVisible,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -163,6 +170,7 @@ class _AssetDebtRow extends StatelessWidget {
               type: item.type,
               color: item.color,
               ratio: item.hasDebt ? item.ratio : 1.0,
+              isVisible: isVisible,
             ),
           
           if (item.hasAsset && item.hasDebt)
@@ -177,6 +185,7 @@ class _AssetDebtRow extends StatelessWidget {
               type: item.type,
               color: AppColors.secondary(context),
               ratio: item.hasAsset ? (1 - item.ratio) : 1.0,
+              isVisible: isVisible,
             ),
         ],
       ),
@@ -258,6 +267,7 @@ class _BarRow extends StatefulWidget {
   final String type;
   final Color color;
   final double ratio;
+  final bool isVisible;
 
   const _BarRow({
     required this.label,
@@ -267,6 +277,7 @@ class _BarRow extends StatefulWidget {
     required this.type,
     required this.color,
     required this.ratio,
+    required this.isVisible,
   });
 
   @override
@@ -361,7 +372,9 @@ class _BarRowState extends State<_BarRow>
                     alignment: Alignment.centerRight,
                     padding: EdgeInsets.symmetric(horizontal: 8.w),
                     child: Text(
-                      '${widget.tryValue > 1 ? _formatNumber(widget.tryValue) : '< 1'}₺',
+                      widget.isVisible
+                          ? '${widget.tryValue > 1 ? _formatNumber(widget.tryValue) : '< 1'}₺'
+                          : '••,•• ₺',
                       style: TextStyle(
                         fontSize: 11.sp,
                         fontWeight: FontWeight.w600,

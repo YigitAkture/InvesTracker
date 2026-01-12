@@ -10,10 +10,12 @@ import 'package:inves_tracker/views/home/utils/portfolio_chart_painter.dart';
 
 class PortfolioChart extends StatefulWidget {
   final PortfolioData portfolioData;
+  final bool isVisible;
 
   const PortfolioChart({
     super.key,
     required this.portfolioData,
+    required this.isVisible,
   });
 
   @override
@@ -85,7 +87,9 @@ class _PortfolioChartState extends State<PortfolioChart>
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          '₺${_formatNumber(widget.portfolioData.totalAssetValue * _animation.value, l10n)}',
+                          widget.isVisible
+                              ? '₺${_formatNumber(widget.portfolioData.totalAssetValue * _animation.value, l10n)}'
+                              : '••,•• ₺',
                           style: TextStyle(
                             fontSize: 24.sp,
                             fontWeight: FontWeight.bold,
