@@ -78,7 +78,6 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
           return null;
       }
     } catch (e) {
-      print('Error calculating currentTryValue: $e');
       return null;
     }
   }
