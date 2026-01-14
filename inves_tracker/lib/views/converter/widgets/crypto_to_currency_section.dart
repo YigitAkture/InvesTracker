@@ -123,7 +123,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
           Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: CryptoDropdown(
                   cryptos: widget.cryptos,
                   selectedCode: _selectedCrypto,
@@ -141,7 +141,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: TextField(
                   controller: _cryptoController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),

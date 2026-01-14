@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -15,6 +14,8 @@ class _BannerAddState extends State<BannerAdd> {
   bool _isAddLoaded = false;
 
   // Add Unit ID
+  // Test Ad Unit ID: 'ca-app-pub-3940256099942544/6300978111'
+  // Real Ad Unit ID: 'ca-app-pub-2938969901665451/8416786222'
   final String adUnitId = Platform.isAndroid
       ? 'ca-app-pub-2938969901665451/8416786222' // Ad Unit ID for Android
       : 'ca-app-pub-3940256099942544/2435281174'; // Test Ad Unit ID for iOS

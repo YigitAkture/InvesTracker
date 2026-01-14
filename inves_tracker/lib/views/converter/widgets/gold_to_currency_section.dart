@@ -116,7 +116,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
           Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: GoldDropdown(
                   golds: widget.golds,
                   selectedCode: _selectedGold,
@@ -125,7 +125,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: TextField(
                   controller: _amountController,
                   // Dynamic keyboard type based on selected gold
@@ -179,7 +179,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
           Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: CurrencyDropdown(
                   currencies: widget.currencies,
                   selectedCode: _selectedCurrency,
@@ -193,7 +193,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 12.w,

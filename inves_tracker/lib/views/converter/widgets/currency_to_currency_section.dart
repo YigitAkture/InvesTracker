@@ -95,7 +95,7 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
           Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: CurrencyDropdown(
                   currencies: widget.currencies,
                   selectedCode: _fromCurrency,
@@ -109,7 +109,7 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: TextField(
                   controller: _amountController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -166,7 +166,7 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
           Row(
             children: [
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: CurrencyDropdown(
                   currencies: widget.currencies,
                   selectedCode: _toCurrency,
@@ -180,7 +180,7 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 12.w,
