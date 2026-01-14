@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
+import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/wallet/utils/crypto_dropdown.dart';
 import 'package:inves_tracker/views/wallet/utils/currency_dropdown.dart';
@@ -27,6 +28,7 @@ class AddAssetBox extends StatefulWidget {
 
 class _AddAssetBoxState extends State<AddAssetBox> {
   final AssetService _assetService = AssetService();
+  final MarketService _marketService = MarketService();
   final TextEditingController _amountController = TextEditingController();
   
   ExchangeType _selectedType = ExchangeType.currency;
@@ -88,6 +90,42 @@ class _AddAssetBoxState extends State<AddAssetBox> {
     }
   }
 
+  /// Calculate currentTryValue = tryValue * amount
+  Future<double?> _calculateCurrentTryValue(String code, String type, double amount) async {
+    try {
+      final marketData = await _marketService.fetchMarketData();
+      
+      switch (type.toLowerCase()) {
+        case 'currency':
+          if (code == 'TRY') return amount * 1.0;
+          final currency = marketData.currencies.firstWhere(
+            (c) => c.code == code,
+            orElse: () => throw Exception('Currency not found'),
+          );
+          return amount * currency.buying;
+        
+        case 'gold':
+          final gold = marketData.golds.firstWhere(
+            (g) => g.code == code,
+            orElse: () => throw Exception('Gold not found'),
+          );
+          return amount * gold.selling;
+        
+        case 'crypto':
+          final crypto = marketData.cryptos.firstWhere(
+            (c) => c.code == code,
+            orElse: () => throw Exception('Crypto not found'),
+          );
+          return amount * crypto.tryPrice;
+        
+        default:
+          return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<void> _addAsset() async {
     final l10n = AppLocalizations.of(context)!;
     if (_selectedCode == null) {
@@ -135,11 +173,23 @@ class _AddAssetBoxState extends State<AddAssetBox> {
     setState(() => _isLoading = true);
 
     try {
+      // Calculate currentTryValue = tryValue * amount
+      final currentTryValue = await _calculateCurrentTryValue(
+        _selectedCode!,
+        _getTypeApiName(_selectedType),
+        amount,
+      );
+
+      if (currentTryValue == null) {
+        throw Exception('Failed to calculate current TRY value');
+      }
+
       await _assetService.createAsset(
         widget.userId,
         assetType: _getTypeApiName(_selectedType),
         assetCode: _selectedCode!,
         amount: amount,
+        currentTryValue: currentTryValue, // Send calculated value
       );
 
       if (mounted) {

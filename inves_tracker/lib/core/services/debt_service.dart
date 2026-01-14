@@ -22,10 +22,13 @@ class DebtService {
   }
 
   /// Create a new debt
-  Future<Debt> createDebt(String userId, {
+  /// IMPORTANT: currentTryValue must be calculated as: tryValue * amount
+  Future<Debt> createDebt(
+    String userId, {
     required String debtType,
     required String debtCode,
     required double amount,
+    required double currentTryValue, // This is tryValue * amount
     String? note,
     DateTime? dueDate,
   }) async {
@@ -34,6 +37,7 @@ class DebtService {
         'debtType': debtType,
         'debtCode': debtCode,
         'amount': amount,
+        'currentTryValue': currentTryValue, // Send calculated value
         if (note != null) 'note': note,
         if (dueDate != null) 'dueDate': dueDate.toIso8601String(),
       };
@@ -52,14 +56,18 @@ class DebtService {
   }
 
   /// Update an existing debt
-  Future<Debt> updateDebt(String debtId, {
+  /// IMPORTANT: currentTryValue must be calculated as: tryValue * amount
+  Future<Debt> updateDebt(
+    String debtId, {
     double? amount,
+    double? currentTryValue, // This is tryValue * amount
     String? note,
     DateTime? dueDate,
   }) async {
     try {
       final Map<String, dynamic> body = {};
       if (amount != null) body['amount'] = amount;
+      if (currentTryValue != null) body['currentTryValue'] = currentTryValue;
       if (note != null) body['note'] = note;
       if (dueDate != null) body['dueDate'] = dueDate.toIso8601String();
 

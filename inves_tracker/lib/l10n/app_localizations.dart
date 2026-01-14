@@ -1439,7 +1439,7 @@ abstract class AppLocalizations {
   /// No description provided for @userInformation.
   ///
   /// In en, this message translates to:
-  /// **'User Informaitons'**
+  /// **'User Informaiton'**
   String get userInformation;
 
   /// No description provided for @enterPasswordToDeleteAccount.
@@ -1723,6 +1723,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Grams'**
   String get grams;
+
+  /// No description provided for @assetDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Asset Details'**
+  String get assetDetails;
+
+  /// No description provided for @lastUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Updated'**
+  String get lastUpdated;
+
+  /// No description provided for @initialValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Initial Value'**
+  String get initialValue;
+
+  /// No description provided for @valueAtUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Value at Update'**
+  String get valueAtUpdate;
+
+  /// No description provided for @currentValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Value'**
+  String get currentValue;
+
+  /// No description provided for @notAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Available'**
+  String get notAvailable;
+
+  /// No description provided for @profit.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit'**
+  String get profit;
+
+  /// No description provided for @loss.
+  ///
+  /// In en, this message translates to:
+  /// **'Loss'**
+  String get loss;
+
+  /// No description provided for @debtIncreased.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt Increased'**
+  String get debtIncreased;
+
+  /// No description provided for @debtDecreased.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt Decreased'**
+  String get debtDecreased;
 }
 
 class _AppLocalizationsDelegate

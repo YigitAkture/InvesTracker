@@ -838,4 +838,34 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get grams => 'Gram';
+
+  @override
+  String get assetDetails => 'Varlık Detayları';
+
+  @override
+  String get lastUpdated => 'Son Güncelleme';
+
+  @override
+  String get initialValue => 'İlk Değer';
+
+  @override
+  String get valueAtUpdate => 'Güncelleme Anındaki Değer';
+
+  @override
+  String get currentValue => 'Güncel Değer';
+
+  @override
+  String get notAvailable => 'Mevcut Değil';
+
+  @override
+  String get profit => 'Kâr';
+
+  @override
+  String get loss => 'Zarar';
+
+  @override
+  String get debtIncreased => 'Borç Arttı';
+
+  @override
+  String get debtDecreased => 'Borç Azaldı';
 }

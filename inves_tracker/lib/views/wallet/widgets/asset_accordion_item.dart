@@ -9,6 +9,7 @@ import 'package:inves_tracker/core/services/asset_service.dart';
 import 'package:inves_tracker/core/constants/asset_colors.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/views/wallet/widgets/asset_info_dialog.dart';
 import 'package:inves_tracker/views/wallet/widgets/edit_asset_dialog.dart';
 
 class AssetAccordionItem extends StatefulWidget {
@@ -42,6 +43,29 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
   double? get _totalTryValue {
     if (widget.tryValue == null) return null;
     return _totalAmount * widget.tryValue!;
+  }
+
+  void _showAssetInfo() {
+    // For single asset, show its info directly
+    if (widget.assets.length == 1) {
+      showDialog(
+        context: context,
+        builder: (context) => AssetInfoDialog(
+          assets: widget.assets,
+          currentTryValue: widget.tryValue,
+        ),
+      );
+    } else {
+      // For multiple assets, you could show a list or aggregate info
+      // For now, let's show the first asset's dialog as example
+      showDialog(
+        context: context,
+        builder: (context) => AssetInfoDialog(
+          assets: widget.assets,
+          currentTryValue: widget.tryValue,
+        ),
+      );
+    }
   }
 
   Future<void> _deleteAsset(Asset asset) async {
@@ -225,12 +249,10 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                             final assetCode = widget.assetCode;
                             final totalAmount = _totalAmount;
                             
-                            // Format the amount
                             final formattedAmount = assetType == 'gold' 
                                 ? GoldInputHelper.formatAmount(assetCode, totalAmount)
                                 : PriceFormatter.formatCurrency(totalAmount, context.localeString);
                             
-                            // Determine unit
                             String unit;
                             if (assetType == 'gold') {
                               final isDecimalType = GoldInputHelper.allowsDecimal(assetCode);
@@ -261,6 +283,13 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         ],
                       ],
                     ),
+                  ),
+                  
+                  // Info Button
+                  IconButton(
+                    onPressed: _showAssetInfo,
+                    icon: Icon(Icons.info_outline, size: 20.sp),
+                    color: AppColors.primary(context),
                   ),
                   
                   // Expand Icon

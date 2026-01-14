@@ -6,6 +6,7 @@ import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
+import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 
 class EditAssetDialog extends StatefulWidget {
@@ -20,6 +21,7 @@ class EditAssetDialog extends StatefulWidget {
 class _EditAssetDialogState extends State<EditAssetDialog> {
   final TextEditingController _amountController = TextEditingController();
   final AssetService _assetService = AssetService();
+  final MarketService _marketService = MarketService();
   bool _isLoading = false;
 
   @override
@@ -40,6 +42,45 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
   void dispose() {
     _amountController.dispose();
     super.dispose();
+  }
+
+  /// Calculate currentTryValue = tryValue * amount
+  Future<double?> _calculateCurrentTryValue(double amount) async {
+    try {
+      final marketData = await _marketService.fetchMarketData();
+      final assetType = widget.asset.assetType.toLowerCase();
+      final assetCode = widget.asset.assetCode;
+      
+      switch (assetType) {
+        case 'currency':
+          if (assetCode == 'TRY') return amount * 1.0;
+          final currency = marketData.currencies.firstWhere(
+            (c) => c.code == assetCode,
+            orElse: () => throw Exception('Currency not found'),
+          );
+          return amount * currency.buying;
+        
+        case 'gold':
+          final gold = marketData.golds.firstWhere(
+            (g) => g.code == assetCode,
+            orElse: () => throw Exception('Gold not found'),
+          );
+          return amount * gold.selling;
+        
+        case 'crypto':
+          final crypto = marketData.cryptos.firstWhere(
+            (c) => c.code == assetCode,
+            orElse: () => throw Exception('Crypto not found'),
+          );
+          return amount * crypto.tryPrice;
+        
+        default:
+          return null;
+      }
+    } catch (e) {
+      print('Error calculating currentTryValue: $e');
+      return null;
+    }
   }
 
   Future<void> _updateAsset() async {
@@ -80,7 +121,19 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
     setState(() => _isLoading = true);
 
     try {
-      await _assetService.updateAsset(widget.asset.id, amount);
+      // Calculate currentTryValue = tryValue * amount
+      final currentTryValue = await _calculateCurrentTryValue(amount);
+
+      if (currentTryValue == null) {
+        throw Exception('Failed to calculate current TRY value');
+      }
+
+      await _assetService.updateAsset(
+        widget.asset.id,
+        amount,
+        currentTryValue, // Send calculated value
+      );
+      
       if (mounted) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
