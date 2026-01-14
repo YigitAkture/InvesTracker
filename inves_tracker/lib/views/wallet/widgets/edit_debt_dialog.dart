@@ -95,7 +95,6 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
           return null;
       }
     } catch (e) {
-      print('Error calculating currentTryValue: $e');
       return null;
     }
   }

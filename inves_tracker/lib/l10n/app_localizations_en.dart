@@ -686,7 +686,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get failedToDeleteProfile => 'Failed to delete profile';
 
   @override
-  String get userInformation => 'User Informaitons';
+  String get userInformation => 'User Informaiton';
 
   @override
   String get enterPasswordToDeleteAccount =>

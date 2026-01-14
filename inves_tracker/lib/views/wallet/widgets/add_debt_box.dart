@@ -142,7 +142,6 @@ class _AddDebtBoxState extends State<AddDebtBox> {
           return null;
       }
     } catch (e) {
-      print('Error calculating currentTryValue: $e');
       return null;
     }
   }

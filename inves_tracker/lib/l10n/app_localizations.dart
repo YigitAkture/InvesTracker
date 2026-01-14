@@ -1439,7 +1439,7 @@ abstract class AppLocalizations {
   /// No description provided for @userInformation.
   ///
   /// In en, this message translates to:
-  /// **'User Informaitons'**
+  /// **'User Informaiton'**
   String get userInformation;
 
   /// No description provided for @enterPasswordToDeleteAccount.

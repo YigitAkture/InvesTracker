@@ -224,7 +224,7 @@
   "errorUpdatingProfile": "Error updating profile",
   "editProfile": "Edit Profile",
   "failedToDeleteProfile": "Failed to delete profile",
-  "userInformation": "User Informaitons",
+  "userInformation": "User Informaiton",
   "enterPasswordToDeleteAccount": "To delete your account, please enter your password. This action is irreversible.",
   "warning": "Warning",
   "areYouSureToDeleteYourAccount": "You are about to delete your account. This action is irreversible and all your data will be permanently deleted. Are you sure?",

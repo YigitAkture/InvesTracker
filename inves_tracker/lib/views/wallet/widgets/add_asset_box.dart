@@ -122,7 +122,6 @@ class _AddAssetBoxState extends State<AddAssetBox> {
           return null;
       }
     } catch (e) {
-      print('Error calculating currentTryValue: $e');
       return null;
     }
   }
