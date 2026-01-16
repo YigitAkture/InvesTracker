@@ -237,6 +237,8 @@ class AssetColors {
         return cny;
       case 'TWD':
         return twd;
+      case 'KRW':
+        return krw;
       default:
         return defaultCurrency;
     }

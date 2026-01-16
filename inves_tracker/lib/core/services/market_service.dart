@@ -15,7 +15,7 @@ class MarketService {
     "SAR", "BHD", "OMR", "KWD", "IQD", "LYD", "IRR", "LKR", "INR", "PKR", "IDR", 
     "MYR", "PHP", "MXN", "BRL", "ARS", "CLP", "COP", "PEN", "UYU", "CRC", "UAH", 
     "GEL", "AZN", "MKD", "BGN", "BAM", "MDL", "ALL", "LBP", "EGP", "DZD", "TND", 
-    "SYP", "KZT", "CNY", "TWD"
+    "SYP", "KRW", "KZT", "CNY", "TWD"
   ];
 
   static const List<String> _allGolds = [

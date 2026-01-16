@@ -144,6 +144,8 @@ class WalletLocalizationHelper {
         return l10n.currencyCNY;
       case 'TWD':
         return l10n.currencyTWD;
+      case 'KRW':
+        return l10n.currencyKRW;
       default:
         return code;
     }

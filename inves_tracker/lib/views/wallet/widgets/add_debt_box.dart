@@ -51,7 +51,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
       'QAR', 'SAR', 'BHD', 'OMR', 'KWD', 'IQD', 'LYD', 'IRR', 'LKR', 'INR', 'PKR', 
       'IDR', 'MYR', 'PHP', 'MXN', 'BRL', 'ARS', 'CLP', 'COP', 'PEN', 'UYU', 'CRC', 
       'UAH', 'GEL', 'AZN', 'MKD', 'BGN', 'BAM', 'MDL', 'ALL', 'LBP', 'EGP', 'DZD', 
-      'TND', 'SYP', 'KZT', 'CNY', 'TWD'
+      'TND', 'SYP', 'KRW', 'KZT', 'CNY', 'TWD'
     ],
     ExchangeType.gold: [
       'HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN',
