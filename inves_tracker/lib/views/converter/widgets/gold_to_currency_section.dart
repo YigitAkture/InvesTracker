@@ -192,6 +192,11 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                       _calculateFromGold();
                     }
                   },
+                  onTap: () {
+                    _goldController.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _goldController.text.length),
+                    );
+                  },
                 )
               : Container(
                   padding: EdgeInsets.symmetric(
@@ -269,6 +274,11 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                     if (!_isEditingGold) {
                       _calculateFromCurrency();
                     }
+                  },
+                  onTap: () {
+                    _currencyController.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _currencyController.text.length),
+                    );
                   },
                 )
               : Container(

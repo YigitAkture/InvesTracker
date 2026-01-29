@@ -180,6 +180,11 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                       _calculateFromCrypto();
                     }
                   },
+                  onTap: () {
+                    _cryptoController.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _cryptoController.text.length),
+                    );
+                  },
                 )
               : Container(
                   padding: EdgeInsets.symmetric(
@@ -257,6 +262,11 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                     if (!_isEditingCrypto) {
                       _calculateFromCurrency();
                     }
+                  },
+                  onTap: () {
+                    _currencyController.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _currencyController.text.length),
+                    );
                   },
                 )
               : Container(

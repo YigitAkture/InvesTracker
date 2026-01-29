@@ -134,6 +134,11 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
                     ),
                   ),
                   onChanged: (value) => _calculateConversion(),
+                  onTap: () {
+                    _amountController.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _amountController.text.length),
+                    );
+                  },
                 ),
               ),
             ],
