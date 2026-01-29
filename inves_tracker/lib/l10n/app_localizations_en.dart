@@ -87,13 +87,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cryptoCurrencies => 'Crypto Currencies';
 
   @override
-  String get cryptoToCurrency => 'Crypto to Currency';
+  String get cryptoConverter => 'Crypto Currency Converter';
 
   @override
   String get currencyConverterTitle => 'Currency Converter';
 
   @override
-  String get metalToCurrency => 'Metal to Currency';
+  String get metalConverter => 'Precious Metal Converter';
 
   @override
   String get loadingConverter => 'Loading converter...';

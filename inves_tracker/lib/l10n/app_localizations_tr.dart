@@ -87,13 +87,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get cryptoCurrencies => 'Kripto Para';
 
   @override
-  String get cryptoToCurrency => 'Kripto\'dan Dövize';
+  String get cryptoConverter => 'Kripto Para Çevirici';
 
   @override
   String get currencyConverterTitle => 'Döviz Çevirici';
 
   @override
-  String get metalToCurrency => 'Maden\'den Dövize';
+  String get metalConverter => 'Değerli Maden Çevirici';
 
   @override
   String get loadingConverter => 'Çevirici yükleniyor...';

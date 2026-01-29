@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
@@ -26,43 +27,53 @@ class GoldToCurrencySection extends StatefulWidget {
 class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
   String _selectedGold = 'GRA';
   String _selectedCurrency = 'TRY';
-  final TextEditingController _amountController = TextEditingController(text: '1');
-  double _result = 0.0;
+  final TextEditingController _goldController = TextEditingController(
+    text: '1',
+  );
+  final TextEditingController _currencyController = TextEditingController();
+  bool _isEditingGold = true;
 
   @override
   void initState() {
     super.initState();
-    _calculateConversion();
+    _calculateFromGold();
   }
 
   @override
   void dispose() {
-    _amountController.dispose();
+    _goldController.dispose();
+    _currencyController.dispose();
     super.dispose();
   }
 
   void _onGoldTypeChanged(String newGoldCode) {
     setState(() {
       _selectedGold = newGoldCode;
-      
+
       // If the current amount contains decimal but new gold type doesn't allow it,
-      // remove the decimal part
-      if (!GoldInputHelper.allowsDecimal(newGoldCode)) {
-        final currentAmount = double.tryParse(_amountController.text);
+      // remove the decimal part ONLY when editing gold field
+      if (!GoldInputHelper.allowsDecimal(newGoldCode) && _isEditingGold) {
+        final currentAmount = double.tryParse(_goldController.text);
         if (currentAmount != null) {
-          _amountController.text = currentAmount.toInt().toString();
+          _goldController.text = currentAmount.toInt().toString();
         }
       }
-      
-      _calculateConversion();
+
+      if (_isEditingGold) {
+        _calculateFromGold();
+      } else {
+        _calculateFromCurrency();
+      }
     });
   }
 
-  void _calculateConversion() {
-    final amount = double.tryParse(_amountController.text) ?? 0.0;
-    
+  void _calculateFromGold() {
+    final amount = double.tryParse(_goldController.text) ?? 0.0;
+
     if (amount == 0.0) {
-      setState(() => _result = 0.0);
+      setState(() {
+        _currencyController.text = '0.00';
+      });
       return;
     }
 
@@ -71,7 +82,9 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
     final currencyRate = _getCurrencyRate(_selectedCurrency);
 
     if (goldRate == null || currencyRate == null) {
-      setState(() => _result = 0.0);
+      setState(() {
+        _currencyController.text = '0.00';
+      });
       return;
     }
 
@@ -80,7 +93,39 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
     final convertedAmount = amountInTRY / currencyRate;
 
     setState(() {
-      _result = convertedAmount;
+      _currencyController.text = convertedAmount.toStringAsFixed(2);
+    });
+  }
+
+  void _calculateFromCurrency() {
+    final amount = double.tryParse(_currencyController.text) ?? 0.0;
+
+    if (amount == 0.0) {
+      setState(() {
+        _goldController.text = '0.00';
+      });
+      return;
+    }
+
+    // Get gold price in TRY
+    final goldRate = _getGoldRate(_selectedGold);
+    final currencyRate = _getCurrencyRate(_selectedCurrency);
+
+    if (goldRate == null || currencyRate == null) {
+      setState(() {
+        _goldController.text = '0.00';
+      });
+      return;
+    }
+
+    // Convert: amount in currency -> TRY -> gold
+    final amountInTRY = amount * currencyRate;
+    final convertedAmount = amountInTRY / goldRate;
+
+    // Always display result with decimal places when converting from currency
+    // This allows showing precise values even for integer-only gold types
+    setState(() {
+      _goldController.text = convertedAmount.toStringAsFixed(2);
     });
   }
 
@@ -89,49 +134,42 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
       (g) => g.code == code,
       orElse: () => widget.golds.first,
     );
-    
+
     return gold.selling;
   }
 
   double? _getCurrencyRate(String code) {
     if (code == 'TRY') return 1.0;
-    
+
     final currency = widget.currencies.firstWhere(
       (c) => c.code == code,
       orElse: () => widget.currencies.first,
     );
-    
+
     return currency.buying;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
-    return ConverterCard(
-      title: l10n.metalToCurrency,
-      child: Column(
-        children: [
-          // Gold Input
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: GoldDropdown(
-                  golds: widget.golds,
-                  selectedCode: _selectedGold,
-                  onChanged: _onGoldTypeChanged,
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                flex: 4,
-                child: TextField(
-                  controller: _amountController,
-                  // Dynamic keyboard type based on selected gold
+  Widget _buildGoldRow({required bool isEditable}) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 3,
+          child: GoldDropdown(
+            golds: widget.golds,
+            selectedCode: _selectedGold,
+            onChanged: _onGoldTypeChanged,
+          ),
+        ),
+        SizedBox(width: 12.w),
+        Expanded(
+          flex: 3,
+          child: isEditable
+              ? TextField(
+                  controller: _goldController,
                   keyboardType: GoldInputHelper.getKeyboardType(_selectedGold),
-                  // Dynamic input formatters based on selected gold
-                  inputFormatters: GoldInputHelper.getInputFormatters(_selectedGold),
+                  inputFormatters: GoldInputHelper.getInputFormatters(
+                    _selectedGold,
+                  ),
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -149,52 +187,13 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                       borderSide: BorderSide.none,
                     ),
                   ),
-                  onChanged: (value) => _calculateConversion(),
-                ),
-              ),
-            ],
-          ),
-
-          SizedBox(height: 12.h),
-
-          // Arrow Icon
-          Center(
-            child: Container(
-              padding: EdgeInsets.all(8.r),
-              decoration: BoxDecoration(
-                color: AppColors.warning.withValues(alpha: 0.15),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.arrow_downward,
-                size: 28.sp,
-                color: AppColors.warning,
-              ),
-            ),
-          ),
-
-          SizedBox(height: 12.h),
-
-          // Currency Output
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: CurrencyDropdown(
-                  currencies: widget.currencies,
-                  selectedCode: _selectedCurrency,
                   onChanged: (value) {
-                    setState(() {
-                      _selectedCurrency = value;
-                      _calculateConversion();
-                    });
+                    if (_isEditingGold) {
+                      _calculateFromGold();
+                    }
                   },
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                flex: 4,
-                child: Container(
+                )
+              : Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 12.w,
                     vertical: 14.h,
@@ -203,18 +202,158 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                     color: AppColors.background2(context),
                     borderRadius: BorderRadius.circular(10.r),
                   ),
+                  alignment: Alignment.centerRight,
                   child: Text(
-                    _result.toStringAsFixed(2),
-                    textAlign: TextAlign.end,
+                    _goldController.text,
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-              ),
-            ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCurrencyRow({required bool isEditable}) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 3,
+          child: CurrencyDropdown(
+            currencies: widget.currencies,
+            selectedCode: _selectedCurrency,
+            onChanged: (value) {
+              setState(() {
+                _selectedCurrency = value;
+                if (_isEditingGold) {
+                  _calculateFromGold();
+                } else {
+                  _calculateFromCurrency();
+                }
+              });
+            },
           ),
+        ),
+        SizedBox(width: 12.w),
+        Expanded(
+          flex: 3,
+          child: isEditable
+              ? TextField(
+                  controller: _currencyController,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                  ],
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.end,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 14.h,
+                    ),
+                    filled: true,
+                    fillColor: AppColors.background2(context),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  onChanged: (value) {
+                    if (!_isEditingGold) {
+                      _calculateFromCurrency();
+                    }
+                  },
+                )
+              : Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 14.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.background2(context),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    _currencyController.text,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return ConverterCard(
+      title: l10n.metalConverter,
+      child: Column(
+        children: [
+          // Top row (editable)
+          _isEditingGold
+              ? _buildGoldRow(isEditable: true)
+              : _buildCurrencyRow(isEditable: true),
+
+          SizedBox(height: 12.h),
+
+          // Swap Button
+          Center(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isEditingGold = !_isEditingGold;
+
+                  // When switching to gold input (from currency to gold)
+                  // Handle integer-only gold types
+                  if (_isEditingGold &&
+                      !GoldInputHelper.allowsDecimal(_selectedGold)) {
+                    final currentAmount = double.tryParse(_goldController.text);
+                    if (currentAmount != null &&
+                        _goldController.text.contains('.')) {
+                      // Round to nearest integer
+                      final roundedAmount = currentAmount.round();
+                      _goldController.text = roundedAmount.toString();
+
+                      // Recalculate the currency value based on the rounded gold amount
+                      _calculateFromGold();
+                    }
+                  }
+                });
+              },
+              child: Container(
+                padding: EdgeInsets.all(8.r),
+                decoration: BoxDecoration(
+                  color: AppColors.warning.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.swap_vert,
+                  size: 28.sp,
+                  color: AppColors.warning,
+                ),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 12.h),
+
+          // Bottom row (read-only result)
+          _isEditingGold
+              ? _buildCurrencyRow(isEditable: false)
+              : _buildGoldRow(isEditable: false),
         ],
       ),
     );

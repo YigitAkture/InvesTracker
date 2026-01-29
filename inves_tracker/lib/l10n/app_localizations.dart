@@ -254,11 +254,11 @@ abstract class AppLocalizations {
   /// **'Crypto Currencies'**
   String get cryptoCurrencies;
 
-  /// No description provided for @cryptoToCurrency.
+  /// No description provided for @cryptoConverter.
   ///
   /// In en, this message translates to:
-  /// **'Crypto to Currency'**
-  String get cryptoToCurrency;
+  /// **'Crypto Currency Converter'**
+  String get cryptoConverter;
 
   /// No description provided for @currencyConverterTitle.
   ///
@@ -266,11 +266,11 @@ abstract class AppLocalizations {
   /// **'Currency Converter'**
   String get currencyConverterTitle;
 
-  /// No description provided for @metalToCurrency.
+  /// No description provided for @metalConverter.
   ///
   /// In en, this message translates to:
-  /// **'Metal to Currency'**
-  String get metalToCurrency;
+  /// **'Precious Metal Converter'**
+  String get metalConverter;
 
   /// No description provided for @loadingConverter.
   ///

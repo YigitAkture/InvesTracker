@@ -109,7 +109,7 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                flex: 4,
+                flex: 3,
                 child: TextField(
                   controller: _amountController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -180,7 +180,7 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
               ),
               SizedBox(width: 12.w),
               Expanded(
-                flex: 4,
+                flex: 3,
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 12.w,
