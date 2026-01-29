@@ -14,11 +14,7 @@ class DebtInfoDialog extends StatelessWidget {
   final List<Debt> debts;
   final double? currentTryValue; // Current TRY value per unit
 
-  const DebtInfoDialog({
-    super.key,
-    required this.debts,
-    this.currentTryValue,
-  });
+  const DebtInfoDialog({super.key, required this.debts, this.currentTryValue});
 
   List<Debt> _getSortedDebts() {
     final sortedDebts = List<Debt>.from(debts);
@@ -49,7 +45,7 @@ class DebtInfoDialog extends StatelessWidget {
         .where((d) => d.initialTryValue != null)
         .map((d) => d.initialTryValue!)
         .toList();
-    
+
     if (validInitialValues.isEmpty) return null;
     return validInitialValues.reduce((a, b) => a + b);
   }
@@ -67,6 +63,14 @@ class DebtInfoDialog extends StatelessWidget {
     // Calculate profit/loss
     final profitLoss = _totalInitialValue != null && _totalCurrentValue != null
         ? _totalCurrentValue! - _totalInitialValue!
+        : null;
+
+    // Calculate percentage change
+    final percentageChange =
+        _totalInitialValue != null &&
+            _totalInitialValue! > 0 &&
+            profitLoss != null
+        ? (profitLoss / _totalInitialValue!) * 100
         : null;
 
     final isIncreased = profitLoss != null && profitLoss > 0;
@@ -177,9 +181,9 @@ class DebtInfoDialog extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(12.r),
                       decoration: BoxDecoration(
-                        color: isZero 
-                        ? AppColors.title(context).withValues(alpha: 0.1) 
-                        : isIncreased 
+                        color: isZero
+                            ? AppColors.title(context).withValues(alpha: 0.1)
+                            : isIncreased
                             ? AppColors.danger.withValues(alpha: 0.1)
                             : AppColors.success.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8.r),
@@ -190,48 +194,68 @@ class DebtInfoDialog extends StatelessWidget {
                           Row(
                             children: [
                               Icon(
-                                isZero 
-                                ? Icons.trending_flat 
-                                : isIncreased 
-                                  ? Icons.trending_up 
-                                  : Icons.trending_down,
-                                color: isZero 
-                                ? AppColors.title(context) 
-                                : isIncreased 
-                                  ? AppColors.danger 
-                                  : AppColors.success,
+                                isZero
+                                    ? Icons.trending_flat
+                                    : isIncreased
+                                    ? Icons.trending_up
+                                    : Icons.trending_down,
+                                color: isZero
+                                    ? AppColors.title(context)
+                                    : isIncreased
+                                    ? AppColors.danger
+                                    : AppColors.success,
                                 size: 18.sp,
                               ),
                               SizedBox(width: 8.w),
-                              Text( 
+                              Text(
                                 isZero
-                                ? l10n.debtNotChanged
-                                : isIncreased 
-                                  ? l10n.debtIncreased 
-                                  : l10n.debtDecreased,
+                                    ? l10n.debtNotChanged
+                                    : isIncreased
+                                    ? l10n.debtIncreased
+                                    : l10n.debtDecreased,
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w600,
-                                  color: isZero 
-                                  ? AppColors.title(context) 
-                                  : isIncreased 
-                                    ? AppColors.danger 
-                                    : AppColors.success,
+                                  color: isZero
+                                      ? AppColors.title(context)
+                                      : isIncreased
+                                      ? AppColors.danger
+                                      : AppColors.success,
                                 ),
                               ),
                             ],
                           ),
-                          Text(
-                            '${(isIncreased ? '+' : '')}${PriceFormatter.formatCurrency(profitLoss, context.localeString)} TRY',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w700,
-                              color: isZero 
-                                ? AppColors.title(context) 
-                                : isIncreased 
-                                  ? AppColors.danger 
-                                  : AppColors.success,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                '${(isIncreased ? '+' : '')}${PriceFormatter.formatCurrency(profitLoss, context.localeString)} TRY',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: isZero
+                                      ? AppColors.title(context)
+                                      : isIncreased
+                                      ? AppColors.danger
+                                      : AppColors.success,
+                                ),
+                              ),
+                              if (percentageChange != null) ...[
+                                SizedBox(height: 2.h),
+                                Text(
+                                  '${isIncreased ? '+' : ''}${percentageChange.toStringAsFixed(2)}%',
+                                  style: TextStyle(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: isZero
+                                        ? AppColors.title(context)
+                                        : isIncreased
+                                        ? AppColors.danger
+                                        : AppColors.success,
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
                         ],
                       ),
@@ -277,13 +301,21 @@ class _DebtInfoItem extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     // Calculate current value
-    final currentValue = currentTryValue != null 
-        ? debt.amount * currentTryValue! 
+    final currentValue = currentTryValue != null
+        ? debt.amount * currentTryValue!
         : null;
 
     // Calculate change
     final valueChange = debt.initialTryValue != null && currentValue != null
         ? currentValue - debt.initialTryValue!
+        : null;
+
+    // Calculate percentage change
+    final percentageChange =
+        debt.initialTryValue != null &&
+            debt.initialTryValue! > 0 &&
+            valueChange != null
+        ? (valueChange / debt.initialTryValue!) * 100
         : null;
 
     final isIncreased = valueChange != null && valueChange > 0;
@@ -354,14 +386,19 @@ class _DebtInfoItem extends StatelessWidget {
           if (debt.initialTryValue != null)
             _InfoRow(
               icon: Icons.monetization_on_outlined,
-              label: debt.updatedAt != null ? l10n.valueAtUpdate : l10n.initialValue,
-              value: '${PriceFormatter.formatCurrency(debt.initialTryValue!, context.localeString)} TRY',
+              label: debt.updatedAt != null
+                  ? l10n.valueAtUpdate
+                  : l10n.initialValue,
+              value:
+                  '${PriceFormatter.formatCurrency(debt.initialTryValue!, context.localeString)} TRY',
             ),
 
           if (debt.initialTryValue == null)
             _InfoRow(
               icon: Icons.info_outline,
-              label: debt.updatedAt != null ? l10n.valueAtUpdate : l10n.initialValue,
+              label: debt.updatedAt != null
+                  ? l10n.valueAtUpdate
+                  : l10n.initialValue,
               value: l10n.notAvailable,
               valueColor: AppColors.title(context).withValues(alpha: 0.6),
             ),
@@ -373,7 +410,8 @@ class _DebtInfoItem extends StatelessWidget {
             _InfoRow(
               icon: Icons.account_balance_wallet_outlined,
               label: l10n.currentValue,
-              value: '${PriceFormatter.formatCurrency(currentValue, context.localeString)} TRY',
+              value:
+                  '${PriceFormatter.formatCurrency(currentValue, context.localeString)} TRY',
               valueColor: AppColors.danger,
             ),
 
@@ -385,21 +423,23 @@ class _DebtInfoItem extends StatelessWidget {
               valueColor: AppColors.title(context).withValues(alpha: 0.6),
             ),
 
-          // Value Change
+          // Value Change with Percentage
           if (valueChange != null) ...[
             SizedBox(height: 8.h),
             _InfoRow(
-              icon: isZero 
-              ? Icons.trending_flat
-              : isIncreased 
-                ? Icons.trending_up 
-                : Icons.trending_down,
+              icon: isZero
+                  ? Icons.trending_flat
+                  : isIncreased
+                  ? Icons.trending_up
+                  : Icons.trending_down,
               label: l10n.change,
-              value: '${isIncreased ? '+' : ''}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY',
-              valueColor: isZero 
-                ? AppColors.title(context) 
-                : isIncreased 
-                  ? AppColors.danger 
+              value: percentageChange != null
+                  ? '${isIncreased ? '+' : ''}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY (${isIncreased ? '+' : ''}${percentageChange.toStringAsFixed(2)}%)'
+                  : '${isIncreased ? '+' : ''}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY',
+              valueColor: isZero
+                  ? AppColors.title(context)
+                  : isIncreased
+                  ? AppColors.danger
                   : AppColors.success,
             ),
           ],
@@ -435,11 +475,11 @@ class _DebtInfoItem extends StatelessWidget {
     final debtType = debt.debtType.toLowerCase();
     final debtCode = debt.debtCode;
     final amount = debt.amount;
-    
+
     if (debtType == 'gold') {
       final formattedAmount = GoldInputHelper.formatAmount(debtCode, amount);
       final isDecimalType = GoldInputHelper.allowsDecimal(debtCode);
-      final unit = isDecimalType 
+      final unit = isDecimalType
           ? (amount == 1 ? l10n.gram : l10n.grams)
           : (amount == 1 ? l10n.piece : l10n.pieces);
       return '$formattedAmount $unit';

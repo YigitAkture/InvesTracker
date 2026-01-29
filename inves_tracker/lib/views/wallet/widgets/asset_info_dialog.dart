@@ -36,7 +36,7 @@ class AssetInfoDialog extends StatelessWidget {
         .where((a) => a.initialTryValue != null)
         .map((a) => a.initialTryValue!)
         .toList();
-    
+
     if (validInitialValues.isEmpty) return null;
     return validInitialValues.reduce((a, b) => a + b);
   }
@@ -54,6 +54,14 @@ class AssetInfoDialog extends StatelessWidget {
     // Calculate profit/loss
     final profitLoss = _totalInitialValue != null && _totalCurrentValue != null
         ? _totalCurrentValue! - _totalInitialValue!
+        : null;
+
+    // Calculate percentage change
+    final percentageChange =
+        _totalInitialValue != null &&
+            _totalInitialValue! > 0 &&
+            profitLoss != null
+        ? (profitLoss / _totalInitialValue!) * 100
         : null;
 
     final isProfitable = profitLoss != null && profitLoss > 0;
@@ -164,11 +172,11 @@ class AssetInfoDialog extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(12.r),
                       decoration: BoxDecoration(
-                        color: isZero 
-                            ? AppColors.title(context).withValues(alpha: 0.1) 
-                            : isProfitable 
-                              ? AppColors.success.withValues(alpha: 0.1)
-                              : AppColors.danger.withValues(alpha: 0.1),
+                        color: isZero
+                            ? AppColors.title(context).withValues(alpha: 0.1)
+                            : isProfitable
+                            ? AppColors.success.withValues(alpha: 0.1)
+                            : AppColors.danger.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Row(
@@ -177,53 +185,72 @@ class AssetInfoDialog extends StatelessWidget {
                           Row(
                             children: [
                               Icon(
-                                isZero 
-                                  ? Icons.trending_flat 
-                                  : isProfitable 
-                                    ? Icons.trending_up 
+                                isZero
+                                    ? Icons.trending_flat
+                                    : isProfitable
+                                    ? Icons.trending_up
                                     : Icons.trending_down,
 
-                                color: 
-                                isZero 
-                                ? AppColors.title(context) 
-                                : isProfitable 
-                                  ? AppColors.success 
-                                  : AppColors.danger,
+                                color: isZero
+                                    ? AppColors.title(context)
+                                    : isProfitable
+                                    ? AppColors.success
+                                    : AppColors.danger,
                                 size: 18.sp,
                               ),
 
                               SizedBox(width: 8.w),
                               Text(
-                                isZero 
-                                ? l10n.stable
-                                : isProfitable 
-                                  ? l10n.profit 
-                                  : l10n.loss,
+                                isZero
+                                    ? l10n.stable
+                                    : isProfitable
+                                    ? l10n.profit
+                                    : l10n.loss,
 
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w600,
-                                  color: isZero 
-                                  ? AppColors.title(context) 
-                                  : isProfitable 
-                                    ? AppColors.success 
-                                    : AppColors.danger,
+                                  color: isZero
+                                      ? AppColors.title(context)
+                                      : isProfitable
+                                      ? AppColors.success
+                                      : AppColors.danger,
                                 ),
                               ),
                             ],
                           ),
-                          Text(
-                            '${isProfitable ? '+' : ''}${PriceFormatter.formatCurrency(profitLoss, context.localeString)} TRY',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w700,
-                              
-                              color: isZero
-                              ? AppColors.title(context)
-                              : isProfitable 
-                                ? AppColors.success 
-                                : AppColors.danger,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                '${isProfitable ? '+' : ''}${PriceFormatter.formatCurrency(profitLoss, context.localeString)} TRY',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w700,
+
+                                  color: isZero
+                                      ? AppColors.title(context)
+                                      : isProfitable
+                                      ? AppColors.success
+                                      : AppColors.danger,
+                                ),
+                              ),
+                              if (percentageChange != null) ...[
+                                SizedBox(height: 2.h),
+                                Text(
+                                  '${isProfitable ? '+' : ''}${percentageChange.toStringAsFixed(2)}%',
+                                  style: TextStyle(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: isZero
+                                        ? AppColors.title(context)
+                                        : isProfitable
+                                        ? AppColors.success
+                                        : AppColors.danger,
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
                         ],
                       ),
@@ -269,13 +296,21 @@ class _AssetInfoItem extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     // Calculate current value
-    final currentValue = currentTryValue != null 
-        ? asset.amount * currentTryValue! 
+    final currentValue = currentTryValue != null
+        ? asset.amount * currentTryValue!
         : null;
 
     // Calculate change
     final valueChange = asset.initialTryValue != null && currentValue != null
         ? currentValue - asset.initialTryValue!
+        : null;
+
+    // Calculate percentage change
+    final percentageChange =
+        asset.initialTryValue != null &&
+            asset.initialTryValue! > 0 &&
+            valueChange != null
+        ? (valueChange / asset.initialTryValue!) * 100
         : null;
 
     final isProfitable = valueChange != null && valueChange > 0;
@@ -346,14 +381,19 @@ class _AssetInfoItem extends StatelessWidget {
           if (asset.initialTryValue != null)
             _InfoRow(
               icon: Icons.monetization_on_outlined,
-              label: asset.updatedAt != null ? l10n.valueAtUpdate : l10n.initialValue,
-              value: '${PriceFormatter.formatCurrency(asset.initialTryValue!, context.localeString)} TRY',
+              label: asset.updatedAt != null
+                  ? l10n.valueAtUpdate
+                  : l10n.initialValue,
+              value:
+                  '${PriceFormatter.formatCurrency(asset.initialTryValue!, context.localeString)} TRY',
             ),
 
           if (asset.initialTryValue == null)
             _InfoRow(
               icon: Icons.info_outline,
-              label: asset.updatedAt != null ? l10n.valueAtUpdate : l10n.initialValue,
+              label: asset.updatedAt != null
+                  ? l10n.valueAtUpdate
+                  : l10n.initialValue,
               value: l10n.notAvailable,
               valueColor: AppColors.title(context).withValues(alpha: 0.6),
             ),
@@ -365,7 +405,8 @@ class _AssetInfoItem extends StatelessWidget {
             _InfoRow(
               icon: Icons.account_balance_wallet_outlined,
               label: l10n.currentValue,
-              value: '${PriceFormatter.formatCurrency(currentValue, context.localeString)} TRY',
+              value:
+                  '${PriceFormatter.formatCurrency(currentValue, context.localeString)} TRY',
               valueColor: AppColors.success,
             ),
 
@@ -377,24 +418,25 @@ class _AssetInfoItem extends StatelessWidget {
               valueColor: AppColors.title(context).withValues(alpha: 0.6),
             ),
 
-          // Value Change
+          // Value Change with Percentage
           if (valueChange != null) ...[
             SizedBox(height: 8.h),
             _InfoRow(
-              icon: 
-              isZero 
-              ? Icons.trending_flat
-              : isProfitable 
-                ? Icons.trending_up 
-                : Icons.trending_down,
+              icon: isZero
+                  ? Icons.trending_flat
+                  : isProfitable
+                  ? Icons.trending_up
+                  : Icons.trending_down,
 
               label: l10n.change,
-              value: '${isProfitable ? '+' : ''}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY',
+              value: percentageChange != null
+                  ? '${isProfitable ? '+' : ''}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY (${isProfitable ? '+' : ''}${percentageChange.toStringAsFixed(2)}%)'
+                  : '${isProfitable ? '+' : ''}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY',
               valueColor: isZero
-              ? AppColors.title(context) 
-              : isProfitable 
-                ? AppColors.success 
-                : AppColors.danger,
+                  ? AppColors.title(context)
+                  : isProfitable
+                  ? AppColors.success
+                  : AppColors.danger,
             ),
           ],
         ],
@@ -406,11 +448,11 @@ class _AssetInfoItem extends StatelessWidget {
     final assetType = asset.assetType.toLowerCase();
     final assetCode = asset.assetCode;
     final amount = asset.amount;
-    
+
     if (assetType == 'gold') {
       final formattedAmount = GoldInputHelper.formatAmount(assetCode, amount);
       final isDecimalType = GoldInputHelper.allowsDecimal(assetCode);
-      final unit = isDecimalType 
+      final unit = isDecimalType
           ? (amount == 1 ? l10n.gram : l10n.grams)
           : (amount == 1 ? l10n.piece : l10n.pieces);
       return '$formattedAmount $unit';
