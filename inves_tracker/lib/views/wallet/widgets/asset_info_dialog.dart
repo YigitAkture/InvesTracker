@@ -56,7 +56,7 @@ class AssetInfoDialog extends StatelessWidget {
         ? _totalCurrentValue! - _totalInitialValue!
         : null;
 
-    final isProfitable = profitLoss != null && profitLoss >= 0;
+    final isProfitable = profitLoss != null && profitLoss > 0;
     final isZero = profitLoss != null && profitLoss == 0;
 
     return Dialog(
@@ -213,7 +213,7 @@ class AssetInfoDialog extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            '${isZero ? '' : isProfitable ? '+' : '-'}${PriceFormatter.formatCurrency(profitLoss, context.localeString)} TRY',
+                            '${isProfitable ? '+' : ''}${PriceFormatter.formatCurrency(profitLoss, context.localeString)} TRY',
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
@@ -389,7 +389,7 @@ class _AssetInfoItem extends StatelessWidget {
                 : Icons.trending_down,
 
               label: l10n.change,
-              value: '${isZero ? '' : isProfitable ? '+' : '-'}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY',
+              value: '${isProfitable ? '+' : ''}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY',
               valueColor: isZero
               ? AppColors.title(context) 
               : isProfitable 

@@ -222,7 +222,7 @@ class DebtInfoDialog extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            '${isZero ? '' : (isIncreased ? '+' : '-')}${PriceFormatter.formatCurrency(profitLoss, context.localeString)} TRY',
+                            '${(isIncreased ? '+' : '')}${PriceFormatter.formatCurrency(profitLoss, context.localeString)} TRY',
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
@@ -395,7 +395,7 @@ class _DebtInfoItem extends StatelessWidget {
                 ? Icons.trending_up 
                 : Icons.trending_down,
               label: l10n.change,
-              value: '${isZero ? '' : isIncreased ? '+' : '-'}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY',
+              value: '${isIncreased ? '+' : ''}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY',
               valueColor: isZero 
                 ? AppColors.title(context) 
                 : isIncreased 
