@@ -166,44 +166,48 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
     
     return AlertDialog(
       title: Text(l10n.editAsset),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            WalletLocalizationHelper.getLocalizedName(
-              context,
-              widget.asset.assetCode,
-              widget.asset.assetType,
-            ),
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.primary(context),
-            ),
-          ),
-          SizedBox(height: 16.h),
-          TextField(
-            controller: _amountController,
-            // Dynamic keyboard type and formatters for gold
-            keyboardType: isGold
-                ? GoldInputHelper.getKeyboardType(widget.asset.assetCode)
-                : const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: isGold
-                ? GoldInputHelper.getInputFormatters(widget.asset.assetCode)
-                : [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-                  ],
-            decoration: InputDecoration(
-              labelText: l10n.amount,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
+      content: SizedBox(
+        width: double.maxFinite,
+        height: 100.h,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              WalletLocalizationHelper.getLocalizedName(
+                context,
+                widget.asset.assetCode,
+                widget.asset.assetType,
               ),
-              filled: true,
-              fillColor: AppColors.background2(context),
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+                color: AppColors.primary(context),
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: 16.h),
+            TextField(
+              controller: _amountController,
+              // Dynamic keyboard type and formatters for gold
+              keyboardType: isGold
+                  ? GoldInputHelper.getKeyboardType(widget.asset.assetCode)
+                  : const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: isGold
+                  ? GoldInputHelper.getInputFormatters(widget.asset.assetCode)
+                  : [
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    ],
+              decoration: InputDecoration(
+                labelText: l10n.amount,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                filled: true,
+                fillColor: AppColors.background2(context),
+              ),
+            ),
+          ],
+        ),
       ),
       actions: [
         TextButton(

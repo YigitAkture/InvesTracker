@@ -26,6 +26,8 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
   DateTime? _selectedDueDate;
   bool _isLoading = false;
 
+  static const int _maxNoteLength = 56;
+
   @override
   void initState() {
     super.initState();
@@ -180,98 +182,119 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
     
     return AlertDialog(
       title: Text(l10n.editDebt),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              WalletLocalizationHelper.getLocalizedName(
-                context,
-                widget.debt.debtCode,
-                widget.debt.debtType,
-              ),
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColors.danger,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            
-            // Amount
-            TextField(
-              controller: _amountController,
-              // Dynamic keyboard type and formatters for gold
-              keyboardType: isGold
-                  ? GoldInputHelper.getKeyboardType(widget.debt.debtCode)
-                  : const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: isGold
-                  ? GoldInputHelper.getInputFormatters(widget.debt.debtCode)
-                  : [
-                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-                    ],
-              decoration: InputDecoration(
-                labelText: l10n.amount,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
+      content: SizedBox(
+        width: double.maxFinite,
+        height: 350.h,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                WalletLocalizationHelper.getLocalizedName(
+                  context,
+                  widget.debt.debtCode,
+                  widget.debt.debtType,
                 ),
-                filled: true,
-                fillColor: AppColors.background2(context),
-              ),
-            ),
-            SizedBox(height: 12.h),
-            
-            // Note
-            TextField(
-              controller: _noteController,
-              maxLines: 3,
-              decoration: InputDecoration(
-                labelText: l10n.noteOptional,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r),
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.danger,
                 ),
-                filled: true,
-                fillColor: AppColors.background2(context),
               ),
-            ),
-            SizedBox(height: 12.h),
-            
-            // Due Date
-            InkWell(
-              onTap: _selectDueDate,
-              child: InputDecorator(
+              SizedBox(height: 16.h),
+              
+              // Amount
+              TextField(
+                controller: _amountController,
+                // Dynamic keyboard type and formatters for gold
+                keyboardType: isGold
+                    ? GoldInputHelper.getKeyboardType(widget.debt.debtCode)
+                    : const TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: isGold
+                    ? GoldInputHelper.getInputFormatters(widget.debt.debtCode)
+                    : [
+                        FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                      ],
                 decoration: InputDecoration(
-                  labelText: l10n.dueDateOptional,
+                  labelText: l10n.amount,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   filled: true,
                   fillColor: AppColors.background2(context),
-                  suffixIcon: Icon(Icons.calendar_today),
                 ),
-                child: Text(
-                  _selectedDueDate != null
-                      ? _selectedDueDate!.toString().substring(0, 10)
-                      : l10n.selectDate,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: _selectedDueDate != null ? null : Colors.grey,
+              ),
+              SizedBox(height: 12.h),
+              
+              // Note
+              TextField(
+                controller: _noteController,
+                maxLines: 3,
+                maxLength: _maxNoteLength,
+                buildCounter: (BuildContext context, {
+                  required int currentLength,
+                  required int? maxLength,
+                  required bool isFocused,
+                }) {
+                  return Text(
+                    '$currentLength/$maxLength',
+                    style: TextStyle(
+                      fontSize: 11.sp,
+                      color: currentLength >= _maxNoteLength
+                          ? AppColors.danger
+                          : AppColors.title(context),
+                    ),
+                  );
+        
+                },
+                decoration: InputDecoration(
+                  labelText: l10n.noteOptional,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  filled: true,
+                  fillColor: AppColors.background2(context),
+                ),
+              ),
+              SizedBox(height: 12.h),
+              
+              // Due Date
+              InkWell(
+                onTap: _selectDueDate,
+                child: InputDecorator(
+                  decoration: InputDecoration(
+                    labelText: l10n.dueDateOptional,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    filled: true,
+                    fillColor: AppColors.background2(context),
+                    suffixIcon: Icon(Icons.calendar_today),
+                  ),
+                  child: Text(
+                    _selectedDueDate != null
+                        ? _selectedDueDate!.toString().substring(0, 10)
+                        : l10n.selectDate,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: _selectedDueDate != null ? null : Colors.grey,
+                    ),
                   ),
                 ),
               ),
-            ),
-            
-            if (_selectedDueDate != null) ...[
-              SizedBox(height: 8.h),
-              TextButton.icon(
-                onPressed: () => setState(() => _selectedDueDate = null),
-                icon: Icon(Icons.clear, size: 16.sp),
-                label: Text(l10n.clearDueDate),
-                style: TextButton.styleFrom(foregroundColor: AppColors.danger),
-              ),
+              
+              if (_selectedDueDate != null) ...[
+                SizedBox(height: 8.h),
+                TextButton.icon(
+                  onPressed: () => setState(() => _selectedDueDate = null),
+                  icon: Icon(Icons.clear, size: 16.sp),
+                  label: Text(l10n.clearDueDate),
+                  style: TextButton.styleFrom(foregroundColor: AppColors.danger),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
       actions: [
