@@ -1772,6 +1772,12 @@ abstract class AppLocalizations {
   /// **'Loss'**
   String get loss;
 
+  /// No description provided for @stable.
+  ///
+  /// In en, this message translates to:
+  /// **'Stable'**
+  String get stable;
+
   /// No description provided for @debtIncreased.
   ///
   /// In en, this message translates to:
@@ -1783,6 +1789,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Debt Decreased'**
   String get debtDecreased;
+
+  /// No description provided for @debtNotChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt Not Changed'**
+  String get debtNotChanged;
 }
 
 class _AppLocalizationsDelegate

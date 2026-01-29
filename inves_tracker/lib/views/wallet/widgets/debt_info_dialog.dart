@@ -69,7 +69,8 @@ class DebtInfoDialog extends StatelessWidget {
         ? _totalCurrentValue! - _totalInitialValue!
         : null;
 
-    final isIncreased = profitLoss != null && profitLoss >= 0;
+    final isIncreased = profitLoss != null && profitLoss > 0;
+    final isZero = profitLoss != null && profitLoss == 0;
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
@@ -176,7 +177,9 @@ class DebtInfoDialog extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(12.r),
                       decoration: BoxDecoration(
-                        color: isIncreased 
+                        color: isZero 
+                        ? AppColors.title(context).withValues(alpha: 0.1) 
+                        : isIncreased 
                             ? AppColors.danger.withValues(alpha: 0.1)
                             : AppColors.success.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8.r),
@@ -187,27 +190,47 @@ class DebtInfoDialog extends StatelessWidget {
                           Row(
                             children: [
                               Icon(
-                                isIncreased ? Icons.trending_up : Icons.trending_down,
-                                color: isIncreased ? AppColors.danger : AppColors.success,
+                                isZero 
+                                ? Icons.trending_flat 
+                                : isIncreased 
+                                  ? Icons.trending_up 
+                                  : Icons.trending_down,
+                                color: isZero 
+                                ? AppColors.title(context) 
+                                : isIncreased 
+                                  ? AppColors.danger 
+                                  : AppColors.success,
                                 size: 18.sp,
                               ),
                               SizedBox(width: 8.w),
-                              Text(
-                                isIncreased ? l10n.debtIncreased : l10n.debtDecreased,
+                              Text( 
+                                isZero
+                                ? l10n.debtNotChanged
+                                : isIncreased 
+                                  ? l10n.debtIncreased 
+                                  : l10n.debtDecreased,
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w600,
-                                  color: isIncreased ? AppColors.danger : AppColors.success,
+                                  color: isZero 
+                                  ? AppColors.title(context) 
+                                  : isIncreased 
+                                    ? AppColors.danger 
+                                    : AppColors.success,
                                 ),
                               ),
                             ],
                           ),
                           Text(
-                            '${isIncreased ? '+' : ''}${PriceFormatter.formatCurrency(profitLoss, context.localeString)} TRY',
+                            '${isZero ? '' : (isIncreased ? '+' : '-')}${PriceFormatter.formatCurrency(profitLoss, context.localeString)} TRY',
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: isIncreased ? AppColors.danger : AppColors.success,
+                              color: isZero 
+                                ? AppColors.title(context) 
+                                : isIncreased 
+                                  ? AppColors.danger 
+                                  : AppColors.success,
                             ),
                           ),
                         ],
@@ -263,7 +286,8 @@ class _DebtInfoItem extends StatelessWidget {
         ? currentValue - debt.initialTryValue!
         : null;
 
-    final isIncreased = valueChange != null && valueChange >= 0;
+    final isIncreased = valueChange != null && valueChange > 0;
+    final isZero = valueChange != null && valueChange == 0;
 
     return Container(
       padding: EdgeInsets.all(12.r),
@@ -365,10 +389,18 @@ class _DebtInfoItem extends StatelessWidget {
           if (valueChange != null) ...[
             SizedBox(height: 8.h),
             _InfoRow(
-              icon: isIncreased ? Icons.trending_up : Icons.trending_down,
+              icon: isZero 
+              ? Icons.trending_flat
+              : isIncreased 
+                ? Icons.trending_up 
+                : Icons.trending_down,
               label: l10n.change,
-              value: '${isIncreased ? '+' : ''}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY',
-              valueColor: isIncreased ? AppColors.danger : AppColors.success,
+              value: '${isZero ? '' : isIncreased ? '+' : '-'}${PriceFormatter.formatCurrency(valueChange, context.localeString)} TRY',
+              valueColor: isZero 
+                ? AppColors.title(context) 
+                : isIncreased 
+                  ? AppColors.danger 
+                  : AppColors.success,
             ),
           ],
 

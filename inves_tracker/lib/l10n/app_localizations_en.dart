@@ -861,8 +861,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loss => 'Loss';
 
   @override
+  String get stable => 'Stable';
+
+  @override
   String get debtIncreased => 'Debt Increased';
 
   @override
   String get debtDecreased => 'Debt Decreased';
+
+  @override
+  String get debtNotChanged => 'Debt Not Changed';
 }

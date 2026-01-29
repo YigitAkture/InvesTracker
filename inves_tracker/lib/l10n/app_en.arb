@@ -280,7 +280,9 @@
   "notAvailable": "Not Available",
   "profit": "Profit",
   "loss": "Loss",
+  "stable": "Stable",
   "change": "Change",
   "debtIncreased": "Debt Increased",
-  "debtDecreased": "Debt Decreased"
+  "debtDecreased": "Debt Decreased",
+  "debtNotChanged": "Debt Not Changed" 
 }

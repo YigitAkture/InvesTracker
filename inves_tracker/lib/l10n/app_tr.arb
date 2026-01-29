@@ -281,6 +281,8 @@
   "profit": "Kâr",
   "loss": "Zarar",
   "change": "Değişim",
+  "stable": "Stabil",
   "debtIncreased": "Borç Arttı",
-  "debtDecreased": "Borç Azaldı"
+  "debtDecreased": "Borç Azaldı",
+  "debtNotChanged": "Borç Değişmedi"
 }

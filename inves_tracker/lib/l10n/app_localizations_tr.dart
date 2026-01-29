@@ -864,8 +864,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loss => 'Zarar';
 
   @override
+  String get stable => 'Stabil';
+
+  @override
   String get debtIncreased => 'Borç Arttı';
 
   @override
   String get debtDecreased => 'Borç Azaldı';
+
+  @override
+  String get debtNotChanged => 'Borç Değişmedi';
 }
