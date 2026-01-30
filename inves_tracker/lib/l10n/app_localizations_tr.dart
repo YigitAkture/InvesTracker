@@ -874,4 +874,24 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get debtNotChanged => 'Borç Değişmedi';
+
+  @override
+  String get debtDueDateApproachingNotificationTitle =>
+      'Borç Son Ödeme Tarihi Yaklaşıyor!';
+
+  @override
+  String debtDueDateApproachingNotificationBody(
+    double amount,
+    String currency,
+  ) {
+    return '$amount$currency değerindeki borcunuzun son ödeme tarihine 3 gün kaldı.';
+  }
+
+  @override
+  String get debtDueDateNotificationTitle => 'Borç Son Ödeme Tarihi Geldi!';
+
+  @override
+  String debtDueDateNotificationBody(double amount, String currency) {
+    return '$amount$currency değerindeki borcunuzun son ödeme tarihi bugün!';
+  }
 }

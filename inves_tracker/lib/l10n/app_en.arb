@@ -284,5 +284,31 @@
   "change": "Change",
   "debtIncreased": "Debt Increased",
   "debtDecreased": "Debt Decreased",
-  "debtNotChanged": "Debt Not Changed" 
+  "debtNotChanged": "Debt Not Changed", 
+  "debtDueDateApproachingNotificationTitle": "Debt Payment Approaching!",
+  "debtDueDateApproachingNotificationBody": "Your {amount}{currency} debt is due in 3 days.",
+  "@debtDueDateApproachingNotificationBody":{
+    "description": "Debt due date approaching notification with amount and currency",
+    "placeholders": {
+      "amount": { 
+        "type": "double"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "debtDueDateNotificationTitle": "Debt Payment Has Arrived!",
+  "debtDueDateNotificationBody": "Your {amount}{currency} debt is due today!",
+  "@debtDueDateNotificationBody":{
+    "description": "Debt due date notification with amount and currency",
+    "placeholders": {
+      "amount": {
+        "type": "double"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  }
 }

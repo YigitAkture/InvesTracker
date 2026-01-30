@@ -284,5 +284,31 @@
   "stable": "Stabil",
   "debtIncreased": "Borç Arttı",
   "debtDecreased": "Borç Azaldı",
-  "debtNotChanged": "Borç Değişmedi"
+  "debtNotChanged": "Borç Değişmedi",
+  "debtDueDateApproachingNotificationTitle": "Borç Son Ödeme Tarihi Yaklaşıyor!",
+  "debtDueDateApproachingNotificationBody": "{amount}{currency} değerindeki borcunuzun son ödeme tarihine 3 gün kaldı.",
+  "@debtDueDateApproachingNotificationBody":{
+    "description": "Debt due date approaching notification with amount and currency",
+    "placeholders": {
+      "amount": { 
+        "type": "double"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "debtDueDateNotificationTitle": "Borç Son Ödeme Tarihi Geldi!",
+  "debtDueDateNotificationBody": "{amount}{currency} değerindeki borcunuzun son ödeme tarihi bugün!",
+  "@debtDueDateNotificationBody":{
+    "description": "Debt due date notification with amount and currency",
+    "placeholders": {
+      "amount": {
+        "type": "double"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  }
 }

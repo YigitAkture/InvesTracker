@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:inves_tracker/app.dart';
+import 'package:inves_tracker/core/services/debt_notification_service.dart';
 import 'package:inves_tracker/core/utils/theme_notifier.dart';
 import 'package:inves_tracker/core/utils/locale_notifier.dart';
 import 'package:inves_tracker/core/utils/visibility_notifier.dart';
@@ -13,8 +14,18 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
+  // Initialize Mobile Ads
   MobileAds.instance.initialize();
 
+  // Initialize Notification Service
+  try {
+    await DebtNotificationService().initialize();
+    debugPrint('Notification service initialized successfully');
+  } catch (e) {
+    debugPrint('Failed to initialize notification service: $e');
+  }
+
+  // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

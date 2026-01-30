@@ -871,4 +871,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get debtNotChanged => 'Debt Not Changed';
+
+  @override
+  String get debtDueDateApproachingNotificationTitle =>
+      'Debt Payment Approaching!';
+
+  @override
+  String debtDueDateApproachingNotificationBody(
+    double amount,
+    String currency,
+  ) {
+    return 'Your $amount$currency debt is due in 3 days.';
+  }
+
+  @override
+  String get debtDueDateNotificationTitle => 'Debt Payment Has Arrived!';
+
+  @override
+  String debtDueDateNotificationBody(double amount, String currency) {
+    return 'Your $amount$currency debt is due today!';
+  }
 }

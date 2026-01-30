@@ -14,7 +14,7 @@ class WalletLocalizationHelper {
       case 'currency':
         return _getCurrencyName(code, l10n);
       case 'gold':
-        return _getGoldName(code, l10n);
+        return getGoldName(code, l10n);
       case 'crypto':
         return code; // Crypto codes are displayed as-is
       default:
@@ -151,7 +151,7 @@ class WalletLocalizationHelper {
     }
   }
 
-  static String _getGoldName(String code, AppLocalizations l10n) {
+  static String getGoldName(String code, AppLocalizations l10n) {
     switch (code) {
       case 'HAS':
         return l10n.goldHAS;

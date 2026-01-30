@@ -1,15 +1,22 @@
 import 'dart:convert';
+import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/api_service.dart';
+import 'package:inves_tracker/core/services/debt_notification_service.dart';
+import 'package:inves_tracker/l10n/app_localizations.dart';
 
+/// Enhanced Debt Service with notification support
 class DebtService {
   final ApiService _apiService = ApiService();
-
+  final DebtNotificationService _notificationService =
+      DebtNotificationService();
+  late final AppLocalizations l10n;
+  
   /// Get all debts for the authenticated user
   Future<List<Debt>> getUserDebts(String userId) async {
     try {
       final response = await _apiService.get('Debts');
-      
+
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         return data.map((json) => Debt.fromJson(json)).toList();
@@ -21,14 +28,13 @@ class DebtService {
     }
   }
 
-  /// Create a new debt
-  /// IMPORTANT: currentTryValue must be calculated as: tryValue * amount
+  /// Create a new debt with automatic notification scheduling
   Future<Debt> createDebt(
     String userId, {
     required String debtType,
     required String debtCode,
     required double amount,
-    required double currentTryValue, // This is tryValue * amount
+    required double currentTryValue,
     String? note,
     DateTime? dueDate,
   }) async {
@@ -37,7 +43,7 @@ class DebtService {
         'debtType': debtType,
         'debtCode': debtCode,
         'amount': amount,
-        'currentTryValue': currentTryValue, // Send calculated value
+        'currentTryValue': currentTryValue,
         if (note != null) 'note': note,
         if (dueDate != null) 'dueDate': dueDate.toIso8601String(),
       };
@@ -45,22 +51,30 @@ class DebtService {
       final response = await _apiService.post('Debts', body);
 
       if (response.statusCode == 201) {
-        return Debt.fromJson(json.decode(response.body));
+        final debt = Debt.fromJson(json.decode(response.body));
+
+        // Schedule notifications if due date exists
+        if (debt.dueDate != null) {
+          await _scheduleNotificationsForDebt(debt);
+        }
+
+        return debt;
       } else {
         final error = json.decode(response.body);
-        throw Exception(error['error'] ?? error['message'] ?? 'Failed to create debt');
+        throw Exception(
+          error['error'] ?? error['message'] ?? 'Failed to create debt',
+        );
       }
     } catch (e) {
       throw Exception('Error creating debt: $e');
     }
   }
 
-  /// Update an existing debt
-  /// IMPORTANT: currentTryValue must be calculated as: tryValue * amount
+  /// Update an existing debt with notification rescheduling
   Future<Debt> updateDebt(
     String debtId, {
     double? amount,
-    double? currentTryValue, // This is tryValue * amount
+    double? currentTryValue,
     String? note,
     DateTime? dueDate,
   }) async {
@@ -74,7 +88,16 @@ class DebtService {
       final response = await _apiService.put('Debts/$debtId', body);
 
       if (response.statusCode == 200) {
-        return Debt.fromJson(json.decode(response.body));
+        final debt = Debt.fromJson(json.decode(response.body));
+
+        // Reschedule notifications
+        await _notificationService.cancelDebtNotifications(debt.id);
+
+        if (debt.dueDate != null) {
+          await _scheduleNotificationsForDebt(debt);
+        }
+
+        return debt;
       } else {
         throw Exception('Failed to update debt: ${response.statusCode}');
       }
@@ -83,12 +106,15 @@ class DebtService {
     }
   }
 
-  /// Delete a debt
+  /// Delete a debt and cancel its notifications
   Future<void> deleteDebt(String debtId) async {
     try {
       final response = await _apiService.delete('Debts/$debtId');
-      
-      if (response.statusCode != 204) {
+
+      if (response.statusCode == 204) {
+        // Cancel notifications for deleted debt
+        await _notificationService.cancelDebtNotifications(debtId);
+      } else {
         throw Exception('Failed to delete debt: ${response.statusCode}');
       }
     } catch (e) {
@@ -100,7 +126,7 @@ class DebtService {
   Future<Debt?> getDebtById(String debtId) async {
     try {
       final response = await _apiService.get('Debts/$debtId');
-      
+
       if (response.statusCode == 200) {
         return Debt.fromJson(json.decode(response.body));
       } else if (response.statusCode == 404) {
@@ -111,5 +137,40 @@ class DebtService {
     } catch (e) {
       throw Exception('Error fetching debt: $e');
     }
+  }
+
+  /// Reschedule all notifications for all user debts
+  /// Useful after app restart or timezone changes
+  Future<void> rescheduleAllNotifications(String userId) async {
+    try {
+      final debts = await getUserDebts(userId);
+
+      for (final debt in debts) {
+        if (debt.dueDate != null) {
+          await _scheduleNotificationsForDebt(debt);
+        }
+      }
+    } catch (e) {
+      throw Exception('Error rescheduling notifications: $e');
+    }
+  }
+
+  /// Helper method to schedule notifications for a debt
+  Future<void> _scheduleNotificationsForDebt(Debt debt) async {
+    // Create a description for the notification
+    String description = '${debt.debtCode} - ${debt.amount}';
+    if (debt.note != null && debt.note!.isNotEmpty) {
+      description = debt.note!;
+    }
+
+    await _notificationService.scheduleDebtNotifications(
+      debtId: debt.id,
+      createdAt: debt.createdAt,
+      dueDate: debt.dueDate!,
+      debtDescription: description,
+      amount: debt.amount,
+      currency: debt.debtType != 'GOLD' ? debt.debtCode : WalletLocalizationHelper.getGoldName(debt.debtCode, l10n),
+      l10n: l10n,
+    );
   }
 }

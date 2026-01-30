@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:inves_tracker/core/services/auth_service.dart';
+import 'package:inves_tracker/core/services/debt_notification_service.dart';
+import 'package:inves_tracker/core/services/debt_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/auth/auth_wrapper.dart';
 import 'package:provider/provider.dart';
@@ -14,24 +17,68 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  final DebtNotificationService _notificationService = DebtNotificationService();
+  final AuthService _authService = AuthService();
 
   @override
   void initState() {
     super.initState();
-    initialization();
+    WidgetsBinding.instance.addObserver(this);
+    _initializeApp();
   }
 
-  void initialization() async {
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  /// Handle app lifecycle changes
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // App came to foreground - reschedule notifications
+      // This handles timezone changes and ensures notifications are up-to-date
+      _rescheduleNotificationsIfNeeded();
+    }
+  }
+
+  Future<void> _initializeApp() async {
+    // Remove splash screen after delay
+    await _notificationService.initialize();
     await Future.delayed(const Duration(seconds: 2));
     FlutterNativeSplash.remove();
+  }
+
+  /// Reschedule notifications when app resumes
+  /// This handles edge cases like:
+  /// - Timezone changes (travel, DST)
+  /// - System time changes
+  /// - Notification cancellation by OS
+  Future<void> _rescheduleNotificationsIfNeeded() async {
+    try {
+      final isLoggedIn = await _authService.isLoggedIn();
+      if (!isLoggedIn) return;
+
+      final userId = await _authService.getCurrentUserId();
+      if (userId == null) return;
+
+      // Import your enhanced debt service here
+      final debtService = DebtService();
+      await debtService.rescheduleAllNotifications(userId);
+
+      debugPrint('Notifications rescheduled successfully');
+    } catch (e) {
+      debugPrint('Failed to reschedule notifications: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     final localeNotifier = Provider.of<LocaleNotifier>(context);
-    
+
     return MaterialApp(
       title: 'InvesTracker',
       debugShowCheckedModeBanner: false,
@@ -54,10 +101,7 @@ class _MyAppState extends State<MyApp> {
           child: child!,
         );
       },
-      supportedLocales: const [
-        Locale('en'),
-        Locale('tr'),
-      ],
+      supportedLocales: const [Locale('en'), Locale('tr')],
       home: const AuthWrapper(),
     );
   }

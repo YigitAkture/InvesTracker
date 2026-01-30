@@ -1795,6 +1795,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Debt Not Changed'**
   String get debtNotChanged;
+
+  /// No description provided for @debtDueDateApproachingNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt Payment Approaching!'**
+  String get debtDueDateApproachingNotificationTitle;
+
+  /// Debt due date approaching notification with amount and currency
+  ///
+  /// In en, this message translates to:
+  /// **'Your {amount}{currency} debt is due in 3 days.'**
+  String debtDueDateApproachingNotificationBody(double amount, String currency);
+
+  /// No description provided for @debtDueDateNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt Payment Has Arrived!'**
+  String get debtDueDateNotificationTitle;
+
+  /// Debt due date notification with amount and currency
+  ///
+  /// In en, this message translates to:
+  /// **'Your {amount}{currency} debt is due today!'**
+  String debtDueDateNotificationBody(double amount, String currency);
 }
 
 class _AppLocalizationsDelegate
