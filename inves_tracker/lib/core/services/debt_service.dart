@@ -3,14 +3,14 @@ import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/api_service.dart';
 import 'package:inves_tracker/core/services/debt_notification_service.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/utils/localization_manager.dart';
 
 /// Enhanced Debt Service with notification support
 class DebtService {
   final ApiService _apiService = ApiService();
   final DebtNotificationService _notificationService =
       DebtNotificationService();
-  late final AppLocalizations l10n;
+  final LocalizationManager _localizationManager = LocalizationManager();
   
   /// Get all debts for the authenticated user
   Future<List<Debt>> getUserDebts(String userId) async {
@@ -156,12 +156,21 @@ class DebtService {
   }
 
   /// Helper method to schedule notifications for a debt
+  /// Uses LocalizationManager to get localized strings without BuildContext
   Future<void> _scheduleNotificationsForDebt(Debt debt) async {
+    // Get current localizations from LocalizationManager
+    final l10n = _localizationManager.current;
+
     // Create a description for the notification
     String description = '${debt.debtCode} - ${debt.amount}';
     if (debt.note != null && debt.note!.isNotEmpty) {
       description = debt.note!;
     }
+
+    // Get localized currency name
+    String currency = debt.debtType != 'Gold' 
+        ? debt.debtCode 
+        : WalletLocalizationHelper.getGoldName(debt.debtCode, l10n);
 
     await _notificationService.scheduleDebtNotifications(
       debtId: debt.id,
@@ -169,8 +178,7 @@ class DebtService {
       dueDate: debt.dueDate!,
       debtDescription: description,
       amount: debt.amount,
-      currency: debt.debtType != 'GOLD' ? debt.debtCode : WalletLocalizationHelper.getGoldName(debt.debtCode, l10n),
-      l10n: l10n,
+      currency: currency,
     );
   }
 }

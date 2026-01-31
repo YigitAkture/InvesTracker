@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:inves_tracker/core/utils/localization_manager.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -16,6 +17,7 @@ class DebtNotificationService {
 
   final FlutterLocalNotificationsPlugin _notifications =
       FlutterLocalNotificationsPlugin();
+  final LocalizationManager _localizationManager = LocalizationManager();
   bool _initialized = false;
 
   /// Initialize the notification service
@@ -90,7 +92,7 @@ class DebtNotificationService {
   /// Schedule notifications for a debt based on business rules
   ///
   /// Rules:
-  /// 1. Same day: No notification
+  /// 1. Same day: One notification on due date
   /// 2. ≤ 2 days: One notification on due date
   /// 3. > 2 days: Two notifications (3 days before + due date)
   Future<void> scheduleDebtNotifications({
@@ -98,13 +100,16 @@ class DebtNotificationService {
     required DateTime createdAt,
     required DateTime dueDate,
     required String debtDescription,
-    required AppLocalizations l10n,
     required double amount,
     required String currency,
   }) async {
     if (!_initialized) {
       throw StateError('DebtNotificationService must be initialized first');
     }
+
+    // Get current localizations from LocalizationManager
+    // This works without BuildContext!
+    final AppLocalizations l10n = _localizationManager.current;
 
     // Cancel any existing notifications for this debt
     await cancelDebtNotifications(debtId);
@@ -116,7 +121,7 @@ class DebtNotificationService {
     // Calculate difference in days (whole days, ignoring time)
     final int daysDifference = _calculateDaysDifference(createdTz, dueDateTz);
 
-    // Rule 1: Same day - no notification
+    // Rule 1: Same day - one notification on due date
     if (daysDifference == 0) {
       await _scheduleDueDateNotification(
         debtId: debtId,
@@ -276,8 +281,8 @@ class DebtNotificationService {
       dueDate.year,
       dueDate.month,
       dueDate.day,
-      14, // 8 AM
-      42,
+      8, // 8 AM
+      0,
       0,
     );
 
@@ -354,9 +359,9 @@ class DebtNotificationService {
   }
 
   /// Reschedule all notifications (useful after timezone change or app restart)
+  /// This version requires manual locale specification
   Future<void> rescheduleNotifications(
     List<Map<String, dynamic>> debts,
-    AppLocalizations l10n,
   ) async {
     await cancelAllNotifications();
 
@@ -367,7 +372,6 @@ class DebtNotificationService {
           createdAt: debt['createdAt'],
           dueDate: debt['dueDate'],
           debtDescription: debt['description'],
-          l10n: l10n,
           amount: debt['amount'],
           currency: debt['currency'],
         );

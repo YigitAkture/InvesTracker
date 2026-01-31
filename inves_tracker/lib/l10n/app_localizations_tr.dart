@@ -892,6 +892,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String debtDueDateNotificationBody(double amount, String currency) {
-    return '$amount$currency değerindeki borcunuzun son ödeme tarihi bugün!';
+    return '$amount $currency değerindeki borcunuzun son ödeme tarihi bugün!';
   }
 }

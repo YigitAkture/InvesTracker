@@ -299,7 +299,7 @@
     }
   },
   "debtDueDateNotificationTitle": "Borç Son Ödeme Tarihi Geldi!",
-  "debtDueDateNotificationBody": "{amount}{currency} değerindeki borcunuzun son ödeme tarihi bugün!",
+  "debtDueDateNotificationBody": "{amount} {currency} değerindeki borcunuzun son ödeme tarihi bugün!",
   "@debtDueDateNotificationBody":{
     "description": "Debt due date notification with amount and currency",
     "placeholders": {

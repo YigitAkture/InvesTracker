@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:inves_tracker/core/services/auth_service.dart';
 import 'package:inves_tracker/core/services/debt_notification_service.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
+import 'package:inves_tracker/core/utils/localization_manager.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/auth/auth_wrapper.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final DebtNotificationService _notificationService = DebtNotificationService();
   final AuthService _authService = AuthService();
+  final LocalizationManager _localizationManager = LocalizationManager();
 
   @override
   void initState() {
@@ -91,6 +93,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         GlobalCupertinoLocalizations.delegate,
       ],
       builder: (context, child) {
+        // CRITICAL: Update LocalizationManager whenever locale changes
+        // This ensures services always have access to current localization
+        final locale = Localizations.localeOf(context);
+        final l10n = AppLocalizations.of(context);
+        if (l10n != null) {
+          _localizationManager.updateLocalizations(l10n, locale);
+        }
+
         final mediaQueryData = MediaQuery.of(context);
         final scale = mediaQueryData.textScaler.clamp(
           minScaleFactor: 0.8,

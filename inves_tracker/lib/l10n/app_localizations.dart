@@ -1817,7 +1817,7 @@ abstract class AppLocalizations {
   /// Debt due date notification with amount and currency
   ///
   /// In en, this message translates to:
-  /// **'Your {amount}{currency} debt is due today!'**
+  /// **'Your {amount} {currency} debt is due today!'**
   String debtDueDateNotificationBody(double amount, String currency);
 }
 

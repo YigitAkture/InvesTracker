@@ -53,7 +53,6 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
         debtDescription: 'Same day test',
         amount: 100,
         currency: 'samedaytest',
-        l10n: l10n
       );
 
       await _loadDebugInfo();
@@ -81,7 +80,6 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
         debtDescription: 'Two days test',
         amount: 200,
         currency: '2daytest',
-        l10n: l10n,
       );
 
       await _loadDebugInfo();
@@ -109,7 +107,6 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
         debtDescription: 'Five days test',
         amount: 500,
         currency: 'fivedaystest',
-        l10n: l10n
       );
 
       await _loadDebugInfo();
@@ -137,7 +134,6 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
         debtDescription: 'Past due test',
         amount: -300,
         currency: 'pastduetest',
-        l10n: l10n
       );
 
       await _loadDebugInfo();
@@ -166,7 +162,6 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen> {
         debtDescription: 'Immediate test notification',
         amount: 1,
         currency: 'immediatetest',
-        l10n: l10n
       );
 
       setState(() {

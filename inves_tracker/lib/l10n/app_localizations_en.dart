@@ -889,6 +889,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String debtDueDateNotificationBody(double amount, String currency) {
-    return 'Your $amount$currency debt is due today!';
+    return 'Your $amount $currency debt is due today!';
   }
 }

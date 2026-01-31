@@ -299,7 +299,7 @@
     }
   },
   "debtDueDateNotificationTitle": "Debt Payment Has Arrived!",
-  "debtDueDateNotificationBody": "Your {amount}{currency} debt is due today!",
+  "debtDueDateNotificationBody": "Your {amount} {currency} debt is due today!",
   "@debtDueDateNotificationBody":{
     "description": "Debt due date notification with amount and currency",
     "placeholders": {
