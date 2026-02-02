@@ -181,7 +181,7 @@ class _NotificationToggleItem extends StatelessWidget {
           ),
         ),
         SizedBox(width: 8.w),
-        Switch(value: value, onChanged: onChanged, activeColor: iconColor),
+        Switch(value: value, onChanged: onChanged, activeThumbColor: iconColor),
       ],
     );
   }

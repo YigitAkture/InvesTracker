@@ -169,19 +169,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               
-              // SizedBox(height: 24.h),
+              SizedBox(height: 24.h),
 
-              // Center(
-              //   child: ElevatedButton(
-              //     onPressed: () => Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const NotificationDebugScreen(),
-              //       ),
-              //     ),
-              //     child: Text('Test Notifications'),
-              //   ),
-              // ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NotificationDebugScreen(),
+                    ),
+                  ),
+                  child: Text('Test Notifications'),
+                ),
+              ),
 
               SizedBox(height: 24.h),
 
