@@ -10,6 +10,7 @@ import 'package:inves_tracker/views/settings/widgets/language_setting_item.dart'
 import 'package:inves_tracker/views/settings/widgets/logout_setting_item.dart';
 import 'package:inves_tracker/views/settings/widgets/about_section.dart';
 import 'package:inves_tracker/views/settings/widgets/user_profile_section.dart';
+import 'package:inves_tracker/views/settings/widgets/notification_settings_section.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -42,6 +43,12 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(height: 8.h),
                 const UserProfileSection(),
                 SizedBox(height: 12.h),
+                
+                // Notification Settings Section
+                SectionHeader(title: l10n.notifications),
+                SizedBox(height: 8.h),
+                const NotificationSettingsSection(),
+                SizedBox(height: 12.h),
 
                 // Change Password Section
                 SectionHeader(title: l10n.security),
@@ -66,10 +73,7 @@ class SettingsScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.foreground(context),
                     borderRadius: BorderRadius.circular(16.r),
-                    border: Border.all(
-                      color: AppColors.danger,
-                      width: 1.5.w,
-                    ),
+                    border: Border.all(color: AppColors.danger, width: 1.5.w),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.35),
@@ -79,7 +83,7 @@ class SettingsScreen extends StatelessWidget {
                     ],
                   ),
                   child: const LogoutSettingItem(),
-                )
+                ),
               ],
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/market/currency/widgets/currency_box.dart';
+import 'package:inves_tracker/core/constants/app_colors.dart';
 
 class CurrencyRates extends StatefulWidget {
   final List<CurrencyData> currencies;
@@ -78,8 +79,8 @@ class CurrencyRatesState extends State<CurrencyRates> {
                     _showAll ? l10n.showLess : l10n.showMore,
                     style: TextStyle(
                       fontSize: 13.sp,
-                      decoration: TextDecoration.underline,
                       fontWeight: FontWeight.w500,
+                      color: AppColors.primary(context),
                     ),
                   ),
                   SizedBox(width: 4.w),
@@ -88,6 +89,7 @@ class CurrencyRatesState extends State<CurrencyRates> {
                         ? Icons.keyboard_arrow_up
                         : Icons.keyboard_arrow_down,
                     size: 18.sp,
+                    color: AppColors.primary(context),
                   ),
                 ],
               ),

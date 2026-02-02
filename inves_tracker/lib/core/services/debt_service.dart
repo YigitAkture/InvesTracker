@@ -3,6 +3,7 @@ import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/api_service.dart';
 import 'package:inves_tracker/core/services/debt_notification_service.dart';
+import 'package:inves_tracker/core/services/preferences_service.dart';
 import 'package:inves_tracker/core/utils/localization_manager.dart';
 
 /// Enhanced Debt Service with notification support
@@ -10,8 +11,9 @@ class DebtService {
   final ApiService _apiService = ApiService();
   final DebtNotificationService _notificationService =
       DebtNotificationService();
+  final PreferencesService _preferencesService = PreferencesService();
   final LocalizationManager _localizationManager = LocalizationManager();
-  
+
   /// Get all debts for the authenticated user
   Future<List<Debt>> getUserDebts(String userId) async {
     try {
@@ -53,9 +55,13 @@ class DebtService {
       if (response.statusCode == 201) {
         final debt = Debt.fromJson(json.decode(response.body));
 
-        // Schedule notifications if due date exists
+        // Schedule notifications if due date exists AND notifications are enabled
         if (debt.dueDate != null) {
-          await _scheduleNotificationsForDebt(debt);
+          final notificationsEnabled = await _preferencesService
+              .getDebtNotificationsEnabled();
+          if (notificationsEnabled) {
+            await _scheduleNotificationsForDebt(debt);
+          }
         }
 
         return debt;
@@ -93,8 +99,13 @@ class DebtService {
         // Reschedule notifications
         await _notificationService.cancelDebtNotifications(debt.id);
 
+        // Only reschedule if notifications are enabled
         if (debt.dueDate != null) {
-          await _scheduleNotificationsForDebt(debt);
+          final notificationsEnabled = await _preferencesService
+              .getDebtNotificationsEnabled();
+          if (notificationsEnabled) {
+            await _scheduleNotificationsForDebt(debt);
+          }
         }
 
         return debt;
@@ -141,8 +152,23 @@ class DebtService {
 
   /// Reschedule all notifications for all user debts
   /// Useful after app restart or timezone changes
+  /// Respects the debt notifications enabled preference
   Future<void> rescheduleAllNotifications(String userId) async {
     try {
+      // Check if debt notifications are enabled
+      final notificationsEnabled = await _preferencesService
+          .getDebtNotificationsEnabled();
+
+      if (!notificationsEnabled) {
+        // If disabled, cancel all existing debt notifications
+        final debts = await getUserDebts(userId);
+        for (final debt in debts) {
+          await _notificationService.cancelDebtNotifications(debt.id);
+        }
+        return;
+      }
+
+      // If enabled, reschedule notifications for all debts
       final debts = await getUserDebts(userId);
 
       for (final debt in debts) {
@@ -168,8 +194,8 @@ class DebtService {
     }
 
     // Get localized currency name
-    String currency = debt.debtType != 'Gold' 
-        ? debt.debtCode 
+    String currency = debt.debtType != 'Gold'
+        ? debt.debtCode
         : WalletLocalizationHelper.getGoldName(debt.debtCode, l10n);
 
     await _notificationService.scheduleDebtNotifications(

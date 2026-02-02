@@ -310,5 +310,33 @@
         "type": "String"
       }
     }
-  }
+  },
+"notifications": "Notifications",
+  "reminderNotifications": "Reminder Notifications",
+  "reminderNotificationsDescription": "Get weekly reminders to check your investments and market updates",
+  "debtNotifications": "Debt Payment Reminders",
+  "debtNotificationsDescription": "Get notified when your debt payments are approaching",
+  "appReminderNotificationTitle": "Investment Reminder",
+  "marketUpdateNotificationTitle": "Market Update",
+  "marketUpdateNotificationBody": "The current value of {currency} is {value} TRY",
+  "@marketUpdateNotificationBody":{
+    "description": "Market update notification with currency and value",
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      },
+      "value": {
+        "type": "double"
+      }
+    }
+  },
+  "reminderCheckAssetValue": "Check the current value of your assets and debts",
+  "reminderReviewPortfolio": "Review your investment portfolio today",
+  "reminderUpdateInvestments": "Have you updated your investments recently?",
+  "reminderTrackMarket": "Track the latest market changes",
+  "reminderMonitorDebts": "Don't forget to monitor your debt payments",
+  "reminderNotificationsEnabled": "Reminder notifications on",
+  "reminderNotificationsDisabled": "Reminder notifications off",
+  "debtNotificationsEnabled": "Debt notifications on",
+  "debtNotificationsDisabled": "Debt notifications off"
 }

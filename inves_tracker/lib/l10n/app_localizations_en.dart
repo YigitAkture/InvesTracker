@@ -891,4 +891,63 @@ class AppLocalizationsEn extends AppLocalizations {
   String debtDueDateNotificationBody(double amount, String currency) {
     return 'Your $amount $currency debt is due today!';
   }
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get reminderNotifications => 'Reminder Notifications';
+
+  @override
+  String get reminderNotificationsDescription =>
+      'Get weekly reminders to check your investments and market updates';
+
+  @override
+  String get debtNotifications => 'Debt Payment Reminders';
+
+  @override
+  String get debtNotificationsDescription =>
+      'Get notified when your debt payments are approaching';
+
+  @override
+  String get appReminderNotificationTitle => 'Investment Reminder';
+
+  @override
+  String get marketUpdateNotificationTitle => 'Market Update';
+
+  @override
+  String marketUpdateNotificationBody(String currency, double value) {
+    return 'The current value of $currency is $value TRY';
+  }
+
+  @override
+  String get reminderCheckAssetValue =>
+      'Check the current value of your assets and debts';
+
+  @override
+  String get reminderReviewPortfolio =>
+      'Review your investment portfolio today';
+
+  @override
+  String get reminderUpdateInvestments =>
+      'Have you updated your investments recently?';
+
+  @override
+  String get reminderTrackMarket => 'Track the latest market changes';
+
+  @override
+  String get reminderMonitorDebts =>
+      'Don\'t forget to monitor your debt payments';
+
+  @override
+  String get reminderNotificationsEnabled => 'Reminder notifications on';
+
+  @override
+  String get reminderNotificationsDisabled => 'Reminder notifications off';
+
+  @override
+  String get debtNotificationsEnabled => 'Debt notifications on';
+
+  @override
+  String get debtNotificationsDisabled => 'Debt notifications off';
 }

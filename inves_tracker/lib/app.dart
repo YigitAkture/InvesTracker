@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:inves_tracker/core/services/auth_service.dart';
 import 'package:inves_tracker/core/services/debt_notification_service.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
+import 'package:inves_tracker/core/services/reminder_notification_service.dart';
 import 'package:inves_tracker/core/utils/localization_manager.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/auth/auth_wrapper.dart';
@@ -42,9 +43,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     if (state == AppLifecycleState.resumed) {
       // App came to foreground - reschedule notifications
       // This handles timezone changes and ensures notifications are up-to-date
+      ReminderNotificationService().rescheduleIfNeeded();
       _rescheduleNotificationsIfNeeded();
     }
   }
+
 
   Future<void> _initializeApp() async {
     // Remove splash screen after delay

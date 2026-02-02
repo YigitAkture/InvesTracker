@@ -310,5 +310,34 @@
         "type": "String"
       }
     }
-  }
+  },
+  "notifications": "Bildirimler",
+  "reminderNotifications": "Hatırlatma Bildirimleri",
+  "reminderNotificationsDescription": "Yatırımlarınızı kontrol etmeniz için haftalık hatırlatmalar ve piyasa güncellemeleri alın",
+  "debtNotifications": "Borç Ödeme Hatırlatmaları",
+  "debtNotificationsDescription": "Borç ödemeleriniz yaklaştığında bildirim alın",
+  "appReminderNotificationTitle": "Yatırım Hatırlatması",
+  "marketUpdateNotificationTitle": "Piyasa Güncellemesi",
+  "marketUpdateNotificationBody": "{currency} güncel değeri {value} TRY",
+  "@marketUpdateNotificationBody":{
+    "description": "Market update notification with currency and value",
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      },
+      "value": {
+        "type": "double"
+      }
+    }
+  },
+  "reminderCheckAssetValue": "Varlıklarınızın ve borçlarınızın güncel değerini kontrol edin",
+  "reminderReviewPortfolio": "Bugün yatırım portföyünüzü gözden geçirin",
+  "reminderUpdateInvestments": "Yatırımlarınızı son zamanlarda güncellediniz mi?",
+  "reminderTrackMarket": "Son piyasa değişikliklerini takip edin",
+  "reminderMonitorDebts": "Borç ödemelerinizi takip etmeyi unutmayın",
+  "reminderNotificationsEnabled": "Hatırlatma bildirimleri açık",
+  "reminderNotificationsDisabled": "Hatırlatma bildirimleri kapalı",
+  "debtNotificationsEnabled": "Borç bildirimleri açık",
+  "debtNotificationsDisabled": "Borç bildirimleri kapalı"
+
 }

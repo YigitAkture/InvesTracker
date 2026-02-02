@@ -1819,6 +1819,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your {amount} {currency} debt is due today!'**
   String debtDueDateNotificationBody(double amount, String currency);
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @reminderNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder Notifications'**
+  String get reminderNotifications;
+
+  /// No description provided for @reminderNotificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Get weekly reminders to check your investments and market updates'**
+  String get reminderNotificationsDescription;
+
+  /// No description provided for @debtNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt Payment Reminders'**
+  String get debtNotifications;
+
+  /// No description provided for @debtNotificationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified when your debt payments are approaching'**
+  String get debtNotificationsDescription;
+
+  /// No description provided for @appReminderNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment Reminder'**
+  String get appReminderNotificationTitle;
+
+  /// No description provided for @marketUpdateNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Market Update'**
+  String get marketUpdateNotificationTitle;
+
+  /// Market update notification with currency and value
+  ///
+  /// In en, this message translates to:
+  /// **'The current value of {currency} is {value} TRY'**
+  String marketUpdateNotificationBody(String currency, double value);
+
+  /// No description provided for @reminderCheckAssetValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the current value of your assets and debts'**
+  String get reminderCheckAssetValue;
+
+  /// No description provided for @reminderReviewPortfolio.
+  ///
+  /// In en, this message translates to:
+  /// **'Review your investment portfolio today'**
+  String get reminderReviewPortfolio;
+
+  /// No description provided for @reminderUpdateInvestments.
+  ///
+  /// In en, this message translates to:
+  /// **'Have you updated your investments recently?'**
+  String get reminderUpdateInvestments;
+
+  /// No description provided for @reminderTrackMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Track the latest market changes'**
+  String get reminderTrackMarket;
+
+  /// No description provided for @reminderMonitorDebts.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t forget to monitor your debt payments'**
+  String get reminderMonitorDebts;
+
+  /// No description provided for @reminderNotificationsEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder notifications on'**
+  String get reminderNotificationsEnabled;
+
+  /// No description provided for @reminderNotificationsDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder notifications off'**
+  String get reminderNotificationsDisabled;
+
+  /// No description provided for @debtNotificationsEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt notifications on'**
+  String get debtNotificationsEnabled;
+
+  /// No description provided for @debtNotificationsDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt notifications off'**
+  String get debtNotificationsDisabled;
 }
 
 class _AppLocalizationsDelegate

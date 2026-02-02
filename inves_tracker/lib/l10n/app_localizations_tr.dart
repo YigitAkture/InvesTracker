@@ -894,4 +894,63 @@ class AppLocalizationsTr extends AppLocalizations {
   String debtDueDateNotificationBody(double amount, String currency) {
     return '$amount $currency değerindeki borcunuzun son ödeme tarihi bugün!';
   }
+
+  @override
+  String get notifications => 'Bildirimler';
+
+  @override
+  String get reminderNotifications => 'Hatırlatma Bildirimleri';
+
+  @override
+  String get reminderNotificationsDescription =>
+      'Yatırımlarınızı kontrol etmeniz için haftalık hatırlatmalar ve piyasa güncellemeleri alın';
+
+  @override
+  String get debtNotifications => 'Borç Ödeme Hatırlatmaları';
+
+  @override
+  String get debtNotificationsDescription =>
+      'Borç ödemeleriniz yaklaştığında bildirim alın';
+
+  @override
+  String get appReminderNotificationTitle => 'Yatırım Hatırlatması';
+
+  @override
+  String get marketUpdateNotificationTitle => 'Piyasa Güncellemesi';
+
+  @override
+  String marketUpdateNotificationBody(String currency, double value) {
+    return '$currency güncel değeri $value TRY';
+  }
+
+  @override
+  String get reminderCheckAssetValue =>
+      'Varlıklarınızın ve borçlarınızın güncel değerini kontrol edin';
+
+  @override
+  String get reminderReviewPortfolio =>
+      'Bugün yatırım portföyünüzü gözden geçirin';
+
+  @override
+  String get reminderUpdateInvestments =>
+      'Yatırımlarınızı son zamanlarda güncellediniz mi?';
+
+  @override
+  String get reminderTrackMarket => 'Son piyasa değişikliklerini takip edin';
+
+  @override
+  String get reminderMonitorDebts =>
+      'Borç ödemelerinizi takip etmeyi unutmayın';
+
+  @override
+  String get reminderNotificationsEnabled => 'Hatırlatma bildirimleri açık';
+
+  @override
+  String get reminderNotificationsDisabled => 'Hatırlatma bildirimleri kapalı';
+
+  @override
+  String get debtNotificationsEnabled => 'Borç bildirimleri açık';
+
+  @override
+  String get debtNotificationsDisabled => 'Borç bildirimleri kapalı';
 }

@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PreferencesService {
   static const String _themeKey = 'isDarkMode';
   static const String _languageKey = 'languageCode';
+  static const String _debtNotificationsKey = 'debt_notifications_enabled';
 
   // Save theme preference
   Future<void> saveThemePreference(bool isDarkMode) async {
@@ -26,5 +27,17 @@ class PreferencesService {
   Future<String?> getLanguagePreference() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_languageKey);
+  }
+
+  // Save debt notifications preference
+  Future<void> setDebtNotificationsEnabled(bool enabled) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_debtNotificationsKey, enabled);
+  }
+
+  // Get debt notifications preference (default: true)
+  Future<bool> getDebtNotificationsEnabled() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_debtNotificationsKey) ?? true;
   }
 }

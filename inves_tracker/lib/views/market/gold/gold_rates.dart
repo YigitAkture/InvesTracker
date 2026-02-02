@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/market/gold/widgets/gold_box.dart';
+import 'package:inves_tracker/core/constants/app_colors.dart';
 
 class GoldRates extends StatefulWidget {
   final List<GoldData> golds;
@@ -77,7 +78,7 @@ class GoldRatesState extends State<GoldRates> {
                     _showAll ? l10n.showLess : l10n.showMore,
                     style: TextStyle(
                       fontSize: 13.sp,
-                      decoration: TextDecoration.underline,
+                      color: AppColors.primary(context),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -87,6 +88,7 @@ class GoldRatesState extends State<GoldRates> {
                         ? Icons.keyboard_arrow_up
                         : Icons.keyboard_arrow_down,
                     size: 18.sp,
+                    color: AppColors.primary(context),
                   ),
                 ],
               ),

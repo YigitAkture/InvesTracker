@@ -4,12 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:inves_tracker/app.dart';
 import 'package:inves_tracker/core/services/debt_notification_service.dart';
+import 'package:inves_tracker/core/services/reminder_notification_service.dart';
 import 'package:inves_tracker/core/utils/theme_notifier.dart';
 import 'package:inves_tracker/core/utils/locale_notifier.dart';
 import 'package:inves_tracker/core/utils/visibility_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
- 
+
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -17,12 +18,20 @@ void main() async {
   // Initialize Mobile Ads
   MobileAds.instance.initialize();
 
-  // Initialize Notification Service
+  // Initialize Debt Notification Service
   try {
     await DebtNotificationService().initialize();
-    debugPrint('Notification service initialized successfully');
+    debugPrint('Debt notification service initialized successfully');
   } catch (e) {
-    debugPrint('Failed to initialize notification service: $e');
+    debugPrint('Failed to initialize debt notification service: $e');
+  }
+
+  // Initialize Reminder Notification Service
+  try {
+    await ReminderNotificationService().rescheduleIfNeeded();
+    debugPrint('Reminder notification service initialized successfully');
+  } catch (e) {
+    debugPrint('Failed to initialize reminder notification service: $e');
   }
 
   // Set preferred orientations
