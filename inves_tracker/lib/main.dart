@@ -12,6 +12,7 @@ import 'package:inves_tracker/core/utils/visibility_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:workmanager/workmanager.dart';
 
 /// Background callback for home widget updates
 /// This runs in a separate isolate and can update widget even when app is closed
@@ -51,6 +52,8 @@ void main() async {
   } catch (e) {
     debugPrint('Failed to register home widget callback: $e');
   }
+  // Initialize WorkManager
+  await Workmanager().initialize(backgroundCallback);
 
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([

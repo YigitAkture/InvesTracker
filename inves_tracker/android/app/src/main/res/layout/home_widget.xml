@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    RemoteView-Compatible Home Widget Layout for InvesTracker
+    Displays: 5 currencies + 3 precious metals + 3 cryptocurrencies
+    Note: No ScrollView or View dividers - fully compatible with RemoteViews
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,7 +11,7 @@
     android:padding="8dp"
     android:background="@drawable/app_widget_background">
 
-    <!-- Header with Title and Refresh Button -->
+    <!-- Header with Title, Update Time and Refresh Button -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +44,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@android:drawable/ic_popup_sync"
-            android:background="transparent"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="Refresh"
             android:scaleType="fitCenter"
             android:padding="4dp"
@@ -100,6 +105,8 @@
             android:gravity="end"
             android:layout_marginStart="6dp" />
     </LinearLayout>
+
+    <!-- CURRENCIES SECTION (Items 1-5) -->
 
     <!-- Item 1 -->
     <LinearLayout
@@ -338,6 +345,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginBottom="8dp"
         android:paddingVertical="2dp"
         android:gravity="center_vertical">
 
@@ -381,6 +389,373 @@
 
         <TextView
             android:id="@+id/item_5_change"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↑ 0.00%"
+            android:textSize="10sp"
+            android:textColor="#4CAF50"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Divider using TextView with background color (RemoteView compatible) -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#33FFFFFF"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- PRECIOUS METALS SECTION (Items 6-8) -->
+
+    <!-- Item 6 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp"
+        android:paddingVertical="2dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/item_6_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Icon" />
+
+        <TextView
+            android:id="@+id/item_6_code"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="HAS"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_6_buying"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/item_6_selling"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:id="@+id/item_6_change"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↑ 0.00%"
+            android:textSize="10sp"
+            android:textColor="#4CAF50"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Item 7 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp"
+        android:paddingVertical="2dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/item_7_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Icon" />
+
+        <TextView
+            android:id="@+id/item_7_code"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="GRA"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_7_buying"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/item_7_selling"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:id="@+id/item_7_change"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↓ 0.00%"
+            android:textSize="10sp"
+            android:textColor="#F44336"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Item 8 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp"
+        android:paddingVertical="2dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/item_8_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Icon" />
+
+        <TextView
+            android:id="@+id/item_8_code"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="CEYR"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_8_buying"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/item_8_selling"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:id="@+id/item_8_change"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↑ 0.00%"
+            android:textSize="10sp"
+            android:textColor="#4CAF50"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Divider using TextView with background color (RemoteView compatible) -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#33FFFFFF"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- CRYPTOCURRENCIES SECTION (Items 9-11) -->
+
+    <!-- Item 9 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp"
+        android:paddingVertical="2dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/item_9_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Icon" />
+
+        <TextView
+            android:id="@+id/item_9_code"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="BTC"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_9_buying"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/item_9_selling"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:id="@+id/item_9_change"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↑ 0.00%"
+            android:textSize="10sp"
+            android:textColor="#4CAF50"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Item 10 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp"
+        android:paddingVertical="2dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/item_10_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Icon" />
+
+        <TextView
+            android:id="@+id/item_10_code"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="ETH"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_10_buying"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/item_10_selling"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:id="@+id/item_10_change"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↓ 0.00%"
+            android:textSize="10sp"
+            android:textColor="#F44336"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Item 11 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="2dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/item_11_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Icon" />
+
+        <TextView
+            android:id="@+id/item_11_code"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="USDT"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_11_buying"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/item_11_selling"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:id="@+id/item_11_change"
             android:layout_width="55dp"
             android:layout_height="wrap_content"
             android:text="↑ 0.00%"

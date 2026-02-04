@@ -4,9 +4,11 @@ import 'package:home_widget/home_widget.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:workmanager/workmanager.dart';
 
 /// Service for managing Home Screen Widget data and updates
-/// Handles data serialization, localization, and platform-specific widget updates
+/// Handles data serialization, localization, platform-specific widget updates,
+/// and background refresh without launching the app
 class HomeWidgetService {
   static final HomeWidgetService _instance = HomeWidgetService._internal();
   factory HomeWidgetService() => _instance;
@@ -19,6 +21,9 @@ class HomeWidgetService {
   static const String _widgetLocaleKey = 'widget_locale';
   static const String _lastUpdateKey = 'last_update';
 
+  // Background task name
+  static const String _backgroundTaskName = 'widgetBackgroundUpdate';
+
   /// Initialize widget with current app state
   Future<void> initialize(BuildContext context) async {
     try {
@@ -29,9 +34,32 @@ class HomeWidgetService {
       // Fetch and update market data
       await updateWidgetData(context);
 
+      // Setup background periodic updates (Android only)
+      await _setupBackgroundUpdates();
+
       debugPrint('Home widget initialized successfully');
     } catch (e) {
       debugPrint('Failed to initialize home widget: $e');
+    }
+  }
+
+  /// Setup background periodic updates using WorkManager
+  /// This allows the widget to update even when the app is closed
+  Future<void> _setupBackgroundUpdates() async {
+    try {
+      // Register periodic task for widget updates (every 30 minutes)
+      await Workmanager().registerPeriodicTask(
+        _backgroundTaskName,
+        _backgroundTaskName,
+        frequency: const Duration(minutes: 30),
+        constraints: Constraints(
+          networkType: NetworkType.connected, // Requires internet
+        ),
+      );
+
+      debugPrint('Background widget updates registered');
+    } catch (e) {
+      debugPrint('Failed to setup background updates: $e');
     }
   }
 
@@ -46,7 +74,7 @@ class HomeWidgetService {
       final l10n = AppLocalizations.of(context)!;
       final locale = Localizations.localeOf(context);
 
-      // Prepare widget data
+      // Prepare widget data with all three categories
       final widgetData = _prepareWidgetData(marketData, l10n);
 
       // Save to shared preferences (accessible by widget)
@@ -73,12 +101,13 @@ class HomeWidgetService {
 
   /// Prepare market data for widget consumption
   /// Creates a lightweight, serialized format optimized for widget display
+  /// Returns top 5 currencies, 3 precious metals, and 3 cryptocurrencies
   Map<String, dynamic> _prepareWidgetData(
     MarketResponse marketData,
     AppLocalizations l10n,
   ) {
-    // Select top 4 currencies for widget display
-    final topCurrencies = marketData.currencies.take(4).map((currency) {
+    // Select top 5 currencies for widget display
+    final topCurrencies = marketData.currencies.take(5).map((currency) {
       return {
         'code': currency.code,
         'name': _getCurrencyLocalizedName(currency.code, l10n),
@@ -89,7 +118,7 @@ class HomeWidgetService {
       };
     }).toList();
 
-    // Select top 3 golds for widget display
+    // Select top 3 precious metals for widget display
     final topGolds = marketData.golds.take(3).map((gold) {
       return {
         'code': gold.code,
@@ -176,7 +205,7 @@ class HomeWidgetService {
         return l10n.goldATAALTIN;
       case 'RESATALTIN':
         return l10n.goldRESATALTIN;
-      case 'CUMHURIYETALTIN':
+      case 'CUMHURIYETALTINI':
         return l10n.goldCUMHURIYETALTINI;
       case 'GREMSEALTIN':
         return l10n.goldGREMSEALTIN;
@@ -209,7 +238,7 @@ class HomeWidgetService {
         androidName: 'HomeWidgetProvider',
       );
 
-      // iOS
+      // iOS (if needed in future)
       await HomeWidget.updateWidget(name: 'HomeWidget', iOSName: 'HomeWidget');
     } catch (e) {
       debugPrint('Failed to update platform widget: $e');
@@ -220,6 +249,8 @@ class HomeWidgetService {
   /// This allows the widget to refresh even when app is closed
   static Future<void> backgroundCallback(Uri? uri) async {
     try {
+      debugPrint('Widget background callback triggered');
+
       // This runs in background isolate
       // Fetch fresh market data
       final marketService = MarketService();
@@ -232,15 +263,39 @@ class HomeWidgetService {
       // Create basic labels (without full l10n context in background)
       final labels = _getBasicLabels(locale);
 
-      // Prepare simplified data
+      // Prepare simplified data for all three categories
       final widgetData = {
         'currencies': marketData.currencies
-            .take(4)
+            .take(5)
             .map(
               (c) => {
                 'code': c.code,
                 'buying': c.buying,
                 'selling': c.selling,
+                'changeRate': c.changeRate,
+                'isIncreasing': c.isIncreasing,
+              },
+            )
+            .toList(),
+        'golds': marketData.golds
+            .take(3)
+            .map(
+              (g) => {
+                'code': g.code,
+                'buying': g.buying,
+                'selling': g.selling,
+                'changeRate': g.changeRate,
+                'isIncreasing': g.isIncreasing,
+              },
+            )
+            .toList(),
+        'cryptos': marketData.cryptos
+            .take(3)
+            .map(
+              (c) => {
+                'code': c.code,
+                'usdPrice': c.usdPrice,
+                'sellingUsd': c.sellingUsd,
                 'changeRate': c.changeRate,
                 'isIncreasing': c.isIncreasing,
               },
@@ -278,6 +333,8 @@ class HomeWidgetService {
     if (locale == 'tr') {
       return {
         'currency': 'Döviz',
+        'gold': 'Altın',
+        'crypto': 'Kripto',
         'buying': 'Alış',
         'selling': 'Satış',
         'change': 'Değişim',
@@ -286,6 +343,8 @@ class HomeWidgetService {
     }
     return {
       'currency': 'Currency',
+      'gold': 'Gold',
+      'crypto': 'Crypto',
       'buying': 'Buying',
       'selling': 'Selling',
       'change': 'Change',
