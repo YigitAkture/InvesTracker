@@ -4,6 +4,7 @@ import 'package:inves_tracker/core/services/auth_service.dart';
 import 'package:inves_tracker/core/services/debt_notification_service.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
 import 'package:inves_tracker/core/services/reminder_notification_service.dart';
+import 'package:inves_tracker/core/services/home_widget_service.dart';
 import 'package:inves_tracker/core/utils/localization_manager.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/auth/auth_wrapper.dart';
@@ -20,9 +21,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  final DebtNotificationService _notificationService = DebtNotificationService();
+  final DebtNotificationService _notificationService =
+      DebtNotificationService();
   final AuthService _authService = AuthService();
   final LocalizationManager _localizationManager = LocalizationManager();
+  final HomeWidgetService _homeWidgetService = HomeWidgetService();
 
   @override
   void initState() {
@@ -41,26 +44,38 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      // App came to foreground - reschedule notifications
-      // This handles timezone changes and ensures notifications are up-to-date
-      ReminderNotificationService().rescheduleIfNeeded();
-      _rescheduleNotificationsIfNeeded();
+      // App came to foreground
+      _onAppResumed();
     }
   }
 
+  /// Handle app resume - update notifications and widgets
+  Future<void> _onAppResumed() async {
+    // Reschedule notifications if needed
+    ReminderNotificationService().rescheduleIfNeeded();
+    _rescheduleNotificationsIfNeeded();
+
+    // Update widget if needed
+    _updateWidgetIfNeeded();
+  }
 
   Future<void> _initializeApp() async {
-    // Remove splash screen after delay
+    // Initialize notification service
     await _notificationService.initialize();
+
+    // Remove splash screen after delay
     await Future.delayed(const Duration(seconds: 2));
     FlutterNativeSplash.remove();
+
+    // Initialize widget after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _homeWidgetService.initialize(context);
+      }
+    });
   }
 
   /// Reschedule notifications when app resumes
-  /// This handles edge cases like:
-  /// - Timezone changes (travel, DST)
-  /// - System time changes
-  /// - Notification cancellation by OS
   Future<void> _rescheduleNotificationsIfNeeded() async {
     try {
       final isLoggedIn = await _authService.isLoggedIn();
@@ -69,13 +84,25 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       final userId = await _authService.getCurrentUserId();
       if (userId == null) return;
 
-      // Import your enhanced debt service here
       final debtService = DebtService();
       await debtService.rescheduleAllNotifications(userId);
 
       debugPrint('Notifications rescheduled successfully');
     } catch (e) {
       debugPrint('Failed to reschedule notifications: $e');
+    }
+  }
+
+  /// Update widget if needed (when data is stale)
+  Future<void> _updateWidgetIfNeeded() async {
+    try {
+      final shouldUpdate = await _homeWidgetService.shouldUpdate();
+      if (shouldUpdate && mounted) {
+        await _homeWidgetService.updateWidgetData(context);
+        debugPrint('Widget updated on app resume');
+      }
+    } catch (e) {
+      debugPrint('Failed to update widget: $e');
     }
   }
 
@@ -97,11 +124,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ],
       builder: (context, child) {
         // CRITICAL: Update LocalizationManager whenever locale changes
-        // This ensures services always have access to current localization
         final locale = Localizations.localeOf(context);
         final l10n = AppLocalizations.of(context);
         if (l10n != null) {
           _localizationManager.updateLocalizations(l10n, locale);
+
+          // Update widget when locale changes
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _homeWidgetService.updateWidgetData(context);
+          });
         }
 
         final mediaQueryData = MediaQuery.of(context);

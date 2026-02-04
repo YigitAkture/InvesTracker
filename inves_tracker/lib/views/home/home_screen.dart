@@ -169,8 +169,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               
+              // !!!! TEST SCREEN - REMOVE BEFORE PRODUCTION !!!!!
               SizedBox(height: 24.h),
-
               Center(
                 child: ElevatedButton(
                   onPressed: () => Navigator.push(
@@ -182,6 +182,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text('Test Notifications'),
                 ),
               ),
+
+              // !!!! END OF TEST SCREEN !!!!!
 
               SizedBox(height: 24.h),
 

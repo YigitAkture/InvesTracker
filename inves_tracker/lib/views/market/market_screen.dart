@@ -5,6 +5,7 @@ import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
 import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
+import 'package:inves_tracker/core/services/home_widget_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/market/currency/currency_rates.dart';
 import 'package:inves_tracker/views/market/gold/gold_rates.dart';
@@ -19,6 +20,7 @@ class MarketScreen extends StatefulWidget {
 
 class _MarketScreenState extends State<MarketScreen> {
   final MarketService _marketService = MarketService();
+  final HomeWidgetService _homeWidgetService = HomeWidgetService();
 
   List<CurrencyData> _currencies = [];
   List<GoldData> _golds = [];
@@ -50,6 +52,12 @@ class _MarketScreenState extends State<MarketScreen> {
         _updateTime = response.updateTime;
         _isLoading = false;
       });
+
+      // Update home widget with fresh data
+      if (mounted) {
+        await _homeWidgetService.updateWidgetData(context);
+        debugPrint('Home widget updated with fresh market data');
+      }
     } catch (e) {
       setState(() {
         _hasError = true;
@@ -88,7 +96,11 @@ class _MarketScreenState extends State<MarketScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Icon(Icons.access_time, size: 14.sp, color: AppColors.title(context)),
+                    Icon(
+                      Icons.access_time,
+                      size: 14.sp,
+                      color: AppColors.title(context),
+                    ),
                     SizedBox(width: 4.w),
                     Text(
                       '${l10n.updated}: $_updateTime',
@@ -137,7 +149,9 @@ class _MarketScreenState extends State<MarketScreen> {
                           padding: EdgeInsets.symmetric(vertical: 12.h),
                           decoration: BoxDecoration(
                             color: _selectedTab == 0
-                                ? AppColors.primary(context).withValues(alpha: 0.8)
+                                ? AppColors.primary(
+                                    context,
+                                  ).withValues(alpha: 0.8)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(10.r),
                           ),
@@ -149,9 +163,10 @@ class _MarketScreenState extends State<MarketScreen> {
                               fontWeight: FontWeight.w600,
                               color: _selectedTab == 0
                                   ? Colors.white
-                                  : Theme.of(context).brightness == Brightness.dark
-                                      ? Colors.white70
-                                      : Colors.black54,
+                                  : Theme.of(context).brightness ==
+                                        Brightness.dark
+                                  ? Colors.white70
+                                  : Colors.black54,
                             ),
                           ),
                         ),
@@ -164,7 +179,9 @@ class _MarketScreenState extends State<MarketScreen> {
                           padding: EdgeInsets.symmetric(vertical: 12.h),
                           decoration: BoxDecoration(
                             color: _selectedTab == 1
-                                ? AppColors.primary(context).withValues(alpha: 0.8)
+                                ? AppColors.primary(
+                                    context,
+                                  ).withValues(alpha: 0.8)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(10.r),
                           ),
@@ -176,9 +193,10 @@ class _MarketScreenState extends State<MarketScreen> {
                               fontWeight: FontWeight.w600,
                               color: _selectedTab == 1
                                   ? Colors.white
-                                  : Theme.of(context).brightness == Brightness.dark
-                                      ? Colors.white70
-                                      : Colors.black54,
+                                  : Theme.of(context).brightness ==
+                                        Brightness.dark
+                                  ? Colors.white70
+                                  : Colors.black54,
                             ),
                           ),
                         ),
@@ -423,7 +441,10 @@ class _MarketScreenState extends State<MarketScreen> {
             Text(
               l10n.failedToLoadMarketData,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.title(context),
+              ),
             ),
             SizedBox(height: 16.h),
             ElevatedButton(

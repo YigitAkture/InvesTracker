@@ -5,11 +5,21 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:inves_tracker/app.dart';
 import 'package:inves_tracker/core/services/debt_notification_service.dart';
 import 'package:inves_tracker/core/services/reminder_notification_service.dart';
+import 'package:inves_tracker/core/services/home_widget_service.dart';
 import 'package:inves_tracker/core/utils/theme_notifier.dart';
 import 'package:inves_tracker/core/utils/locale_notifier.dart';
 import 'package:inves_tracker/core/utils/visibility_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:home_widget/home_widget.dart';
+
+/// Background callback for home widget updates
+/// This runs in a separate isolate and can update widget even when app is closed
+@pragma('vm:entry-point')
+void backgroundCallback(Uri? uri) async {
+  // Handle background widget update
+  await HomeWidgetService.backgroundCallback(uri);
+}
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +42,14 @@ void main() async {
     debugPrint('Reminder notification service initialized successfully');
   } catch (e) {
     debugPrint('Failed to initialize reminder notification service: $e');
+  }
+
+  // Register background callback for home widget
+  try {
+    HomeWidget.registerInteractivityCallback(backgroundCallback);
+    debugPrint('Home widget background callback registered');
+  } catch (e) {
+    debugPrint('Failed to register home widget callback: $e');
   }
 
   // Set preferred orientations

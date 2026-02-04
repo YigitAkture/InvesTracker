@@ -1,19 +1,393 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Widget.Android.AppWidget.Container"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.Android.AppWidgetContainer">
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/app_widget_background">
 
-    <TextView
-        android:id="@+id/appwidget_text"
-        style="@style/Widget.Android.AppWidget.InnerView"
-        android:layout_width="wrap_content"
+    <!-- Header with Title and Refresh Button -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
-</RelativeLayout>
+        android:orientation="horizontal"
+        android:layout_marginBottom="6dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/widget_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="InvesTracker"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/widget_update_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Updated: --:--"
+            android:textSize="9sp"
+            android:textColor="#B3FFFFFF"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Refresh Button -->
+        <ImageButton
+            android:id="@+id/refresh_button"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@android:drawable/ic_popup_sync"
+            android:background="transparent"
+            android:contentDescription="Refresh"
+            android:scaleType="fitCenter"
+            android:padding="4dp"
+            android:tint="#FFFFFF" />
+    </LinearLayout>
+
+    <!-- Column Headers -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp"
+        android:paddingBottom="2dp"
+        android:background="#22FFFFFF">
+
+        <TextView
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="8sp" />
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="Code"
+            android:textSize="9sp"
+            android:textColor="#B3FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Buy"
+            android:textSize="9sp"
+            android:textColor="#B3FFFFFF"
+            android:textStyle="bold"
+            android:gravity="end" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Sell"
+            android:textSize="9sp"
+            android:textColor="#B3FFFFFF"
+            android:textStyle="bold"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="Change"
+            android:textSize="9sp"
+            android:textColor="#B3FFFFFF"
+            android:textStyle="bold"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Item 1 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp"
+        android:paddingVertical="2dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/item_1_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Icon" />
+
+        <TextView
+            android:id="@+id/item_1_code"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="USD"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_1_buying"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/item_1_selling"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:id="@+id/item_1_change"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↑ 0.00%"
+            android:textSize="10sp"
+            android:textColor="#4CAF50"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Item 2 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp"
+        android:paddingVertical="2dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/item_2_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Icon" />
+
+        <TextView
+            android:id="@+id/item_2_code"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="EUR"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_2_buying"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/item_2_selling"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:id="@+id/item_2_change"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↓ 0.00%"
+            android:textSize="10sp"
+            android:textColor="#F44336"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Item 3 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp"
+        android:paddingVertical="2dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/item_3_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Icon" />
+
+        <TextView
+            android:id="@+id/item_3_code"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="GBP"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_3_buying"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/item_3_selling"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:id="@+id/item_3_change"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↑ 0.00%"
+            android:textSize="10sp"
+            android:textColor="#4CAF50"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Item 4 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="3dp"
+        android:paddingVertical="2dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/item_4_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Icon" />
+
+        <TextView
+            android:id="@+id/item_4_code"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="CHF"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_4_buying"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/item_4_selling"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:id="@+id/item_4_change"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↓ 0.00%"
+            android:textSize="10sp"
+            android:textColor="#F44336"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Item 5 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="2dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/item_5_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Icon" />
+
+        <TextView
+            android:id="@+id/item_5_code"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="CAD"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_5_buying"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/item_5_selling"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:id="@+id/item_5_change"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↑ 0.00%"
+            android:textSize="10sp"
+            android:textColor="#4CAF50"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+</LinearLayout>
