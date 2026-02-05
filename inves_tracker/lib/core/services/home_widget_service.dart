@@ -9,6 +9,8 @@ import 'package:workmanager/workmanager.dart';
 /// Service for managing Home Screen Widget data and updates
 /// Handles data serialization, localization, platform-specific widget updates,
 /// and background refresh without launching the app
+///
+/// FIXED: Proper change rate handling and crypto selling price
 class HomeWidgetService {
   static final HomeWidgetService _instance = HomeWidgetService._internal();
   factory HomeWidgetService() => _instance;
@@ -23,6 +25,25 @@ class HomeWidgetService {
 
   // Background task name
   static const String _backgroundTaskName = 'widgetBackgroundUpdate';
+
+  // OPTIMIZED: Define widget-specific data requirements
+  static const List<String> _widgetCurrencies = [
+    'USD',
+    'EUR',
+    'GBP',
+    'CAD',
+    'CHF',
+  ];
+  static const List<String> _widgetGolds = [
+    'GRA',
+    'HAS',
+    'CEYREKALTIN',
+  ]; // Gram, Has, Quarter
+  static const List<String> _widgetCryptos = [
+    'BTC',
+    'ETH',
+    'USDT',
+  ]; // Bitcoin, Ethereum, Tether
 
   /// Initialize widget with current app state
   Future<void> initialize(BuildContext context) async {
@@ -74,8 +95,8 @@ class HomeWidgetService {
       final l10n = AppLocalizations.of(context)!;
       final locale = Localizations.localeOf(context);
 
-      // Prepare widget data with all three categories
-      final widgetData = _prepareWidgetData(marketData, l10n);
+      // OPTIMIZED: Prepare widget data with only the required instruments
+      final widgetData = _prepareOptimizedWidgetData(marketData, l10n);
 
       // Save to shared preferences (accessible by widget)
       await HomeWidget.saveWidgetData<String>(
@@ -93,71 +114,129 @@ class HomeWidgetService {
       // Update widget UI on both platforms
       await _updatePlatformWidget();
 
-      debugPrint('Widget data updated successfully');
+      debugPrint(
+        'Widget data updated successfully (${widgetData['currencies'].length} currencies, ${widgetData['golds'].length} golds, ${widgetData['cryptos'].length} cryptos)',
+      );
     } catch (e) {
       debugPrint('Failed to update widget data: $e');
     }
   }
 
-  /// Prepare market data for widget consumption
+  /// OPTIMIZED: Prepare market data for widget consumption
   /// Creates a lightweight, serialized format optimized for widget display
-  /// Returns top 5 currencies, 3 precious metals, and 3 cryptocurrencies
-  Map<String, dynamic> _prepareWidgetData(
+  /// Returns only the specific instruments: 5 currencies, 3 golds, 3 cryptos
+  /// FIX: Properly includes changeRate and isIncreasing for all items
+  Map<String, dynamic> _prepareOptimizedWidgetData(
     MarketResponse marketData,
     AppLocalizations l10n,
   ) {
-    // Select top 5 currencies for widget display
-    final topCurrencies = marketData.currencies.take(5).map((currency) {
-      return {
-        'code': currency.code,
-        'name': _getCurrencyLocalizedName(currency.code, l10n),
-        'buying': currency.buying,
-        'selling': currency.selling,
-        'changeRate': currency.changeRate,
-        'isIncreasing': currency.isIncreasing,
-      };
-    }).toList();
+    // Filter and order currencies: USD, EUR, GBP, CAD, CHF
+    final filteredCurrencies = _filterAndOrderItems(
+      marketData.currencies,
+      _widgetCurrencies,
+      (currency) => currency.code,
+      (currency) {
+        debugPrint(
+          'Currency ${currency.code}: changeRate=${currency.changeRate}, isIncreasing=${currency.isIncreasing}',
+        );
+        return {
+          'code': currency.code,
+          'name': _getCurrencyLocalizedName(currency.code, l10n),
+          'buying': currency.buying,
+          'selling': currency.selling,
+          'changeRate': currency.changeRate, // FIX: Ensure this is included
+          'isIncreasing': currency.isIncreasing, // FIX: Ensure this is included
+        };
+      },
+    );
 
-    // Select top 3 precious metals for widget display
-    final topGolds = marketData.golds.take(3).map((gold) {
-      return {
-        'code': gold.code,
-        'name': _getGoldLocalizedName(gold.code, l10n),
-        'buying': gold.buying,
-        'selling': gold.selling,
-        'changeRate': gold.changeRate,
-        'isIncreasing': gold.isIncreasing,
-      };
-    }).toList();
+    // Filter and order golds: GRA, HAS, CEYREKALTIN
+    final filteredGolds = _filterAndOrderItems(
+      marketData.golds,
+      _widgetGolds,
+      (gold) => gold.code,
+      (gold) {
+        debugPrint(
+          'Gold ${gold.code}: changeRate=${gold.changeRate}, isIncreasing=${gold.isIncreasing}',
+        );
+        return {
+          'code': gold.code,
+          'name': _getGoldLocalizedName(gold.code, l10n),
+          'buying': gold.buying,
+          'selling': gold.selling,
+          'changeRate': gold.changeRate, // FIX: Ensure this is included
+          'isIncreasing': gold.isIncreasing, // FIX: Ensure this is included
+        };
+      },
+    );
 
-    // Select top 3 cryptos for widget display
-    final topCryptos = marketData.cryptos.take(3).map((crypto) {
-      return {
-        'code': crypto.code,
-        'name': crypto.name,
-        'usdPrice': crypto.usdPrice,
-        'sellingUsd': crypto.sellingUsd,
-        'changeRate': crypto.changeRate,
-        'isIncreasing': crypto.isIncreasing,
-      };
-    }).toList();
+    // Filter and order cryptos: BTC, ETH, USDT
+    final filteredCryptos = _filterAndOrderItems(
+      marketData.cryptos,
+      _widgetCryptos,
+      (crypto) => crypto.code,
+      (crypto) {
+        debugPrint(
+          'Crypto ${crypto.code}: usdPrice=${crypto.usdPrice}, sellingUsd=${crypto.sellingUsd}, changeRate=${crypto.changeRate}, isIncreasing=${crypto.isIncreasing}',
+        );
+        return {
+          'code': crypto.code,
+          'name': crypto.name,
+          'usdPrice': crypto.usdPrice,
+          'sellingUsd':
+              crypto.sellingUsd, // FIX #1: Ensure selling price is included
+          'changeRate': crypto.changeRate, // FIX #2: Ensure this is included
+          'isIncreasing':
+              crypto.isIncreasing, // FIX #2: Ensure this is included
+        };
+      },
+    );
 
     return {
-      'currencies': topCurrencies,
-      'golds': topGolds,
-      'cryptos': topCryptos,
+      'currencies': filteredCurrencies,
+      'golds': filteredGolds,
+      'cryptos': filteredCryptos,
       'updateTime': marketData.updateTime,
-      // Localized labels (so widget doesn't need l10n logic)
+      // FIX #3: Include ALL localized labels including column headers
       'labels': {
         'currency': l10n.currency,
         'gold': l10n.gold,
         'crypto': l10n.crypto,
-        'buying': l10n.buying,
-        'selling': l10n.selling,
-        'change': l10n.change,
+        'code': 'Code', // Column header
+        'buying': l10n.buying, // Column header
+        'selling': l10n.selling, // Column header
+        'change': l10n.change, // Column header
         'updated': l10n.updated,
       },
     };
+  }
+
+  /// Generic helper to filter and order items based on a predefined list
+  List<Map<String, dynamic>> _filterAndOrderItems<T>(
+    List<T> allItems,
+    List<String> requiredCodes,
+    String Function(T) getCode,
+    Map<String, dynamic> Function(T) mapToJson,
+  ) {
+    // Create a map for quick lookup
+    final itemMap = <String, T>{};
+    for (final item in allItems) {
+      final code = getCode(item);
+      if (requiredCodes.contains(code)) {
+        itemMap[code] = item;
+      }
+    }
+
+    // Return items in the specified order
+    final result = <Map<String, dynamic>>[];
+    for (final code in requiredCodes) {
+      final item = itemMap[code];
+      if (item != null) {
+        result.add(mapToJson(item));
+      }
+    }
+
+    return result;
   }
 
   /// Get localized currency name
@@ -263,44 +342,45 @@ class HomeWidgetService {
       // Create basic labels (without full l10n context in background)
       final labels = _getBasicLabels(locale);
 
-      // Prepare simplified data for all three categories
+      // OPTIMIZED: Prepare simplified data with only required instruments
+      // FIX: Include changeRate and isIncreasing
       final widgetData = {
-        'currencies': marketData.currencies
-            .take(5)
-            .map(
-              (c) => {
-                'code': c.code,
-                'buying': c.buying,
-                'selling': c.selling,
-                'changeRate': c.changeRate,
-                'isIncreasing': c.isIncreasing,
-              },
-            )
-            .toList(),
-        'golds': marketData.golds
-            .take(3)
-            .map(
-              (g) => {
-                'code': g.code,
-                'buying': g.buying,
-                'selling': g.selling,
-                'changeRate': g.changeRate,
-                'isIncreasing': g.isIncreasing,
-              },
-            )
-            .toList(),
-        'cryptos': marketData.cryptos
-            .take(3)
-            .map(
-              (c) => {
-                'code': c.code,
-                'usdPrice': c.usdPrice,
-                'sellingUsd': c.sellingUsd,
-                'changeRate': c.changeRate,
-                'isIncreasing': c.isIncreasing,
-              },
-            )
-            .toList(),
+        'currencies': _extractFilteredItems(
+          marketData.currencies,
+          _widgetCurrencies,
+          (c) => c.code,
+          (c) => {
+            'code': c.code,
+            'buying': c.buying,
+            'selling': c.selling,
+            'changeRate': c.changeRate, // FIX
+            'isIncreasing': c.isIncreasing, // FIX
+          },
+        ),
+        'golds': _extractFilteredItems(
+          marketData.golds,
+          _widgetGolds,
+          (g) => g.code,
+          (g) => {
+            'code': g.code,
+            'buying': g.buying,
+            'selling': g.selling,
+            'changeRate': g.changeRate, // FIX
+            'isIncreasing': g.isIncreasing, // FIX
+          },
+        ),
+        'cryptos': _extractFilteredItems(
+          marketData.cryptos,
+          _widgetCryptos,
+          (c) => c.code,
+          (c) => {
+            'code': c.code,
+            'usdPrice': c.usdPrice,
+            'sellingUsd': c.sellingUsd, // FIX
+            'changeRate': c.changeRate, // FIX
+            'isIncreasing': c.isIncreasing, // FIX
+          },
+        ),
         'updateTime': marketData.updateTime,
         'labels': labels,
       };
@@ -328,13 +408,41 @@ class HomeWidgetService {
     }
   }
 
+  /// Helper for background callback to filter items
+  static List<Map<String, dynamic>> _extractFilteredItems<T>(
+    List<T> allItems,
+    List<String> requiredCodes,
+    String Function(T) getCode,
+    Map<String, dynamic> Function(T) mapToJson,
+  ) {
+    final itemMap = <String, T>{};
+    for (final item in allItems) {
+      final code = getCode(item);
+      if (requiredCodes.contains(code)) {
+        itemMap[code] = item;
+      }
+    }
+
+    final result = <Map<String, dynamic>>[];
+    for (final code in requiredCodes) {
+      final item = itemMap[code];
+      if (item != null) {
+        result.add(mapToJson(item));
+      }
+    }
+
+    return result;
+  }
+
   /// Get basic labels for background updates
+  /// FIX #3: Include column header labels
   static Map<String, String> _getBasicLabels(String locale) {
     if (locale == 'tr') {
       return {
         'currency': 'Döviz',
         'gold': 'Altın',
         'crypto': 'Kripto',
+        'code': 'Kod',
         'buying': 'Alış',
         'selling': 'Satış',
         'change': 'Değişim',
@@ -345,8 +453,9 @@ class HomeWidgetService {
       'currency': 'Currency',
       'gold': 'Gold',
       'crypto': 'Crypto',
-      'buying': 'Buying',
-      'selling': 'Selling',
+      'code': 'Code',
+      'buying': 'Buy',
+      'selling': 'Sell',
       'change': 'Change',
       'updated': 'Updated',
     };

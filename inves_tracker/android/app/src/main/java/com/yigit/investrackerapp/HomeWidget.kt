@@ -375,6 +375,12 @@ private fun createItemView(
                 "drawable",
                 context.packageName
             )
+            if (goldIconResId != 0) {
+                itemView.setImageViewResource(R.id.item_icon, goldIconResId)
+            } else {
+                // Fallback to a default gold-colored icon
+                itemView.setImageViewResource(R.id.item_icon, android.R.drawable.btn_star_big_on)
+            }
         }
     }
 
