@@ -13,15 +13,26 @@ import android.app.PendingIntent
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
+import android.os.Bundle
+import android.util.TypedValue
+import kotlin.math.max
 
 /**
  * Home Screen Widget for InvesTracker
- * Displays live market data (currencies, gold, crypto) with full localization support
+ * Displays live market data (currencies, gold, crypto) with adaptive height support
  */
 class HomeWidget : AppWidgetProvider() {
 
     companion object {
         const val ACTION_REFRESH = "com.yigit.investrackerapp.ACTION_REFRESH"
+
+        // Layout dimension constants (in dp)
+        internal const val HEADER_HEIGHT_DP = 40f
+        internal const val COLUMN_HEADERS_HEIGHT_DP = 24f
+        internal const val ITEM_HEIGHT_DP = 28f
+        internal const val DIVIDER_HEIGHT_DP = 9f
+        internal const val PADDING_VERTICAL_DP = 16f
+        internal const val MIN_ITEMS_PER_SECTION = 1
     }
 
     override fun onUpdate(
@@ -29,54 +40,163 @@ class HomeWidget : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        // Update all active widgets
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
+    }
+
+    override fun onAppWidgetOptionsChanged(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        newOptions: Bundle?
+    ) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
+        updateAppWidget(context, appWidgetManager, appWidgetId)
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
         if (intent.action == ACTION_REFRESH) {
-            // Handle refresh button tap
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val appWidgetIds = appWidgetManager.getAppWidgetIds(
                 android.content.ComponentName(context, HomeWidget::class.java)
             )
 
-            // Trigger background refresh via Flutter
             val updateIntent = Intent(context, HomeWidget::class.java).apply {
                 action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             }
             context.sendBroadcast(updateIntent)
 
-            // Update all widgets
             onUpdate(context, appWidgetManager, appWidgetIds)
-
             android.util.Log.d("HomeWidget", "Refresh button tapped")
         }
     }
 
-    override fun onEnabled(context: Context) {
-        // First widget added
-    }
-
-    override fun onDisabled(context: Context) {
-        // Last widget removed
-    }
+    override fun onEnabled(context: Context) {}
+    override fun onDisabled(context: Context) {}
 }
 
 /**
- * Data class to hold widget item IDs
+ * Calculate how many items can fit in the widget based on its current height
  */
-data class ItemIds(
-    val iconId: Int,
-    val codeId: Int,
-    val buyingId: Int,
-    val sellingId: Int,
-    val changeId: Int,
-    val type: String
+internal fun calculateItemCapacity(
+    context: Context,
+    appWidgetManager: AppWidgetManager,
+    appWidgetId: Int
+): ItemCapacity {
+    val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
+    val heightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, 200)
+
+    // Maximum items available in data
+    val MAX_CURRENCIES = 5
+    val MAX_GOLDS = 3
+    val MAX_CRYPTOS = 3
+
+    // Convert dp to pixels for accurate calculation
+    val displayMetrics = context.resources.displayMetrics
+
+    // Calculate fixed heights in pixels
+    val headerHeightPx = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        HomeWidget.HEADER_HEIGHT_DP,
+        displayMetrics
+    )
+
+    val columnHeadersHeightPx = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        HomeWidget.COLUMN_HEADERS_HEIGHT_DP,
+        displayMetrics
+    )
+
+    val itemHeightPx = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        HomeWidget.ITEM_HEIGHT_DP,
+        displayMetrics
+    )
+
+    val dividerHeightPx = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        HomeWidget.DIVIDER_HEIGHT_DP,
+        displayMetrics
+    )
+
+    val paddingVerticalPx = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        HomeWidget.PADDING_VERTICAL_DP,
+        displayMetrics
+    )
+
+    val totalHeightPx = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        heightDp.toFloat(),
+        displayMetrics
+    )
+
+    // Calculate available height for items
+    val fixedOverheadPx = headerHeightPx + paddingVerticalPx + columnHeadersHeightPx
+    var remainingHeightPx = totalHeightPx - fixedOverheadPx
+
+    // Calculate how many items can fit in remaining space
+    val totalPossibleItems = (remainingHeightPx / itemHeightPx).toInt()
+
+    // Distribute items across sections with proper limits
+    var currencyItems = 0
+    var goldItems = 0
+    var cryptoItems = 0
+    var itemsAllocated = 0
+
+    // Allocate currencies (priority 1, max 5)
+    currencyItems = minOf(MAX_CURRENCIES, max(HomeWidget.MIN_ITEMS_PER_SECTION, totalPossibleItems - itemsAllocated))
+    itemsAllocated += currencyItems
+
+    // Check if we have space for golds section (needs divider + at least 1 item)
+    val remainingItems = totalPossibleItems - itemsAllocated
+    val spaceNeededForGoldSection = dividerHeightPx / itemHeightPx
+
+    if (remainingItems > 0 && remainingHeightPx - (currencyItems * itemHeightPx) >= (dividerHeightPx + itemHeightPx)) {
+        // Account for divider space
+        remainingHeightPx -= (currencyItems * itemHeightPx + dividerHeightPx)
+
+        // Allocate golds (priority 2, max 3)
+        val goldsPossible = (remainingHeightPx / itemHeightPx).toInt()
+        goldItems = minOf(MAX_GOLDS, goldsPossible)
+        itemsAllocated += goldItems
+
+        // Check if we have space for cryptos section
+        if (goldItems > 0) {
+            remainingHeightPx -= (goldItems * itemHeightPx)
+
+            if (remainingHeightPx >= (dividerHeightPx + itemHeightPx)) {
+                remainingHeightPx -= dividerHeightPx
+
+                // Allocate cryptos (priority 3, max 3)
+                val cryptosPossible = (remainingHeightPx / itemHeightPx).toInt()
+                cryptoItems = minOf(MAX_CRYPTOS, cryptosPossible)
+            }
+        }
+    }
+
+    android.util.Log.d(
+        "HomeWidget",
+        "Widget height: ${heightDp}dp -> Currencies: $currencyItems, Golds: $goldItems, Cryptos: $cryptoItems (Total: ${currencyItems + goldItems + cryptoItems})"
+    )
+
+    return ItemCapacity(
+        currencies = currencyItems,
+        golds = goldItems,
+        cryptos = cryptoItems
+    )
+}
+
+/**
+ * Data class to hold calculated item capacities
+ */
+data class ItemCapacity(
+    val currencies: Int,
+    val golds: Int,
+    val cryptos: Int
 )
 
 internal fun updateAppWidget(
@@ -87,7 +207,6 @@ internal fun updateAppWidget(
     val views = RemoteViews(context.packageName, R.layout.home_widget)
 
     try {
-        // Get widget data from Flutter
         val widgetData = HomeWidgetPlugin.getData(context)
         val widgetDataJson = widgetData.getString("widget_data", null)
         val locale = widgetData.getString("widget_locale", "en") ?: "en"
@@ -95,14 +214,14 @@ internal fun updateAppWidget(
         if (widgetDataJson != null) {
             val data = JSONObject(widgetDataJson)
             val labels = data.getJSONObject("labels")
-
-            // Get formatter based on locale
             val formatter = getNumberFormatter(locale)
+
+            // Calculate how many items we can display
+            val capacity = calculateItemCapacity(context, appWidgetManager, appWidgetId)
 
             // Update header
             views.setTextViewText(R.id.widget_title, "InvesTracker")
 
-            // Update time
             val updateTime = data.optString("updateTime", "")
             if (updateTime.isNotEmpty()) {
                 views.setTextViewText(
@@ -116,27 +235,226 @@ internal fun updateAppWidget(
             val golds = data.optJSONArray("golds")
             val cryptos = data.optJSONArray("cryptos")
 
-            // Display all data
-            displayAllMarketData(views, currencies, golds, cryptos, formatter, context)
+            // Clear all item containers
+            views.removeAllViews(R.id.currency_container)
+            views.removeAllViews(R.id.gold_container)
+            views.removeAllViews(R.id.crypto_container)
+
+            // Set column headers visibility
+            views.setViewVisibility(R.id.column_headers, android.view.View.VISIBLE)
+
+            // Display currencies
+            displayDynamicItems(
+                views,
+                R.id.currency_container,
+                currencies,
+                capacity.currencies,
+                formatter,
+                context,
+                "currency"
+            )
+
+            // Display golds (with divider if we have space)
+            if (capacity.golds > 0 && golds != null) {
+                views.setViewVisibility(R.id.divider_1, android.view.View.VISIBLE)
+                displayDynamicItems(
+                    views,
+                    R.id.gold_container,
+                    golds,
+                    capacity.golds,
+                    formatter,
+                    context,
+                    "gold"
+                )
+            } else {
+                views.setViewVisibility(R.id.divider_1, android.view.View.GONE)
+            }
+
+            // Display cryptos (with divider if we have space)
+            if (capacity.cryptos > 0 && cryptos != null) {
+                views.setViewVisibility(R.id.divider_2, android.view.View.VISIBLE)
+                displayDynamicItems(
+                    views,
+                    R.id.crypto_container,
+                    cryptos,
+                    capacity.cryptos,
+                    formatter,
+                    context,
+                    "crypto"
+                )
+            } else {
+                views.setViewVisibility(R.id.divider_2, android.view.View.GONE)
+            }
 
             // Setup refresh button
             setupRefreshButton(views, context, appWidgetId)
 
         } else {
-            // No data available
             views.setTextViewText(R.id.widget_title, "InvesTracker")
-            views.setTextViewText(R.id.item_1_code, "No data")
+            views.removeAllViews(R.id.currency_container)
+            val noDataView = createNoDataView(context, "No data")
+            views.addView(R.id.currency_container, noDataView)
         }
 
     } catch (e: Exception) {
-        // Handle error gracefully
         views.setTextViewText(R.id.widget_title, "InvesTracker")
-        views.setTextViewText(R.id.item_1_code, "Error loading data")
+        views.removeAllViews(R.id.currency_container)
+        val errorView = createNoDataView(context, "Error loading data")
+        views.addView(R.id.currency_container, errorView)
         android.util.Log.e("HomeWidget", "Error updating widget", e)
     }
 
-    // Update widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
+}
+
+/**
+ * Display items dynamically based on capacity
+ */
+private fun displayDynamicItems(
+    views: RemoteViews,
+    containerId: Int,
+    items: JSONArray,
+    maxItems: Int,
+    formatter: DecimalFormat,
+    context: Context,
+    type: String
+) {
+    val itemsToDisplay = minOf(items.length(), maxItems)
+
+    for (i in 0 until itemsToDisplay) {
+        val item = items.getJSONObject(i)
+        val itemView = when (type) {
+            "crypto" -> createCryptoItemView(context, item, formatter)
+            else -> createItemView(context, item, formatter, type)
+        }
+        views.addView(containerId, itemView)
+    }
+}
+
+/**
+ * Create a single item view for currency or gold
+ */
+private fun createItemView(
+    context: Context,
+    item: JSONObject,
+    formatter: DecimalFormat,
+    type: String
+): RemoteViews {
+    // Get the layout resource ID dynamically
+    val layoutId = context.resources.getIdentifier(
+        "widget_item_row",
+        "layout",
+        context.packageName
+    )
+
+    val itemView = RemoteViews(context.packageName, layoutId)
+    val code = item.getString("code")
+
+    // Set icon based on type
+    when (type) {
+        "currency" -> {
+            val flagResId = context.resources.getIdentifier(
+                "flag_${code.lowercase(Locale.getDefault())}",
+                "drawable",
+                context.packageName
+            )
+            if (flagResId != 0) {
+                itemView.setImageViewResource(R.id.item_icon, flagResId)
+            } else {
+                itemView.setImageViewResource(R.id.item_icon, android.R.drawable.ic_menu_report_image)
+            }
+        }
+        "gold" -> {
+            val logoResId = context.resources.getIdentifier(
+                "gold",
+                "drawable",
+                context.packageName
+            )
+        }
+    }
+
+    // Set text values
+    itemView.setTextViewText(R.id.item_code, code)
+    itemView.setTextViewText(R.id.item_buying, formatter.format(item.getDouble("buying")))
+    itemView.setTextViewText(R.id.item_selling, formatter.format(item.getDouble("selling")))
+
+    // Set change indicator
+    val isIncreasing = item.getBoolean("isIncreasing")
+    val changeRate = item.getDouble("changeRate")
+    val changeColor = if (isIncreasing) Color.parseColor("#4CAF50") else Color.parseColor("#F44336")
+    val changeSymbol = if (isIncreasing) "↑" else "↓"
+
+    itemView.setTextViewText(R.id.item_change, String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changeRate))
+    itemView.setTextColor(R.id.item_change, changeColor)
+
+    return itemView
+}
+
+/**
+ * Create a crypto item view
+ */
+private fun createCryptoItemView(
+    context: Context,
+    crypto: JSONObject,
+    formatter: DecimalFormat
+): RemoteViews {
+    // Get the layout resource ID dynamically
+    val layoutId = context.resources.getIdentifier(
+        "widget_item_row",
+        "layout",
+        context.packageName
+    )
+
+    val itemView = RemoteViews(context.packageName, layoutId)
+    val code = crypto.getString("code")
+
+    // Load crypto logo
+    val logoResId = context.resources.getIdentifier(
+        "crypto_${code.lowercase(Locale.getDefault())}",
+        "drawable",
+        context.packageName
+    )
+    if (logoResId != 0) {
+        itemView.setImageViewResource(R.id.item_icon, logoResId)
+    } else {
+        itemView.setImageViewResource(R.id.item_icon, android.R.drawable.ic_menu_info_details)
+    }
+
+    // Set text values (with $ symbol for crypto)
+    itemView.setTextViewText(R.id.item_code, code)
+    itemView.setTextViewText(R.id.item_buying, String.format(Locale.getDefault(), "$%s", formatter.format(crypto.getDouble("usdPrice"))))
+    itemView.setTextViewText(R.id.item_selling, String.format(Locale.getDefault(), "$%s", formatter.format(crypto.getDouble("sellingUsd"))))
+
+    // Set change indicator
+    val isIncreasing = crypto.getBoolean("isIncreasing")
+    val changeRate = crypto.getDouble("changeRate")
+    val changeColor = if (isIncreasing) Color.parseColor("#4CAF50") else Color.parseColor("#F44336")
+    val changeSymbol = if (isIncreasing) "↑" else "↓"
+
+    itemView.setTextViewText(R.id.item_change, String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changeRate))
+    itemView.setTextColor(R.id.item_change, changeColor)
+
+    return itemView
+}
+
+/**
+ * Create a "no data" view
+ */
+private fun createNoDataView(context: Context, message: String): RemoteViews {
+    // Get the layout resource ID dynamically
+    val layoutId = context.resources.getIdentifier(
+        "widget_item_row",
+        "layout",
+        context.packageName
+    )
+
+    val itemView = RemoteViews(context.packageName, layoutId)
+    itemView.setTextViewText(R.id.item_code, message)
+    itemView.setViewVisibility(R.id.item_icon, android.view.View.GONE)
+    itemView.setViewVisibility(R.id.item_buying, android.view.View.GONE)
+    itemView.setViewVisibility(R.id.item_selling, android.view.View.GONE)
+    itemView.setViewVisibility(R.id.item_change, android.view.View.GONE)
+    return itemView
 }
 
 /**
@@ -160,152 +478,6 @@ private fun setupRefreshButton(
     )
 
     views.setOnClickPendingIntent(R.id.refresh_button, pendingIntent)
-}
-
-/**
- * Display all market data (currencies, golds, cryptos)
- */
-private fun displayAllMarketData(
-    views: RemoteViews,
-    currencies: JSONArray,
-    golds: JSONArray?,
-    cryptos: JSONArray?,
-    formatter: DecimalFormat,
-    context: Context
-) {
-    // Define all 11 item IDs
-    val itemIds = listOf(
-        // Currencies (1-5)
-        ItemIds(R.id.item_1_icon, R.id.item_1_code, R.id.item_1_buying, R.id.item_1_selling, R.id.item_1_change, "currency"),
-        ItemIds(R.id.item_2_icon, R.id.item_2_code, R.id.item_2_buying, R.id.item_2_selling, R.id.item_2_change, "currency"),
-        ItemIds(R.id.item_3_icon, R.id.item_3_code, R.id.item_3_buying, R.id.item_3_selling, R.id.item_3_change, "currency"),
-        ItemIds(R.id.item_4_icon, R.id.item_4_code, R.id.item_4_buying, R.id.item_4_selling, R.id.item_4_change, "currency"),
-        ItemIds(R.id.item_5_icon, R.id.item_5_code, R.id.item_5_buying, R.id.item_5_selling, R.id.item_5_change, "currency"),
-        // Golds (6-8)
-        ItemIds(R.id.item_6_icon, R.id.item_6_code, R.id.item_6_buying, R.id.item_6_selling, R.id.item_6_change, "gold"),
-        ItemIds(R.id.item_7_icon, R.id.item_7_code, R.id.item_7_buying, R.id.item_7_selling, R.id.item_7_change, "gold"),
-        ItemIds(R.id.item_8_icon, R.id.item_8_code, R.id.item_8_buying, R.id.item_8_selling, R.id.item_8_change, "gold"),
-        // Cryptos (9-11)
-        ItemIds(R.id.item_9_icon, R.id.item_9_code, R.id.item_9_buying, R.id.item_9_selling, R.id.item_9_change, "crypto"),
-        ItemIds(R.id.item_10_icon, R.id.item_10_code, R.id.item_10_buying, R.id.item_10_selling, R.id.item_10_change, "crypto"),
-        ItemIds(R.id.item_11_icon, R.id.item_11_code, R.id.item_11_buying, R.id.item_11_selling, R.id.item_11_change, "crypto")
-    )
-
-    var currentIndex = 0
-
-    // Display currencies (first 5 items)
-    for (i in 0 until minOf(currencies.length(), 5)) {
-        if (currentIndex >= itemIds.size) break
-        val item = currencies.getJSONObject(i)
-        val ids = itemIds[currentIndex++]
-        displayItem(views, item, ids, formatter, context)
-    }
-
-    // Display golds (items 6-8)
-    if (golds != null) {
-        for (i in 0 until minOf(golds.length(), 3)) {
-            if (currentIndex >= itemIds.size) break
-            val item = golds.getJSONObject(i)
-            val ids = itemIds[currentIndex++]
-            displayItem(views, item, ids, formatter, context)
-        }
-    }
-
-    // Display cryptos (items 9-11)
-    if (cryptos != null) {
-        for (i in 0 until minOf(cryptos.length(), 3)) {
-            if (currentIndex >= itemIds.size) break
-            val item = cryptos.getJSONObject(i)
-            val ids = itemIds[currentIndex++]
-            displayCryptoItem(views, item, ids, formatter, context)
-        }
-    }
-}
-
-/**
- * Display a single item (currency or gold)
- */
-private fun displayItem(
-    views: RemoteViews,
-    item: JSONObject,
-    ids: ItemIds,
-    formatter: DecimalFormat,
-    context: Context
-) {
-    val code = item.getString("code")
-
-    // Set icon based on type
-    when (ids.type) {
-        "currency" -> {
-            val flagResId = context.resources.getIdentifier(
-                "flag_${code.lowercase(Locale.getDefault())}",
-                "drawable",
-                context.packageName
-            )
-            if (flagResId != 0) {
-                views.setImageViewResource(ids.iconId, flagResId)
-            } else {
-                views.setImageViewResource(ids.iconId, android.R.drawable.ic_menu_report_image)
-            }
-        }
-        "gold" -> {
-            // Use default gold icon
-            views.setImageViewResource(ids.iconId, android.R.drawable.btn_star_big_on)
-        }
-    }
-
-    // Set text values
-    views.setTextViewText(ids.codeId, code)
-    views.setTextViewText(ids.buyingId, formatter.format(item.getDouble("buying")))
-    views.setTextViewText(ids.sellingId, formatter.format(item.getDouble("selling")))
-
-    // Set change indicator
-    val isIncreasing = item.getBoolean("isIncreasing")
-    val changeRate = item.getDouble("changeRate")
-    val changeColor = if (isIncreasing) Color.parseColor("#4CAF50") else Color.parseColor("#F44336")
-    val changeSymbol = if (isIncreasing) "↑" else "↓"
-
-    views.setTextViewText(ids.changeId, String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changeRate))
-    views.setTextColor(ids.changeId, changeColor)
-}
-
-/**
- * Display a crypto item (slightly different format for USD prices)
- */
-private fun displayCryptoItem(
-    views: RemoteViews,
-    crypto: JSONObject,
-    ids: ItemIds,
-    formatter: DecimalFormat,
-    context: Context
-) {
-    val code = crypto.getString("code")
-
-    // Load crypto logo
-    val logoResId = context.resources.getIdentifier(
-        "crypto_${code.lowercase(Locale.getDefault())}",
-        "drawable",
-        context.packageName
-    )
-    if (logoResId != 0) {
-        views.setImageViewResource(ids.iconId, logoResId)
-    } else {
-        views.setImageViewResource(ids.iconId, android.R.drawable.ic_menu_info_details)
-    }
-
-    // Set text values (with $ symbol for crypto)
-    views.setTextViewText(ids.codeId, code)
-    views.setTextViewText(ids.buyingId, String.format(Locale.getDefault(), "$%s", formatter.format(crypto.getDouble("usdPrice"))))
-    views.setTextViewText(ids.sellingId, String.format(Locale.getDefault(), "$%s", formatter.format(crypto.getDouble("sellingUsd"))))
-
-    // Set change indicator
-    val isIncreasing = crypto.getBoolean("isIncreasing")
-    val changeRate = crypto.getDouble("changeRate")
-    val changeColor = if (isIncreasing) Color.parseColor("#4CAF50") else Color.parseColor("#F44336")
-    val changeSymbol = if (isIncreasing) "↑" else "↓"
-
-    views.setTextViewText(ids.changeId, String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changeRate))
-    views.setTextColor(ids.changeId, changeColor)
 }
 
 /**
