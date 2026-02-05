@@ -16,10 +16,13 @@ import java.util.Locale
 import android.os.Bundle
 import android.util.TypedValue
 import kotlin.math.max
+import androidx.core.graphics.toColorInt
 
 /**
  * Home Screen Widget for InvesTracker
  * Displays live market data (currencies, gold, crypto) with adaptive height support
+ *
+ * FIX: Refresh button now works independently of Flutter app
  */
 class HomeWidget : AppWidgetProvider() {
 
@@ -58,24 +61,98 @@ class HomeWidget : AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
+        android.util.Log.d("HomeWidget", "========== onReceive CALLED ==========")
+        android.util.Log.d("HomeWidget", "Action: ${intent.action}")
+        android.util.Log.d("HomeWidget", "Expected action: $ACTION_REFRESH")
+        android.util.Log.d("HomeWidget", "Actions match: ${intent.action == ACTION_REFRESH}")
+
         if (intent.action == ACTION_REFRESH) {
-            val appWidgetManager = AppWidgetManager.getInstance(context)
-            val appWidgetIds = appWidgetManager.getAppWidgetIds(
-                android.content.ComponentName(context, HomeWidget::class.java)
-            )
+            try {
+                android.util.Log.d("HomeWidget", "✓ Refresh action matched!")
+                android.util.Log.d("HomeWidget", "Triggering background update via WorkManager...")
 
-            val updateIntent = Intent(context, HomeWidget::class.java).apply {
-                action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                // Create work request
+                val workRequest = androidx.work.OneTimeWorkRequestBuilder<WidgetUpdateWorker>()
+                    .addTag("widget_manual_refresh")
+                    .setInitialDelay(0, java.util.concurrent.TimeUnit.SECONDS)
+                    .build()
+
+                android.util.Log.d("HomeWidget", "✓ Work request created")
+
+                // Enqueue work
+                androidx.work.WorkManager.getInstance(context)
+                    .enqueue(workRequest)
+
+                android.util.Log.d("HomeWidget", "✓ Work enqueued to WorkManager")
+
+                // Show loading state
+                showLoadingState(context)
+                android.util.Log.d("HomeWidget", "✓ Loading state displayed")
+
+            } catch (e: Exception) {
+                android.util.Log.e("HomeWidget", "✗ ERROR in refresh handler", e)
+                e.printStackTrace()
             }
-            context.sendBroadcast(updateIntent)
+        } else {
+            android.util.Log.d("HomeWidget", "✗ Action did not match, ignoring")
+        }
 
-            onUpdate(context, appWidgetManager, appWidgetIds)
-            android.util.Log.d("HomeWidget", "Refresh button tapped")
+        android.util.Log.d("HomeWidget", "========== onReceive FINISHED ==========")
+    }
+
+    /**
+     * Show a temporary loading indicator while refresh is in progress
+     */
+    private fun showLoadingState(context: Context) {
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(
+            android.content.ComponentName(context, HomeWidget::class.java)
+        )
+
+        for (appWidgetId in appWidgetIds) {
+            val views = RemoteViews(context.packageName, R.layout.home_widget)
+            views.setTextViewText(R.id.widget_update_time, "Updating...")
+
+            // Setup refresh button (keep it clickable)
+            setupRefreshButton(views, context, appWidgetId)
+
+            appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views)
         }
     }
 
-    override fun onEnabled(context: Context) {}
-    override fun onDisabled(context: Context) {}
+    override fun onEnabled(context: Context) {
+        // Widget is added to home screen
+        android.util.Log.d("HomeWidget", "Widget enabled - setting up periodic updates")
+
+        // Setup periodic background updates
+        androidx.work.PeriodicWorkRequestBuilder<WidgetUpdateWorker>(
+            30, java.util.concurrent.TimeUnit.MINUTES
+        )
+            .addTag("widget_periodic_update")
+            .setConstraints(
+                androidx.work.Constraints.Builder()
+                    .setRequiredNetworkType(androidx.work.NetworkType.CONNECTED)
+                    .build()
+            )
+            .build()
+            .let { workRequest ->
+                androidx.work.WorkManager.getInstance(context)
+                    .enqueueUniquePeriodicWork(
+                        "widget_periodic_update",
+                        androidx.work.ExistingPeriodicWorkPolicy.KEEP,
+                        workRequest
+                    )
+            }
+    }
+
+    override fun onDisabled(context: Context) {
+        // Last widget is removed from home screen
+        android.util.Log.d("HomeWidget", "Widget disabled - cancelling background updates")
+
+        // Cancel all background work
+        androidx.work.WorkManager.getInstance(context)
+            .cancelAllWorkByTag("widget_periodic_update")
+    }
 }
 
 /**
@@ -344,7 +421,6 @@ private fun createItemView(
     formatter: DecimalFormat,
     type: String
 ): RemoteViews {
-    // Get the layout resource ID dynamically
     val layoutId = context.resources.getIdentifier(
         "widget_item_row",
         "layout",
@@ -391,10 +467,7 @@ private fun createItemView(
     val isIncreasing = item.getBoolean("isIncreasing")
     val changeRate = item.getDouble("changeRate")
 
-    // DEBUG: Log the values
-    android.util.Log.d("HomeWidget", "$type ${code}: changeRate=$changeRate, isIncreasing=$isIncreasing")
-
-    val changeColor = if (isIncreasing) Color.parseColor("#4CAF50") else Color.parseColor("#F44336")
+    val changeColor = if (isIncreasing) "#4CAF50".toColorInt() else "#F44336".toColorInt()
     val changeSymbol = if (isIncreasing) "↑" else "↓"
 
     itemView.setTextViewText(R.id.item_change, String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changeRate))
@@ -411,7 +484,6 @@ private fun createCryptoItemView(
     crypto: JSONObject,
     formatter: DecimalFormat
 ): RemoteViews {
-    // Get the layout resource ID dynamically
     val layoutId = context.resources.getIdentifier(
         "widget_item_row",
         "layout",
@@ -442,10 +514,7 @@ private fun createCryptoItemView(
     val isIncreasing = crypto.getBoolean("isIncreasing")
     val changeRate = crypto.getDouble("changeRate")
 
-    // DEBUG: Log the values
-    android.util.Log.d("HomeWidget", "Crypto ${code}: changeRate=$changeRate, isIncreasing=$isIncreasing")
-
-    val changeColor = if (isIncreasing) Color.parseColor("#4CAF50") else Color.parseColor("#F44336")
+    val changeColor = if (isIncreasing) "#4CAF50".toColorInt() else "#F44336".toColorInt()
     val changeSymbol = if (isIncreasing) "↑" else "↓"
 
     itemView.setTextViewText(R.id.item_change, String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changeRate))
@@ -458,7 +527,6 @@ private fun createCryptoItemView(
  * Create a "no data" view
  */
 private fun createNoDataView(context: Context, message: String): RemoteViews {
-    // Get the layout resource ID dynamically
     val layoutId = context.resources.getIdentifier(
         "widget_item_row",
         "layout",
@@ -477,7 +545,7 @@ private fun createNoDataView(context: Context, message: String): RemoteViews {
 /**
  * Setup refresh button with pending intent
  */
-private fun setupRefreshButton(
+internal fun setupRefreshButton(
     views: RemoteViews,
     context: Context,
     appWidgetId: Int

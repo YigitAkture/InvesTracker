@@ -10,7 +10,7 @@ import 'package:workmanager/workmanager.dart';
 /// Handles data serialization, localization, platform-specific widget updates,
 /// and background refresh without launching the app
 ///
-/// FIXED: Proper change rate handling and crypto selling price
+/// FIXED: Uses "change" field from API (not "changeRate")
 class HomeWidgetService {
   static final HomeWidgetService _instance = HomeWidgetService._internal();
   factory HomeWidgetService() => _instance;
@@ -125,7 +125,7 @@ class HomeWidgetService {
   /// OPTIMIZED: Prepare market data for widget consumption
   /// Creates a lightweight, serialized format optimized for widget display
   /// Returns only the specific instruments: 5 currencies, 3 golds, 3 cryptos
-  /// FIX: Properly includes changeRate and isIncreasing for all items
+  /// FIX: Uses "change" field from API and calculates isIncreasing
   Map<String, dynamic> _prepareOptimizedWidgetData(
     MarketResponse marketData,
     AppLocalizations l10n,
@@ -136,16 +136,23 @@ class HomeWidgetService {
       _widgetCurrencies,
       (currency) => currency.code,
       (currency) {
+        // FIX: API uses "change" field, calculate isIncreasing from sign
+        // Zero or positive = green, only negative = red
+        final change = currency
+            .changeRate; // Your model might call it changeRate but API sends "change"
+        final isIncreasing = change >= 0.0;
+        final changeRate = change.abs();
+
         debugPrint(
-          'Currency ${currency.code}: changeRate=${currency.changeRate}, isIncreasing=${currency.isIncreasing}',
+          'Currency ${currency.code}: change=$change, changeRate=$changeRate, isIncreasing=$isIncreasing',
         );
         return {
           'code': currency.code,
           'name': _getCurrencyLocalizedName(currency.code, l10n),
           'buying': currency.buying,
           'selling': currency.selling,
-          'changeRate': currency.changeRate, // FIX: Ensure this is included
-          'isIncreasing': currency.isIncreasing, // FIX: Ensure this is included
+          'changeRate': changeRate,
+          'isIncreasing': isIncreasing,
         };
       },
     );
@@ -156,16 +163,22 @@ class HomeWidgetService {
       _widgetGolds,
       (gold) => gold.code,
       (gold) {
+        // FIX: API uses "change" field, calculate isIncreasing from sign
+        final change = gold
+            .changeRate; // Your model might call it changeRate but API sends "change"
+        final isIncreasing = change >= 0.0;
+        final changeRate = change.abs();
+
         debugPrint(
-          'Gold ${gold.code}: changeRate=${gold.changeRate}, isIncreasing=${gold.isIncreasing}',
+          'Gold ${gold.code}: change=$change, changeRate=$changeRate, isIncreasing=$isIncreasing',
         );
         return {
           'code': gold.code,
           'name': _getGoldLocalizedName(gold.code, l10n),
           'buying': gold.buying,
           'selling': gold.selling,
-          'changeRate': gold.changeRate, // FIX: Ensure this is included
-          'isIncreasing': gold.isIncreasing, // FIX: Ensure this is included
+          'changeRate': changeRate,
+          'isIncreasing': isIncreasing,
         };
       },
     );
@@ -176,18 +189,22 @@ class HomeWidgetService {
       _widgetCryptos,
       (crypto) => crypto.code,
       (crypto) {
+        // FIX: API uses "change" field, calculate isIncreasing from sign
+        final change = crypto
+            .changeRate; // Your model might call it changeRate but API sends "change"
+        final isIncreasing = change >= 0.0;
+        final changeRate = change.abs();
+
         debugPrint(
-          'Crypto ${crypto.code}: usdPrice=${crypto.usdPrice}, sellingUsd=${crypto.sellingUsd}, changeRate=${crypto.changeRate}, isIncreasing=${crypto.isIncreasing}',
+          'Crypto ${crypto.code}: usdPrice=${crypto.usdPrice}, sellingUsd=${crypto.sellingUsd}, change=$change, changeRate=$changeRate, isIncreasing=$isIncreasing',
         );
         return {
           'code': crypto.code,
           'name': crypto.name,
           'usdPrice': crypto.usdPrice,
-          'sellingUsd':
-              crypto.sellingUsd, // FIX #1: Ensure selling price is included
-          'changeRate': crypto.changeRate, // FIX #2: Ensure this is included
-          'isIncreasing':
-              crypto.isIncreasing, // FIX #2: Ensure this is included
+          'sellingUsd': crypto.sellingUsd,
+          'changeRate': changeRate,
+          'isIncreasing': isIncreasing,
         };
       },
     );
@@ -197,15 +214,14 @@ class HomeWidgetService {
       'golds': filteredGolds,
       'cryptos': filteredCryptos,
       'updateTime': marketData.updateTime,
-      // FIX #3: Include ALL localized labels including column headers
       'labels': {
         'currency': l10n.currency,
         'gold': l10n.gold,
         'crypto': l10n.crypto,
-        'code': 'Code', // Column header
-        'buying': l10n.buying, // Column header
-        'selling': l10n.selling, // Column header
-        'change': l10n.change, // Column header
+        'code': 'Code',
+        'buying': l10n.buying,
+        'selling': l10n.selling,
+        'change': l10n.change,
         'updated': l10n.updated,
       },
     };
@@ -343,42 +359,57 @@ class HomeWidgetService {
       final labels = _getBasicLabels(locale);
 
       // OPTIMIZED: Prepare simplified data with only required instruments
-      // FIX: Include changeRate and isIncreasing
+      // FIX: Uses "change" field from API
       final widgetData = {
         'currencies': _extractFilteredItems(
           marketData.currencies,
           _widgetCurrencies,
           (c) => c.code,
-          (c) => {
-            'code': c.code,
-            'buying': c.buying,
-            'selling': c.selling,
-            'changeRate': c.changeRate, // FIX
-            'isIncreasing': c.isIncreasing, // FIX
+          (c) {
+            final change = c.changeRate; // API sends "change"
+            final isIncreasing = change >= 0.0;
+            final changeRate = change.abs();
+            return {
+              'code': c.code,
+              'buying': c.buying,
+              'selling': c.selling,
+              'changeRate': changeRate,
+              'isIncreasing': isIncreasing,
+            };
           },
         ),
         'golds': _extractFilteredItems(
           marketData.golds,
           _widgetGolds,
           (g) => g.code,
-          (g) => {
-            'code': g.code,
-            'buying': g.buying,
-            'selling': g.selling,
-            'changeRate': g.changeRate, // FIX
-            'isIncreasing': g.isIncreasing, // FIX
+          (g) {
+            final change = g.changeRate; // API sends "change"
+            final isIncreasing = change >= 0.0;
+            final changeRate = change.abs();
+            return {
+              'code': g.code,
+              'buying': g.buying,
+              'selling': g.selling,
+              'changeRate': changeRate,
+              'isIncreasing': isIncreasing,
+            };
           },
         ),
         'cryptos': _extractFilteredItems(
           marketData.cryptos,
           _widgetCryptos,
           (c) => c.code,
-          (c) => {
-            'code': c.code,
-            'usdPrice': c.usdPrice,
-            'sellingUsd': c.sellingUsd, // FIX
-            'changeRate': c.changeRate, // FIX
-            'isIncreasing': c.isIncreasing, // FIX
+          (c) {
+            final change = c.changeRate; // API sends "change"
+            final isIncreasing = change >= 0.0;
+            final changeRate = change.abs();
+            return {
+              'code': c.code,
+              'usdPrice': c.usdPrice,
+              'sellingUsd': c.sellingUsd,
+              'changeRate': changeRate,
+              'isIncreasing': isIncreasing,
+            };
           },
         ),
         'updateTime': marketData.updateTime,
@@ -435,7 +466,6 @@ class HomeWidgetService {
   }
 
   /// Get basic labels for background updates
-  /// FIX #3: Include column header labels
   static Map<String, String> _getBasicLabels(String locale) {
     if (locale == 'tr') {
       return {
