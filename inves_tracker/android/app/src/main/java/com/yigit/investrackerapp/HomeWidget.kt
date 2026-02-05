@@ -16,10 +16,6 @@ import java.util.Locale
 import android.os.Bundle
 import android.util.TypedValue
 import kotlin.math.max
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.Constraints
-import androidx.work.NetworkType
 
 /**
  * Home Screen Widget for InvesTracker
@@ -63,19 +59,18 @@ class HomeWidget : AppWidgetProvider() {
         super.onReceive(context, intent)
 
         if (intent.action == ACTION_REFRESH) {
-            android.util.Log.d("HomeWidget", "Refresh button tapped - triggering background update")
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            val appWidgetIds = appWidgetManager.getAppWidgetIds(
+                android.content.ComponentName(context, HomeWidget::class.java)
+            )
 
-            // Trigger immediate background update using WorkManager
-            // This works even when the app is completely closed
-            val updateRequest = OneTimeWorkRequestBuilder<WidgetUpdateWorker>()
-                .setConstraints(
-                    Constraints.Builder()
-                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                        .build()
-                )
-                .build()
+            val updateIntent = Intent(context, HomeWidget::class.java).apply {
+                action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            }
+            context.sendBroadcast(updateIntent)
 
-            WorkManager.getInstance(context).enqueue(updateRequest)
+            onUpdate(context, appWidgetManager, appWidgetIds)
+            android.util.Log.d("HomeWidget", "Refresh button tapped")
         }
     }
 
@@ -245,8 +240,12 @@ internal fun updateAppWidget(
             views.removeAllViews(R.id.gold_container)
             views.removeAllViews(R.id.crypto_container)
 
-            // Set column headers visibility
+            // Set column headers visibility and localized text
             views.setViewVisibility(R.id.column_headers, android.view.View.VISIBLE)
+            views.setTextViewText(R.id.header_code, labels.getString("code"))
+            views.setTextViewText(R.id.header_buy, labels.getString("buying"))
+            views.setTextViewText(R.id.header_sell, labels.getString("selling"))
+            views.setTextViewText(R.id.header_change, labels.getString("change"))
 
             // Display currencies
             displayDynamicItems(
@@ -370,16 +369,15 @@ private fun createItemView(
             }
         }
         "gold" -> {
-            val goldIconResId = context.resources.getIdentifier(
+            val goldResId = context.resources.getIdentifier(
                 "gold",
                 "drawable",
                 context.packageName
             )
-            if (goldIconResId != 0) {
-                itemView.setImageViewResource(R.id.item_icon, goldIconResId)
+            if (goldResId != 0) {
+                itemView.setImageViewResource(R.id.item_icon, goldResId)
             } else {
-                // Fallback to a default gold-colored icon
-                itemView.setImageViewResource(R.id.item_icon, android.R.drawable.btn_star_big_on)
+                itemView.setImageViewResource(R.id.item_icon, android.R.drawable.ic_menu_report_image)
             }
         }
     }
@@ -392,6 +390,10 @@ private fun createItemView(
     // Set change indicator
     val isIncreasing = item.getBoolean("isIncreasing")
     val changeRate = item.getDouble("changeRate")
+
+    // DEBUG: Log the values
+    android.util.Log.d("HomeWidget", "$type ${code}: changeRate=$changeRate, isIncreasing=$isIncreasing")
+
     val changeColor = if (isIncreasing) Color.parseColor("#4CAF50") else Color.parseColor("#F44336")
     val changeSymbol = if (isIncreasing) "↑" else "↓"
 
@@ -439,6 +441,10 @@ private fun createCryptoItemView(
     // Set change indicator
     val isIncreasing = crypto.getBoolean("isIncreasing")
     val changeRate = crypto.getDouble("changeRate")
+
+    // DEBUG: Log the values
+    android.util.Log.d("HomeWidget", "Crypto ${code}: changeRate=$changeRate, isIncreasing=$isIncreasing")
+
     val changeColor = if (isIncreasing) Color.parseColor("#4CAF50") else Color.parseColor("#F44336")
     val changeSymbol = if (isIncreasing) "↑" else "↓"
 

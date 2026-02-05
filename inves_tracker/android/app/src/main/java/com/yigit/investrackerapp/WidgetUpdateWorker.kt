@@ -207,8 +207,6 @@ class WidgetUpdateWorker(
     /**
      * OPTIMIZED: Extract only the top 3 cryptocurrencies needed for the widget
      * Order: BTC, ETH, USDT
-     * FIX #1: Properly extract sellingUsd (not sellingUsd)
-     * FIX #2: Properly extract changeRate and isIncreasing from API response
      */
     private fun extractFilteredCryptos(data: JSONObject): JSONArray {
         val list = JSONArray()
@@ -264,9 +262,6 @@ class WidgetUpdateWorker(
         return list
     }
 
-    /**
-     * FIX #3: Return localized labels for ALL widget texts
-     */
     private fun getLabels(locale: String): JSONObject =
         if (locale == "tr") {
             JSONObject().apply {

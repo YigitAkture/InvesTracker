@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Widget Preview Layout for InvesTracker
+    Shows sample data in the widget picker
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/app_widget_background">
+
+    <!-- Header with Title, Update Time and Refresh Button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="6dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="InvesTracker"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Updated: 14:38"
+            android:textSize="9sp"
+            android:textColor="#B3FFFFFF"
+            android:layout_marginEnd="8dp" />
+
+        <!-- Refresh Button -->
+        <ImageButton
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@android:drawable/ic_popup_sync"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Refresh"
+            android:scaleType="fitCenter"
+            android:padding="4dp"
+            android:tint="#FFFFFF" />
+    </LinearLayout>
+
+    <!-- Column Headers -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="4dp"
+        android:paddingBottom="2dp"
+        android:background="#22FFFFFF">
+
+        <TextView
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="8sp" />
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="Code"
+            android:textSize="9sp"
+            android:textColor="#B3FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Buy"
+            android:textSize="9sp"
+            android:textColor="#B3FFFFFF"
+            android:textStyle="bold"
+            android:gravity="end" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Sell"
+            android:textSize="9sp"
+            android:textColor="#B3FFFFFF"
+            android:textStyle="bold"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="Change"
+            android:textSize="9sp"
+            android:textColor="#B3FFFFFF"
+            android:textStyle="bold"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Sample Currency Item 1: USD -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="2dp"
+        android:paddingVertical="3dp"
+        android:gravity="center_vertical"
+        android:minHeight="28dp">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/flag_usd"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="USD Flag" />
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="USD"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="43.5316"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="43.5447"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↑ 0.04%"
+            android:textSize="12sp"
+            android:textColor="#4CAF50"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Sample Currency Item 2: EUR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="2dp"
+        android:paddingVertical="3dp"
+        android:gravity="center_vertical"
+        android:minHeight="28dp">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/flag_eur"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="EUR Flag" />
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="EUR"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="51.4685"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="51.4827"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↓ 0.14%"
+            android:textSize="12sp"
+            android:textColor="#F44336"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Sample Currency Item 3: GBP -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="2dp"
+        android:paddingVertical="3dp"
+        android:gravity="center_vertical"
+        android:minHeight="28dp">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/flag_gbp"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="GBP Flag" />
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="GBP"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="59.3344"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="59.3577"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↑ 0.37%"
+            android:textSize="12sp"
+            android:textColor="#4CAF50"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <!-- Divider -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#33FFFFFF"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Sample Gold Item: GRA -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="2dp"
+        android:paddingVertical="3dp"
+        android:gravity="center_vertical"
+        android:minHeight="28dp">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/gold"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Gold Icon" />
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="GRA"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="6,881.39"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="6,882.32"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↑ 0.40%"
+            android:textSize="12sp"
+            android:textColor="#4CAF50"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+</LinearLayout>
