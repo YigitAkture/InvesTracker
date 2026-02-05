@@ -169,21 +169,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               
-              // !!!! TEST SCREEN - REMOVE BEFORE PRODUCTION !!!!!
-              SizedBox(height: 24.h),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const NotificationDebugScreen(),
-                    ),
-                  ),
-                  child: Text('Test Notifications'),
-                ),
-              ),
+              // // !!!! TEST SCREEN - REMOVE BEFORE PRODUCTION !!!!!
+              // SizedBox(height: 24.h),
+              // Center(
+              //   child: ElevatedButton(
+              //     onPressed: () => Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => const NotificationDebugScreen(),
+              //       ),
+              //     ),
+              //     child: Text('Test Notifications'),
+              //   ),
+              // ),
 
-              // !!!! END OF TEST SCREEN !!!!!
+              // // !!!! END OF TEST SCREEN !!!!!
 
               SizedBox(height: 24.h),
 
