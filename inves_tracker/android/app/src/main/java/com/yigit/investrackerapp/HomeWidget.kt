@@ -16,6 +16,10 @@ import java.util.Locale
 import android.os.Bundle
 import android.util.TypedValue
 import kotlin.math.max
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.Constraints
+import androidx.work.NetworkType
 
 /**
  * Home Screen Widget for InvesTracker
@@ -59,18 +63,19 @@ class HomeWidget : AppWidgetProvider() {
         super.onReceive(context, intent)
 
         if (intent.action == ACTION_REFRESH) {
-            val appWidgetManager = AppWidgetManager.getInstance(context)
-            val appWidgetIds = appWidgetManager.getAppWidgetIds(
-                android.content.ComponentName(context, HomeWidget::class.java)
-            )
+            android.util.Log.d("HomeWidget", "Refresh button tapped - triggering background update")
 
-            val updateIntent = Intent(context, HomeWidget::class.java).apply {
-                action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            }
-            context.sendBroadcast(updateIntent)
+            // Trigger immediate background update using WorkManager
+            // This works even when the app is completely closed
+            val updateRequest = OneTimeWorkRequestBuilder<WidgetUpdateWorker>()
+                .setConstraints(
+                    Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+                )
+                .build()
 
-            onUpdate(context, appWidgetManager, appWidgetIds)
-            android.util.Log.d("HomeWidget", "Refresh button tapped")
+            WorkManager.getInstance(context).enqueue(updateRequest)
         }
     }
 
@@ -365,7 +370,7 @@ private fun createItemView(
             }
         }
         "gold" -> {
-            val logoResId = context.resources.getIdentifier(
+            val goldIconResId = context.resources.getIdentifier(
                 "gold",
                 "drawable",
                 context.packageName

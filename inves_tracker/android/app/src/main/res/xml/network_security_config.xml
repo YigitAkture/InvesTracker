@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- 
+        Allow cleartext (HTTP) traffic to your backend server
+        This is required because your API uses HTTP instead of HTTPS
+    -->
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Your production API server -->
+        <domain includeSubdomains="true">45.131.3.173</domain>
+        
+        <!-- Local development servers (optional) -->
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+    </domain-config>
+</network-security-config>
