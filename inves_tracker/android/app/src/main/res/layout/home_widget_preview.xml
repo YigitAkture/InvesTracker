@@ -212,62 +212,7 @@
             android:layout_marginStart="6dp" />
     </LinearLayout>
 
-    <!-- Sample Currency Item 3: GBP -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="2dp"
-        android:paddingVertical="3dp"
-        android:gravity="center_vertical"
-        android:minHeight="28dp">
-
-        <ImageView
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/flag_gbp"
-            android:scaleType="fitCenter"
-            android:layout_marginEnd="4dp"
-            android:contentDescription="GBP Flag" />
-
-        <TextView
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
-            android:text="GBP"
-            android:textSize="11sp"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="59.3344"
-            android:textSize="12sp"
-            android:textColor="#FFFFFF"
-            android:gravity="end" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="59.3577"
-            android:textSize="12sp"
-            android:textColor="#FFFFFF"
-            android:gravity="end"
-            android:layout_marginStart="6dp" />
-
-        <TextView
-            android:layout_width="55dp"
-            android:layout_height="wrap_content"
-            android:text="↑ 0.37%"
-            android:textSize="12sp"
-            android:textColor="#4CAF50"
-            android:gravity="end"
-            android:layout_marginStart="6dp" />
-    </LinearLayout>
-
-    <!-- Divider -->
+        <!-- Divider -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -326,6 +271,68 @@
             android:text="↑ 0.40%"
             android:textSize="12sp"
             android:textColor="#4CAF50"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#33FFFFFF"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Sample Crypto Item : BTC -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="2dp"
+        android:paddingVertical="3dp"
+        android:gravity="center_vertical"
+        android:minHeight="28dp">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/crypto_btc"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="BTC Icon" />
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:text="BTC"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="$69,948"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="$69,948"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF"
+            android:gravity="end"
+            android:layout_marginStart="6dp" />
+
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="↓ 8.37%"
+            android:textSize="12sp"
+            android:textColor="#F44336"
             android:gravity="end"
             android:layout_marginStart="6dp" />
     </LinearLayout>

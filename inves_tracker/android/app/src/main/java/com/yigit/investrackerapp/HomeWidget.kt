@@ -8,7 +8,6 @@ import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetPlugin
 import org.json.JSONObject
 import org.json.JSONArray
-import android.graphics.Color
 import android.app.PendingIntent
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -21,8 +20,6 @@ import androidx.core.graphics.toColorInt
 /**
  * Home Screen Widget for InvesTracker
  * Displays live market data (currencies, gold, crypto) with adaptive height support
- *
- * FIX: Refresh button now works independently of Flutter app
  */
 class HomeWidget : AppWidgetProvider() {
 
@@ -167,9 +164,9 @@ internal fun calculateItemCapacity(
     val heightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, 200)
 
     // Maximum items available in data
-    val MAX_CURRENCIES = 5
-    val MAX_GOLDS = 3
-    val MAX_CRYPTOS = 3
+    val maxCurrencies = 5
+    val maxGolds = 3
+    val maxCryptos = 3
 
     // Convert dp to pixels for accurate calculation
     val displayMetrics = context.resources.displayMetrics
@@ -219,27 +216,20 @@ internal fun calculateItemCapacity(
     val totalPossibleItems = (remainingHeightPx / itemHeightPx).toInt()
 
     // Distribute items across sections with proper limits
-    var currencyItems = 0
     var goldItems = 0
     var cryptoItems = 0
-    var itemsAllocated = 0
 
     // Allocate currencies (priority 1, max 5)
-    currencyItems = minOf(MAX_CURRENCIES, max(HomeWidget.MIN_ITEMS_PER_SECTION, totalPossibleItems - itemsAllocated))
-    itemsAllocated += currencyItems
+    val currencyItems = minOf(maxCurrencies, max(HomeWidget.MIN_ITEMS_PER_SECTION, totalPossibleItems))
 
     // Check if we have space for golds section (needs divider + at least 1 item)
-    val remainingItems = totalPossibleItems - itemsAllocated
-    val spaceNeededForGoldSection = dividerHeightPx / itemHeightPx
-
-    if (remainingItems > 0 && remainingHeightPx - (currencyItems * itemHeightPx) >= (dividerHeightPx + itemHeightPx)) {
+    if (remainingHeightPx - (currencyItems * itemHeightPx) >= (dividerHeightPx + itemHeightPx)) {
         // Account for divider space
         remainingHeightPx -= (currencyItems * itemHeightPx + dividerHeightPx)
 
         // Allocate golds (priority 2, max 3)
         val goldsPossible = (remainingHeightPx / itemHeightPx).toInt()
-        goldItems = minOf(MAX_GOLDS, goldsPossible)
-        itemsAllocated += goldItems
+        goldItems = minOf(maxGolds, goldsPossible)
 
         // Check if we have space for cryptos section
         if (goldItems > 0) {
@@ -250,7 +240,7 @@ internal fun calculateItemCapacity(
 
                 // Allocate cryptos (priority 3, max 3)
                 val cryptosPossible = (remainingHeightPx / itemHeightPx).toInt()
-                cryptoItems = minOf(MAX_CRYPTOS, cryptosPossible)
+                cryptoItems = minOf(maxCryptos, cryptosPossible)
             }
         }
     }
@@ -415,6 +405,7 @@ private fun displayDynamicItems(
 /**
  * Create a single item view for currency or gold
  */
+@Suppress("DiscouragedApi")
 private fun createItemView(
     context: Context,
     item: JSONObject,
@@ -479,6 +470,7 @@ private fun createItemView(
 /**
  * Create a crypto item view
  */
+@Suppress("DiscouragedApi")
 private fun createCryptoItemView(
     context: Context,
     crypto: JSONObject,
@@ -526,6 +518,7 @@ private fun createCryptoItemView(
 /**
  * Create a "no data" view
  */
+@Suppress("DiscouragedApi")
 private fun createNoDataView(context: Context, message: String): RemoteViews {
     val layoutId = context.resources.getIdentifier(
         "widget_item_row",
@@ -570,7 +563,7 @@ internal fun setupRefreshButton(
  */
 private fun getNumberFormatter(locale: String): DecimalFormat {
     val symbols = if (locale == "tr") {
-        DecimalFormatSymbols(Locale("tr", "TR"))
+        DecimalFormatSymbols(Locale.forLanguageTag("tr-TR"))
     } else {
         DecimalFormatSymbols(Locale.US)
     }

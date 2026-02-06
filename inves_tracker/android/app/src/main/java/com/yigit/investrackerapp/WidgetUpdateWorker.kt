@@ -14,8 +14,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
-import java.text.SimpleDateFormat
-import java.util.*
 import androidx.core.content.edit
 
 /**
@@ -136,7 +134,7 @@ class WidgetUpdateWorker(
                     if (currencies.length() > 0) {
                         val firstCurrency = currencies.getJSONObject(0)
                         android.util.Log.d("WidgetUpdateWorker", "=== FIRST CURRENCY ITEM STRUCTURE ===")
-                        android.util.Log.d("WidgetUpdateWorker", "Full JSON: ${firstCurrency.toString()}")
+                        android.util.Log.d("WidgetUpdateWorker", "Full JSON: $firstCurrency")
                         android.util.Log.d("WidgetUpdateWorker", "Available keys: ${firstCurrency.keys().asSequence().toList()}")
 
                         // Log each field's value
