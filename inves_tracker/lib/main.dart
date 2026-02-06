@@ -26,40 +26,18 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  // Initialize Mobile Ads
+  // Initialize Mobile Ads (non-blocking)
   MobileAds.instance.initialize();
-
-  // Initialize Debt Notification Service
-  try {
-    await DebtNotificationService().initialize();
-    debugPrint('Debt notification service initialized successfully');
-  } catch (e) {
-    debugPrint('Failed to initialize debt notification service: $e');
-  }
-
-  // Initialize Reminder Notification Service
-  try {
-    await ReminderNotificationService().rescheduleIfNeeded();
-    debugPrint('Reminder notification service initialized successfully');
-  } catch (e) {
-    debugPrint('Failed to initialize reminder notification service: $e');
-  }
-
-  // Register background callback for home widget
-  try {
-    HomeWidget.registerInteractivityCallback(backgroundCallback);
-    debugPrint('Home widget background callback registered');
-  } catch (e) {
-    debugPrint('Failed to register home widget callback: $e');
-  }
-  // Initialize WorkManager
-  await Workmanager().initialize(backgroundCallback);
 
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  // Initialize notifications and widgets in background (non-blocking)
+  // This prevents blocking app launch if permissions aren't granted yet
+  _initializeBackgroundServices();
 
   runApp(
     MultiProvider(
@@ -76,4 +54,47 @@ void main() async {
       ),
     ),
   );
+}
+
+/// Initialize background services asynchronously without blocking app launch
+/// This runs after the app UI is already starting to render
+void _initializeBackgroundServices() {
+  // Use a short delay to ensure app UI starts rendering first
+  Future.delayed(const Duration(milliseconds: 500), () async {
+    // Initialize Debt Notification Service
+    try {
+      await DebtNotificationService().initialize();
+      debugPrint('✓ Debt notification service initialized');
+    } catch (e) {
+      debugPrint('✗ Failed to initialize debt notifications: $e');
+      // Continue - don't crash the app
+    }
+
+    // Initialize Reminder Notification Service
+    try {
+      await ReminderNotificationService().rescheduleIfNeeded();
+      debugPrint('✓ Reminder notification service initialized');
+    } catch (e) {
+      debugPrint('✗ Failed to initialize reminder notifications: $e');
+      // Continue - don't crash the app
+    }
+
+    // Register background callback for home widget
+    try {
+      HomeWidget.registerInteractivityCallback(backgroundCallback);
+      debugPrint('✓ Home widget callback registered');
+    } catch (e) {
+      debugPrint('✗ Failed to register home widget callback: $e');
+      // Continue - don't crash the app
+    }
+
+    // Initialize WorkManager
+    try {
+      await Workmanager().initialize(backgroundCallback);
+      debugPrint('✓ WorkManager initialized');
+    } catch (e) {
+      debugPrint('✗ Failed to initialize WorkManager: $e');
+      // Continue - don't crash the app
+    }
+  });
 }
