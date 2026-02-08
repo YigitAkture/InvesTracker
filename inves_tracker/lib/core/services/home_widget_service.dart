@@ -329,8 +329,8 @@ class HomeWidgetService {
     try {
       // Android
       await HomeWidget.updateWidget(
-        name: 'HomeWidgetProvider',
-        androidName: 'HomeWidgetProvider',
+        name: 'HomeWidget',
+        androidName: 'HomeWidget',
       );
 
       // iOS (if needed in future)
@@ -428,8 +428,8 @@ class HomeWidgetService {
 
       // Update widget
       await HomeWidget.updateWidget(
-        name: 'HomeWidgetProvider',
-        androidName: 'HomeWidgetProvider',
+        name: 'HomeWidget',
+        androidName: 'HomeWidget',
         iOSName: 'HomeWidget',
       );
 

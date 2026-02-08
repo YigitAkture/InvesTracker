@@ -42,13 +42,14 @@ class _AssetsTabState extends State<AssetsTab> {
     try {
       final assetsResult = await _assetService.getUserAssets(widget.userId);
       final marketResult = await _marketService.fetchMarketData();
-      
+      if (!mounted) return;
       setState(() {
         _assets = assetsResult;
         _marketData = marketResult;
         _isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _hasError = true;
         _isLoading = false;

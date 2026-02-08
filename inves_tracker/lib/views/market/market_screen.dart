@@ -59,6 +59,7 @@ class _MarketScreenState extends State<MarketScreen> {
         debugPrint('Home widget updated with fresh market data');
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _hasError = true;
         _isLoading = false;

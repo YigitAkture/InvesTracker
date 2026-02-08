@@ -36,11 +36,13 @@ class _ConverterScreenState extends State<ConverterScreen> {
 
     try {
       final response = await _marketService.fetchMarketData();
+      if (!mounted) return;
       setState(() {
         _marketData = response;
         _isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _hasError = true;
         _isLoading = false;

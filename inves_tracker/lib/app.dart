@@ -59,18 +59,46 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     _updateWidgetIfNeeded();
   }
 
+  /// OPTIMIZED: Initialize app without blocking on notifications
+  /// Removes splash screen immediately, then initializes services in background
   Future<void> _initializeApp() async {
-    // Initialize notification service
-    await _notificationService.initialize();
-
-    // Remove splash screen after delay
-    await Future.delayed(const Duration(seconds: 2));
+    // Remove splash screen after short delay - DON'T wait for notifications
+    await Future.delayed(const Duration(seconds: 1));
     FlutterNativeSplash.remove();
 
-    // Initialize widget after first frame
+    // Initialize notification service asynchronously (non-blocking)
+    _initializeNotifications();
+
+    // Initialize widget after first frame (non-blocking)
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        _homeWidgetService.initialize(context);
+        _initializeWidget();
+      }
+    });
+  }
+
+  /// Initialize notifications in background without blocking UI
+  void _initializeNotifications() {
+    Future.microtask(() async {
+      try {
+        await _notificationService.initialize();
+        debugPrint('✓ Debt notifications initialized in app.dart');
+      } catch (e) {
+        debugPrint('✗ Failed to initialize notifications in app.dart: $e');
+        // Continue - notifications are not critical for app launch
+      }
+    });
+  }
+
+  /// Initialize widget in background without blocking UI
+  void _initializeWidget() {
+    Future.microtask(() async {
+      try {
+        await _homeWidgetService.initialize(context);
+        debugPrint('✓ Home widget initialized');
+      } catch (e) {
+        debugPrint('✗ Failed to initialize widget: $e');
+        // Continue - widget is not critical for app launch
       }
     });
   }
@@ -129,9 +157,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         if (l10n != null) {
           _localizationManager.updateLocalizations(l10n, locale);
 
-          // Update widget when locale changes
+          // Update widget when locale changes (non-blocking)
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            _homeWidgetService.updateWidgetData(context);
+            if (mounted) {
+              _homeWidgetService.updateWidgetData(context).catchError((e) {
+                debugPrint('Failed to update widget on locale change: $e');
+              });
+            }
           });
         }
 
