@@ -10,7 +10,7 @@ import 'package:inves_tracker/core/models/market_response.dart';
 import 'package:inves_tracker/core/utils/visibility_notifier.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/banner_add.dart';
-// import 'package:inves_tracker/views/home/test/notification_debug_screen.dart';
+import 'package:inves_tracker/views/home/test/notification_debug_screen.dart';
 import 'package:inves_tracker/views/home/widgets/portfolio_chart.dart';
 import 'package:inves_tracker/views/home/widgets/total_balance_card.dart';
 import 'package:inves_tracker/views/home/widgets/asset_debt_details.dart';
@@ -169,21 +169,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               
-              // // !!!! TEST SCREEN - REMOVE BEFORE PRODUCTION !!!!!
-              // SizedBox(height: 24.h),
-              // Center(
-              //   child: ElevatedButton(
-              //     onPressed: () => Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const NotificationDebugScreen(),
-              //       ),
-              //     ),
-              //     child: Text('Test Notifications'),
-              //   ),
-              // ),
+              // !!!! TEST SCREEN - REMOVE BEFORE PRODUCTION !!!!!
+              SizedBox(height: 24.h),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NotificationDebugScreen(),
+                    ),
+                  ),
+                  child: Text('Test Notifications'),
+                ),
+              ),
 
-              // // !!!! END OF TEST SCREEN !!!!!
+              // !!!! END OF TEST SCREEN !!!!!
 
               SizedBox(height: 24.h),
 

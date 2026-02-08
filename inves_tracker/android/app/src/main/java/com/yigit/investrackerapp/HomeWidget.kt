@@ -14,12 +14,13 @@ import java.text.DecimalFormatSymbols
 import java.util.Locale
 import android.os.Bundle
 import android.util.TypedValue
-import kotlin.math.max
 import androidx.core.graphics.toColorInt
 
 /**
- * Home Screen Widget for InvesTracker
- * Displays live market data (currencies, gold, crypto) with adaptive height support
+ * REFACTORED Home Screen Widget for InvesTracker
+ * - Displays exactly 4 items per category (currencies, golds, cryptos)
+ * - Uses 'change' field directly from API
+ * - Properly localizes gold names
  */
 class HomeWidget : AppWidgetProvider() {
 
@@ -32,7 +33,6 @@ class HomeWidget : AppWidgetProvider() {
         internal const val ITEM_HEIGHT_DP = 28f
         internal const val DIVIDER_HEIGHT_DP = 9f
         internal const val PADDING_VERTICAL_DP = 16f
-        internal const val MIN_ITEMS_PER_SECTION = 1
     }
 
     override fun onUpdate(
@@ -60,21 +60,16 @@ class HomeWidget : AppWidgetProvider() {
 
         android.util.Log.d("HomeWidget", "========== onReceive CALLED ==========")
         android.util.Log.d("HomeWidget", "Action: ${intent.action}")
-        android.util.Log.d("HomeWidget", "Expected action: $ACTION_REFRESH")
-        android.util.Log.d("HomeWidget", "Actions match: ${intent.action == ACTION_REFRESH}")
 
         if (intent.action == ACTION_REFRESH) {
             try {
                 android.util.Log.d("HomeWidget", "✓ Refresh action matched!")
-                android.util.Log.d("HomeWidget", "Triggering background update via WorkManager...")
 
                 // Create work request
                 val workRequest = androidx.work.OneTimeWorkRequestBuilder<WidgetUpdateWorker>()
                     .addTag("widget_manual_refresh")
                     .setInitialDelay(0, java.util.concurrent.TimeUnit.SECONDS)
                     .build()
-
-                android.util.Log.d("HomeWidget", "✓ Work request created")
 
                 // Enqueue work
                 androidx.work.WorkManager.getInstance(context)
@@ -84,14 +79,10 @@ class HomeWidget : AppWidgetProvider() {
 
                 // Show loading state
                 showLoadingState(context)
-                android.util.Log.d("HomeWidget", "✓ Loading state displayed")
 
             } catch (e: Exception) {
                 android.util.Log.e("HomeWidget", "✗ ERROR in refresh handler", e)
-                e.printStackTrace()
             }
-        } else {
-            android.util.Log.d("HomeWidget", "✗ Action did not match, ignoring")
         }
 
         android.util.Log.d("HomeWidget", "========== onReceive FINISHED ==========")
@@ -153,7 +144,16 @@ class HomeWidget : AppWidgetProvider() {
 }
 
 /**
- * Calculate how many items can fit in the widget based on its current height
+ * Data class to hold calculated item capacities
+ */
+data class ItemCapacity(
+    val currencies: Int,
+    val golds: Int,
+    val cryptos: Int
+)
+
+/**
+ * UPDATED: Calculate item capacity for exactly 4 items per section
  */
 internal fun calculateItemCapacity(
     context: Context,
@@ -163,15 +163,10 @@ internal fun calculateItemCapacity(
     val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
     val heightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, 200)
 
-    // Maximum items available in data
-    val maxCurrencies = 5
-    val maxGolds = 3
-    val maxCryptos = 3
-
-    // Convert dp to pixels for accurate calculation
+    // Widget will try to show: 4 currencies, 4 golds, 4 cryptos
     val displayMetrics = context.resources.displayMetrics
 
-    // Calculate fixed heights in pixels
+    // Calculate heights in pixels
     val headerHeightPx = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
         HomeWidget.HEADER_HEIGHT_DP,
@@ -212,60 +207,62 @@ internal fun calculateItemCapacity(
     val fixedOverheadPx = headerHeightPx + paddingVerticalPx + columnHeadersHeightPx
     var remainingHeightPx = totalHeightPx - fixedOverheadPx
 
-    // Calculate how many items can fit in remaining space
-    val totalPossibleItems = (remainingHeightPx / itemHeightPx).toInt()
-
-    // Distribute items across sections with proper limits
-    var goldItems = 0
-    var cryptoItems = 0
-
-    // Allocate currencies (priority 1, max 5)
-    val currencyItems = minOf(maxCurrencies, max(HomeWidget.MIN_ITEMS_PER_SECTION, totalPossibleItems))
+    // Start with 4 currencies (always show)
+    val currencyItems = 4
 
     // Check if we have space for golds section (needs divider + at least 1 item)
+    var goldItems = 0
     if (remainingHeightPx - (currencyItems * itemHeightPx) >= (dividerHeightPx + itemHeightPx)) {
         // Account for divider space
         remainingHeightPx -= (currencyItems * itemHeightPx + dividerHeightPx)
 
-        // Allocate golds (priority 2, max 3)
+        // Allocate golds (max 4)
         val goldsPossible = (remainingHeightPx / itemHeightPx).toInt()
-        goldItems = minOf(maxGolds, goldsPossible)
+        goldItems = minOf(4, goldsPossible)
 
         // Check if we have space for cryptos section
         if (goldItems > 0) {
             remainingHeightPx -= (goldItems * itemHeightPx)
 
+            var cryptoItems = 0
             if (remainingHeightPx >= (dividerHeightPx + itemHeightPx)) {
                 remainingHeightPx -= dividerHeightPx
 
-                // Allocate cryptos (priority 3, max 3)
+                // Allocate cryptos (max 4)
                 val cryptosPossible = (remainingHeightPx / itemHeightPx).toInt()
-                cryptoItems = minOf(maxCryptos, cryptosPossible)
+                cryptoItems = minOf(4, cryptosPossible)
             }
+
+            android.util.Log.d(
+                "HomeWidget",
+                "Widget height: ${heightDp}dp -> Currencies: $currencyItems, " +
+                        "Golds: $goldItems, Cryptos: $cryptoItems"
+            )
+
+            return ItemCapacity(
+                currencies = currencyItems,
+                golds = goldItems,
+                cryptos = cryptoItems
+            )
         }
     }
 
     android.util.Log.d(
         "HomeWidget",
-        "Widget height: ${heightDp}dp -> Currencies: $currencyItems, Golds: $goldItems, Cryptos: $cryptoItems (Total: ${currencyItems + goldItems + cryptoItems})"
+        "Widget height: ${heightDp}dp -> Currencies: $currencyItems, " +
+                "Golds: $goldItems, Cryptos: 0"
     )
 
     return ItemCapacity(
         currencies = currencyItems,
         golds = goldItems,
-        cryptos = cryptoItems
+        cryptos = 0
     )
 }
 
 /**
- * Data class to hold calculated item capacities
+ * Update the widget with current data
  */
-data class ItemCapacity(
-    val currencies: Int,
-    val golds: Int,
-    val cryptos: Int
-)
-
 internal fun updateAppWidget(
     context: Context,
     appWidgetManager: AppWidgetManager,
@@ -291,9 +288,11 @@ internal fun updateAppWidget(
 
             val updateTime = data.optString("updateTime", "")
             if (updateTime.isNotEmpty()) {
+                // FIXED: Extract only time portion (HH:mm) from "2024-12-04 15:26:02"
+                val timeOnly = extractTimeFromDateTime(updateTime)
                 views.setTextViewText(
                     R.id.widget_update_time,
-                    "${labels.getString("updated")}: $updateTime"
+                    "${labels.getString("updated")}: $timeOnly"
                 )
             }
 
@@ -403,7 +402,8 @@ private fun displayDynamicItems(
 }
 
 /**
- * Create a single item view for currency or gold
+ * REFACTORED: Create item view with simplified change calculation
+ * Uses 'change' field directly from API (positive/negative)
  */
 @Suppress("DiscouragedApi")
 private fun createItemView(
@@ -420,6 +420,13 @@ private fun createItemView(
 
     val itemView = RemoteViews(context.packageName, layoutId)
     val code = item.getString("code")
+
+    // FIXED: For gold items, use localized name if available, otherwise use code
+    val displayText = if (type == "gold" && item.has("name")) {
+        item.getString("name")  // "Gram Altın" or "Gram Gold"
+    } else {
+        code  // "USD", "EUR", etc.
+    }
 
     // Set icon based on type
     when (type) {
@@ -449,26 +456,32 @@ private fun createItemView(
         }
     }
 
-    // Set text values
-    itemView.setTextViewText(R.id.item_code, code)
+    // Set text values - use displayText for gold names
+    itemView.setTextViewText(R.id.item_code, displayText)
     itemView.setTextViewText(R.id.item_buying, formatter.format(item.getDouble("buying")))
     itemView.setTextViewText(R.id.item_selling, formatter.format(item.getDouble("selling")))
 
-    // Set change indicator
-    val isIncreasing = item.getBoolean("isIncreasing")
-    val changeRate = item.getDouble("changeRate")
+    // SIMPLIFIED: Get change directly from API (can be positive or negative)
+    val change = item.optDouble("change", 0.0)
+
+    // Calculate display values
+    val isIncreasing = change >= 0.0  // Zero or positive = green
+    val changePercentage = kotlin.math.abs(change)  // Absolute value for display
 
     val changeColor = if (isIncreasing) "#4CAF50".toColorInt() else "#F44336".toColorInt()
     val changeSymbol = if (isIncreasing) "↑" else "↓"
 
-    itemView.setTextViewText(R.id.item_change, String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changeRate))
+    itemView.setTextViewText(
+        R.id.item_change,
+        String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changePercentage)
+    )
     itemView.setTextColor(R.id.item_change, changeColor)
 
     return itemView
 }
 
 /**
- * Create a crypto item view
+ * REFACTORED: Create crypto item view with simplified change calculation
  */
 @Suppress("DiscouragedApi")
 private fun createCryptoItemView(
@@ -499,17 +512,27 @@ private fun createCryptoItemView(
 
     // Set text values (with $ symbol for crypto)
     itemView.setTextViewText(R.id.item_code, code)
-    itemView.setTextViewText(R.id.item_buying, String.format(Locale.getDefault(), "$%s", formatter.format(crypto.getDouble("usdPrice"))))
-    itemView.setTextViewText(R.id.item_selling, String.format(Locale.getDefault(), "$%s", formatter.format(crypto.getDouble("sellingUsd"))))
+    itemView.setTextViewText(
+        R.id.item_buying,
+        String.format(Locale.getDefault(), "$%s", formatter.format(crypto.getDouble("usdPrice")))
+    )
+    itemView.setTextViewText(
+        R.id.item_selling,
+        String.format(Locale.getDefault(), "$%s", formatter.format(crypto.getDouble("sellingUsd")))
+    )
 
-    // Set change indicator
-    val isIncreasing = crypto.getBoolean("isIncreasing")
-    val changeRate = crypto.getDouble("changeRate")
+    // SIMPLIFIED: Get change directly
+    val change = crypto.optDouble("change", 0.0)
+    val isIncreasing = change >= 0.0
+    val changePercentage = kotlin.math.abs(change)
 
     val changeColor = if (isIncreasing) "#4CAF50".toColorInt() else "#F44336".toColorInt()
     val changeSymbol = if (isIncreasing) "↑" else "↓"
 
-    itemView.setTextViewText(R.id.item_change, String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changeRate))
+    itemView.setTextViewText(
+        R.id.item_change,
+        String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changePercentage)
+    )
     itemView.setTextColor(R.id.item_change, changeColor)
 
     return itemView
@@ -569,4 +592,29 @@ private fun getNumberFormatter(locale: String): DecimalFormat {
     }
 
     return DecimalFormat("#,##0.00##", symbols)
+}
+
+/**
+ * Extract time portion from datetime string
+ * Input: "2024-12-04 15:26:02"
+ * Output: "15:26"
+ */
+private fun extractTimeFromDateTime(dateTime: String): String {
+    return try {
+        // Split by space to get time part
+        val parts = dateTime.split(" ")
+        if (parts.size >= 2) {
+            // Get time part and extract HH:mm
+            val timeParts = parts[1].split(":")
+            if (timeParts.size >= 2) {
+                "${timeParts[0]}:${timeParts[1]}"  // "15:26"
+            } else {
+                parts[1]  // Return full time if parsing fails
+            }
+        } else {
+            dateTime  // Return as-is if no space found
+        }
+    } catch (e: Exception) {
+        dateTime  // Return original on error
+    }
 }
