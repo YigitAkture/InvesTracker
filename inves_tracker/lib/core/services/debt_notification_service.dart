@@ -8,7 +8,6 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
 
 /// Service for managing debt payment notifications
-/// FIXED: Uses correct icon reference to avoid initialization errors
 class DebtNotificationService {
   static final DebtNotificationService _instance =
       DebtNotificationService._internal();
@@ -39,9 +38,8 @@ class DebtNotificationService {
 
       tz.setLocalLocation(tz.getLocation(timeZoneName));
 
-      // FIXED: Use @drawable/ic_launcher instead of @mipmap/ic_launcher
       const AndroidInitializationSettings androidSettings =
-          AndroidInitializationSettings('@drawable/ic_launcher');
+          AndroidInitializationSettings('@mipmap/ic_launcher');
 
       const DarwinInitializationSettings iosSettings =
           DarwinInitializationSettings(
@@ -226,7 +224,6 @@ class DebtNotificationService {
         return;
       }
 
-      // FIXED: Use @drawable/ic_launcher
       const AndroidNotificationDetails androidDetails =
           AndroidNotificationDetails(
             'debt_reminders',
@@ -234,7 +231,7 @@ class DebtNotificationService {
             channelDescription: 'Notifications for upcoming debt payments',
             importance: Importance.high,
             priority: Priority.high,
-            icon: '@drawable/ic_launcher',
+            icon: '@mipmap/ic_launcher',
           );
 
       const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
@@ -291,7 +288,6 @@ class DebtNotificationService {
         return;
       }
 
-      // FIXED: Use @drawable/ic_launcher
       const AndroidNotificationDetails androidDetails =
           AndroidNotificationDetails(
             'debt_reminders',
@@ -299,7 +295,7 @@ class DebtNotificationService {
             channelDescription: 'Notifications for upcoming debt payments',
             importance: Importance.max,
             priority: Priority.high,
-            icon: '@drawable/ic_launcher',
+            icon: '@mipmap/ic_launcher',
             color: Color(0xFFFF5252),
           );
 

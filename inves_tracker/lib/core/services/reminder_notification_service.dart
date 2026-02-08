@@ -9,7 +9,6 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
 
 /// Service for managing app reminder and market update notifications
-/// FIXED: Uses correct icon reference to avoid initialization errors
 class ReminderNotificationService {
   static final ReminderNotificationService _instance =
       ReminderNotificationService._internal();
@@ -154,14 +153,13 @@ class ReminderNotificationService {
       final title = l10n.appReminderNotificationTitle;
       final body = _getReminderMessage(messageKey, l10n);
 
-      // FIXED: Use @drawable/ic_launcher
       const androidDetails = AndroidNotificationDetails(
         'app_reminders',
         'App Reminders',
         channelDescription: 'Periodic reminders to check your investments',
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority,
-        icon: '@drawable/ic_launcher',
+        icon: '@mipmap/ic_launcher',
       );
 
       const iosDetails = DarwinNotificationDetails(
@@ -211,14 +209,13 @@ class ReminderNotificationService {
         currency.selling,
       );
 
-      // FIXED: Use @drawable/ic_launcher
       const androidDetails = AndroidNotificationDetails(
         'market_updates',
         'Market Updates',
         channelDescription: 'Updates on current market values',
         importance: Importance.defaultImportance,
         priority: Priority.defaultPriority,
-        icon: '@drawable/ic_launcher',
+        icon: '@mipmap/ic_launcher',
       );
 
       const iosDetails = DarwinNotificationDetails(

@@ -288,7 +288,7 @@ internal fun updateAppWidget(
 
             val updateTime = data.optString("updateTime", "")
             if (updateTime.isNotEmpty()) {
-                // FIXED: Extract only time portion (HH:mm) from "2024-12-04 15:26:02"
+                // Extract only time portion (HH:mm) from "2024-12-04 15:26:02"
                 val timeOnly = extractTimeFromDateTime(updateTime)
                 views.setTextViewText(
                     R.id.widget_update_time,
@@ -421,7 +421,7 @@ private fun createItemView(
     val itemView = RemoteViews(context.packageName, layoutId)
     val code = item.getString("code")
 
-    // FIXED: For gold items, use localized name if available, otherwise use code
+    // For gold items, use localized name if available, otherwise use code
     val displayText = if (type == "gold" && item.has("name")) {
         item.getString("name")  // "Gram Altın" or "Gram Gold"
     } else {
