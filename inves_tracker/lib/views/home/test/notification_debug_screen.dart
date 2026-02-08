@@ -180,18 +180,42 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen>
 
   /// Test immediate debt notification (for testing notification appearance)
   Future<void> _testDebtImmediateNotification() async {
-    final now = DateTime.now();
-    // Schedule for 3 seconds from now
-    final dueDate = now.add(const Duration(seconds: 3));
-
     try {
-      await _debtNotificationService.scheduleDebtNotifications(
-        debtId: 'test_immediate',
-        createdAt: now,
-        dueDate: dueDate,
-        debtDescription: 'Immediate test notification',
-        amount: 1000,
-        currency: 'USD',
+      final l10n = AppLocalizations.of(context)!;
+
+      // Schedule directly without using the service to avoid time constraints
+      final notificationTime = tz.TZDateTime.now(
+        tz.local,
+      ).add(const Duration(seconds: 3));
+
+      const androidDetails = AndroidNotificationDetails(
+        'debt_reminders',
+        'Debt Reminders',
+        channelDescription: 'Notifications for upcoming debt payments',
+        importance: Importance.max,
+        priority: Priority.high,
+        icon: '@mipmap/ic_launcher',
+      );
+
+      const iosDetails = DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      );
+
+      const details = NotificationDetails(
+        android: androidDetails,
+        iOS: iosDetails,
+      );
+
+      await FlutterLocalNotificationsPlugin().zonedSchedule(
+        id: 9999, // Use unique test ID outside normal range
+        title: l10n.debtDueDateNotificationTitle,
+        body: l10n.debtDueDateNotificationBody(1000.0, 'USD'),
+        scheduledDate: notificationTime,
+        notificationDetails: details,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        payload: 'debt:test_immediate',
       );
 
       await _loadDebugInfo();
@@ -299,7 +323,7 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen>
 
       final notificationTime = tz.TZDateTime.now(
         tz.local,
-      ).add(const Duration(seconds: 10));
+      ).add(const Duration(seconds: 3));
 
       const androidDetails = AndroidNotificationDetails(
         'app_reminders',
@@ -335,7 +359,7 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen>
 
       setState(() {
         _testResults =
-            '✅ Immediate app reminder scheduled for 10 seconds from now\nMessage: $randomMessage';
+            '✅ Immediate app reminder scheduled for 3 seconds from now\nMessage: $randomMessage';
       });
     } catch (e) {
       setState(() {
@@ -385,7 +409,7 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen>
 
       final notificationTime = tz.TZDateTime.now(
         tz.local,
-      ).add(const Duration(seconds: 10));
+      ).add(const Duration(seconds: 3));
 
       final l10n = AppLocalizations.of(context)!;
 
@@ -427,7 +451,7 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen>
       setState(() {
         _isLoadingMarketData = false;
         _testResults =
-            '✅ Immediate market update scheduled for 10 seconds from now\n'
+            '✅ Immediate market update scheduled for 3 seconds from now\n'
             'Currency: ${randomCurrency.code} - ${randomCurrency.selling.toStringAsFixed(2)} TRY';
       });
     } catch (e) {
