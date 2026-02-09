@@ -1436,6 +1436,12 @@ abstract class AppLocalizations {
   /// **'Failed to delete profile'**
   String get failedToDeleteProfile;
 
+  /// No description provided for @preferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get preferences;
+
   /// No description provided for @userInformation.
   ///
   /// In en, this message translates to:

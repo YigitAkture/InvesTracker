@@ -224,6 +224,7 @@
   "failedToDeleteProfile": "Profil silinirken bir hata oluştu",
   "errorUpdatingProfile": "Profil güncellenmemedi",
   "editProfile": "Profili Düzenle",
+  "preferences": "Tercihler",
   "userInformation": "Kullanıcı Bilgileri",
   "enterPasswordToDeleteAccount": "Hesabınızı silmek için lütfen şifrenizi girin. Bu işlem geri alınamaz.",
   "warning": "Uyarı",

@@ -688,6 +688,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get failedToDeleteProfile => 'Profil silinirken bir hata oluştu';
 
   @override
+  String get preferences => 'Tercihler';
+
+  @override
   String get userInformation => 'Kullanıcı Bilgileri';
 
   @override

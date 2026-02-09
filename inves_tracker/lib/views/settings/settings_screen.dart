@@ -31,9 +31,10 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(height: 8.h),
 
                 // Dark Mode Setting Card
+                SectionHeader(title: l10n.preferences),
+                SizedBox(height: 8.h),
                 const SettingCard(child: ThemeSettingItem()),
                 SizedBox(height: 12.h),
-
                 // Language Setting Card
                 const SettingCard(child: LanguageSettingItem()),
                 SizedBox(height: 12.h),
