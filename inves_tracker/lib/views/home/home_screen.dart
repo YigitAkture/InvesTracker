@@ -170,18 +170,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               
               // !!!! TEST SCREEN - REMOVE BEFORE PRODUCTION !!!!!
-              SizedBox(height: 24.h),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const NotificationDebugScreen(),
-                    ),
-                  ),
-                  child: Text('Test Notifications'),
-                ),
-              ),
+              // SizedBox(height: 24.h),
+              // Center(
+              //   child: ElevatedButton(
+              //     onPressed: () => Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => const NotificationDebugScreen(),
+              //       ),
+              //     ),
+              //     child: Text('Test Notifications'),
+              //   ),
+              // ),
 
               // !!!! END OF TEST SCREEN !!!!!
 
