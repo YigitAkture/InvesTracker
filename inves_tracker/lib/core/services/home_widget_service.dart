@@ -10,6 +10,7 @@ import 'package:inves_tracker/l10n/app_localizations.dart';
 /// - Uses exactly 4 items per category
 /// - Proper gold localization
 /// - Simplified change calculations (no redundant fields)
+/// - Language-only updates to preserve change values
 class HomeWidgetService {
   static final HomeWidgetService _instance = HomeWidgetService._internal();
   factory HomeWidgetService() => _instance;
@@ -59,6 +60,112 @@ class HomeWidgetService {
     } catch (e) {
       debugPrint('✗ Failed to update widget: $e');
     }
+  }
+
+  /// Update ONLY widget language/labels without fetching fresh market data
+  /// This preserves existing market data including change values
+  Future<void> updateWidgetLanguage(BuildContext context) async {
+    try {
+      // Get existing widget data
+      final existingData = await HomeWidget.getWidgetData<String>(
+        _widgetDataKey,
+      );
+      if (existingData == null) {
+        // No existing data, do full update
+        debugPrint('No existing widget data, performing full update');
+        await updateWidgetData(context);
+        return;
+      }
+
+      final l10n = AppLocalizations.of(context)!;
+      final locale = Localizations.localeOf(context);
+
+      // Parse existing data
+      final data = jsonDecode(existingData) as Map<String, dynamic>;
+
+      // Update only the localized parts while preserving market data
+      final updatedData = {
+        'currencies': _updateCurrencyNames(data['currencies'] as List, l10n),
+        'golds': _updateGoldNames(data['golds'] as List, l10n),
+        'cryptos': data['cryptos'], // Crypto names don't change with locale
+        'updateTime': data['updateTime'], // Preserve existing update time
+        'labels': _getLabels(l10n), // Update labels to new language
+      };
+
+      await HomeWidget.saveWidgetData<String>(
+        _widgetDataKey,
+        jsonEncode(updatedData),
+      );
+
+      await _saveLocale(locale.languageCode);
+
+      await _updatePlatformWidget();
+
+      debugPrint(
+        '✓ Widget language updated to ${locale.languageCode} (data preserved)',
+      );
+    } catch (e) {
+      debugPrint('✗ Failed to update widget language: $e');
+      // Fallback to full update
+      await updateWidgetData(context);
+    }
+  }
+
+  /// Update currency display names while preserving all other data
+  List<Map<String, dynamic>> _updateCurrencyNames(
+    List<dynamic> currencies,
+    AppLocalizations l10n,
+  ) {
+    return currencies.map((item) {
+      final currency = item as Map<String, dynamic>;
+      final code = currency['code'] as String;
+
+      return {
+        'code': code,
+        'name': _getCurrencyName(code, l10n), // Update name
+        'buying': currency['buying'], // Preserve
+        'selling': currency['selling'], // Preserve
+        'change': currency['change'], // PRESERVE CHANGE VALUE
+      };
+    }).toList();
+  }
+
+  /// Update gold display names while preserving all other data
+  List<Map<String, dynamic>> _updateGoldNames(
+    List<dynamic> golds,
+    AppLocalizations l10n,
+  ) {
+    return golds.map((item) {
+      final gold = item as Map<String, dynamic>;
+      final code = gold['code'] as String;
+
+      // Map display code back to GoldType
+      GoldType? goldType;
+      switch (code) {
+        case 'GRA':
+          goldType = GoldType.gram;
+          break;
+        case 'CEYR':
+          goldType = GoldType.quarter;
+          break;
+        case 'YARI':
+          goldType = GoldType.half;
+          break;
+        case 'TAM':
+          goldType = GoldType.full;
+          break;
+      }
+
+      return {
+        'code': code,
+        'name': goldType != null
+            ? goldType.localizedName(l10n)
+            : code, // Update name
+        'buying': gold['buying'], // Preserve
+        'selling': gold['selling'], // Preserve
+        'change': gold['change'], // PRESERVE CHANGE VALUE
+      };
+    }).toList();
   }
 
   /// Prepare widget data with exactly 4 items per category

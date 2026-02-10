@@ -157,11 +157,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         if (l10n != null) {
           _localizationManager.updateLocalizations(l10n, locale);
 
-          // Update widget when locale changes (non-blocking)
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
-              _homeWidgetService.updateWidgetData(context).catchError((e) {
-                debugPrint('Failed to update widget on locale change: $e');
+              _homeWidgetService.updateWidgetLanguage(context).catchError((e) {
+                debugPrint(
+                  'Failed to update widget language on locale change: $e',
+                );
               });
             }
           });
