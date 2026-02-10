@@ -1927,6 +1927,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Debt notifications off'**
   String get debtNotificationsDisabled;
+
+  /// No description provided for @notificationPermissionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Permission Required'**
+  String get notificationPermissionRequired;
+
+  /// No description provided for @notificationPermissionRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enable notifications in your device settings to receive reminders and updates.'**
+  String get notificationPermissionRequiredMessage;
+
+  /// No description provided for @notificationPermissionDeniedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification permission was denied. Please enable it in your device settings to use this feature.'**
+  String get notificationPermissionDeniedMessage;
+
+  /// No description provided for @notificationPermissionGranted.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification permission granted'**
+  String get notificationPermissionGranted;
+
+  /// No description provided for @notificationPermissionNotGranted.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification permission not granted. Tap \'Enable\' to allow notifications'**
+  String get notificationPermissionNotGranted;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettings;
+
+  /// No description provided for @enable.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable'**
+  String get enable;
 }
 
 class _AppLocalizationsDelegate

@@ -956,4 +956,28 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get debtNotificationsDisabled => 'Borç bildirimleri kapalı';
+
+  @override
+  String get notificationPermissionRequired => 'Bildirim İzni Gerekli';
+
+  @override
+  String get notificationPermissionRequiredMessage =>
+      'Hatırlatmalar ve güncellemeler almak için lütfen cihaz ayarlarınızdan bildirimleri etkinleştirin.';
+
+  @override
+  String get notificationPermissionDeniedMessage =>
+      'Bildirim izni reddedildi. Bu özelliği kullanmak için lütfen cihaz ayarlarınızdan etkinleştirin.';
+
+  @override
+  String get notificationPermissionGranted => 'Bildirim izni verildi';
+
+  @override
+  String get notificationPermissionNotGranted =>
+      'Bildirim izni verilmedi. Bildirimlere izin vermek için \'Etkinleştir\'e dokunun.';
+
+  @override
+  String get openSettings => 'Ayarları Aç';
+
+  @override
+  String get enable => 'Etkinleştir';
 }

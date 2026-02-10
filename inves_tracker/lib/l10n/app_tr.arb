@@ -339,6 +339,13 @@
   "reminderNotificationsEnabled": "Hatırlatma bildirimleri açık",
   "reminderNotificationsDisabled": "Hatırlatma bildirimleri kapalı",
   "debtNotificationsEnabled": "Borç bildirimleri açık",
-  "debtNotificationsDisabled": "Borç bildirimleri kapalı"
+  "debtNotificationsDisabled": "Borç bildirimleri kapalı",
+  "notificationPermissionRequired": "Bildirim İzni Gerekli",
+  "notificationPermissionRequiredMessage": "Hatırlatmalar ve güncellemeler almak için lütfen cihaz ayarlarınızdan bildirimleri etkinleştirin.",
+  "notificationPermissionDeniedMessage": "Bildirim izni reddedildi. Bu özelliği kullanmak için lütfen cihaz ayarlarınızdan etkinleştirin.",
+  "notificationPermissionGranted": "Bildirim izni verildi",
+  "notificationPermissionNotGranted": "Bildirim izni verilmedi. Bildirimlere izin vermek için 'Etkinleştir'e dokunun.",
+  "openSettings": "Ayarları Aç",
+  "enable": "Etkinleştir"
 
 }

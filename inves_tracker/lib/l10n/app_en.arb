@@ -339,5 +339,12 @@
   "reminderNotificationsEnabled": "Reminder notifications on",
   "reminderNotificationsDisabled": "Reminder notifications off",
   "debtNotificationsEnabled": "Debt notifications on",
-  "debtNotificationsDisabled": "Debt notifications off"
+  "debtNotificationsDisabled": "Debt notifications off",
+  "notificationPermissionRequired": "Notification Permission Required",
+  "notificationPermissionRequiredMessage": "Please enable notifications in your device settings to receive reminders and updates.",
+  "notificationPermissionDeniedMessage": "Notification permission was denied. Please enable it in your device settings to use this feature.",
+  "notificationPermissionGranted": "Notification permission granted",
+  "notificationPermissionNotGranted": "Notification permission not granted. Tap 'Enable' to allow notifications",
+  "openSettings": "Open Settings",
+  "enable": "Enable"
 }

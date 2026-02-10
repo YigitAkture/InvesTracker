@@ -953,4 +953,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get debtNotificationsDisabled => 'Debt notifications off';
+
+  @override
+  String get notificationPermissionRequired =>
+      'Notification Permission Required';
+
+  @override
+  String get notificationPermissionRequiredMessage =>
+      'Please enable notifications in your device settings to receive reminders and updates.';
+
+  @override
+  String get notificationPermissionDeniedMessage =>
+      'Notification permission was denied. Please enable it in your device settings to use this feature.';
+
+  @override
+  String get notificationPermissionGranted => 'Notification permission granted';
+
+  @override
+  String get notificationPermissionNotGranted =>
+      'Notification permission not granted. Tap \'Enable\' to allow notifications';
+
+  @override
+  String get openSettings => 'Open Settings';
+
+  @override
+  String get enable => 'Enable';
 }
