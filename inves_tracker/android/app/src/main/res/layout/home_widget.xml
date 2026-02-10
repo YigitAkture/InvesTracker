@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Dynamic Home Widget Layout for InvesTracker
-    Uses container-based approach for adaptive item rendering
-    Automatically adjusts visible items based on widget height
--->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp"
+    android:padding="6dp"
+    android:gravity="top"
     android:background="@drawable/app_widget_background">
 
-    <!-- Header with Title, Update Time and Refresh Button -->
+    <!-- Header: Title | Update time | Refresh button  (total height = 28dp) -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="24dp"
         android:orientation="horizontal"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="4dp"
         android:gravity="center_vertical">
 
         <TextView
@@ -25,9 +22,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="InvesTracker"
-            android:textSize="13sp"
+            android:textSize="12sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:maxLines="1" />
 
         <TextView
             android:id="@+id/widget_update_time"
@@ -36,36 +34,38 @@
             android:text="Updated: --:--"
             android:textSize="9sp"
             android:textColor="#B3FFFFFF"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="6dp"
+            android:maxLines="1" />
 
-        <!-- Refresh Button -->
         <ImageButton
             android:id="@+id/refresh_button"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@android:drawable/ic_popup_sync"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="Refresh"
             android:scaleType="fitCenter"
-            android:padding="4dp"
+            android:padding="3dp"
             android:tint="#FFFFFF" />
     </LinearLayout>
 
-    <!-- Column Headers -->
+    <!-- Column headers  (total height ≈ 18dp) -->
     <LinearLayout
         android:id="@+id/column_headers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="2dp"
         android:paddingBottom="2dp"
         android:background="#22FFFFFF">
 
+        <!--
+            Spacer = icon width (22dp) + icon marginEnd (4dp) = 26dp.
+            Aligns column labels with data-row text.
+        -->
         <TextView
-            android:layout_width="24dp"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="8sp" />
+            android:layout_width="26dp"
+            android:layout_height="1dp" />
 
         <TextView
             android:id="@+id/header_code"
@@ -101,7 +101,7 @@
 
         <TextView
             android:id="@+id/header_change"
-            android:layout_width="55dp"
+            android:layout_width="58dp"
             android:layout_height="wrap_content"
             android:text="Change"
             android:textSize="9sp"
@@ -111,41 +111,49 @@
             android:layout_marginStart="6dp" />
     </LinearLayout>
 
-    <!-- Currency Container - dynamically populated -->
+    <!-- Currency container — always populated (Mode 1, 2, 3) -->
     <LinearLayout
         android:id="@+id/currency_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
 
-    <!-- Divider 1 (between currencies and golds) -->
+    <!--
+        Divider 1: currencies ↔ golds
+        1dp + 2dp marginTop + 6dp marginBottom = 9dp total
+        Shown in Mode 2 and Mode 3 only.
+    -->
     <TextView
         android:id="@+id/divider_1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#33FFFFFF"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="6dp"
         android:visibility="gone" />
 
-    <!-- Gold Container - dynamically populated -->
+    <!-- Gold container — populated in Mode 2 and Mode 3 -->
     <LinearLayout
         android:id="@+id/gold_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
 
-    <!-- Divider 2 (between golds and cryptos) -->
+    <!--
+        Divider 2: golds ↔ cryptos
+        Same 9dp total.
+        Shown in Mode 3 only.
+    -->
     <TextView
         android:id="@+id/divider_2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#33FFFFFF"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="6dp"
         android:visibility="gone" />
 
-    <!-- Crypto Container - dynamically populated -->
+    <!-- Crypto container — populated in Mode 3 only -->
     <LinearLayout
         android:id="@+id/crypto_container"
         android:layout_width="match_parent"

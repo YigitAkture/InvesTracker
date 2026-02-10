@@ -13,26 +13,69 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
 import android.os.Bundle
-import android.util.TypedValue
 import androidx.core.graphics.toColorInt
 
 /**
- * REFACTORED Home Screen Widget for InvesTracker
- * - Displays exactly 4 items per category (currencies, golds, cryptos)
- * - Uses 'change' field directly from API
- * - Properly localizes gold names
+ * Home Screen Widget for InvesTracker
+ *
+ * ══════════════════════════════════════════════════════════════════════════
+ * HEIGHT-ADAPTIVE DISPLAY MODES
+ * ══════════════════════════════════════════════════════════════════════════
+ *
+ *   Mode 1 — MIN_HEIGHT < 369 dp  :  header + column-headers + 4 currencies
+ *   Mode 2 — MIN_HEIGHT < 514 dp  :  Mode 1 + divider + 4 golds
+ *   Mode 3 — MIN_HEIGHT ≥ 514 dp  :  Mode 2 + divider + 4 cryptos
+ *
+ * Measured content heights (all dp — must match home_widget.xml exactly):
+ *   Root padding top+bottom          :  12  (6dp × 2)
+ *   Header row  (24dp + 4dp margin)  :  28
+ *   Column-header row                :  18
+ *   4 item rows × (32dp + 2dp gap)   : 136
+ *                                   ─────
+ *   Mode 1 total                     : 194 dp
+ *
+ *   Divider (1dp + 2dp + 6dp)        :   9
+ *   4 gold rows                      : 136
+ *                                   ─────
+ *   Mode 2 total                     : 339 dp
+ *
+ *   Divider                          :   9
+ *   4 crypto rows                    : 136
+ *                                   ─────
+ *   Mode 3 total                     : 484 dp
+ *
+ * Thresholds = content height + 30 dp safety buffer:
+ *   MODE_2_THRESHOLD_DP = 369   (= 339 + 30)
+ *   MODE_3_THRESHOLD_DP = 514   (= 484 + 30)
+ *
+ * ══════════════════════════════════════════════════════════════════════════
+ * WHY OPTION_APPWIDGET_MIN_HEIGHT
+ * ══════════════════════════════════════════════════════════════════════════
+ * MIN_HEIGHT is the smallest guaranteed height for the current widget size
+ * in portrait orientation. MAX_HEIGHT can be inflated by some launchers
+ * (especially Samsung One UI), causing over-estimation of available space
+ * and partially-visible rows. MIN_HEIGHT is the conservative, reliable value.
+ *
+ * ══════════════════════════════════════════════════════════════════════════
+ * WHY ROOT LAYOUT IS match_parent
+ * ══════════════════════════════════════════════════════════════════════════
+ * Android draws resize handles at the ALLOCATED cell boundary, not at the
+ * edge of widget content. With wrap_content, the background shrinks to the
+ * content size but handles remain at the full cell edge — they visually
+ * extend "outside" the visible widget. With match_parent, the background
+ * and handles are always flush with each other.
  */
 class HomeWidget : AppWidgetProvider() {
 
     companion object {
         const val ACTION_REFRESH = "com.yigit.investrackerapp.ACTION_REFRESH"
 
-        // Layout dimension constants (in dp)
-        internal const val HEADER_HEIGHT_DP = 40f
-        internal const val COLUMN_HEADERS_HEIGHT_DP = 24f
-        internal const val ITEM_HEIGHT_DP = 28f
-        internal const val DIVIDER_HEIGHT_DP = 9f
-        internal const val PADDING_VERTICAL_DP = 16f
+        /**
+         * Height thresholds in dp.
+         * Must match the content-height calculations documented above.
+         */
+        internal const val MODE_2_THRESHOLD_DP = 369   // show golds   when ≥ this
+        internal const val MODE_3_THRESHOLD_DP = 514   // show cryptos when ≥ this
     }
 
     override fun onUpdate(
@@ -57,62 +100,37 @@ class HomeWidget : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-
-        android.util.Log.d("HomeWidget", "========== onReceive CALLED ==========")
-        android.util.Log.d("HomeWidget", "Action: ${intent.action}")
+        android.util.Log.d("HomeWidget", "onReceive: ${intent.action}")
 
         if (intent.action == ACTION_REFRESH) {
             try {
-                android.util.Log.d("HomeWidget", "✓ Refresh action matched!")
-
-                // Create work request
-                val workRequest = androidx.work.OneTimeWorkRequestBuilder<WidgetUpdateWorker>()
-                    .addTag("widget_manual_refresh")
-                    .setInitialDelay(0, java.util.concurrent.TimeUnit.SECONDS)
-                    .build()
-
-                // Enqueue work
-                androidx.work.WorkManager.getInstance(context)
-                    .enqueue(workRequest)
-
-                android.util.Log.d("HomeWidget", "✓ Work enqueued to WorkManager")
-
-                // Show loading state
+                val workRequest =
+                    androidx.work.OneTimeWorkRequestBuilder<WidgetUpdateWorker>()
+                        .addTag("widget_manual_refresh")
+                        .setInitialDelay(0, java.util.concurrent.TimeUnit.SECONDS)
+                        .build()
+                androidx.work.WorkManager.getInstance(context).enqueue(workRequest)
+                android.util.Log.d("HomeWidget", "Refresh work enqueued")
                 showLoadingState(context)
-
             } catch (e: Exception) {
-                android.util.Log.e("HomeWidget", "✗ ERROR in refresh handler", e)
+                android.util.Log.e("HomeWidget", "Error in refresh handler", e)
             }
         }
-
-        android.util.Log.d("HomeWidget", "========== onReceive FINISHED ==========")
     }
 
-    /**
-     * Show a temporary loading indicator while refresh is in progress
-     */
     private fun showLoadingState(context: Context) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
-        val appWidgetIds = appWidgetManager.getAppWidgetIds(
-            android.content.ComponentName(context, HomeWidget::class.java)
-        )
-
-        for (appWidgetId in appWidgetIds) {
+        val componentName = android.content.ComponentName(context, HomeWidget::class.java)
+        for (id in appWidgetManager.getAppWidgetIds(componentName)) {
             val views = RemoteViews(context.packageName, R.layout.home_widget)
-            views.setTextViewText(R.id.widget_update_time, "Updating...")
-
-            // Setup refresh button (keep it clickable)
-            setupRefreshButton(views, context, appWidgetId)
-
-            appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views)
+            views.setTextViewText(R.id.widget_update_time, "Updating…")
+            setupRefreshButton(views, context, id)
+            appWidgetManager.partiallyUpdateAppWidget(id, views)
         }
     }
 
     override fun onEnabled(context: Context) {
-        // Widget is added to home screen
-        android.util.Log.d("HomeWidget", "Widget enabled - setting up periodic updates")
-
-        // Setup periodic background updates
+        android.util.Log.d("HomeWidget", "Widget enabled — scheduling periodic updates")
         androidx.work.PeriodicWorkRequestBuilder<WidgetUpdateWorker>(
             30, java.util.concurrent.TimeUnit.MINUTES
         )
@@ -123,37 +141,48 @@ class HomeWidget : AppWidgetProvider() {
                     .build()
             )
             .build()
-            .let { workRequest ->
+            .let { req ->
                 androidx.work.WorkManager.getInstance(context)
                     .enqueueUniquePeriodicWork(
                         "widget_periodic_update",
                         androidx.work.ExistingPeriodicWorkPolicy.KEEP,
-                        workRequest
+                        req
                     )
             }
     }
 
     override fun onDisabled(context: Context) {
-        // Last widget is removed from home screen
-        android.util.Log.d("HomeWidget", "Widget disabled - cancelling background updates")
-
-        // Cancel all background work
+        android.util.Log.d("HomeWidget", "Widget disabled — cancelling periodic updates")
         androidx.work.WorkManager.getInstance(context)
             .cancelAllWorkByTag("widget_periodic_update")
     }
 }
 
-/**
- * Data class to hold calculated item capacities
- */
+// ─────────────────────────────────────────────────────────────────────────────
+// Data class
+// ─────────────────────────────────────────────────────────────────────────────
+
 data class ItemCapacity(
     val currencies: Int,
     val golds: Int,
     val cryptos: Int
 )
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Mode selection
+// ─────────────────────────────────────────────────────────────────────────────
+
 /**
- * UPDATED: Calculate item capacity for exactly 4 items per section
+ * Maps the current widget height to a display mode.
+ *
+ * We read OPTION_APPWIDGET_MIN_HEIGHT because it is the conservative,
+ * guaranteed-available height in portrait on all launchers. MAX_HEIGHT
+ * can be inflated by some launchers causing partial-row clipping.
+ *
+ * The 30 dp buffer in each threshold accounts for:
+ *   • Launcher-internal cell padding not reflected in the reported value
+ *   • Rounding differences across screen densities
+ *   • Samsung One UI reporting quirks
  */
 internal fun calculateItemCapacity(
     context: Context,
@@ -161,108 +190,38 @@ internal fun calculateItemCapacity(
     appWidgetId: Int
 ): ItemCapacity {
     val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
-    val heightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, 200)
 
-    // Widget will try to show: 4 currencies, 4 golds, 4 cryptos
-    val displayMetrics = context.resources.displayMetrics
-
-    // Calculate heights in pixels
-    val headerHeightPx = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        HomeWidget.HEADER_HEIGHT_DP,
-        displayMetrics
-    )
-
-    val columnHeadersHeightPx = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        HomeWidget.COLUMN_HEADERS_HEIGHT_DP,
-        displayMetrics
-    )
-
-    val itemHeightPx = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        HomeWidget.ITEM_HEIGHT_DP,
-        displayMetrics
-    )
-
-    val dividerHeightPx = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        HomeWidget.DIVIDER_HEIGHT_DP,
-        displayMetrics
-    )
-
-    val paddingVerticalPx = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        HomeWidget.PADDING_VERTICAL_DP,
-        displayMetrics
-    )
-
-    val totalHeightPx = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        heightDp.toFloat(),
-        displayMetrics
-    )
-
-    // Calculate available height for items
-    val fixedOverheadPx = headerHeightPx + paddingVerticalPx + columnHeadersHeightPx
-    var remainingHeightPx = totalHeightPx - fixedOverheadPx
-
-    // Start with 4 currencies (always show)
-    val currencyItems = 4
-
-    // Check if we have space for golds section (needs divider + at least 1 item)
-    var goldItems = 0
-    if (remainingHeightPx - (currencyItems * itemHeightPx) >= (dividerHeightPx + itemHeightPx)) {
-        // Account for divider space
-        remainingHeightPx -= (currencyItems * itemHeightPx + dividerHeightPx)
-
-        // Allocate golds (max 4)
-        val goldsPossible = (remainingHeightPx / itemHeightPx).toInt()
-        goldItems = minOf(4, goldsPossible)
-
-        // Check if we have space for cryptos section
-        if (goldItems > 0) {
-            remainingHeightPx -= (goldItems * itemHeightPx)
-
-            var cryptoItems = 0
-            if (remainingHeightPx >= (dividerHeightPx + itemHeightPx)) {
-                remainingHeightPx -= dividerHeightPx
-
-                // Allocate cryptos (max 4)
-                val cryptosPossible = (remainingHeightPx / itemHeightPx).toInt()
-                cryptoItems = minOf(4, cryptosPossible)
-            }
-
-            android.util.Log.d(
-                "HomeWidget",
-                "Widget height: ${heightDp}dp -> Currencies: $currencyItems, " +
-                        "Golds: $goldItems, Cryptos: $cryptoItems"
-            )
-
-            return ItemCapacity(
-                currencies = currencyItems,
-                golds = goldItems,
-                cryptos = cryptoItems
-            )
-        }
-    }
+    // Use MIN_HEIGHT — the reliable conservative value for portrait widgets.
+    // Default 200dp keeps us safely in Mode 1 on first inflate before sizing is known.
+    val heightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 200)
 
     android.util.Log.d(
         "HomeWidget",
-        "Widget height: ${heightDp}dp -> Currencies: $currencyItems, " +
-                "Golds: $goldItems, Cryptos: 0"
+        "MIN_HEIGHT=${heightDp}dp | " +
+                "mode2_thresh=${HomeWidget.MODE_2_THRESHOLD_DP}dp | " +
+                "mode3_thresh=${HomeWidget.MODE_3_THRESHOLD_DP}dp"
     )
 
-    return ItemCapacity(
-        currencies = currencyItems,
-        golds = goldItems,
-        cryptos = 0
-    )
+    return when {
+        heightDp < HomeWidget.MODE_2_THRESHOLD_DP -> {
+            android.util.Log.d("HomeWidget", "→ Mode 1 (currencies only, content=194dp)")
+            ItemCapacity(currencies = 4, golds = 0, cryptos = 0)
+        }
+        heightDp < HomeWidget.MODE_3_THRESHOLD_DP -> {
+            android.util.Log.d("HomeWidget", "→ Mode 2 (currencies+golds, content=339dp)")
+            ItemCapacity(currencies = 4, golds = 4, cryptos = 0)
+        }
+        else -> {
+            android.util.Log.d("HomeWidget", "→ Mode 3 (all, content=484dp)")
+            ItemCapacity(currencies = 4, golds = 4, cryptos = 4)
+        }
+    }
 }
 
-/**
- * Update the widget with current data
- */
+// ─────────────────────────────────────────────────────────────────────────────
+// Widget update entry point
+// ─────────────────────────────────────────────────────────────────────────────
+
 internal fun updateAppWidget(
     context: Context,
     appWidgetManager: AppWidgetManager,
@@ -271,350 +230,244 @@ internal fun updateAppWidget(
     val views = RemoteViews(context.packageName, R.layout.home_widget)
 
     try {
-        val widgetData = HomeWidgetPlugin.getData(context)
-        val widgetDataJson = widgetData.getString("widget_data", null)
-        val locale = widgetData.getString("widget_locale", "en") ?: "en"
+        val prefs = HomeWidgetPlugin.getData(context)
+        val widgetDataJson = prefs.getString("widget_data", null)
+        val locale = prefs.getString("widget_locale", "en") ?: "en"
 
         if (widgetDataJson != null) {
             val data = JSONObject(widgetDataJson)
             val labels = data.getJSONObject("labels")
             val formatter = getNumberFormatter(locale)
-
-            // Calculate how many items we can display
             val capacity = calculateItemCapacity(context, appWidgetManager, appWidgetId)
 
-            // Update header
+            // Header
             views.setTextViewText(R.id.widget_title, "InvesTracker")
-
             val updateTime = data.optString("updateTime", "")
             if (updateTime.isNotEmpty()) {
-                // Extract only time portion (HH:mm) from "2024-12-04 15:26:02"
-                val timeOnly = extractTimeFromDateTime(updateTime)
                 views.setTextViewText(
                     R.id.widget_update_time,
-                    "${labels.getString("updated")}: $timeOnly"
+                    "${labels.getString("updated")}: ${extractTimeFromDateTime(updateTime)}"
                 )
             }
 
-            // Get data arrays
-            val currencies = data.getJSONArray("currencies")
-            val golds = data.optJSONArray("golds")
-            val cryptos = data.optJSONArray("cryptos")
-
-            // Clear all item containers
-            views.removeAllViews(R.id.currency_container)
-            views.removeAllViews(R.id.gold_container)
-            views.removeAllViews(R.id.crypto_container)
-
-            // Set column headers visibility and localized text
+            // Column headers
             views.setViewVisibility(R.id.column_headers, android.view.View.VISIBLE)
             views.setTextViewText(R.id.header_code, labels.getString("code"))
             views.setTextViewText(R.id.header_buy, labels.getString("buying"))
             views.setTextViewText(R.id.header_sell, labels.getString("selling"))
             views.setTextViewText(R.id.header_change, labels.getString("change"))
 
-            // Display currencies
-            displayDynamicItems(
-                views,
-                R.id.currency_container,
-                currencies,
-                capacity.currencies,
-                formatter,
-                context,
-                "currency"
-            )
+            // Clear containers before re-populating
+            views.removeAllViews(R.id.currency_container)
+            views.removeAllViews(R.id.gold_container)
+            views.removeAllViews(R.id.crypto_container)
 
-            // Display golds (with divider if we have space)
+            val currencies = data.getJSONArray("currencies")
+            val golds = data.optJSONArray("golds")
+            val cryptos = data.optJSONArray("cryptos")
+
+            // Mode 1 – always shown
+            displayItems(views, R.id.currency_container, currencies,
+                capacity.currencies, formatter, context, "currency")
+
+            // Mode 2 – golds
             if (capacity.golds > 0 && golds != null) {
                 views.setViewVisibility(R.id.divider_1, android.view.View.VISIBLE)
-                displayDynamicItems(
-                    views,
-                    R.id.gold_container,
-                    golds,
-                    capacity.golds,
-                    formatter,
-                    context,
-                    "gold"
-                )
+                displayItems(views, R.id.gold_container, golds,
+                    capacity.golds, formatter, context, "gold")
             } else {
                 views.setViewVisibility(R.id.divider_1, android.view.View.GONE)
             }
 
-            // Display cryptos (with divider if we have space)
+            // Mode 3 – cryptos
             if (capacity.cryptos > 0 && cryptos != null) {
                 views.setViewVisibility(R.id.divider_2, android.view.View.VISIBLE)
-                displayDynamicItems(
-                    views,
-                    R.id.crypto_container,
-                    cryptos,
-                    capacity.cryptos,
-                    formatter,
-                    context,
-                    "crypto"
-                )
+                displayItems(views, R.id.crypto_container, cryptos,
+                    capacity.cryptos, formatter, context, "crypto")
             } else {
                 views.setViewVisibility(R.id.divider_2, android.view.View.GONE)
             }
 
-            // Setup refresh button
             setupRefreshButton(views, context, appWidgetId)
 
         } else {
+            // No data yet — show placeholder
             views.setTextViewText(R.id.widget_title, "InvesTracker")
             views.removeAllViews(R.id.currency_container)
-            val noDataView = createNoDataView(context, "No data")
-            views.addView(R.id.currency_container, noDataView)
+            views.addView(R.id.currency_container, createMessageView(context, "No data"))
         }
 
     } catch (e: Exception) {
+        android.util.Log.e("HomeWidget", "Error updating widget", e)
         views.setTextViewText(R.id.widget_title, "InvesTracker")
         views.removeAllViews(R.id.currency_container)
-        val errorView = createNoDataView(context, "Error loading data")
-        views.addView(R.id.currency_container, errorView)
-        android.util.Log.e("HomeWidget", "Error updating widget", e)
+        views.addView(R.id.currency_container, createMessageView(context, "Error loading data"))
     }
 
     appWidgetManager.updateAppWidget(appWidgetId, views)
 }
 
-/**
- * Display items dynamically based on capacity
- */
-private fun displayDynamicItems(
+// ─────────────────────────────────────────────────────────────────────────────
+// View builders
+// ─────────────────────────────────────────────────────────────────────────────
+
+private fun displayItems(
     views: RemoteViews,
     containerId: Int,
     items: JSONArray,
-    maxItems: Int,
+    max: Int,
     formatter: DecimalFormat,
     context: Context,
     type: String
 ) {
-    val itemsToDisplay = minOf(items.length(), maxItems)
-
-    for (i in 0 until itemsToDisplay) {
+    for (i in 0 until minOf(items.length(), max)) {
         val item = items.getJSONObject(i)
-        val itemView = when (type) {
-            "crypto" -> createCryptoItemView(context, item, formatter)
-            else -> createItemView(context, item, formatter, type)
-        }
-        views.addView(containerId, itemView)
+        views.addView(
+            containerId,
+            if (type == "crypto") createCryptoRow(context, item, formatter)
+            else createItemRow(context, item, formatter, type)
+        )
     }
 }
 
-/**
- * REFACTORED: Create item view with simplified change calculation
- * Uses 'change' field directly from API (positive/negative)
- */
 @Suppress("DiscouragedApi")
-private fun createItemView(
+private fun createItemRow(
     context: Context,
     item: JSONObject,
     formatter: DecimalFormat,
     type: String
 ): RemoteViews {
     val layoutId = context.resources.getIdentifier(
-        "widget_item_row",
-        "layout",
-        context.packageName
+        "widget_item_row", "layout", context.packageName
     )
-
-    val itemView = RemoteViews(context.packageName, layoutId)
+    val row = RemoteViews(context.packageName, layoutId)
     val code = item.getString("code")
 
-    // For gold items, use localized name if available, otherwise use code
-    val displayText = if (type == "gold" && item.has("name")) {
-        item.getString("name")  // "Gram Altın" or "Gram Gold"
-    } else {
-        code  // "USD", "EUR", etc.
-    }
+    // Display text: localised gold name when available, otherwise the code
+    val label = if (type == "gold" && item.has("name")) item.getString("name") else code
 
-    // Set icon based on type
+    // Icon
     when (type) {
         "currency" -> {
-            val flagResId = context.resources.getIdentifier(
-                "flag_${code.lowercase(Locale.getDefault())}",
-                "drawable",
-                context.packageName
+            val id = context.resources.getIdentifier(
+                "flag_${code.lowercase(Locale.getDefault())}", "drawable", context.packageName
             )
-            if (flagResId != 0) {
-                itemView.setImageViewResource(R.id.item_icon, flagResId)
-            } else {
-                itemView.setImageViewResource(R.id.item_icon, android.R.drawable.ic_menu_report_image)
-            }
+            row.setImageViewResource(
+                R.id.item_icon,
+                if (id != 0) id else android.R.drawable.ic_menu_report_image
+            )
         }
         "gold" -> {
-            val goldResId = context.resources.getIdentifier(
-                "gold",
-                "drawable",
-                context.packageName
+            val id = context.resources.getIdentifier("gold", "drawable", context.packageName)
+            row.setImageViewResource(
+                R.id.item_icon,
+                if (id != 0) id else android.R.drawable.ic_menu_report_image
             )
-            if (goldResId != 0) {
-                itemView.setImageViewResource(R.id.item_icon, goldResId)
-            } else {
-                itemView.setImageViewResource(R.id.item_icon, android.R.drawable.ic_menu_report_image)
-            }
         }
     }
 
-    // Set text values - use displayText for gold names
-    itemView.setTextViewText(R.id.item_code, displayText)
-    itemView.setTextViewText(R.id.item_buying, formatter.format(item.getDouble("buying")))
-    itemView.setTextViewText(R.id.item_selling, formatter.format(item.getDouble("selling")))
+    row.setTextViewText(R.id.item_code, label)
+    row.setTextViewText(R.id.item_buying, formatter.format(item.getDouble("buying")))
+    row.setTextViewText(R.id.item_selling, formatter.format(item.getDouble("selling")))
 
-    // SIMPLIFIED: Get change directly from API (can be positive or negative)
     val change = item.optDouble("change", 0.0)
-
-    // Calculate display values
-    val isIncreasing = change >= 0.0  // Zero or positive = green
-    val changePercentage = kotlin.math.abs(change)  // Absolute value for display
-
-    val changeColor = if (isIncreasing) "#4CAF50".toColorInt() else "#F44336".toColorInt()
-    val changeSymbol = if (isIncreasing) "↑" else "↓"
-
-    itemView.setTextViewText(
-        R.id.item_change,
-        String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changePercentage)
-    )
-    itemView.setTextColor(R.id.item_change, changeColor)
-
-    return itemView
+    applyChangeStyle(row, change)
+    return row
 }
 
-/**
- * REFACTORED: Create crypto item view with simplified change calculation
- */
 @Suppress("DiscouragedApi")
-private fun createCryptoItemView(
+private fun createCryptoRow(
     context: Context,
     crypto: JSONObject,
     formatter: DecimalFormat
 ): RemoteViews {
     val layoutId = context.resources.getIdentifier(
-        "widget_item_row",
-        "layout",
-        context.packageName
+        "widget_item_row", "layout", context.packageName
     )
-
-    val itemView = RemoteViews(context.packageName, layoutId)
+    val row = RemoteViews(context.packageName, layoutId)
     val code = crypto.getString("code")
 
-    // Load crypto logo
-    val logoResId = context.resources.getIdentifier(
-        "crypto_${code.lowercase(Locale.getDefault())}",
-        "drawable",
-        context.packageName
+    val logoId = context.resources.getIdentifier(
+        "crypto_${code.lowercase(Locale.getDefault())}", "drawable", context.packageName
     )
-    if (logoResId != 0) {
-        itemView.setImageViewResource(R.id.item_icon, logoResId)
-    } else {
-        itemView.setImageViewResource(R.id.item_icon, android.R.drawable.ic_menu_info_details)
-    }
+    row.setImageViewResource(
+        R.id.item_icon,
+        if (logoId != 0) logoId else android.R.drawable.ic_menu_info_details
+    )
 
-    // Set text values (with $ symbol for crypto)
-    itemView.setTextViewText(R.id.item_code, code)
-    itemView.setTextViewText(
+    row.setTextViewText(R.id.item_code, code)
+    row.setTextViewText(
         R.id.item_buying,
-        String.format(Locale.getDefault(), "$%s", formatter.format(crypto.getDouble("usdPrice")))
+        "$${formatter.format(crypto.getDouble("usdPrice"))}"
     )
-    itemView.setTextViewText(
+    row.setTextViewText(
         R.id.item_selling,
-        String.format(Locale.getDefault(), "$%s", formatter.format(crypto.getDouble("sellingUsd")))
+        "$${formatter.format(crypto.getDouble("sellingUsd"))}"
     )
 
-    // SIMPLIFIED: Get change directly
-    val change = crypto.optDouble("change", 0.0)
-    val isIncreasing = change >= 0.0
-    val changePercentage = kotlin.math.abs(change)
+    applyChangeStyle(row, crypto.optDouble("change", 0.0))
+    return row
+}
 
-    val changeColor = if (isIncreasing) "#4CAF50".toColorInt() else "#F44336".toColorInt()
-    val changeSymbol = if (isIncreasing) "↑" else "↓"
-
-    itemView.setTextViewText(
+/** Set the change text and colour on a row. */
+private fun applyChangeStyle(row: RemoteViews, change: Double) {
+    val increasing = change >= 0.0
+    row.setTextViewText(
         R.id.item_change,
-        String.format(Locale.getDefault(), "%s %.2f%%", changeSymbol, changePercentage)
+        String.format(Locale.getDefault(), "%s %.2f%%",
+            if (increasing) "↑" else "↓",
+            kotlin.math.abs(change))
     )
-    itemView.setTextColor(R.id.item_change, changeColor)
-
-    return itemView
+    row.setTextColor(
+        R.id.item_change,
+        if (increasing) "#4CAF50".toColorInt() else "#F44336".toColorInt()
+    )
 }
 
-/**
- * Create a "no data" view
- */
 @Suppress("DiscouragedApi")
-private fun createNoDataView(context: Context, message: String): RemoteViews {
+private fun createMessageView(context: Context, message: String): RemoteViews {
     val layoutId = context.resources.getIdentifier(
-        "widget_item_row",
-        "layout",
-        context.packageName
+        "widget_item_row", "layout", context.packageName
     )
-
-    val itemView = RemoteViews(context.packageName, layoutId)
-    itemView.setTextViewText(R.id.item_code, message)
-    itemView.setViewVisibility(R.id.item_icon, android.view.View.GONE)
-    itemView.setViewVisibility(R.id.item_buying, android.view.View.GONE)
-    itemView.setViewVisibility(R.id.item_selling, android.view.View.GONE)
-    itemView.setViewVisibility(R.id.item_change, android.view.View.GONE)
-    return itemView
+    return RemoteViews(context.packageName, layoutId).also { v ->
+        v.setTextViewText(R.id.item_code, message)
+        v.setViewVisibility(R.id.item_icon, android.view.View.GONE)
+        v.setViewVisibility(R.id.item_buying, android.view.View.GONE)
+        v.setViewVisibility(R.id.item_selling, android.view.View.GONE)
+        v.setViewVisibility(R.id.item_change, android.view.View.GONE)
+    }
 }
 
-/**
- * Setup refresh button with pending intent
- */
-internal fun setupRefreshButton(
-    views: RemoteViews,
-    context: Context,
-    appWidgetId: Int
-) {
-    val refreshIntent = Intent(context, HomeWidget::class.java).apply {
+// ─────────────────────────────────────────────────────────────────────────────
+// Helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+internal fun setupRefreshButton(views: RemoteViews, context: Context, appWidgetId: Int) {
+    val intent = Intent(context, HomeWidget::class.java).apply {
         action = HomeWidget.ACTION_REFRESH
         putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
     }
-
-    val pendingIntent = PendingIntent.getBroadcast(
-        context,
-        appWidgetId,
-        refreshIntent,
+    val pi = PendingIntent.getBroadcast(
+        context, appWidgetId, intent,
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
-
-    views.setOnClickPendingIntent(R.id.refresh_button, pendingIntent)
+    views.setOnClickPendingIntent(R.id.refresh_button, pi)
 }
 
-/**
- * Get number formatter based on locale
- */
 private fun getNumberFormatter(locale: String): DecimalFormat {
-    val symbols = if (locale == "tr") {
+    val symbols = if (locale == "tr")
         DecimalFormatSymbols(Locale.forLanguageTag("tr-TR"))
-    } else {
+    else
         DecimalFormatSymbols(Locale.US)
-    }
-
     return DecimalFormat("#,##0.00##", symbols)
 }
 
-/**
- * Extract time portion from datetime string
- * Input: "2024-12-04 15:26:02"
- * Output: "15:26"
- */
-private fun extractTimeFromDateTime(dateTime: String): String {
-    return try {
-        // Split by space to get time part
-        val parts = dateTime.split(" ")
+/** "2024-12-04 15:26:02"  →  "15:26" */
+private fun extractTimeFromDateTime(dt: String): String =
+    try {
+        val parts = dt.split(" ")
         if (parts.size >= 2) {
-            // Get time part and extract HH:mm
-            val timeParts = parts[1].split(":")
-            if (timeParts.size >= 2) {
-                "${timeParts[0]}:${timeParts[1]}"  // "15:26"
-            } else {
-                parts[1]  // Return full time if parsing fails
-            }
-        } else {
-            dateTime  // Return as-is if no space found
-        }
-    } catch (e: Exception) {
-        dateTime  // Return original on error
-    }
-}
+            val t = parts[1].split(":")
+            if (t.size >= 2) "${t[0]}:${t[1]}" else parts[1]
+        } else dt
+    } catch (_: Exception) { dt }
