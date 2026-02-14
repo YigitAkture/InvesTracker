@@ -31,7 +31,7 @@ class ErrorHandler {
       message = error.toString().replaceAll('Exception: ', '');
     }
 
-    // Show error message
+    // Show error message — check mounted before any await
     if (showSnackbar && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -44,14 +44,16 @@ class ErrorHandler {
     }
 
     // Handle session expiration
-    if (shouldLogout && context.mounted) {
-      await _authService.logout();
-      
-      // Navigate to login screen
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const LoginScreen()),
-        (route) => false,
-      );
+    if (shouldLogout) {
+      await _authService.logout(); // async gap — do NOT use context after this
+
+      // Re-check mounted after the await before touching context
+      if (context.mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
+          (route) => false,
+        );
+      }
     }
   }
 
@@ -81,7 +83,7 @@ class ErrorHandler {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('Session Expired'),
         content: const Text(
           'Your session has expired. Please login again to continue.',
@@ -89,11 +91,16 @@ class ErrorHandler {
         actions: [
           TextButton(
             onPressed: () async {
-              Navigator.pop(context);
-              await _authService.logout();
-              
-              if (context.mounted) {
-                Navigator.of(context).pushAndRemoveUntil(
+              // Close dialog first using dialogContext (still valid here)
+              Navigator.pop(dialogContext);
+
+              await _authService.logout(); // async gap
+
+              // Use dialogContext.mounted — it outlives the dialog pop
+              // because the navigator stack still holds a reference.
+              // Prefer a top-level navigator lookup which is safer here.
+              if (dialogContext.mounted) {
+                Navigator.of(dialogContext).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (_) => const LoginScreen()),
                   (route) => false,
                 );

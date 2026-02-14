@@ -25,9 +25,15 @@ class HomeWidgetService {
   /// Initialize widget with current app state
   Future<void> initialize(BuildContext context) async {
     try {
+      // Capture context-dependent values BEFORE any await
       final locale = Localizations.localeOf(context);
+
       await _saveLocale(locale.languageCode);
-      await updateWidgetData(context);
+
+      // Re-check mount state not needed here since we captured locale already,
+      // but we need context again for updateWidgetData — so pass captured values.
+      await _updateWidgetDataInternal(locale);
+
       debugPrint('✓ Home widget initialized (4 items per category)');
     } catch (e) {
       debugPrint('✗ Failed to initialize home widget: $e');
@@ -37,24 +43,11 @@ class HomeWidgetService {
   /// Update widget with fresh market data
   Future<void> updateWidgetData(BuildContext context) async {
     try {
-      final marketData = await _marketService.fetchMarketData();
+      // Capture context-dependent values BEFORE any await
       final l10n = AppLocalizations.of(context)!;
       final locale = Localizations.localeOf(context);
 
-      final widgetData = _prepareWidgetData(marketData, l10n);
-
-      await HomeWidget.saveWidgetData<String>(
-        _widgetDataKey,
-        jsonEncode(widgetData),
-      );
-
-      await _saveLocale(locale.languageCode);
-      await HomeWidget.saveWidgetData<String>(
-        _lastUpdateKey,
-        DateTime.now().toIso8601String(),
-      );
-
-      await _updatePlatformWidget();
+      await _updateWidgetDataInternal(locale, l10n: l10n);
 
       debugPrint('✓ Widget updated: 4 currencies, 4 golds, 4 cryptos');
     } catch (e) {
@@ -62,23 +55,51 @@ class HomeWidgetService {
     }
   }
 
+  /// Internal implementation that doesn't need BuildContext
+  Future<void> _updateWidgetDataInternal(
+    Locale locale, {
+    AppLocalizations? l10n,
+  }) async {
+    final marketData = await _marketService.fetchMarketData();
+
+    // If l10n wasn't provided, fall back to locale-based labels
+    final widgetData = l10n != null
+        ? _prepareWidgetData(marketData, l10n)
+        : _prepareWidgetDataFromLocale(marketData, locale.languageCode);
+
+    await HomeWidget.saveWidgetData<String>(
+      _widgetDataKey,
+      jsonEncode(widgetData),
+    );
+
+    await _saveLocale(locale.languageCode);
+    await HomeWidget.saveWidgetData<String>(
+      _lastUpdateKey,
+      DateTime.now().toIso8601String(),
+    );
+
+    await _updatePlatformWidget();
+  }
+
   /// Update ONLY widget language/labels without fetching fresh market data
   /// This preserves existing market data including change values
   Future<void> updateWidgetLanguage(BuildContext context) async {
     try {
+      // Capture context-dependent values BEFORE any await
+      final l10n = AppLocalizations.of(context)!;
+      final locale = Localizations.localeOf(context);
+
       // Get existing widget data
       final existingData = await HomeWidget.getWidgetData<String>(
         _widgetDataKey,
       );
+
       if (existingData == null) {
-        // No existing data, do full update
+        // No existing data, do full update using already-captured values
         debugPrint('No existing widget data, performing full update');
-        await updateWidgetData(context);
+        await _updateWidgetDataInternal(locale, l10n: l10n);
         return;
       }
-
-      final l10n = AppLocalizations.of(context)!;
-      final locale = Localizations.localeOf(context);
 
       // Parse existing data
       final data = jsonDecode(existingData) as Map<String, dynamic>;
@@ -106,8 +127,9 @@ class HomeWidgetService {
       );
     } catch (e) {
       debugPrint('✗ Failed to update widget language: $e');
-      // Fallback to full update
-      await updateWidgetData(context);
+      // Fallback to full update — context may no longer be valid here,
+      // so we cannot safely call updateWidgetData(context) in a catch block.
+      // Log the error and let the caller retry if needed.
     }
   }
 
@@ -139,7 +161,6 @@ class HomeWidgetService {
       final gold = item as Map<String, dynamic>;
       final code = gold['code'] as String;
 
-      // Map display code back to GoldType
       GoldType? goldType;
       switch (code) {
         case 'GRA':
@@ -158,9 +179,7 @@ class HomeWidgetService {
 
       return {
         'code': code,
-        'name': goldType != null
-            ? goldType.localizedName(l10n)
-            : code, // Update name
+        'name': goldType != null ? goldType.localizedName(l10n) : code,
         'buying': gold['buying'], // Preserve
         'selling': gold['selling'], // Preserve
         'change': gold['change'], // PRESERVE CHANGE VALUE
@@ -168,7 +187,7 @@ class HomeWidgetService {
     }).toList();
   }
 
-  /// Prepare widget data with exactly 4 items per category
+  /// Prepare widget data with exactly 4 items per category (with l10n)
   Map<String, dynamic> _prepareWidgetData(
     MarketResponse marketData,
     AppLocalizations l10n,
@@ -176,9 +195,23 @@ class HomeWidgetService {
     return {
       'currencies': _extractCurrencies(marketData, l10n),
       'golds': _extractGolds(marketData, l10n),
-      'cryptos': _extractCryptos(marketData, l10n),
+      'cryptos': _extractCryptos(marketData),
       'updateTime': marketData.updateTime,
       'labels': _getLabels(l10n),
+    };
+  }
+
+  /// Prepare widget data using locale string only (fallback for initialize)
+  Map<String, dynamic> _prepareWidgetDataFromLocale(
+    MarketResponse marketData,
+    String locale,
+  ) {
+    return {
+      'currencies': _extractBackgroundCurrencies(marketData),
+      'golds': _extractBackgroundGolds(marketData, locale),
+      'cryptos': _extractBackgroundCryptos(marketData),
+      'updateTime': marketData.updateTime,
+      'labels': _getBasicLabels(locale),
     };
   }
 
@@ -200,7 +233,7 @@ class HomeWidgetService {
           displayName: _getCurrencyName(currency.code, l10n),
           buyingPrice: currency.buying,
           sellingPrice: currency.selling,
-          change: currency.changeRate, // Direct from API
+          change: currency.changeRate,
         );
 
         result.add(item.toJson());
@@ -230,9 +263,8 @@ class HomeWidgetService {
         final gold = marketData.golds.firstWhere((g) => g.code == apiCode);
 
         final item = WidgetItemData(
-          code:
-              goldType.displayCode, // Use semantic code (GRA, CEYR, YARI, TAM)
-          displayName: goldType.localizedName(l10n), // Localized name
+          code: goldType.displayCode,
+          displayName: goldType.localizedName(l10n),
           buyingPrice: gold.buying,
           sellingPrice: gold.selling,
           change: gold.changeRate,
@@ -253,10 +285,7 @@ class HomeWidgetService {
   }
 
   /// Extract exactly 4 cryptos: BTC, ETH, USDT, BNB
-  List<Map<String, dynamic>> _extractCryptos(
-    MarketResponse marketData,
-    AppLocalizations l10n,
-  ) {
+  List<Map<String, dynamic>> _extractCryptos(MarketResponse marketData) {
     final result = <Map<String, dynamic>>[];
 
     for (final code in WidgetConfig.cryptos) {
@@ -267,7 +296,7 @@ class HomeWidgetService {
           code: crypto.code,
           displayName: crypto.name,
           usdPrice: crypto.usdPrice,
-          sellingUsd: crypto.selling, // Use selling from API
+          sellingUsd: crypto.selling,
           change: crypto.changeRate,
         );
 
@@ -384,7 +413,7 @@ class HomeWidgetService {
         );
         result.add({
           'code': currency.code,
-          'name': currency.code, // Use code as name in background
+          'name': currency.code,
           'buying': currency.buying,
           'selling': currency.selling,
           'change': currency.changeRate,

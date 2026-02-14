@@ -852,7 +852,7 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen>
                 ),
               ),
             );
-          }).toList(),
+          }),
       ],
     );
   }
