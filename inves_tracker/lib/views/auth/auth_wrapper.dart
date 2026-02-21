@@ -25,28 +25,29 @@ class _AuthWrapperState extends State<AuthWrapper> {
   }
 
   Future<void> _initializeApp() async {
-    // STEP 1: Check version FIRST
     final versionCheck = await VersionCheckService.checkVersion();
-    
+
     if (!mounted) return;
 
-    // STEP 2: Show update dialog if needed
     if (versionCheck != null && versionCheck['updateRequired'] == true) {
+      final isForce = versionCheck['forceUpdate'] == true;
+
       await AppUpdateDialog.show(
         context,
         updateUrl: versionCheck['updateUrl'] ?? '',
         minimumVersion: versionCheck['minimumVersion'] ?? '',
-        forceUpdate: versionCheck['forceUpdate'] ?? true,
+        recommendedVersion: versionCheck['recommendedVersion'] ?? '',
+        forceUpdate: isForce,
       );
-      
-      // If force update, don't proceed
-      if (versionCheck['forceUpdate'] == true) {
+
+      // Hard stop: forced update, don't proceed into the app
+      if (isForce) {
         setState(() => _isLoading = false);
         return;
       }
+      // Soft update: user dismissed → fall through to auth check
     }
 
-    // STEP 3: Check authentication status
     await _checkAuthStatus();
   }
 

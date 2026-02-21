@@ -748,6 +748,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get updateRequired => 'Güncelleme Gerekli';
 
   @override
+  String get updateRecommended => 'Güncelleme Önerilir';
+
+  @override
   String get updateRequiredMessage =>
       'InvesTracker\'ı kullanmaya devam etmek için yeni bir sürüm gereklidir. Lütfen Play Store\'dan güncelleyin.';
 
@@ -757,6 +760,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get minimumVersion => 'Minimum sürüm';
+
+  @override
+  String get recommendedVersion => 'Önerilen sürüm';
 
   @override
   String get updateNow => 'Şimdi Güncelle';

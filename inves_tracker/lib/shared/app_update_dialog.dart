@@ -2,31 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/services/version_check_service.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppUpdateDialog extends StatelessWidget {
   final String updateUrl;
-  final String minimumVersion;
+  final String minimumVersion;   // shown for force-update
+  final String recommendedVersion; // shown for soft-update
   final bool forceUpdate;
 
   const AppUpdateDialog({
     super.key,
     required this.updateUrl,
-    required this.minimumVersion,
+    this.minimumVersion = '',
+    this.recommendedVersion = '',
     this.forceUpdate = true,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final displayVersion = forceUpdate ? minimumVersion : recommendedVersion;
 
     return PopScope(
-      canPop: !forceUpdate, // Prevent back button if force update
+      canPop: !forceUpdate,
       onPopInvokedWithResult: (didPop, result) {
-        // If force update and user tries to go back, exit app
         if (forceUpdate && !didPop) {
-          SystemNavigator.pop(); // Exit the app
+          SystemNavigator.pop();
         }
       },
       child: AlertDialog(
@@ -43,7 +46,9 @@ class AppUpdateDialog extends StatelessWidget {
             SizedBox(width: 12.w),
             Expanded(
               child: Text(
-                l10n.updateRequired,
+                forceUpdate 
+                  ? l10n.updateRequired 
+                  : l10n.updateRecommended,
                 style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),
               ),
             ),
@@ -76,7 +81,7 @@ class AppUpdateDialog extends StatelessWidget {
                   SizedBox(width: 8.w),
                   Expanded(
                     child: Text(
-                      '${l10n.minimumVersion}: $minimumVersion',
+                      '${forceUpdate ? l10n.minimumVersion : l10n.recommendedVersion}: $displayVersion',
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
@@ -93,36 +98,63 @@ class AppUpdateDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // ── Left button: exit app (force) or continue (soft) ──────────
               ElevatedButton.icon(
-                onPressed: () => SystemNavigator.pop(),
+                onPressed: () async {
+                  if (forceUpdate) {
+                    SystemNavigator.pop();
+                  } else {
+                    // Mark as seen so it won't appear again for this version
+                    if (recommendedVersion.isNotEmpty) {
+                      await VersionCheckService.markRecommendedVersionSeen(
+                          recommendedVersion);
+                    }
+                    if (context.mounted) Navigator.of(context).pop();
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.danger3,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                 ),
-                icon: Icon(Icons.close, size: 18.sp),
+                icon: Icon(
+                  forceUpdate ? Icons.close : Icons.arrow_forward,
+                  size: 16.sp,
+                ),
                 label: Text(
-                  l10n.later,
-                  style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+                  forceUpdate ? l10n.later : l10n.wordContinue,
+                  style:
+                      TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600),
                 ),
               ),
+
+              // ── Right button: open Play Store ──────────────────────────────
               ElevatedButton.icon(
-                onPressed: () => _launchStore(updateUrl),
+                onPressed: () async {
+                  if (!forceUpdate && recommendedVersion.isNotEmpty) {
+                    await VersionCheckService.markRecommendedVersionSeen(
+                        recommendedVersion);
+                  }
+                  await _launchStore(updateUrl);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary(context),
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                 ),
-                icon: Icon(Icons.download, size: 18.sp),
+                icon: Icon(Icons.download, size: 16.sp),
                 label: Text(
                   l10n.updateNow,
-                  style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+                  style:
+                      TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600),
                 ),
               ),
             ],
@@ -139,11 +171,11 @@ class AppUpdateDialog extends StatelessWidget {
     }
   }
 
-  /// Show the update dialog
   static Future<void> show(
     BuildContext context, {
     required String updateUrl,
-    required String minimumVersion,
+    String minimumVersion = '',
+    String recommendedVersion = '',
     bool forceUpdate = true,
   }) {
     return showDialog(
@@ -152,6 +184,7 @@ class AppUpdateDialog extends StatelessWidget {
       builder: (context) => AppUpdateDialog(
         updateUrl: updateUrl,
         minimumVersion: minimumVersion,
+        recommendedVersion: recommendedVersion,
         forceUpdate: forceUpdate,
       ),
     );

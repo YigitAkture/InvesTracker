@@ -1550,6 +1550,12 @@ abstract class AppLocalizations {
   /// **'Update Required'**
   String get updateRequired;
 
+  /// No description provided for @updateRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Recommend'**
+  String get updateRecommended;
+
   /// No description provided for @updateRequiredMessage.
   ///
   /// In en, this message translates to:
@@ -1567,6 +1573,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Minimum version'**
   String get minimumVersion;
+
+  /// No description provided for @recommendedVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommend version'**
+  String get recommendedVersion;
 
   /// No description provided for @updateNow.
   ///

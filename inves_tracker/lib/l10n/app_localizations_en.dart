@@ -746,6 +746,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get updateRequired => 'Update Required';
 
   @override
+  String get updateRecommended => 'Update Recommend';
+
+  @override
   String get updateRequiredMessage =>
       'A new version of InvesTracker is required to continue. Please update from the Play Store.';
 
@@ -755,6 +758,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get minimumVersion => 'Minimum version';
+
+  @override
+  String get recommendedVersion => 'Recommend version';
 
   @override
   String get updateNow => 'Update Now';

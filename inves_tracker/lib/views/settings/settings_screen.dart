@@ -28,10 +28,15 @@ class SettingsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // User Profile Section
+                SectionHeader(title: l10n.userInformation),
                 SizedBox(height: 8.h),
+                const UserProfileSection(),
+                SizedBox(height: 12.h),
 
-                // Dark Mode Setting Card
+                // Preferences Section Header
                 SectionHeader(title: l10n.preferences),
+                // Dark Mode Setting Card
                 SizedBox(height: 8.h),
                 const SettingCard(child: ThemeSettingItem()),
                 SizedBox(height: 12.h),
@@ -39,12 +44,6 @@ class SettingsScreen extends StatelessWidget {
                 const SettingCard(child: LanguageSettingItem()),
                 SizedBox(height: 12.h),
 
-                // User Profile Section
-                SectionHeader(title: l10n.userInformation),
-                SizedBox(height: 8.h),
-                const UserProfileSection(),
-                SizedBox(height: 12.h),
-                
                 // Notification Settings Section
                 SectionHeader(title: l10n.notifications),
                 SizedBox(height: 8.h),
