@@ -25,17 +25,14 @@
 //                               ↓ onComplete(17) → navigate to Converter
 //  18    navConverter         → highlight Converter icon (now on Converter)
 //  19    converterSwap        → currency converter card
-//                               ↓ onComplete(19) → jumpToPage(4) [instant, no animation]
+//                               ↓ onComplete(19) → jumpToPage(4) [instant]
 //  20    navSettings          → highlight Settings icon (now on Settings)
 //                               ← onFinish / markSeen
 //
-// Navigation design:
-//   • Steps 2, 4, 17  use animateToPage (there is a following screen step that
-//     needs time to build, and onFinish is not involved).
-//   • Step 19 uses jumpToPage (instant) because navSettings (step 20) is the
-//     LAST step.  An animated transition here would race with onFinish and
-//     leave the overlay/scrim stuck.  jumpToPage completes synchronously so
-//     the Settings page is fully built before ShowcaseView touches it.
+// Close button:
+//   A bare X icon (FloatingActionWidget) is shown in the top-right corner
+//   throughout the entire tour.  It calls ShowcaseView.get().dismiss() which
+//   triggers onDismiss → markSeen(), so the tour won't replay next launch.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -136,7 +133,18 @@ class MainLayoutState extends State<MainLayout> {
     _showcaseView = ShowcaseView.register(
       onComplete: _onStepComplete,
       onFinish: _onTourFinish,
+      // onDismiss fires when the user taps the close button (dismiss()).
+      // Mark the tour as seen so it won't auto-start again next launch.
+      // OnDismissCallback signature: void Function(GlobalKey?)
+      onDismiss: _onTourDismiss,
       enableAutoScroll: true,
+      // ── Global close button ──────────────────────────────────────────────
+      // A bare X icon in the top-right corner, visible on every step.
+      globalFloatingActionWidget: (showcaseContext) => FloatingActionWidget(
+        right: 28.w,
+        top: 56.h,
+        child: _CloseTourButton(),
+      ),
     );
     _loadUserId();
   }
@@ -204,7 +212,6 @@ class MainLayoutState extends State<MainLayout> {
   void _onStepComplete(int? index, GlobalKey key) {
     if (index == null) return;
 
-    // ── Wallet tab switch ─────────────────────────────────────────────────
     // After the last Add-Asset step, switch to Debts tab so DebtsTab widgets
     // are mounted before step 12 fires.
     if (index == 11 && mounted) {
@@ -215,19 +222,14 @@ class MainLayoutState extends State<MainLayout> {
       return;
     }
 
-    // ── Page navigation ───────────────────────────────────────────────────
     final targetPage = _pageForCompletedStep(index);
     if (targetPage == null || !mounted) return;
 
     if (targetPage == 4) {
-      // Step 19 → Settings: this is the second-to-last step.
-      // Use jumpToPage (instant, synchronous) so the Settings page is fully
-      // built before ShowcaseView renders step 20's tooltip.
-      // An animated transition here races with onFinish and leaves the
-      // overlay scrim stuck on screen.
+      // Step 19 → Settings: use jumpToPage (instant) to avoid racing with
+      // onFinish when step 20 (the last step) completes.
       _pageController.jumpToPage(4);
     } else {
-      // All other transitions: animate normally.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         _pageController.animateToPage(
@@ -239,19 +241,27 @@ class MainLayoutState extends State<MainLayout> {
     }
   }
 
-  /// Maps completed step index to the page that must be visible for the
-  /// next step.  Returns null when no navigation is needed.
   int? _pageForCompletedStep(int completedIndex) {
     switch (completedIndex) {
-      case 2:  return 1; // homeBalance    → Market    (next: navMarket)
-      case 4:  return 2; // marketTab      → Wallet    (next: navWallet)
-      case 17: return 3; // walletAddDebt  → Converter (next: navConverter)
-      case 19: return 4; // converterSwap  → Settings  (next: navSettings)
+      case 2:  return 1; // homeBalance   → Market
+      case 4:  return 2; // marketTab     → Wallet
+      case 17: return 3; // walletAddDebt → Converter
+      case 19: return 4; // converterSwap → Settings (jumpToPage)
       default: return null;
     }
   }
 
+  /// Tour completed naturally (all steps finished).
   void _onTourFinish() {
+    _showcaseService.markSeen();
+  }
+
+  /// Tour dismissed early via the close button.
+  /// Also mark as seen so it doesn't auto-replay on next launch.
+  ///
+  /// OnDismissCallback signature: void Function(GlobalKey?)
+  /// [key] is the showcase key that was active when the user dismissed.
+  void _onTourDismiss(GlobalKey? key) {
     _showcaseService.markSeen();
   }
 
@@ -351,6 +361,28 @@ class MainLayoutState extends State<MainLayout> {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Close Tour button
+//
+// Rendered as a globalFloatingActionWidget in the top-right corner.
+// Intentionally minimal — just a bare X icon with no button chrome.
+// Calls ShowcaseView.get().dismiss() which triggers onDismiss → markSeen().
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _CloseTourButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => ShowcaseView.get().dismiss(),
+      child: Icon(
+        Icons.close_rounded,
+        color: Colors.white,
+        size: 26.sp,
+      ),
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Showcased bottom navigation bar
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -380,11 +412,11 @@ class _ShowcasedBottomNav extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final items = [
-      (key: keys.home,      icon: Icons.home_outlined,            title: l10n.showcaseNavHomeTitle,      desc: l10n.showcaseNavHomeDesc),
-      (key: keys.market,    icon: Icons.trending_up,              title: l10n.showcaseNavMarketTitle,    desc: l10n.showcaseNavMarketDesc),
-      (key: keys.wallet,    icon: Icons.add_circle_outline,       title: l10n.showcaseNavWalletTitle,    desc: l10n.showcaseNavWalletDesc),
-      (key: keys.converter, icon: Icons.currency_exchange_outlined,title: l10n.showcaseNavConverterTitle,desc: l10n.showcaseNavConverterDesc),
-      (key: keys.settings,  icon: Icons.settings,                 title: l10n.showcaseNavSettingsTitle,  desc: l10n.showcaseNavSettingsDesc),
+      (key: keys.home,      icon: Icons.home_outlined,             title: l10n.showcaseNavHomeTitle,      desc: l10n.showcaseNavHomeDesc),
+      (key: keys.market,    icon: Icons.trending_up,               title: l10n.showcaseNavMarketTitle,    desc: l10n.showcaseNavMarketDesc),
+      (key: keys.wallet,    icon: Icons.add_circle_outline,        title: l10n.showcaseNavWalletTitle,    desc: l10n.showcaseNavWalletDesc),
+      (key: keys.converter, icon: Icons.currency_exchange_outlined, title: l10n.showcaseNavConverterTitle, desc: l10n.showcaseNavConverterDesc),
+      (key: keys.settings,  icon: Icons.settings,                  title: l10n.showcaseNavSettingsTitle,  desc: l10n.showcaseNavSettingsDesc),
     ];
 
     return Container(

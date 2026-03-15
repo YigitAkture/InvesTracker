@@ -70,8 +70,8 @@ class _ConverterScreenState extends State<ConverterScreen> {
     if (showcaseKeys != null) {
       currencySection = ShowcaseHelper.wrap(
         key: showcaseKeys.converterSwap,
-        title: l10n.showcaseNavConverterTitle,
-        description: l10n.showcaseNavConverterDesc,
+        title: l10n.showcaseCardConverterTitle,
+        description: l10n.showcaseCardConverterDesc,
         child: currencySection,
       );
     }

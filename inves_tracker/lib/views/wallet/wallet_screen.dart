@@ -41,8 +41,8 @@ class WalletScreenState extends State<WalletScreen> {
     if (showcaseKeys != null) {
       tabSwitcher = ShowcaseHelper.wrap(
         key: showcaseKeys.walletTabSwitcher,
-        title: l10n.showcaseNavWalletTitle,
-        description: l10n.showcaseNavWalletDesc,
+        title: l10n.showcaseTabWalletTitle,
+        description: l10n.showcaseTabWalletDesc,
         child: tabSwitcher,
       );
     }

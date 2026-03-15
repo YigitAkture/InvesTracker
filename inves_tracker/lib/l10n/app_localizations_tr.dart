@@ -1004,22 +1004,43 @@ class AppLocalizationsTr extends AppLocalizations {
   String get showcaseNavMarketTitle => 'Döviz Kurları';
 
   @override
+  String get showcaseTabMarketTitle => 'Döviz Kurları';
+
+  @override
   String get showcaseNavMarketDesc =>
       'Döviz, altın ve kripto için anlık kurlar. Listeyi yenilemek için aşağı çekin.';
 
   @override
+  String get showcaseTabMarketDesc =>
+      'Döviz - Maden ve Kripto arası geçiş yapın.';
+
+  @override
   String get showcaseNavWalletTitle => 'Yatırımlarım';
+
+  @override
+  String get showcaseTabWalletTitle => 'Yatırımlar ve Borçlar';
 
   @override
   String get showcaseNavWalletDesc =>
       'Varlık ve borçlarınızı ekleyin ve yönetin. Birden fazla yatırımı tek yerden takip edin.';
 
   @override
+  String get showcaseTabWalletDesc =>
+      'Yatırımlar ve borçlar arası geçiş yapın.';
+
+  @override
   String get showcaseNavConverterTitle => 'Çevirici';
+
+  @override
+  String get showcaseCardConverterTitle => 'Çevirici';
 
   @override
   String get showcaseNavConverterDesc =>
       'Dövizler, altın türleri ve kripto paralar arasında anında dönüşüm yapın.';
+
+  @override
+  String get showcaseCardConverterDesc =>
+      'Birimler arası iki yönlü çeviri yapın.';
 
   @override
   String get showcaseNavSettingsTitle => 'Ayarlar';
@@ -1040,49 +1061,47 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get showcaseHomeBalanceDesc =>
-      'Net varlığınız — toplam varlıklar eksi toplam borçlar — Türk Lirası cinsinden görüntülenir. Yeşil olumlu, kırmızı borçlarınızın varlıklarınızı aştığı anlamına gelir.';
+      'Toplam bakiyenizi, varlıklarınızın ve borçlarınızın toplamını Türk Lirası cinsinden görüntüleyin.';
 
   @override
   String get showcaseAddAssetBoxTitle => 'Varlık Ekle';
 
   @override
-  String get showcaseAddAssetBoxDesc =>
-      'Sahip olduğunuz bir şeyi buraya kaydedin. Türü seçin, döviz, altın veya kripto belirleyin, miktarı girin ve Varlık Ekle\'ye dokunun.';
+  String get showcaseAddAssetBoxDesc => 'Sahip olduğunuz varlığınızı kaydedin.';
 
   @override
   String get showcaseAssetTypeTitle => 'Varlık Türü';
 
   @override
   String get showcaseAssetTypeDesc =>
-      'Nakit veya banka mevduatı için Döviz, altın ve gümüş için Maden, dijital varlıklar için Kripto seçin.';
+      'Döviz, maden veya kripto arasından varlık türünü seçin.';
 
   @override
   String get showcaseAssetCodeTitle => 'Varlık Seçin';
 
   @override
   String get showcaseAssetCodeDesc =>
-      'Takip etmek istediğiniz döviz, altın türü veya kripto parayı seçin. Uygulama düzinelerce seçeneği destekler.';
+      'Varlığınızın hangi döviz, altın türü veya kriptoda olduğunu seçin.';
 
   @override
   String get showcaseAssetAmountTitle => 'Miktar';
 
   @override
   String get showcaseAssetAmountDesc =>
-      'Bu varlıktan ne kadar sahip olduğunuzu girin. Uygulama kayıt anındaki piyasa fiyatını kaydeder; böylece daha sonra kâr veya zararınızı takip edebilirsiniz.';
+      'Bu varlıktan ne kadar sahip olduğunuzu girin.';
 
   @override
   String get showcaseAddDebtBoxTitle => 'Borç Ekle';
 
   @override
-  String get showcaseAddDebtBoxDesc =>
-      'Borçlu olduğunuz bir şeyi buraya kaydedin. Uygulama borcunuzun Türk Lirası değerini zaman içinde takip eder.';
+  String get showcaseAddDebtBoxDesc => 'Borcunuzu kaydedin.';
 
   @override
   String get showcaseDebtTypeTitle => 'Borç Türü';
 
   @override
   String get showcaseDebtTypeDesc =>
-      'Borçlandığınız veya ödemeniz gereken borç türünü seçin — döviz, altın veya kripto.';
+      'Döviz, maden veya kripto arasından borç türünü seçin.';
 
   @override
   String get showcaseDebtCodeTitle => 'Borç Seçin';
@@ -1095,8 +1114,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get showcaseDebtAmountTitle => 'Borç Miktarı';
 
   @override
-  String get showcaseDebtAmountDesc =>
-      'Borçlu olduğunuz miktarı girin. Ayrıca bu borç için kısa bir not ve son ödeme tarihi ekleyebilirsiniz.';
+  String get showcaseDebtAmountDesc => 'Borçlu olduğunuz miktarı girin.';
 
   @override
   String get showcaseDebtNoteTitle => 'Not ve Son Tarih';

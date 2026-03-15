@@ -2012,11 +2012,23 @@ abstract class AppLocalizations {
   /// **'Exchange Rates'**
   String get showcaseNavMarketTitle;
 
+  /// No description provided for @showcaseTabMarketTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange Rates'**
+  String get showcaseTabMarketTitle;
+
   /// No description provided for @showcaseNavMarketDesc.
   ///
   /// In en, this message translates to:
   /// **'Live rates for currencies, gold, and crypto. Pull down on any list to refresh.'**
   String get showcaseNavMarketDesc;
+
+  /// No description provided for @showcaseTabMarketDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch between Forex - Metals and Crypto'**
+  String get showcaseTabMarketDesc;
 
   /// No description provided for @showcaseNavWalletTitle.
   ///
@@ -2024,11 +2036,23 @@ abstract class AppLocalizations {
   /// **'My Investments'**
   String get showcaseNavWalletTitle;
 
+  /// No description provided for @showcaseTabWalletTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assets and Debts'**
+  String get showcaseTabWalletTitle;
+
   /// No description provided for @showcaseNavWalletDesc.
   ///
   /// In en, this message translates to:
   /// **'Add and manage your assets and debts. Track multiple holdings in one place.'**
   String get showcaseNavWalletDesc;
+
+  /// No description provided for @showcaseTabWalletDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch between assets and debts.'**
+  String get showcaseTabWalletDesc;
 
   /// No description provided for @showcaseNavConverterTitle.
   ///
@@ -2036,11 +2060,23 @@ abstract class AppLocalizations {
   /// **'Converter'**
   String get showcaseNavConverterTitle;
 
+  /// No description provided for @showcaseCardConverterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Converter'**
+  String get showcaseCardConverterTitle;
+
   /// No description provided for @showcaseNavConverterDesc.
   ///
   /// In en, this message translates to:
-  /// **'Instantly convert between currencies, gold types, and cryptocurrencies.'**
+  /// **'Instantly convert between currencies, gold types, and crypto currencies.'**
   String get showcaseNavConverterDesc;
+
+  /// No description provided for @showcaseCardConverterDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Perform bidirectional conversions between currencies.'**
+  String get showcaseCardConverterDesc;
 
   /// No description provided for @showcaseNavSettingsTitle.
   ///
@@ -2075,7 +2111,7 @@ abstract class AppLocalizations {
   /// No description provided for @showcaseHomeBalanceDesc.
   ///
   /// In en, this message translates to:
-  /// **'Your net worth — total assets minus total debts — shown in Turkish Lira. Green is positive, red means your debts exceed your assets.'**
+  /// **'Your net worth, total assets and debts are shown in Turkish Liras.'**
   String get showcaseHomeBalanceDesc;
 
   /// No description provided for @showcaseAddAssetBoxTitle.
@@ -2087,7 +2123,7 @@ abstract class AppLocalizations {
   /// No description provided for @showcaseAddAssetBoxDesc.
   ///
   /// In en, this message translates to:
-  /// **'Record something you own here. Pick the type, choose a specific currency, gold, or crypto, enter how much you have, then tap Add Asset.'**
+  /// **'Save your assets from here.'**
   String get showcaseAddAssetBoxDesc;
 
   /// No description provided for @showcaseAssetTypeTitle.
@@ -2099,7 +2135,7 @@ abstract class AppLocalizations {
   /// No description provided for @showcaseAssetTypeDesc.
   ///
   /// In en, this message translates to:
-  /// **'Choose Currency for cash or bank deposits, Metal for gold and silver, or Crypto for digital assets.'**
+  /// **'Choose your asset type from among forex, metals, or crypto currencies.'**
   String get showcaseAssetTypeDesc;
 
   /// No description provided for @showcaseAssetCodeTitle.
@@ -2111,7 +2147,7 @@ abstract class AppLocalizations {
   /// No description provided for @showcaseAssetCodeDesc.
   ///
   /// In en, this message translates to:
-  /// **'Pick the exact currency, gold type, or cryptocurrency you want to track. The app supports dozens of options.'**
+  /// **'Pick the exact currency, gold type, or crypto that your asset is in.'**
   String get showcaseAssetCodeDesc;
 
   /// No description provided for @showcaseAssetAmountTitle.
@@ -2123,7 +2159,7 @@ abstract class AppLocalizations {
   /// No description provided for @showcaseAssetAmountDesc.
   ///
   /// In en, this message translates to:
-  /// **'Enter how much of this asset you own. The app records the current market price at the time you save, so you can track your profit or loss later.'**
+  /// **'Enter how much of this asset you own.'**
   String get showcaseAssetAmountDesc;
 
   /// No description provided for @showcaseAddDebtBoxTitle.
@@ -2135,7 +2171,7 @@ abstract class AppLocalizations {
   /// No description provided for @showcaseAddDebtBoxDesc.
   ///
   /// In en, this message translates to:
-  /// **'Record something you owe here. The app tracks the value of your debt in Turkish Lira over time.'**
+  /// **'Save your debt.'**
   String get showcaseAddDebtBoxDesc;
 
   /// No description provided for @showcaseDebtTypeTitle.
@@ -2171,7 +2207,7 @@ abstract class AppLocalizations {
   /// No description provided for @showcaseDebtAmountDesc.
   ///
   /// In en, this message translates to:
-  /// **'Enter the amount you owe. You can also add a note and a due date so you never miss a payment.'**
+  /// **'Enter the amount you owe.'**
   String get showcaseDebtAmountDesc;
 
   /// No description provided for @showcaseDebtNoteTitle.

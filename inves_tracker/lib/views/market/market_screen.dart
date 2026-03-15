@@ -84,8 +84,8 @@ class _MarketScreenState extends State<MarketScreen> {
     if (showcaseKeys != null) {
       tabSwitcher = ShowcaseHelper.wrap(
         key: showcaseKeys.marketTabSwitcher,
-        title: l10n.showcaseNavMarketTitle,
-        description: l10n.showcaseNavMarketDesc,
+        title: l10n.showcaseTabMarketTitle,
+        description: l10n.showcaseTabMarketDesc,
         child: tabSwitcher,
       );
     }

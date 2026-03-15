@@ -1002,22 +1002,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get showcaseNavMarketTitle => 'Exchange Rates';
 
   @override
+  String get showcaseTabMarketTitle => 'Exchange Rates';
+
+  @override
   String get showcaseNavMarketDesc =>
       'Live rates for currencies, gold, and crypto. Pull down on any list to refresh.';
 
   @override
+  String get showcaseTabMarketDesc =>
+      'Switch between Forex - Metals and Crypto';
+
+  @override
   String get showcaseNavWalletTitle => 'My Investments';
+
+  @override
+  String get showcaseTabWalletTitle => 'Assets and Debts';
 
   @override
   String get showcaseNavWalletDesc =>
       'Add and manage your assets and debts. Track multiple holdings in one place.';
 
   @override
+  String get showcaseTabWalletDesc => 'Switch between assets and debts.';
+
+  @override
   String get showcaseNavConverterTitle => 'Converter';
 
   @override
+  String get showcaseCardConverterTitle => 'Converter';
+
+  @override
   String get showcaseNavConverterDesc =>
-      'Instantly convert between currencies, gold types, and cryptocurrencies.';
+      'Instantly convert between currencies, gold types, and crypto currencies.';
+
+  @override
+  String get showcaseCardConverterDesc =>
+      'Perform bidirectional conversions between currencies.';
 
   @override
   String get showcaseNavSettingsTitle => 'Settings';
@@ -1038,42 +1058,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showcaseHomeBalanceDesc =>
-      'Your net worth — total assets minus total debts — shown in Turkish Lira. Green is positive, red means your debts exceed your assets.';
+      'Your net worth, total assets and debts are shown in Turkish Liras.';
 
   @override
   String get showcaseAddAssetBoxTitle => 'Add an Asset';
 
   @override
-  String get showcaseAddAssetBoxDesc =>
-      'Record something you own here. Pick the type, choose a specific currency, gold, or crypto, enter how much you have, then tap Add Asset.';
+  String get showcaseAddAssetBoxDesc => 'Save your assets from here.';
 
   @override
   String get showcaseAssetTypeTitle => 'Asset Type';
 
   @override
   String get showcaseAssetTypeDesc =>
-      'Choose Currency for cash or bank deposits, Metal for gold and silver, or Crypto for digital assets.';
+      'Choose your asset type from among forex, metals, or crypto currencies.';
 
   @override
   String get showcaseAssetCodeTitle => 'Select Asset';
 
   @override
   String get showcaseAssetCodeDesc =>
-      'Pick the exact currency, gold type, or cryptocurrency you want to track. The app supports dozens of options.';
+      'Pick the exact currency, gold type, or crypto that your asset is in.';
 
   @override
   String get showcaseAssetAmountTitle => 'Amount';
 
   @override
-  String get showcaseAssetAmountDesc =>
-      'Enter how much of this asset you own. The app records the current market price at the time you save, so you can track your profit or loss later.';
+  String get showcaseAssetAmountDesc => 'Enter how much of this asset you own.';
 
   @override
   String get showcaseAddDebtBoxTitle => 'Add a Debt';
 
   @override
-  String get showcaseAddDebtBoxDesc =>
-      'Record something you owe here. The app tracks the value of your debt in Turkish Lira over time.';
+  String get showcaseAddDebtBoxDesc => 'Save your debt.';
 
   @override
   String get showcaseDebtTypeTitle => 'Debt Type';
@@ -1093,8 +1110,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get showcaseDebtAmountTitle => 'Debt Amount';
 
   @override
-  String get showcaseDebtAmountDesc =>
-      'Enter the amount you owe. You can also add a note and a due date so you never miss a payment.';
+  String get showcaseDebtAmountDesc => 'Enter the amount you owe.';
 
   @override
   String get showcaseDebtNoteTitle => 'Note & Due Date';
