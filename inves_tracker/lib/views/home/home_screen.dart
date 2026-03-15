@@ -7,10 +7,11 @@ import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
+import 'package:inves_tracker/core/showcase/showcase_helper.dart';
+import 'package:inves_tracker/core/showcase/showcase_keys.dart';
 import 'package:inves_tracker/core/utils/visibility_notifier.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/banner_add.dart';
-//import 'package:inves_tracker/views/home/test/notification_debug_screen.dart';
 import 'package:inves_tracker/views/home/widgets/portfolio_chart.dart';
 import 'package:inves_tracker/views/home/widgets/total_balance_card.dart';
 import 'package:inves_tracker/views/home/widgets/asset_debt_details.dart';
@@ -73,11 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
     final visibilityNotifier = Provider.of<VisibilityNotifier>(context);
     final l10n = AppLocalizations.of(context)!;
 
+    // Look up showcase keys injected by MainLayout.
+    final showcaseKeys = ShowcaseKeys.of(context);
+
     if (_isLoading) {
       return Center(
-        child: CircularProgressIndicator(
-          color: AppColors.primary(context),
-        ),
+        child: CircularProgressIndicator(color: AppColors.primary(context)),
       );
     }
 
@@ -86,18 +88,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 48.sp,
-              color: AppColors.danger,
-            ),
+            Icon(Icons.error_outline, size: 48.sp, color: AppColors.danger),
             SizedBox(height: 12.h),
             Text(
               l10n.failedToLoadData,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: AppColors.title(context),
-              ),
+              style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
             ),
             SizedBox(height: 16.h),
             ElevatedButton(
@@ -113,12 +108,69 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
 
-    // Calculate portfolio data
     final portfolioData = PortfolioCalculator.calculatePortfolio(
       assets: _assets,
       debts: _debts,
       marketData: _marketData!,
     );
+
+    // Build the chart widget — optionally wrapped in a Showcase.
+    Widget chartWidget = Stack(
+      children: [
+        PortfolioChart(
+          portfolioData: portfolioData,
+          isVisible: visibilityNotifier.isBalanceVisible,
+        ),
+        Positioned(
+          top: 0,
+          right: 8.w,
+          child: Material(
+            elevation: 3,
+            shape: const CircleBorder(),
+            color: AppColors.foreground(context),
+            child: InkWell(
+              onTap: () => visibilityNotifier.toggleVisibility(),
+              customBorder: const CircleBorder(),
+              child: Padding(
+                padding: EdgeInsets.all(12.r),
+                child: Icon(
+                  visibilityNotifier.isBalanceVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: AppColors.primary(context),
+                  size: 24.sp,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+
+    // Wrap the chart in a Showcase if keys are available.
+    if (showcaseKeys != null) {
+      chartWidget = ShowcaseHelper.wrap(
+        key: showcaseKeys.homeChart,
+        title: l10n.showcaseHomeChartTitle,
+        description: l10n.showcaseHomeChartDesc,
+        child: chartWidget,
+      );
+    }
+
+    // Build the balance card — optionally wrapped in a Showcase.
+    Widget balanceCard = TotalBalanceCard(
+      portfolioData: portfolioData,
+      isVisible: visibilityNotifier.isBalanceVisible,
+    );
+
+    if (showcaseKeys != null) {
+      balanceCard = ShowcaseHelper.wrap(
+        key: showcaseKeys.homeBalance,
+        title: l10n.showcaseHomeBalanceTitle,
+        description: l10n.showcaseHomeBalanceDesc,
+        child: balanceCard,
+      );
+    }
 
     return RefreshIndicator(
       onRefresh: _loadData,
@@ -128,74 +180,12 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.symmetric(vertical: 16.h),
           child: Column(
             children: [
-              // Banner Ad
               const BannerAdd(),
-              
               SizedBox(height: 24.h),
-              
-              // Portfolio Chart with Visibility Button
-              Stack(
-                children: [
-                  // Chart (centered)
-                  PortfolioChart(
-                    portfolioData: portfolioData,
-                    isVisible: visibilityNotifier.isBalanceVisible,
-                  ),
-                  
-                  // Visibility Toggle Button (top right)
-                  Positioned(
-                    top: 0,
-                    right: 8.w,
-                    child: Material(
-                      elevation: 3,
-                      shape: const CircleBorder(),
-                      color: AppColors.foreground(context),
-                      child: InkWell(
-                        onTap: () => visibilityNotifier.toggleVisibility(),
-                        customBorder: const CircleBorder(),
-                        child: Padding(
-                          padding: EdgeInsets.all(12.r),
-                          child: Icon(
-                            visibilityNotifier.isBalanceVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: AppColors.primary(context),
-                            size: 24.sp,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              
-              // !!!! TEST SCREEN - REMOVE BEFORE PRODUCTION !!!!!
-              // SizedBox(height: 24.h),
-              // Center(
-              //   child: ElevatedButton(
-              //     onPressed: () => Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const NotificationDebugScreen(),
-              //       ),
-              //     ),
-              //     child: Text('Test Notifications'),
-              //   ),
-              // ),
-
-              // !!!! END OF TEST SCREEN !!!!!
-
+              chartWidget,
               SizedBox(height: 24.h),
-
-              // Total Balance Card
-              TotalBalanceCard(
-                portfolioData: portfolioData,
-                isVisible: visibilityNotifier.isBalanceVisible,
-              ),
-              
+              balanceCard,
               SizedBox(height: 24.h),
-              
-              // Asset/Debt Details
               AssetDebtDetails(
                 portfolioData: portfolioData,
                 isVisible: visibilityNotifier.isBalanceVisible,

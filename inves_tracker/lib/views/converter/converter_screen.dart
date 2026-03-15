@@ -1,8 +1,11 @@
+// ─── converter_screen.dart (showcase-aware version) ─────────────────────────
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
+import 'package:inves_tracker/core/showcase/showcase_helper.dart';
+import 'package:inves_tracker/core/showcase/showcase_keys.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/converter/widgets/currency_to_currency_section.dart';
@@ -53,13 +56,24 @@ class _ConverterScreenState extends State<ConverterScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final showcaseKeys = ShowcaseKeys.of(context);
 
-    if (_isLoading) {
-      return _buildLoadingState(l10n);
-    }
+    if (_isLoading) return _buildLoadingState(l10n);
+    if (_hasError || _marketData == null) return _buildErrorState(l10n);
 
-    if (_hasError || _marketData == null) {
-      return _buildErrorState(l10n);
+    // The currency converter card is the first, most prominent section.
+    // We wrap it — not the swap arrow — so the tooltip targets the whole card.
+    Widget currencySection = CurrencyToCurrencySection(
+      currencies: _marketData!.currencies,
+    );
+
+    if (showcaseKeys != null) {
+      currencySection = ShowcaseHelper.wrap(
+        key: showcaseKeys.converterSwap,
+        title: l10n.showcaseNavConverterTitle,
+        description: l10n.showcaseNavConverterDesc,
+        child: currencySection,
+      );
     }
 
     return RefreshIndicator(
@@ -70,32 +84,19 @@ class _ConverterScreenState extends State<ConverterScreen> {
           padding: EdgeInsets.symmetric(vertical: 12.h),
           child: Column(
             children: [
-              // Banner Ad
               const Center(child: BannerAdd()),
-              
               SizedBox(height: 20.h),
-
-              // Currency to Currency Section
-              CurrencyToCurrencySection(
-                currencies: _marketData!.currencies,
-              ),
-              
+              currencySection, // ← showcased
               SizedBox(height: 20.h),
-              
-              // Gold to Currency Section
               GoldToCurrencySection(
                 golds: _marketData!.golds,
                 currencies: _marketData!.currencies,
               ),
-              
               SizedBox(height: 20.h),
-              
-              // Crypto to Currency Section
               CryptoToCurrencySection(
                 cryptos: _marketData!.cryptos,
                 currencies: _marketData!.currencies,
               ),
-              
               SizedBox(height: 20.h),
             ],
           ),
@@ -111,10 +112,9 @@ class _ConverterScreenState extends State<ConverterScreen> {
         children: [
           CircularProgressIndicator(color: AppColors.primary(context)),
           SizedBox(height: 12.h),
-          Text(
-            l10n.loadingConverter,
-            style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
-          ),
+          Text(l10n.loadingConverter,
+              style: TextStyle(
+                  fontSize: 14.sp, color: AppColors.title(context))),
         ],
       ),
     );
@@ -127,25 +127,27 @@ class _ConverterScreenState extends State<ConverterScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 48.sp, color: AppColors.danger),
+            Icon(Icons.error_outline,
+                size: 48.sp, color: AppColors.danger),
             SizedBox(height: 12.h),
-            Text(
-              l10n.failedToLoadMarketData,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
-            ),
+            Text(l10n.failedToLoadMarketData,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    color: AppColors.title(context))),
             SizedBox(height: 16.h),
             ElevatedButton(
               onPressed: _loadMarketData,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary(context),
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+                padding: EdgeInsets.symmetric(
+                    horizontal: 24.w, vertical: 12.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
+                    borderRadius: BorderRadius.circular(8.r)),
               ),
-              child: Text(l10n.retry, style: TextStyle(fontSize: 14.sp)),
+              child: Text(l10n.retry,
+                  style: TextStyle(fontSize: 14.sp)),
             ),
           ],
         ),

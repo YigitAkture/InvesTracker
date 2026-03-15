@@ -986,4 +986,122 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get enable => 'Etkinleştir';
+
+  @override
+  String get replayTour => 'Turu Tekrar Göster';
+
+  @override
+  String get replayTourDescription => 'Özellik turunu tekrar görüntüle';
+
+  @override
+  String get showcaseNavHomeTitle => 'Ana Sayfa';
+
+  @override
+  String get showcaseNavHomeDesc =>
+      'Kişisel portföy özetiniz — toplam bakiye, varlıklar ve borçlar tek bir yerde.';
+
+  @override
+  String get showcaseNavMarketTitle => 'Döviz Kurları';
+
+  @override
+  String get showcaseNavMarketDesc =>
+      'Döviz, altın ve kripto için anlık kurlar. Listeyi yenilemek için aşağı çekin.';
+
+  @override
+  String get showcaseNavWalletTitle => 'Yatırımlarım';
+
+  @override
+  String get showcaseNavWalletDesc =>
+      'Varlık ve borçlarınızı ekleyin ve yönetin. Birden fazla yatırımı tek yerden takip edin.';
+
+  @override
+  String get showcaseNavConverterTitle => 'Çevirici';
+
+  @override
+  String get showcaseNavConverterDesc =>
+      'Dövizler, altın türleri ve kripto paralar arasında anında dönüşüm yapın.';
+
+  @override
+  String get showcaseNavSettingsTitle => 'Ayarlar';
+
+  @override
+  String get showcaseNavSettingsDesc =>
+      'Tema, dil, bildirimler ve hesap ayarlarınızı buradan düzenleyin.';
+
+  @override
+  String get showcaseHomeChartTitle => 'Portföy Grafiği';
+
+  @override
+  String get showcaseHomeChartDesc =>
+      'Bu grafik varlıklarınızın döviz, altın ve kripto arasındaki dağılımını gösterir. Tutarları gizlemek veya göstermek için göz ikonuna dokunun.';
+
+  @override
+  String get showcaseHomeBalanceTitle => 'Toplam Bakiye';
+
+  @override
+  String get showcaseHomeBalanceDesc =>
+      'Net varlığınız — toplam varlıklar eksi toplam borçlar — Türk Lirası cinsinden görüntülenir. Yeşil olumlu, kırmızı borçlarınızın varlıklarınızı aştığı anlamına gelir.';
+
+  @override
+  String get showcaseAddAssetBoxTitle => 'Varlık Ekle';
+
+  @override
+  String get showcaseAddAssetBoxDesc =>
+      'Sahip olduğunuz bir şeyi buraya kaydedin. Türü seçin, döviz, altın veya kripto belirleyin, miktarı girin ve Varlık Ekle\'ye dokunun.';
+
+  @override
+  String get showcaseAssetTypeTitle => 'Varlık Türü';
+
+  @override
+  String get showcaseAssetTypeDesc =>
+      'Nakit veya banka mevduatı için Döviz, altın ve gümüş için Maden, dijital varlıklar için Kripto seçin.';
+
+  @override
+  String get showcaseAssetCodeTitle => 'Varlık Seçin';
+
+  @override
+  String get showcaseAssetCodeDesc =>
+      'Takip etmek istediğiniz döviz, altın türü veya kripto parayı seçin. Uygulama düzinelerce seçeneği destekler.';
+
+  @override
+  String get showcaseAssetAmountTitle => 'Miktar';
+
+  @override
+  String get showcaseAssetAmountDesc =>
+      'Bu varlıktan ne kadar sahip olduğunuzu girin. Uygulama kayıt anındaki piyasa fiyatını kaydeder; böylece daha sonra kâr veya zararınızı takip edebilirsiniz.';
+
+  @override
+  String get showcaseAddDebtBoxTitle => 'Borç Ekle';
+
+  @override
+  String get showcaseAddDebtBoxDesc =>
+      'Borçlu olduğunuz bir şeyi buraya kaydedin. Uygulama borcunuzun Türk Lirası değerini zaman içinde takip eder.';
+
+  @override
+  String get showcaseDebtTypeTitle => 'Borç Türü';
+
+  @override
+  String get showcaseDebtTypeDesc =>
+      'Borçlandığınız veya ödemeniz gereken borç türünü seçin — döviz, altın veya kripto.';
+
+  @override
+  String get showcaseDebtCodeTitle => 'Borç Seçin';
+
+  @override
+  String get showcaseDebtCodeDesc =>
+      'Borcunuzun hangi döviz, altın türü veya kriptoda olduğunu seçin.';
+
+  @override
+  String get showcaseDebtAmountTitle => 'Borç Miktarı';
+
+  @override
+  String get showcaseDebtAmountDesc =>
+      'Borçlu olduğunuz miktarı girin. Ayrıca bu borç için kısa bir not ve son ödeme tarihi ekleyebilirsiniz.';
+
+  @override
+  String get showcaseDebtNoteTitle => 'Not ve Son Tarih';
+
+  @override
+  String get showcaseDebtNoteDesc =>
+      'İsteğe bağlı olarak bu borç için kısa bir not ve son ödeme tarihi ekleyin. Ödeme tarihinden önce hatırlatma bildirimi alacaksınız.';
 }

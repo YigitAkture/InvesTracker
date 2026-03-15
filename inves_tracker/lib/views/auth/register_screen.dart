@@ -91,7 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         if (result['success']) {
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (_) => const MainLayout()),
+            MaterialPageRoute(builder: (_) => const MainLayout(startShowcase: true)),
             (route) => false,
           );
         } else {

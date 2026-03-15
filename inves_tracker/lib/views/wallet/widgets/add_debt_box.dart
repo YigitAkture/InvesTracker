@@ -6,12 +6,13 @@ import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
+import 'package:inves_tracker/core/showcase/showcase_helper.dart';
+import 'package:inves_tracker/core/showcase/showcase_keys.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/wallet/utils/crypto_dropdown.dart';
 import 'package:inves_tracker/views/wallet/utils/currency_dropdown.dart';
 import 'package:inves_tracker/views/wallet/utils/gold_dropdown.dart';
-
-enum ExchangeType { currency, gold, crypto }
+import 'package:inves_tracker/views/wallet/utils/wallet_types.dart';
 
 class AddDebtBox extends StatefulWidget {
   final String userId;
@@ -46,26 +47,26 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
   final Map<ExchangeType, List<String>> _codesByType = {
     ExchangeType.currency: [
-      'TRY', 'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'RUB', 'AED', 'AUD', 'DKK', 'SEK', 
-      'NOK', 'ISK', 'JPY', 'SGD', 'NZD', 'HKD', 'THB', 'PLN', 'CZK', 'HUF', 'RON', 
-      'QAR', 'SAR', 'BHD', 'OMR', 'KWD', 'IQD', 'LYD', 'IRR', 'LKR', 'INR', 'PKR', 
-      'IDR', 'MYR', 'PHP', 'MXN', 'BRL', 'ARS', 'CLP', 'COP', 'PEN', 'UYU', 'CRC', 
-      'UAH', 'GEL', 'AZN', 'MKD', 'BGN', 'BAM', 'MDL', 'ALL', 'LBP', 'EGP', 'DZD', 
-      'TND', 'SYP', 'KRW', 'KZT', 'CNY', 'TWD'
+      'TRY', 'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'RUB', 'AED', 'AUD', 'DKK',
+      'SEK', 'NOK', 'ISK', 'JPY', 'SGD', 'NZD', 'HKD', 'THB', 'PLN', 'CZK',
+      'HUF', 'RON', 'QAR', 'SAR', 'BHD', 'OMR', 'KWD', 'IQD', 'LYD', 'IRR',
+      'LKR', 'INR', 'PKR', 'IDR', 'MYR', 'PHP', 'MXN', 'BRL', 'ARS', 'CLP',
+      'COP', 'PEN', 'UYU', 'CRC', 'UAH', 'GEL', 'AZN', 'MKD', 'BGN', 'BAM',
+      'MDL', 'ALL', 'LBP', 'EGP', 'DZD', 'TND', 'SYP', 'KRW', 'KZT', 'CNY',
+      'TWD',
     ],
     ExchangeType.gold: [
-      'HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN',
-      'ATAALTIN', 'RESATALTIN', 'CUMHURIYETALTINI', 'GREMSEALTIN',
-      '14AYARALTIN', '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN',
-      'GUMUS', 'GPL', 'PAL'
+      'HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN', 'ATAALTIN',
+      'RESATALTIN', 'CUMHURIYETALTINI', 'GREMSEALTIN', '14AYARALTIN',
+      '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN', 'GUMUS', 'GPL',
+      'PAL',
     ],
     ExchangeType.crypto: [
-      'BTC', 'ETH', 'USDT', 'XRP', 'BNB', 'SOL', 'USDC', 'STETH',
-      'DOGE', 'TRX', 'ADA', 'SHIB', 'WSTETH', 'WBTC', 'HYPE', 'TON',
-      'LINK', 'BCH', 'AVAX', 'XLM', 'SUI', 'DOT', 'UNI',
-      'ZEC', 'LTC', 'XMR', 'CRO', 'NEAR', 'WETH', 'LEO',
-      'MNT', 'PYUSD', 'USDS', 'USDE', 'CBBTC', 'WEETH',
-      'SUSDE', 'SUSDS', 'TAO', 'WBETH', 'CC'
+      'BTC', 'ETH', 'USDT', 'XRP', 'BNB', 'SOL', 'USDC', 'STETH', 'DOGE',
+      'TRX', 'ADA', 'SHIB', 'WSTETH', 'WBTC', 'HYPE', 'TON', 'LINK', 'BCH',
+      'AVAX', 'XLM', 'SUI', 'DOT', 'UNI', 'ZEC', 'LTC', 'XMR', 'CRO',
+      'NEAR', 'WETH', 'LEO', 'MNT', 'PYUSD', 'USDS', 'USDE', 'CBBTC',
+      'WEETH', 'SUSDE', 'SUSDS', 'TAO', 'WBETH', 'CC',
     ],
   };
 
@@ -105,43 +106,31 @@ class _AddDebtBoxState extends State<AddDebtBox> {
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
     );
-    if (picked != null) {
-      setState(() => _selectedDueDate = picked);
-    }
+    if (picked != null) setState(() => _selectedDueDate = picked);
   }
 
-  /// Calculate currentTryValue = tryValue * amount
-  Future<double?> _calculateCurrentTryValue(String code, String type, double amount) async {
+  Future<double?> _calculateCurrentTryValue(
+      String code, String type, double amount) async {
     try {
       final marketData = await _marketService.fetchMarketData();
-      
       switch (type.toLowerCase()) {
         case 'currency':
           if (code == 'TRY') return amount * 1.0;
-          final currency = marketData.currencies.firstWhere(
-            (c) => c.code == code,
-            orElse: () => throw Exception('Currency not found'),
-          );
+          final currency =
+              marketData.currencies.firstWhere((c) => c.code == code);
           return amount * currency.buying;
-        
         case 'gold':
-          final gold = marketData.golds.firstWhere(
-            (g) => g.code == code,
-            orElse: () => throw Exception('Gold not found'),
-          );
+          final gold =
+              marketData.golds.firstWhere((g) => g.code == code);
           return amount * gold.selling;
-        
         case 'crypto':
-          final crypto = marketData.cryptos.firstWhere(
-            (c) => c.code == code,
-            orElse: () => throw Exception('Crypto not found'),
-          );
+          final crypto =
+              marketData.cryptos.firstWhere((c) => c.code == code);
           return amount * crypto.tryPrice;
-        
         default:
           return null;
       }
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
@@ -150,43 +139,39 @@ class _AddDebtBoxState extends State<AddDebtBox> {
     final l10n = AppLocalizations.of(context)!;
 
     if (_selectedCode == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.pleaseSelectEntity, style: TextStyle(color: Colors.black)), 
-          showCloseIcon: true,
-          closeIconColor: Colors.black,
-          backgroundColor: AppColors.warning2,
-        ),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(l10n.pleaseSelectEntity,
+            style: const TextStyle(color: Colors.black)),
+        showCloseIcon: true,
+        closeIconColor: Colors.black,
+        backgroundColor: AppColors.warning2,
+      ));
       return;
     }
 
     final amount = double.tryParse(_amountController.text);
-
     if (amount == null || amount <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.enterValidAmount, style: TextStyle(color: Colors.black)), 
-          showCloseIcon: true,
-          closeIconColor: Colors.black,
-          backgroundColor: AppColors.warning2,
-        ),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(l10n.enterValidAmount,
+            style: const TextStyle(color: Colors.black)),
+        showCloseIcon: true,
+        closeIconColor: Colors.black,
+        backgroundColor: AppColors.warning2,
+      ));
       return;
     }
 
-    // Additional validation for gold types
     if (_selectedType == ExchangeType.gold) {
-      final validationError = GoldInputHelper.validateAmount(_selectedCode!, _amountController.text);
-      if (validationError != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(validationError, style: TextStyle(color: Colors.black)), 
-            showCloseIcon: true,
-            closeIconColor: Colors.black,
-            backgroundColor: AppColors.warning2,
-          ),
-        );
+      final err = GoldInputHelper.validateAmount(
+          _selectedCode!, _amountController.text);
+      if (err != null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content:
+              Text(err, style: const TextStyle(color: Colors.black)),
+          showCloseIcon: true,
+          closeIconColor: Colors.black,
+          backgroundColor: AppColors.warning2,
+        ));
         return;
       }
     }
@@ -194,12 +179,8 @@ class _AddDebtBoxState extends State<AddDebtBox> {
     setState(() => _isLoading = true);
 
     try {
-      // Calculate currentTryValue = tryValue * amount
       final currentTryValue = await _calculateCurrentTryValue(
-        _selectedCode!,
-        _getTypeApiName(_selectedType),
-        amount,
-      );
+          _selectedCode!, _getTypeApiName(_selectedType), amount);
 
       if (currentTryValue == null) {
         throw Exception('Failed to calculate current TRY value');
@@ -210,7 +191,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
         debtType: _getTypeApiName(_selectedType),
         debtCode: _selectedCode!,
         amount: amount,
-        currentTryValue: currentTryValue, // Send calculated value
+        currentTryValue: currentTryValue,
         note: _noteController.text.isEmpty ? null : _noteController.text,
         dueDate: _selectedDueDate,
       );
@@ -224,14 +205,13 @@ class _AddDebtBoxState extends State<AddDebtBox> {
           _isLoading = false;
         });
         widget.onDebtAdded();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.debtAdded, style: TextStyle(color: Colors.black)), 
-            showCloseIcon: true,
-            backgroundColor: AppColors.success2,
-            closeIconColor: Colors.black,
-          ),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(l10n.debtAdded,
+              style: const TextStyle(color: Colors.black)),
+          showCloseIcon: true,
+          backgroundColor: AppColors.success2,
+          closeIconColor: Colors.black,
+        ));
       }
     } catch (e) {
       if (mounted) {
@@ -252,14 +232,13 @@ class _AddDebtBoxState extends State<AddDebtBox> {
             ),
           );
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Failed to add debt: $e', style: TextStyle(color: Colors.white)), 
-              showCloseIcon: true,
-              backgroundColor: AppColors.danger3,
-              closeIconColor: Colors.white,
-            ),
-          );
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Failed to add debt: $e',
+                style: const TextStyle(color: Colors.white)),
+            showCloseIcon: true,
+            backgroundColor: AppColors.danger3,
+            closeIconColor: Colors.white,
+          ));
         }
       }
     }
@@ -268,6 +247,274 @@ class _AddDebtBoxState extends State<AddDebtBox> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final showcaseKeys = ShowcaseKeys.of(context);
+
+    // ── Type selector ─────────────────────────────────────────────────────────
+    Widget typeSelector = Row(
+      children: ExchangeType.values.map((type) {
+        final isSelected = _selectedType == type;
+        return Expanded(
+          child: GestureDetector(
+            onTap: () => setState(() {
+              _selectedType = type;
+              _selectedCode = null;
+            }),
+            child: Container(
+              margin: EdgeInsets.only(right: 8.w),
+              padding: EdgeInsets.symmetric(vertical: 8.h),
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? AppColors.secondary(context).withValues(alpha: 0.15)
+                    : AppColors.background2(context),
+                borderRadius: BorderRadius.circular(8.r),
+                border: isSelected
+                    ? Border.all(
+                        color: AppColors.secondary(context), width: 2)
+                    : null,
+              ),
+              child: Text(
+                _getTypeName(type, l10n),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight:
+                      isSelected ? FontWeight.w600 : FontWeight.w500,
+                  color:
+                      isSelected ? AppColors.secondary(context) : null,
+                ),
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+
+    if (showcaseKeys != null) {
+      typeSelector = ShowcaseHelper.wrap(
+        key: showcaseKeys.walletAddDebtType,
+        title: l10n.showcaseDebtTypeTitle,
+        description: l10n.showcaseDebtTypeDesc,
+        child: typeSelector,
+      );
+    }
+
+    // ── Code dropdown ─────────────────────────────────────────────────────────
+    Widget codeDropdown = Theme(
+      data: Theme.of(context)
+          .copyWith(canvasColor: AppColors.background2(context)),
+      child: DropdownButtonFormField<String>(
+        initialValue: _selectedCode,
+        alignment: Alignment.centerLeft,
+        dropdownColor: AppColors.background2(context),
+        menuMaxHeight: 450.h,
+        borderRadius: BorderRadius.circular(12.r),
+        items: _codesByType[_selectedType]!
+            .map((code) => DropdownMenuItem<String>(
+                  value: code,
+                  child: IntrinsicWidth(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (_selectedType == ExchangeType.currency)
+                          CurrencyDropdown(code: code)
+                        else if (_selectedType == ExchangeType.gold)
+                          GoldDropdown(code: code)
+                        else
+                          CryptoDropdown(code: code),
+                      ],
+                    ),
+                  ),
+                ))
+            .toList(),
+        decoration: InputDecoration(
+          labelText: _getTypeName(_selectedType, l10n),
+          filled: true,
+          fillColor: AppColors.background2(context),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r)),
+        ),
+        onChanged: (value) => setState(() => _selectedCode = value),
+      ),
+    );
+
+    if (showcaseKeys != null) {
+      codeDropdown = ShowcaseHelper.wrap(
+        key: showcaseKeys.walletAddDebtCode,
+        title: l10n.showcaseDebtCodeTitle,
+        description: l10n.showcaseDebtCodeDesc,
+        child: codeDropdown,
+      );
+    }
+
+    // ── Amount field ──────────────────────────────────────────────────────────
+    Widget amountField = TextField(
+      controller: _amountController,
+      keyboardType: _selectedType == ExchangeType.gold &&
+              _selectedCode != null
+          ? GoldInputHelper.getKeyboardType(_selectedCode!)
+          : const TextInputType.numberWithOptions(decimal: true),
+      inputFormatters: _selectedType == ExchangeType.gold &&
+              _selectedCode != null
+          ? GoldInputHelper.getInputFormatters(_selectedCode!)
+          : [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))],
+      decoration: InputDecoration(
+        labelText: l10n.amount,
+        border:
+            OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+        filled: true,
+        fillColor: AppColors.background2(context),
+      ),
+    );
+
+    if (showcaseKeys != null) {
+      amountField = ShowcaseHelper.wrap(
+        key: showcaseKeys.walletAddDebtAmount,
+        title: l10n.showcaseDebtAmountTitle,
+        description: l10n.showcaseDebtAmountDesc,
+        child: amountField,
+      );
+    }
+
+    // ── Note + due date (grouped) ─────────────────────────────────────────────
+    Widget noteAndDate = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextField(
+          controller: _noteController,
+          maxLines: 2,
+          maxLength: _maxNoteLength,
+          buildCounter: (ctx,
+              {required currentLength,
+              required maxLength,
+              required isFocused}) {
+            return Text(
+              '$currentLength/$maxLength',
+              style: TextStyle(
+                fontSize: 11.sp,
+                color: currentLength >= _maxNoteLength
+                    ? AppColors.danger
+                    : AppColors.title(context),
+              ),
+            );
+          },
+          decoration: InputDecoration(
+            labelText: l10n.noteOptional,
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.r)),
+            filled: true,
+            fillColor: AppColors.background2(context),
+          ),
+        ),
+        SizedBox(height: 12.h),
+        InkWell(
+          onTap: _selectDueDate,
+          child: InputDecorator(
+            decoration: InputDecoration(
+              labelText: l10n.dueDateOptional,
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.r)),
+              filled: true,
+              fillColor: AppColors.background2(context),
+              suffixIcon: const Icon(Icons.calendar_today),
+            ),
+            child: Text(
+              _selectedDueDate != null
+                  ? _dateFormat.format(_selectedDueDate!)
+                  : l10n.selectDate,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: _selectedDueDate != null ? null : Colors.grey,
+              ),
+            ),
+          ),
+        ),
+        if (_selectedDueDate != null) ...[
+          SizedBox(height: 8.h),
+          TextButton.icon(
+            onPressed: () =>
+                setState(() => _selectedDueDate = null),
+            icon: Icon(Icons.clear, size: 16.sp),
+            label: Text(l10n.clearDueDate),
+            style: TextButton.styleFrom(
+                foregroundColor: AppColors.secondary(context)),
+          ),
+        ],
+      ],
+    );
+
+    if (showcaseKeys != null) {
+      noteAndDate = ShowcaseHelper.wrap(
+        key: showcaseKeys.walletAddDebtNote,
+        title: l10n.showcaseDebtNoteTitle,
+        description: l10n.showcaseDebtNoteDesc,
+        child: noteAndDate,
+      );
+    }
+
+    // ── Submit button ─────────────────────────────────────────────────────────
+    Widget addButton = SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: _isLoading ? null : _addDebt,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.secondary(context),
+          foregroundColor: Colors.white,
+          padding: EdgeInsets.symmetric(vertical: 12.h),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.r)),
+        ),
+        child: _isLoading
+            ? SizedBox(
+                width: 20.w,
+                height: 20.h,
+                child: const CircularProgressIndicator(
+                    strokeWidth: 2, color: Colors.white),
+              )
+            : Text(l10n.addDebt,
+                style: TextStyle(
+                    fontSize: 14.sp, fontWeight: FontWeight.w600)),
+      ),
+    );
+
+    if (showcaseKeys != null) {
+      addButton = ShowcaseHelper.wrap(
+        key: showcaseKeys.walletAddDebt,
+        title: l10n.showcaseAddDebtBoxTitle,
+        description: l10n.showcaseAddDebtBoxDesc,
+        child: addButton,
+      );
+    }
+
+    // ── Card header ───────────────────────────────────────────────────────────
+    Widget header = InkWell(
+      onTap: () => setState(() => _isExpanded = !_isExpanded),
+      borderRadius: BorderRadius.circular(16.r),
+      child: Padding(
+        padding: EdgeInsets.all(16.r),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(l10n.addDebt,
+                  style: TextStyle(
+                      fontSize: 16.sp, fontWeight: FontWeight.w600)),
+            ),
+            Icon(
+              _isExpanded ? Icons.expand_less : Icons.expand_more,
+              size: 24.sp,
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (showcaseKeys != null) {
+      header = ShowcaseHelper.wrap(
+        key: showcaseKeys.walletAddDebtBox,
+        title: l10n.showcaseAddDebtBoxTitle,
+        description: l10n.showcaseAddDebtBoxDesc,
+        child: header,
+      );
+    }
 
     return Container(
       decoration: BoxDecoration(
@@ -284,31 +531,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InkWell(
-            onTap: () => setState(() => _isExpanded = !_isExpanded),
-            borderRadius: BorderRadius.circular(16.r),
-            child: Padding(
-              padding: EdgeInsets.all(16.r),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      l10n.addDebt,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Icon(
-                    _isExpanded ? Icons.expand_less : Icons.expand_more,
-                    size: 24.sp,
-                  ),
-                ],
-              ),
-            ),
-          ),
-
+          header,
           if (_isExpanded) ...[
             Divider(height: 1, color: AppColors.background2(context)),
             Padding(
@@ -316,213 +539,15 @@ class _AddDebtBoxState extends State<AddDebtBox> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: ExchangeType.values.map((type) {
-                      final isSelected = _selectedType == type;
-                      return Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedType = type;
-                              _selectedCode = null;
-                            });
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(right: 8.w),
-                            padding: EdgeInsets.symmetric(vertical: 8.h),
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? AppColors.secondary(context).withValues(alpha: 0.15)
-                                  : AppColors.background2(context),
-                              borderRadius: BorderRadius.circular(8.r),
-                              border: isSelected
-                                  ? Border.all(color: AppColors.secondary(context), width: 2)
-                                  : null,
-                            ),
-                            child: Text(
-                              _getTypeName(type, l10n),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight:
-                                    isSelected ? FontWeight.w600 : FontWeight.w500,
-                                color:
-                                    isSelected ? AppColors.secondary(context) : null,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-
+                  typeSelector,
                   SizedBox(height: 12.h),
-
-                  Theme(
-                    data: Theme.of(context).copyWith(
-                      canvasColor: AppColors.background2(context),
-                    ),
-                    child: DropdownButtonFormField<String>(
-                      initialValue: _selectedCode,
-                      alignment: Alignment.centerLeft,
-                      dropdownColor: AppColors.background2(context),
-                      menuMaxHeight: 450.h,
-                      borderRadius: BorderRadius.circular(12.r),
-                      items: _codesByType[_selectedType]!.map((code) {
-                        return DropdownMenuItem<String>(
-                          value: code,
-                          child: IntrinsicWidth(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                if (_selectedType == ExchangeType.currency)
-                                  CurrencyDropdown(code: code)
-                                else if (_selectedType == ExchangeType.gold)
-                                  GoldDropdown(code: code)
-                                else
-                                  CryptoDropdown(code: code),
-                              ],
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                      decoration: InputDecoration(
-                        labelText: _getTypeName(_selectedType, l10n),
-                        filled: true,
-                        fillColor: AppColors.background2(context),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                      ),
-                      onChanged: (value) => setState(() => _selectedCode = value),
-                    ),
-                  ),
-
+                  codeDropdown,
                   SizedBox(height: 12.h),
-
-                  TextField(
-                    controller: _amountController,
-                    keyboardType: _selectedType == ExchangeType.gold && _selectedCode != null
-                        ? GoldInputHelper.getKeyboardType(_selectedCode!)
-                        : const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: _selectedType == ExchangeType.gold && _selectedCode != null
-                        ? GoldInputHelper.getInputFormatters(_selectedCode!)
-                        : [
-                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-                          ],
-                    decoration: InputDecoration(
-                      labelText: l10n.amount,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      filled: true,
-                      fillColor: AppColors.background2(context),
-                    ),
-                  ),
-
+                  amountField,
                   SizedBox(height: 12.h),
-
-                  TextField(
-                    controller: _noteController,
-                    maxLines: 2,
-                    maxLength: _maxNoteLength,
-                    buildCounter: (
-                      BuildContext context, {
-                      required int currentLength,
-                      required int? maxLength,
-                      required bool isFocused,
-                    }) {
-                      return Text(
-                        "$currentLength/$maxLength",
-                        style: TextStyle(
-                          fontSize: 11.sp,
-                          color: currentLength >= _maxNoteLength
-                              ? AppColors.danger
-                              : AppColors.title(context),
-                        ),
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: l10n.noteOptional,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      filled: true,
-                      fillColor: AppColors.background2(context),
-                    ),
-                  ),
-
-                  SizedBox(height: 12.h),
-
-                  InkWell(
-                    onTap: _selectDueDate,
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        labelText: l10n.dueDateOptional,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        filled: true,
-                        fillColor: AppColors.background2(context),
-                        suffixIcon: const Icon(Icons.calendar_today),
-                      ),
-                      child: Text(
-                        _selectedDueDate != null
-                            ? _dateFormat.format(_selectedDueDate!)
-                            : l10n.selectDate,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color:
-                              _selectedDueDate != null ? null : Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  if (_selectedDueDate != null) ...[
-                    SizedBox(height: 8.h),
-                    TextButton.icon(
-                      onPressed: () => setState(() => _selectedDueDate = null),
-                      icon: Icon(Icons.clear, size: 16.sp),
-                      label: Text(l10n.clearDueDate),
-                      style: TextButton.styleFrom(
-                        foregroundColor: AppColors.secondary(context),
-                      ),
-                    ),
-                  ],
-
+                  noteAndDate,
                   SizedBox(height: 16.h),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _isLoading ? null : _addDebt,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.secondary(context),
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 12.h),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                      ),
-                      child: _isLoading
-                          ? SizedBox(
-                              width: 20.w,
-                              height: 20.h,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
-                          : Text(
-                              l10n.addDebt,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                    ),
-                  ),
+                  addButton,
                 ],
               ),
             ),

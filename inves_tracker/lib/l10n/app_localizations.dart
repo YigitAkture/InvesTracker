@@ -1981,6 +1981,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enable'**
   String get enable;
+
+  /// No description provided for @replayTour.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay App Tour'**
+  String get replayTour;
+
+  /// No description provided for @replayTourDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'See the feature walkthrough again'**
+  String get replayTourDescription;
+
+  /// No description provided for @showcaseNavHomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get showcaseNavHomeTitle;
+
+  /// No description provided for @showcaseNavHomeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal portfolio overview — total balance, assets, and debts all in one place.'**
+  String get showcaseNavHomeDesc;
+
+  /// No description provided for @showcaseNavMarketTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange Rates'**
+  String get showcaseNavMarketTitle;
+
+  /// No description provided for @showcaseNavMarketDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Live rates for currencies, gold, and crypto. Pull down on any list to refresh.'**
+  String get showcaseNavMarketDesc;
+
+  /// No description provided for @showcaseNavWalletTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Investments'**
+  String get showcaseNavWalletTitle;
+
+  /// No description provided for @showcaseNavWalletDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add and manage your assets and debts. Track multiple holdings in one place.'**
+  String get showcaseNavWalletDesc;
+
+  /// No description provided for @showcaseNavConverterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Converter'**
+  String get showcaseNavConverterTitle;
+
+  /// No description provided for @showcaseNavConverterDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Instantly convert between currencies, gold types, and cryptocurrencies.'**
+  String get showcaseNavConverterDesc;
+
+  /// No description provided for @showcaseNavSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get showcaseNavSettingsTitle;
+
+  /// No description provided for @showcaseNavSettingsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust theme, language, notifications, and your account settings.'**
+  String get showcaseNavSettingsDesc;
+
+  /// No description provided for @showcaseHomeChartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Portfolio Chart'**
+  String get showcaseHomeChartTitle;
+
+  /// No description provided for @showcaseHomeChartDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'This chart shows how your assets are spread across currencies, gold, and crypto. Tap the eye icon to hide or show amounts.'**
+  String get showcaseHomeChartDesc;
+
+  /// No description provided for @showcaseHomeBalanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Balance'**
+  String get showcaseHomeBalanceTitle;
+
+  /// No description provided for @showcaseHomeBalanceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your net worth — total assets minus total debts — shown in Turkish Lira. Green is positive, red means your debts exceed your assets.'**
+  String get showcaseHomeBalanceDesc;
+
+  /// No description provided for @showcaseAddAssetBoxTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an Asset'**
+  String get showcaseAddAssetBoxTitle;
+
+  /// No description provided for @showcaseAddAssetBoxDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record something you own here. Pick the type, choose a specific currency, gold, or crypto, enter how much you have, then tap Add Asset.'**
+  String get showcaseAddAssetBoxDesc;
+
+  /// No description provided for @showcaseAssetTypeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Asset Type'**
+  String get showcaseAssetTypeTitle;
+
+  /// No description provided for @showcaseAssetTypeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Currency for cash or bank deposits, Metal for gold and silver, or Crypto for digital assets.'**
+  String get showcaseAssetTypeDesc;
+
+  /// No description provided for @showcaseAssetCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Asset'**
+  String get showcaseAssetCodeTitle;
+
+  /// No description provided for @showcaseAssetCodeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the exact currency, gold type, or cryptocurrency you want to track. The app supports dozens of options.'**
+  String get showcaseAssetCodeDesc;
+
+  /// No description provided for @showcaseAssetAmountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get showcaseAssetAmountTitle;
+
+  /// No description provided for @showcaseAssetAmountDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter how much of this asset you own. The app records the current market price at the time you save, so you can track your profit or loss later.'**
+  String get showcaseAssetAmountDesc;
+
+  /// No description provided for @showcaseAddDebtBoxTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a Debt'**
+  String get showcaseAddDebtBoxTitle;
+
+  /// No description provided for @showcaseAddDebtBoxDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Record something you owe here. The app tracks the value of your debt in Turkish Lira over time.'**
+  String get showcaseAddDebtBoxDesc;
+
+  /// No description provided for @showcaseDebtTypeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt Type'**
+  String get showcaseDebtTypeTitle;
+
+  /// No description provided for @showcaseDebtTypeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the type of debt — currency, gold, or crypto — that matches what you borrowed or owe.'**
+  String get showcaseDebtTypeDesc;
+
+  /// No description provided for @showcaseDebtCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Debt'**
+  String get showcaseDebtCodeTitle;
+
+  /// No description provided for @showcaseDebtCodeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the exact currency, gold type, or crypto that your debt is in.'**
+  String get showcaseDebtCodeDesc;
+
+  /// No description provided for @showcaseDebtAmountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt Amount'**
+  String get showcaseDebtAmountTitle;
+
+  /// No description provided for @showcaseDebtAmountDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the amount you owe. You can also add a note and a due date so you never miss a payment.'**
+  String get showcaseDebtAmountDesc;
+
+  /// No description provided for @showcaseDebtNoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Note & Due Date'**
+  String get showcaseDebtNoteTitle;
+
+  /// No description provided for @showcaseDebtNoteDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Optionally add a short note about this debt and a due date. You will receive a notification reminder before the payment is due.'**
+  String get showcaseDebtNoteDesc;
 }
 
 class _AppLocalizationsDelegate

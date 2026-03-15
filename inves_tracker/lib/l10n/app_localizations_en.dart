@@ -984,4 +984,122 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enable => 'Enable';
+
+  @override
+  String get replayTour => 'Replay App Tour';
+
+  @override
+  String get replayTourDescription => 'See the feature walkthrough again';
+
+  @override
+  String get showcaseNavHomeTitle => 'Home';
+
+  @override
+  String get showcaseNavHomeDesc =>
+      'Your personal portfolio overview — total balance, assets, and debts all in one place.';
+
+  @override
+  String get showcaseNavMarketTitle => 'Exchange Rates';
+
+  @override
+  String get showcaseNavMarketDesc =>
+      'Live rates for currencies, gold, and crypto. Pull down on any list to refresh.';
+
+  @override
+  String get showcaseNavWalletTitle => 'My Investments';
+
+  @override
+  String get showcaseNavWalletDesc =>
+      'Add and manage your assets and debts. Track multiple holdings in one place.';
+
+  @override
+  String get showcaseNavConverterTitle => 'Converter';
+
+  @override
+  String get showcaseNavConverterDesc =>
+      'Instantly convert between currencies, gold types, and cryptocurrencies.';
+
+  @override
+  String get showcaseNavSettingsTitle => 'Settings';
+
+  @override
+  String get showcaseNavSettingsDesc =>
+      'Adjust theme, language, notifications, and your account settings.';
+
+  @override
+  String get showcaseHomeChartTitle => 'Portfolio Chart';
+
+  @override
+  String get showcaseHomeChartDesc =>
+      'This chart shows how your assets are spread across currencies, gold, and crypto. Tap the eye icon to hide or show amounts.';
+
+  @override
+  String get showcaseHomeBalanceTitle => 'Total Balance';
+
+  @override
+  String get showcaseHomeBalanceDesc =>
+      'Your net worth — total assets minus total debts — shown in Turkish Lira. Green is positive, red means your debts exceed your assets.';
+
+  @override
+  String get showcaseAddAssetBoxTitle => 'Add an Asset';
+
+  @override
+  String get showcaseAddAssetBoxDesc =>
+      'Record something you own here. Pick the type, choose a specific currency, gold, or crypto, enter how much you have, then tap Add Asset.';
+
+  @override
+  String get showcaseAssetTypeTitle => 'Asset Type';
+
+  @override
+  String get showcaseAssetTypeDesc =>
+      'Choose Currency for cash or bank deposits, Metal for gold and silver, or Crypto for digital assets.';
+
+  @override
+  String get showcaseAssetCodeTitle => 'Select Asset';
+
+  @override
+  String get showcaseAssetCodeDesc =>
+      'Pick the exact currency, gold type, or cryptocurrency you want to track. The app supports dozens of options.';
+
+  @override
+  String get showcaseAssetAmountTitle => 'Amount';
+
+  @override
+  String get showcaseAssetAmountDesc =>
+      'Enter how much of this asset you own. The app records the current market price at the time you save, so you can track your profit or loss later.';
+
+  @override
+  String get showcaseAddDebtBoxTitle => 'Add a Debt';
+
+  @override
+  String get showcaseAddDebtBoxDesc =>
+      'Record something you owe here. The app tracks the value of your debt in Turkish Lira over time.';
+
+  @override
+  String get showcaseDebtTypeTitle => 'Debt Type';
+
+  @override
+  String get showcaseDebtTypeDesc =>
+      'Choose the type of debt — currency, gold, or crypto — that matches what you borrowed or owe.';
+
+  @override
+  String get showcaseDebtCodeTitle => 'Select Debt';
+
+  @override
+  String get showcaseDebtCodeDesc =>
+      'Pick the exact currency, gold type, or crypto that your debt is in.';
+
+  @override
+  String get showcaseDebtAmountTitle => 'Debt Amount';
+
+  @override
+  String get showcaseDebtAmountDesc =>
+      'Enter the amount you owe. You can also add a note and a due date so you never miss a payment.';
+
+  @override
+  String get showcaseDebtNoteTitle => 'Note & Due Date';
+
+  @override
+  String get showcaseDebtNoteDesc =>
+      'Optionally add a short note about this debt and a due date. You will receive a notification reminder before the payment is due.';
 }
