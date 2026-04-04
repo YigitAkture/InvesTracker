@@ -1,44 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import '../theme/light_theme.dart';
-import '../theme/dark_theme.dart';
+import '../theme/default_dark_theme.dart';
+import '../theme/true_dark_theme.dart';
+import '../constants/app_colors.dart';
 import '../services/preferences_service.dart';
 
 class ThemeNotifier extends ChangeNotifier {
   final PreferencesService _preferencesService = PreferencesService();
-  bool? _isDarkMode;
-  
-  bool get isDarkMode {
-    if (_isDarkMode == null) {
-      // Use system theme if no preference is saved
-      return SchedulerBinding.instance.platformDispatcher.platformBrightness == Brightness.dark;
-    }
-    return _isDarkMode!;
+
+  // null  → follow system (maps to defaultDark or light)
+  AppThemeMode? _mode;
+
+  AppThemeMode get currentMode {
+    if (_mode != null) return _mode!;
+    // Fall back to system preference
+    final brightness =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    return brightness == Brightness.dark
+        ? AppThemeMode.defaultDark
+        : AppThemeMode.light;
   }
 
-  ThemeData get currentTheme => isDarkMode ? darkTheme : lightTheme;
+  bool get isDarkMode => currentMode != AppThemeMode.light;
+
+  ThemeData get currentTheme {
+    switch (currentMode) {
+      case AppThemeMode.trueDark:    return trueDarkTheme;
+      case AppThemeMode.defaultDark: return defaultDarkTheme;
+      case AppThemeMode.light:       return lightTheme;
+    }
+  }
 
   ThemeNotifier() {
     _loadTheme();
   }
 
   Future<void> _loadTheme() async {
-    _isDarkMode = await _preferencesService.getThemePreference();
+    final saved = await _preferencesService.getThemeModePreference();
+    _mode = saved;
     notifyListeners();
+  }
+
+  Future<void> setThemeMode(AppThemeMode mode) async {
+    if (_mode == mode) return;
+    _mode = mode;
+    await _preferencesService.saveThemeModePreference(mode);
+    notifyListeners();
+  }
+
+  // ── Legacy helpers kept for backward-compat if anything calls them ────────
+
+  Future<void> setTheme(bool isDark) async {
+    await setThemeMode(isDark ? AppThemeMode.defaultDark : AppThemeMode.light);
   }
 
   Future<void> toggleTheme() async {
-    final currentTheme = isDarkMode;
-    _isDarkMode = !currentTheme;
-    await _preferencesService.saveThemePreference(_isDarkMode!);
-    notifyListeners();
-  }
-
-  Future<void> setTheme(bool isDark) async {
-    if (_isDarkMode == isDark) return;
-    
-    _isDarkMode = isDark;
-    await _preferencesService.saveThemePreference(isDark);
-    notifyListeners();
+    final next = currentMode == AppThemeMode.light
+        ? AppThemeMode.defaultDark
+        : AppThemeMode.light;
+    await setThemeMode(next);
   }
 }

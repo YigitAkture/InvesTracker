@@ -50,7 +50,13 @@ void main() async {
         designSize: const Size(412, 915),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder: (context, child) => const MyApp(),
+        builder: (context, child) {
+          final themeNotifier = Provider.of<ThemeNotifier>(context);
+          return ColoredBox(
+            color: themeNotifier.currentTheme.scaffoldBackgroundColor,
+            child: const MyApp(),
+          );
+        },
       ),
     ),
   );
