@@ -52,6 +52,13 @@ void main() async {
         splitScreenMode: true,
         builder: (context, child) {
           final themeNotifier = Provider.of<ThemeNotifier>(context);
+          
+          if (!themeNotifier.isLoaded) {
+            return ColoredBox(
+              color: themeNotifier.currentTheme.scaffoldBackgroundColor,
+              child: const SizedBox.expand(),
+            );
+          }
           return ColoredBox(
             color: themeNotifier.currentTheme.scaffoldBackgroundColor,
             child: const MyApp(),

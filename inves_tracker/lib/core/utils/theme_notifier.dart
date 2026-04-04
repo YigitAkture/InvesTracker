@@ -9,14 +9,14 @@ import '../services/preferences_service.dart';
 class ThemeNotifier extends ChangeNotifier {
   final PreferencesService _preferencesService = PreferencesService();
 
-  // null  → follow system (maps to defaultDark or light)
   AppThemeMode? _mode;
+  bool _isLoaded = false;
+
+  bool get isLoaded => _isLoaded;
 
   AppThemeMode get currentMode {
     if (_mode != null) return _mode!;
-    // Fall back to system preference
-    final brightness =
-        SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    final brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
     return brightness == Brightness.dark
         ? AppThemeMode.defaultDark
         : AppThemeMode.light;
@@ -39,6 +39,7 @@ class ThemeNotifier extends ChangeNotifier {
   Future<void> _loadTheme() async {
     final saved = await _preferencesService.getThemeModePreference();
     _mode = saved;
+    _isLoaded = true;
     notifyListeners();
   }
 
