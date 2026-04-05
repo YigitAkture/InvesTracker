@@ -182,7 +182,7 @@ class _LanguageButtonState extends State<_LanguageButton>
           return Container(
             // Fixed height keeps the layout perfectly stable
             height: 110.h,
-            padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 10.w),
+            padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 10.w),
             decoration: BoxDecoration(
               color: bgColor,
               borderRadius: BorderRadius.circular(12.r),
@@ -225,7 +225,7 @@ class _LanguageButtonState extends State<_LanguageButton>
                   ),
                 ),
 
-                SizedBox(height: 8.h),
+                SizedBox(height: 6.h),
 
                 Text(
                   widget.languageName,

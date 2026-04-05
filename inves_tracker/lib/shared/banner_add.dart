@@ -3,7 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class BannerAdd extends StatefulWidget {
-  const BannerAdd({super.key});
+  final void Function()? onAdLoaded;
+  final void Function()? onAdFailed;
+  final EdgeInsets padding;
+  const BannerAdd({
+    super.key,
+    this.onAdLoaded,
+    this.onAdFailed,
+    this.padding = EdgeInsets.zero,
+  });
 
   @override
   State<BannerAdd> createState() => _BannerAddState();
@@ -32,12 +40,12 @@ class _BannerAddState extends State<BannerAdd> {
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {
-          setState(() {
-            _isAddLoaded = true;
-          });
+          setState(() => _isAddLoaded = true);
+          if (widget.onAdLoaded != null) widget.onAdLoaded!();
         },
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
           ad.dispose();
+          if (widget.onAdFailed != null) widget.onAdFailed!();
         },
       ),
       request: const AdRequest(),
@@ -55,11 +63,14 @@ class _BannerAddState extends State<BannerAdd> {
     if (_bannerAd == null || !_isAddLoaded) {
       return const SizedBox.shrink();
     } else {
-      return Container(
-        width: _bannerAd!.size.width.toDouble(),
-        height: _bannerAd!.size.height.toDouble(),
-        alignment: Alignment.center,
-        child: AdWidget(ad: _bannerAd!),
+      return Padding(
+        padding: widget.padding,
+        child: Container(
+          width: _bannerAd!.size.width.toDouble(),
+          height: _bannerAd!.size.height.toDouble(),
+          alignment: Alignment.center,
+          child: AdWidget(ad: _bannerAd!),
+        ),
       );
     }
   }

@@ -33,14 +33,34 @@ class CryptoRates extends StatelessWidget {
         // Display crypto boxes with banner ad after the 5th item
         for (int i = 0; i < cryptos.length; i++) ...[
           CryptoBox(crypto: cryptos[i]),
-          // Add banner after the 5th crypto box (index 4)
-          if (i == 4) ...[
-            SizedBox(height: 8.h),
-            const Center(child: BannerAdd()),
-            SizedBox(height: 16.h),
+          // Add banner after the 4th crypto box (index 3)
+          if (i == 3) ...[
+            _BannerWithSpacing(),
           ],
         ],
       ],
+    );
+  }
+}
+
+class _BannerWithSpacing extends StatefulWidget {
+  const _BannerWithSpacing();
+
+  @override
+  State<_BannerWithSpacing> createState() => _BannerWithSpacingState();
+}
+
+class _BannerWithSpacingState extends State<_BannerWithSpacing> {
+  bool _adLoaded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return BannerAdd(
+      onAdLoaded: () => setState(() => _adLoaded = true),
+      onAdFailed: () => setState(() => _adLoaded = false),
+      padding: _adLoaded
+          ? EdgeInsets.only(top: 8.h, bottom: 16.h)
+          : EdgeInsets.zero,
     );
   }
 }
