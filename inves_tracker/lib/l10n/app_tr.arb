@@ -388,5 +388,8 @@
   "showcaseDebtAmountTitle": "Borç Miktarı",
   "showcaseDebtAmountDesc": "Borçlu olduğunuz miktarı girin.",
   "showcaseDebtNoteTitle": "Not ve Son Tarih",
-  "showcaseDebtNoteDesc": "İsteğe bağlı olarak bu borç için kısa bir not ve son ödeme tarihi ekleyin. Ödeme tarihinden önce hatırlatma bildirimi alacaksınız."
+  "showcaseDebtNoteDesc": "İsteğe bağlı olarak bu borç için kısa bir not ve son ödeme tarihi ekleyin. Ödeme tarihinden önce hatırlatma bildirimi alacaksınız.",
+  "theme": "Tema",
+  "trueDarkMode": "Tam Karanlık",
+  "defaultTheme": "Varsayılan Tema"
 }

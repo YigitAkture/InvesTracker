@@ -388,5 +388,8 @@
   "showcaseDebtAmountTitle": "Debt Amount",
   "showcaseDebtAmountDesc": "Enter the amount you owe.",
   "showcaseDebtNoteTitle": "Note & Due Date",
-  "showcaseDebtNoteDesc": "Optionally add a short note about this debt and a due date. You will receive a notification reminder before the payment is due."
+  "showcaseDebtNoteDesc": "Optionally add a short note about this debt and a due date. You will receive a notification reminder before the payment is due.",
+  "theme": "Theme",
+  "trueDarkMode": "True Dark",
+  "defaultTheme": "Default Theme"
 }

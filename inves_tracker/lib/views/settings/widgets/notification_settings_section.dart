@@ -357,7 +357,28 @@ class _NotificationToggleItem extends StatelessWidget {
           Switch(
             value: value,
             onChanged: enabled ? onChanged : null,
-            activeThumbColor: iconColor,
+            thumbColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return HSLColor.fromColor(iconColor)
+                    .withLightness(
+                      (HSLColor.fromColor(iconColor).lightness - 0.05).clamp(0.0, 1.0),
+                    )
+                    .toColor();
+              }
+              return null;
+            }),
+            trackColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return iconColor.withValues(alpha: 0.4);
+              }
+              return null; // default
+            }),
+            trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return iconColor;
+              }
+              return iconColor.withValues(alpha: 0.4);
+            }),
           ),
         ],
       ),

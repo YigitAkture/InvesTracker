@@ -1122,4 +1122,13 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get showcaseDebtNoteDesc =>
       'İsteğe bağlı olarak bu borç için kısa bir not ve son ödeme tarihi ekleyin. Ödeme tarihinden önce hatırlatma bildirimi alacaksınız.';
+
+  @override
+  String get theme => 'Tema';
+
+  @override
+  String get trueDarkMode => 'Tam Karanlık';
+
+  @override
+  String get defaultTheme => 'Varsayılan Tema';
 }

@@ -143,6 +143,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       title: 'InvesTracker',
       debugShowCheckedModeBanner: false,
       theme: themeNotifier.currentTheme,
+      themeAnimationDuration: Duration.zero,
+      themeAnimationCurve: Curves.easeInOut,
       locale: localeNotifier.locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,

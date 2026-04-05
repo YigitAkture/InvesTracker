@@ -1118,4 +1118,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get showcaseDebtNoteDesc =>
       'Optionally add a short note about this debt and a due date. You will receive a notification reminder before the payment is due.';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get trueDarkMode => 'True Dark';
+
+  @override
+  String get defaultTheme => 'Default Theme';
 }

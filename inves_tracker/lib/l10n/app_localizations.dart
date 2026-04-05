@@ -2221,6 +2221,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Optionally add a short note about this debt and a due date. You will receive a notification reminder before the payment is due.'**
   String get showcaseDebtNoteDesc;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @trueDarkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'True Dark'**
+  String get trueDarkMode;
+
+  /// No description provided for @defaultTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Theme'**
+  String get defaultTheme;
 }
 
 class _AppLocalizationsDelegate
