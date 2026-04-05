@@ -8,6 +8,7 @@ import 'package:inves_tracker/core/services/reminder_notification_service.dart';
 import 'package:inves_tracker/core/services/home_widget_service.dart';
 import 'package:inves_tracker/core/utils/theme_notifier.dart';
 import 'package:inves_tracker/core/utils/locale_notifier.dart';
+import 'package:inves_tracker/core/utils/theme_transition.dart';
 import 'package:inves_tracker/core/utils/visibility_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -59,8 +60,11 @@ void main() async {
               child: const SizedBox.expand(),
             );
           }
-          return ColoredBox(
-            color: themeNotifier.currentTheme.scaffoldBackgroundColor,
+          // return ColoredBox(
+          //   color: themeNotifier.currentTheme.scaffoldBackgroundColor,
+          //   child: const MyApp(),
+          // );
+          return ThemedTransitionWrapper(
             child: const MyApp(),
           );
         },

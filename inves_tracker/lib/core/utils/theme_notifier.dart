@@ -46,8 +46,8 @@ class ThemeNotifier extends ChangeNotifier {
   Future<void> setThemeMode(AppThemeMode mode) async {
     if (_mode == mode) return;
     _mode = mode;
-    await _preferencesService.saveThemeModePreference(mode);
     notifyListeners();
+    await _preferencesService.saveThemeModePreference(mode);
   }
 
   // ── Legacy helpers kept for backward-compat if anything calls them ────────
