@@ -93,6 +93,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   /// Initialize widget in background without blocking UI
   void _initializeWidget() {
     Future.microtask(() async {
+      if (!mounted) return;
       try {
         await _homeWidgetService.initialize(context);
         debugPrint('✓ Home widget initialized');

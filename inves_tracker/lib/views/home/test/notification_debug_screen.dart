@@ -311,6 +311,7 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen>
       }
 
       // Get random reminder message
+      if (!mounted) return;
       final l10n = AppLocalizations.of(context)!;
       final messages = [
         l10n.reminderCheckAssetValue,
@@ -411,6 +412,7 @@ class _NotificationDebugScreenState extends State<NotificationDebugScreen>
         tz.local,
       ).add(const Duration(seconds: 3));
 
+      if (!mounted) return;
       final l10n = AppLocalizations.of(context)!;
 
       const androidDetails = AndroidNotificationDetails(
