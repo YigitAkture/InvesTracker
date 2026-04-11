@@ -254,6 +254,17 @@ class MainLayoutState extends State<MainLayout> {
   /// Tour completed naturally (all steps finished).
   void _onTourFinish() {
     _showcaseService.markSeen();
+
+    // Navigate back to HomeScreen only on natural completion.
+    // _CloseTourButton calls dismiss() → _onTourDismiss, so it never reaches here.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _pageController.animateToPage(
+        0,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    });
   }
 
   /// Tour dismissed early via the close button.

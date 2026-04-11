@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
+import 'package:inves_tracker/core/utils/price_formatter.dart';
+import 'package:inves_tracker/core/utils/regex_separator_input_formatter.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/converter/widgets/converter_card.dart';
 import 'package:inves_tracker/views/converter/widgets/crypto_dropdown.dart';
@@ -27,11 +28,12 @@ class CryptoToCurrencySection extends StatefulWidget {
 class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
   String _selectedCrypto = 'BTC';
   String _selectedCurrency = 'TRY';
-  final TextEditingController _cryptoController = TextEditingController(
-    text: '1',
-  );
+  final TextEditingController _cryptoController = TextEditingController(text: '1');
   final TextEditingController _currencyController = TextEditingController();
   bool _isEditingCrypto = true;
+
+  double _parse(String text) =>
+      double.tryParse(text.replaceAll(',', '')) ?? 0.0;
 
   @override
   void initState() {
@@ -47,62 +49,51 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
   }
 
   void _calculateFromCrypto() {
-    final amount = double.tryParse(_cryptoController.text) ?? 0.0;
+    final amount = _parse(_cryptoController.text);
 
     if (amount == 0.0) {
-      setState(() {
-        _currencyController.text = '0.00';
-      });
+      setState(() => _currencyController.text = '0.00');
       return;
     }
 
-    // Get crypto price in TRY
     final cryptoRate = _getCryptoRate(_selectedCrypto);
     final currencyRate = _getCurrencyRate(_selectedCurrency);
 
     if (cryptoRate == null || currencyRate == null) {
-      setState(() {
-        _currencyController.text = '0.00';
-      });
+      setState(() => _currencyController.text = '0.00');
       return;
     }
 
-    // Convert: amount in crypto -> TRY -> selected currency
     final amountInTRY = amount * cryptoRate;
     final convertedAmount = amountInTRY / currencyRate;
 
     setState(() {
-      _currencyController.text = convertedAmount.toStringAsFixed(2);
+      _currencyController.text = PriceFormatter.formatCurrency(convertedAmount);
     });
   }
 
   void _calculateFromCurrency() {
-    final amount = double.tryParse(_currencyController.text) ?? 0.0;
+    final amount = _parse(_currencyController.text);
 
     if (amount == 0.0) {
-      setState(() {
-        _cryptoController.text = '0.00';
-      });
+      setState(() => _cryptoController.text = '0.00');
       return;
     }
 
-    // Get crypto price in TRY
     final cryptoRate = _getCryptoRate(_selectedCrypto);
     final currencyRate = _getCurrencyRate(_selectedCurrency);
 
     if (cryptoRate == null || currencyRate == null) {
-      setState(() {
-        _cryptoController.text = '0.00';
-      });
+      setState(() => _cryptoController.text = '0.00');
       return;
     }
 
-    // Convert: amount in currency -> TRY -> crypto
     final amountInTRY = amount * currencyRate;
     final convertedAmount = amountInTRY / cryptoRate;
 
     setState(() {
-      _cryptoController.text = convertedAmount.toStringAsFixed(6);
+      // Crypto results need more decimal places for precision
+      _cryptoController.text = PriceFormatter.formatNumber(convertedAmount, 6);
     });
   }
 
@@ -111,18 +102,15 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
       (c) => c.code == code,
       orElse: () => widget.cryptos.first,
     );
-
     return crypto.tryPrice;
   }
 
   double? _getCurrencyRate(String code) {
     if (code == 'TRY') return 1.0;
-
     final currency = widget.currencies.firstWhere(
       (c) => c.code == code,
       orElse: () => widget.currencies.first,
     );
-
     return currency.buying;
   }
 
@@ -152,16 +140,11 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
           child: isEditable
               ? TextField(
                   controller: _cryptoController,
-                  keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true,
-                  ),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    RegexSeparatorInputFormatter(allowDecimal: true),
                   ],
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
                   textAlign: TextAlign.end,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
@@ -175,10 +158,8 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                       borderSide: BorderSide.none,
                     ),
                   ),
-                  onChanged: (value) {
-                    if (_isEditingCrypto) {
-                      _calculateFromCrypto();
-                    }
+                  onChanged: (_) {
+                    if (_isEditingCrypto) _calculateFromCrypto();
                   },
                   onTap: () {
                     _cryptoController.selection = TextSelection.fromPosition(
@@ -187,10 +168,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   },
                 )
               : Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 14.h,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
                   decoration: BoxDecoration(
                     color: AppColors.background2(context),
                     borderRadius: BorderRadius.circular(10.r),
@@ -198,10 +176,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   alignment: Alignment.centerRight,
                   child: Text(
                     _cryptoController.text,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
                   ),
                 ),
         ),
@@ -235,16 +210,11 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
           child: isEditable
               ? TextField(
                   controller: _currencyController,
-                  keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true,
-                  ),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    RegexSeparatorInputFormatter(allowDecimal: true),
                   ],
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
                   textAlign: TextAlign.end,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
@@ -258,10 +228,8 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                       borderSide: BorderSide.none,
                     ),
                   ),
-                  onChanged: (value) {
-                    if (!_isEditingCrypto) {
-                      _calculateFromCurrency();
-                    }
+                  onChanged: (_) {
+                    if (!_isEditingCrypto) _calculateFromCurrency();
                   },
                   onTap: () {
                     _currencyController.selection = TextSelection.fromPosition(
@@ -270,10 +238,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   },
                 )
               : Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 14.h,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
                   decoration: BoxDecoration(
                     color: AppColors.background2(context),
                     borderRadius: BorderRadius.circular(10.r),
@@ -281,10 +246,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   alignment: Alignment.centerRight,
                   child: Text(
                     _currencyController.text,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
                   ),
                 ),
         ),
@@ -300,20 +262,16 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
       title: l10n.cryptoConverter,
       child: Column(
         children: [
-          // Top row (editable)
           _isEditingCrypto
               ? _buildCryptoRow(isEditable: true)
               : _buildCurrencyRow(isEditable: true),
 
           SizedBox(height: 12.h),
 
-          // Swap Button
           Center(
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  _isEditingCrypto = !_isEditingCrypto;
-                });
+                setState(() => _isEditingCrypto = !_isEditingCrypto);
               },
               child: Container(
                 padding: EdgeInsets.all(8.r),
@@ -321,18 +279,13 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   color: AppColors.pink.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  Icons.swap_vert,
-                  size: 28.sp,
-                  color: AppColors.pink,
-                ),
+                child: Icon(Icons.swap_vert, size: 28.sp, color: AppColors.pink),
               ),
             ),
           ),
 
           SizedBox(height: 12.h),
 
-          // Bottom row (read-only result)
           _isEditingCrypto
               ? _buildCurrencyRow(isEditable: false)
               : _buildCryptoRow(isEditable: false),

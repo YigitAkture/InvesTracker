@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
+import 'package:inves_tracker/core/utils/price_formatter.dart';
+import 'package:inves_tracker/core/utils/regex_separator_input_formatter.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/converter/widgets/converter_card.dart';
 import 'package:inves_tracker/views/converter/widgets/currency_dropdown.dart';
@@ -16,14 +17,21 @@ class CurrencyToCurrencySection extends StatefulWidget {
   });
 
   @override
-  State<CurrencyToCurrencySection> createState() => _CurrencyToCurrencySectionState();
+  State<CurrencyToCurrencySection> createState() =>
+      _CurrencyToCurrencySectionState();
 }
 
-class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
+class _CurrencyToCurrencySectionState
+    extends State<CurrencyToCurrencySection> {
   String _fromCurrency = 'USD';
   String _toCurrency = 'TRY';
-  final TextEditingController _amountController = TextEditingController(text: '1');
-  double _result = 0.0;
+  final TextEditingController _amountController =
+      TextEditingController(text: '1');
+  // Replaces the raw double _result — now stored as formatted text
+  final TextEditingController _resultController = TextEditingController();
+
+  double _parse(String text) =>
+      double.tryParse(text.replaceAll(',', '')) ?? 0.0;
 
   @override
   void initState() {
@@ -34,43 +42,40 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
   @override
   void dispose() {
     _amountController.dispose();
+    _resultController.dispose();
     super.dispose();
   }
 
   void _calculateConversion() {
-    final amount = double.tryParse(_amountController.text) ?? 0.0;
-    
+    final amount = _parse(_amountController.text);
+
     if (amount == 0.0) {
-      setState(() => _result = 0.0);
+      setState(() => _resultController.text = '0.00');
       return;
     }
 
-    // Get currency rates
     final fromRate = _getCurrencyRate(_fromCurrency);
     final toRate = _getCurrencyRate(_toCurrency);
 
     if (fromRate == null || toRate == null) {
-      setState(() => _result = 0.0);
+      setState(() => _resultController.text = '0.00');
       return;
     }
 
-    // Convert: amount in fromCurrency -> TRY -> toCurrency
     final amountInTRY = amount * fromRate;
     final convertedAmount = amountInTRY / toRate;
 
     setState(() {
-      _result = convertedAmount;
+      _resultController.text = PriceFormatter.formatCurrency(convertedAmount);
     });
   }
 
   double? _getCurrencyRate(String code) {
     if (code == 'TRY') return 1.0;
-    
     final currency = widget.currencies.firstWhere(
       (c) => c.code == code,
       orElse: () => widget.currencies.first,
     );
-    
     return currency.buying;
   }
 
@@ -86,7 +91,7 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return ConverterCard(
       title: l10n.currencyConverterTitle,
       child: Column(
@@ -112,9 +117,10 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
                 flex: 3,
                 child: TextField(
                   controller: _amountController,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    RegexSeparatorInputFormatter(allowDecimal: true),
                   ],
                   style: TextStyle(
                     fontSize: 16.sp,
@@ -133,7 +139,7 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
                       borderSide: BorderSide.none,
                     ),
                   ),
-                  onChanged: (value) => _calculateConversion(),
+                  onChanged: (_) => _calculateConversion(),
                   onTap: () {
                     _amountController.selection = TextSelection.fromPosition(
                       TextPosition(offset: _amountController.text.length),
@@ -146,7 +152,6 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
 
           SizedBox(height: 12.h),
 
-          // Swap Button
           Center(
             child: GestureDetector(
               onTap: _swapCurrencies,
@@ -167,7 +172,7 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
 
           SizedBox(height: 12.h),
 
-          // To Currency
+          // To Currency (read-only result)
           Row(
             children: [
               Expanded(
@@ -196,7 +201,7 @@ class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Text(
-                    _result.toStringAsFixed(2),
+                    _resultController.text,
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       fontSize: 16.sp,

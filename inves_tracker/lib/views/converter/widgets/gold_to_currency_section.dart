@@ -5,6 +5,8 @@ import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
+import 'package:inves_tracker/core/utils/price_formatter.dart';
+import 'package:inves_tracker/core/utils/regex_separator_input_formatter.dart';
 import 'package:inves_tracker/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/converter/widgets/converter_card.dart';
 import 'package:inves_tracker/views/converter/widgets/gold_dropdown.dart';
@@ -27,11 +29,12 @@ class GoldToCurrencySection extends StatefulWidget {
 class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
   String _selectedGold = 'GRA';
   String _selectedCurrency = 'TRY';
-  final TextEditingController _goldController = TextEditingController(
-    text: '1',
-  );
+  final TextEditingController _goldController = TextEditingController(text: '1');
   final TextEditingController _currencyController = TextEditingController();
   bool _isEditingGold = true;
+  double _parse(String text) {
+    return double.tryParse(text.replaceAll(',', '')) ?? 0.0;
+  }
 
   @override
   void initState() {
@@ -53,8 +56,8 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
       // If the current amount contains decimal but new gold type doesn't allow it,
       // remove the decimal part ONLY when editing gold field
       if (!GoldInputHelper.allowsDecimal(newGoldCode) && _isEditingGold) {
-        final currentAmount = double.tryParse(_goldController.text);
-        if (currentAmount != null) {
+        final currentAmount = _parse(_goldController.text);
+        if (currentAmount != 0.0) {
           _goldController.text = currentAmount.toInt().toString();
         }
       }
@@ -68,7 +71,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
   }
 
   void _calculateFromGold() {
-    final amount = double.tryParse(_goldController.text) ?? 0.0;
+    final amount = _parse(_goldController.text);
 
     if (amount == 0.0) {
       setState(() {
@@ -93,12 +96,12 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
     final convertedAmount = amountInTRY / currencyRate;
 
     setState(() {
-      _currencyController.text = convertedAmount.toStringAsFixed(2);
+      _currencyController.text = PriceFormatter.formatCurrency(convertedAmount);
     });
   }
 
   void _calculateFromCurrency() {
-    final amount = double.tryParse(_currencyController.text) ?? 0.0;
+    final amount = _parse(_currencyController.text);
 
     if (amount == 0.0) {
       setState(() {
@@ -125,7 +128,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
     // Always display result with decimal places when converting from currency
     // This allows showing precise values even for integer-only gold types
     setState(() {
-      _goldController.text = convertedAmount.toStringAsFixed(2);
+      _goldController.text = PriceFormatter.formatCurrency(convertedAmount);
     });
   }
 
@@ -167,9 +170,12 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
               ? TextField(
                   controller: _goldController,
                   keyboardType: GoldInputHelper.getKeyboardType(_selectedGold),
-                  inputFormatters: GoldInputHelper.getInputFormatters(
-                    _selectedGold,
-                  ),
+                  inputFormatters: [
+                    RegexSeparatorInputFormatter(
+                      allowDecimal:
+                          GoldInputHelper.allowsDecimal(_selectedGold),
+                    ),
+                  ],
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -251,7 +257,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                     decimal: true,
                   ),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    RegexSeparatorInputFormatter(allowDecimal: true),
                   ],
                   style: TextStyle(
                     fontSize: 16.sp,
@@ -330,8 +336,8 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                   // Handle integer-only gold types
                   if (_isEditingGold &&
                       !GoldInputHelper.allowsDecimal(_selectedGold)) {
-                    final currentAmount = double.tryParse(_goldController.text);
-                    if (currentAmount != null &&
+                    final currentAmount = _parse(_goldController.text);
+                    if (currentAmount != 0.0 &&
                         _goldController.text.contains('.')) {
                       // Round to nearest integer
                       final roundedAmount = currentAmount.round();
