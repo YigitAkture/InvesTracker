@@ -70,6 +70,10 @@ class AssetInfoDialog extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.background(context),
+          borderRadius: BorderRadius.circular(16.r),
+        ),
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 0.7,
         ),
@@ -116,8 +120,10 @@ class AssetInfoDialog extends StatelessWidget {
                 padding: EdgeInsets.all(16.r),
                 itemCount: sortedAssets.length,
                 separatorBuilder: (context, index) => Divider(
-                  height: 24.h,
-                  color: AppColors.background2(context),
+                  thickness: 2.r,
+                  radius: BorderRadius.circular(3.r),
+                  height: 30.h,
+                  color: AppColors.primary(context).withValues(alpha: 0.25),
                 ),
                 itemBuilder: (context, index) {
                   final asset = sortedAssets[index];
@@ -321,7 +327,7 @@ class _AssetInfoItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.foreground(context),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: AppColors.background2(context), width: 1),
+        border: Border.all(color: AppColors.background2(context), width: 1.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
