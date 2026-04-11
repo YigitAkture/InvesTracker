@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
+import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
@@ -31,14 +32,20 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
   final TextEditingController _cryptoController = TextEditingController(text: '1');
   final TextEditingController _currencyController = TextEditingController();
   bool _isEditingCrypto = true;
+  late String _locale;
+  bool _initialized = false;
 
-  double _parse(String text) =>
-      double.tryParse(text.replaceAll(',', '')) ?? 0.0;
+  double _parse(String text) {
+    final thousandSep = _locale == 'tr_TR' ? '.' : ',';
+    final decimalSep  = _locale == 'tr_TR' ? ',' : '.';
+    return double.tryParse(
+      text.replaceAll(thousandSep, '').replaceAll(decimalSep, '.'),
+    ) ?? 0.0;
+  }
 
   @override
   void initState() {
     super.initState();
-    _calculateFromCrypto();
   }
 
   @override
@@ -46,6 +53,16 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
     _cryptoController.dispose();
     _currencyController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _locale = context.localeString;
+    if (!_initialized) {
+      _initialized = true;
+      _calculateFromCrypto();
+    }
   }
 
   void _calculateFromCrypto() {
@@ -68,7 +85,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
     final convertedAmount = amountInTRY / currencyRate;
 
     setState(() {
-      _currencyController.text = PriceFormatter.formatCurrency(convertedAmount);
+      _currencyController.text = PriceFormatter.formatCurrency(convertedAmount, _locale);
     });
   }
 
@@ -142,7 +159,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   controller: _cryptoController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
-                    RegexSeparatorInputFormatter(allowDecimal: true),
+                    RegexSeparatorInputFormatter(allowDecimal: true, locale: _locale),
                   ],
                   style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
                   textAlign: TextAlign.end,
@@ -212,7 +229,7 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   controller: _currencyController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
-                    RegexSeparatorInputFormatter(allowDecimal: true),
+                    RegexSeparatorInputFormatter(allowDecimal: true, locale: _locale),
                   ],
                   style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
                   textAlign: TextAlign.end,

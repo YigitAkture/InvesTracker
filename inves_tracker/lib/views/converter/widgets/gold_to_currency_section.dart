@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/gold_input_helper.dart';
+import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
@@ -32,14 +33,20 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
   final TextEditingController _goldController = TextEditingController(text: '1');
   final TextEditingController _currencyController = TextEditingController();
   bool _isEditingGold = true;
+  late String _locale;
+  bool _initialized = false;
+
   double _parse(String text) {
-    return double.tryParse(text.replaceAll(',', '')) ?? 0.0;
+    final thousandSep = _locale == 'tr_TR' ? '.' : ',';
+    final decimalSep  = _locale == 'tr_TR' ? ',' : '.';
+    return double.tryParse(
+      text.replaceAll(thousandSep, '').replaceAll(decimalSep, '.'),
+    ) ?? 0.0;
   }
 
   @override
   void initState() {
     super.initState();
-    _calculateFromGold();
   }
 
   @override
@@ -47,6 +54,16 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
     _goldController.dispose();
     _currencyController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _locale = context.localeString;
+    if (!_initialized) {
+      _initialized = true;
+      _calculateFromGold();
+    }
   }
 
   void _onGoldTypeChanged(String newGoldCode) {
@@ -96,7 +113,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
     final convertedAmount = amountInTRY / currencyRate;
 
     setState(() {
-      _currencyController.text = PriceFormatter.formatCurrency(convertedAmount);
+      _currencyController.text = PriceFormatter.formatCurrency(convertedAmount, _locale);
     });
   }
 
@@ -128,7 +145,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
     // Always display result with decimal places when converting from currency
     // This allows showing precise values even for integer-only gold types
     setState(() {
-      _goldController.text = PriceFormatter.formatCurrency(convertedAmount);
+      _goldController.text = PriceFormatter.formatCurrency(convertedAmount, _locale);
     });
   }
 
@@ -172,8 +189,8 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                   keyboardType: GoldInputHelper.getKeyboardType(_selectedGold),
                   inputFormatters: [
                     RegexSeparatorInputFormatter(
-                      allowDecimal:
-                          GoldInputHelper.allowsDecimal(_selectedGold),
+                      allowDecimal: GoldInputHelper.allowsDecimal(_selectedGold),
+                      locale: _locale,
                     ),
                   ],
                   style: TextStyle(
@@ -257,7 +274,7 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                     decimal: true,
                   ),
                   inputFormatters: [
-                    RegexSeparatorInputFormatter(allowDecimal: true),
+                    RegexSeparatorInputFormatter(allowDecimal: true, locale: _locale),
                   ],
                   style: TextStyle(
                     fontSize: 16.sp,
