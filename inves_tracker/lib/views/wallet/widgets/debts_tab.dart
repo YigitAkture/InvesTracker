@@ -5,7 +5,7 @@ import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/wallet/widgets/debt_accordion_item.dart';
 import 'package:inves_tracker/views/wallet/widgets/add_debt_box.dart';
@@ -42,7 +42,7 @@ class _DebtsTabState extends State<DebtsTab> {
     try {
       final debtsResult = await _debtService.getUserDebts(widget.userId);
       final marketResult = await _marketService.fetchMarketData();
-      
+
       setState(() {
         _debts = debtsResult;
         _marketData = marketResult;
@@ -78,21 +78,21 @@ class _DebtsTabState extends State<DebtsTab> {
           orElse: () => _marketData!.currencies.first,
         );
         return currency.buying;
-      
+
       case 'gold':
         final gold = _marketData!.golds.firstWhere(
           (g) => g.code == debtCode,
           orElse: () => _marketData!.golds.first,
         );
         return gold.selling;
-      
+
       case 'crypto':
         final crypto = _marketData!.cryptos.firstWhere(
           (c) => c.code == debtCode,
           orElse: () => _marketData!.cryptos.first,
         );
         return crypto.tryPrice;
-      
+
       default:
         return null;
     }
@@ -104,23 +104,25 @@ class _DebtsTabState extends State<DebtsTab> {
     return totalAmount * tryValue;
   }
 
-  List<MapEntry<String, List<Debt>>> _getSortedDebts(Map<String, List<Debt>> groupedDebts) {
+  List<MapEntry<String, List<Debt>>> _getSortedDebts(
+    Map<String, List<Debt>> groupedDebts,
+  ) {
     final entries = groupedDebts.entries.toList();
-    
+
     entries.sort((a, b) {
       final debtTypeA = a.value.first.debtType;
       final debtTypeB = b.value.first.debtType;
-      
+
       final tryValueA = _getTryValue(a.key, debtTypeA);
       final tryValueB = _getTryValue(b.key, debtTypeB);
-      
+
       final totalValueA = _getTotalTryValue(a.value, tryValueA);
       final totalValueB = _getTotalTryValue(b.value, tryValueB);
-      
+
       // Sort in descending order (highest value first)
       return totalValueB.compareTo(totalValueA);
     });
-    
+
     return entries;
   }
 
@@ -141,15 +143,9 @@ class _DebtsTabState extends State<DebtsTab> {
           children: [
             Icon(Icons.error_outline, size: 48.sp, color: AppColors.danger),
             SizedBox(height: 12.h),
-            Text(
-              l10n.anErrorOccurred,
-              style: TextStyle(fontSize: 14.sp),
-            ),
+            Text(l10n.anErrorOccurred, style: TextStyle(fontSize: 14.sp)),
             SizedBox(height: 16.h),
-            ElevatedButton(
-              onPressed: _loadData,
-              child: Text(l10n.retry),
-            ),
+            ElevatedButton(onPressed: _loadData, child: Text(l10n.retry)),
           ],
         ),
       );
@@ -167,7 +163,7 @@ class _DebtsTabState extends State<DebtsTab> {
           children: [
             // Banner Ad
             const Center(child: BannerAdd()),
-            
+
             SizedBox(height: 16.h),
             // Add Debt Box
             AddDebtBox(
@@ -208,7 +204,7 @@ class _DebtsTabState extends State<DebtsTab> {
               ...sortedDebts.map((entry) {
                 final debtType = entry.value.first.debtType;
                 final tryValue = _getTryValue(entry.key, debtType);
-                
+
                 return DebtAccordionItem(
                   debtCode: entry.key,
                   debtType: debtType,

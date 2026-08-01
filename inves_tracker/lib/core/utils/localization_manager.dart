@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 
 /// Global localization manager that provides access to localized strings
 /// without requiring BuildContext. This enables services, background tasks,

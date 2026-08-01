@@ -9,7 +9,7 @@ import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
 import 'package:inves_tracker/core/constants/asset_colors.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/wallet/widgets/edit_debt_dialog.dart';
 import 'package:inves_tracker/views/wallet/widgets/debt_info_dialog.dart';
 
@@ -145,7 +145,8 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
   void _showDebtInfo() {
     showDialog(
       context: context,
-      builder: (context) => DebtInfoDialog(debts: widget.debts, currentTryValue: widget.tryValue),
+      builder: (context) =>
+          DebtInfoDialog(debts: widget.debts, currentTryValue: widget.tryValue),
     );
   }
 
@@ -265,26 +266,37 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                             final debtCode = widget.debtCode;
                             final totalAmount = _totalAmount;
                             final debtCount = widget.debts.length;
-                            
+
                             // Format the amount
-                            final formattedAmount = debtType == 'gold' 
-                                ? GoldInputHelper.formatAmount(debtCode, totalAmount)
-                                : PriceFormatter.formatCurrency(totalAmount, context.localeString);
-                            
+                            final formattedAmount = debtType == 'gold'
+                                ? GoldInputHelper.formatAmount(
+                                    debtCode,
+                                    totalAmount,
+                                  )
+                                : PriceFormatter.formatCurrency(
+                                    totalAmount,
+                                    context.localeString,
+                                  );
+
                             // Determine unit for gold types
                             String unit;
                             if (debtType == 'gold') {
-                              final isDecimalType = GoldInputHelper.allowsDecimal(debtCode);
-                              unit = isDecimalType 
+                              final isDecimalType =
+                                  GoldInputHelper.allowsDecimal(debtCode);
+                              unit = isDecimalType
                                   ? (totalAmount == 1 ? l10n.gram : l10n.grams)
-                                  : (totalAmount == 1 ? l10n.piece : l10n.pieces);
+                                  : (totalAmount == 1
+                                        ? l10n.piece
+                                        : l10n.pieces);
                             } else {
                               unit = debtCode;
                             }
-                            
+
                             // Handle debt count pluralization
-                            final debtLabel = debtCount > 1 ? l10n.debts : l10n.debt;
-                            
+                            final debtLabel = debtCount > 1
+                                ? l10n.debts
+                                : l10n.debt;
+
                             return '$formattedAmount $unit ($debtCount $debtLabel)';
                           }(),
                           style: TextStyle(
@@ -345,27 +357,28 @@ class _DebtAccordionItemState extends State<DebtAccordionItem> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            () {
-                              final debtType = widget.debtType.toLowerCase();
-                              final debtCode = widget.debtCode;
-                              final amount = debt.amount;
-                              final formattedAmount = debtType == 'gold' 
-                                  ? GoldInputHelper.formatAmount(debtCode, amount)
-                                  : PriceFormatter.formatCurrency(amount, context.localeString);
-                              
-                              if (debtType == 'gold') {
-                                final isDecimalType = GoldInputHelper.allowsDecimal(debtCode);
-                                final unit = isDecimalType 
-                                    ? (amount == 1 ? l10n.gram : l10n.grams)
-                                    : (amount == 1 ? l10n.piece : l10n.pieces);
-                                return '${l10n.amount}: $formattedAmount $unit';
-                              } else {
-                                return '${l10n.amount}: $formattedAmount $debtCode';
-                              }
-                            }(),
-                            style: TextStyle(fontSize: 14.sp),
-                          ),
+                          Text(() {
+                            final debtType = widget.debtType.toLowerCase();
+                            final debtCode = widget.debtCode;
+                            final amount = debt.amount;
+                            final formattedAmount = debtType == 'gold'
+                                ? GoldInputHelper.formatAmount(debtCode, amount)
+                                : PriceFormatter.formatCurrency(
+                                    amount,
+                                    context.localeString,
+                                  );
+
+                            if (debtType == 'gold') {
+                              final isDecimalType =
+                                  GoldInputHelper.allowsDecimal(debtCode);
+                              final unit = isDecimalType
+                                  ? (amount == 1 ? l10n.gram : l10n.grams)
+                                  : (amount == 1 ? l10n.piece : l10n.pieces);
+                              return '${l10n.amount}: $formattedAmount $unit';
+                            } else {
+                              return '${l10n.amount}: $formattedAmount $debtCode';
+                            }
+                          }(), style: TextStyle(fontSize: 14.sp)),
                           if (debtTryValue != null) ...[
                             SizedBox(height: 4.h),
                             Text(

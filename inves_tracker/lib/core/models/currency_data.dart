@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 
 class CurrencyData {
   final String code;
@@ -25,7 +25,7 @@ class CurrencyData {
   // Factory for backend API response
   factory CurrencyData.fromBackend(Map<String, dynamic> json) {
     final change = (json['change'] ?? 0.0).toDouble();
-    
+
     return CurrencyData(
       code: json['code'] ?? '',
       buying: (json['buying'] ?? 0.0).toDouble(),
@@ -38,7 +38,7 @@ class CurrencyData {
   factory CurrencyData.fromJson(String code, Map<String, dynamic> json) {
     final buying = (json['Buying'] ?? 0.0).toDouble();
     final change = (json['Change'] ?? 0.0).toDouble();
-    
+
     return CurrencyData(
       code: code,
       buying: buying,

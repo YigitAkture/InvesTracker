@@ -7,7 +7,7 @@ import 'package:inves_tracker/core/models/gold_data.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
 import 'package:inves_tracker/core/utils/regex_separator_input_formatter.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/converter/widgets/converter_card.dart';
 import 'package:inves_tracker/views/converter/widgets/gold_dropdown.dart';
 import 'package:inves_tracker/views/converter/widgets/currency_dropdown.dart';
@@ -29,7 +29,9 @@ class GoldToCurrencySection extends StatefulWidget {
 class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
   String _selectedGold = 'GRA';
   String _selectedCurrency = 'TRY';
-  final TextEditingController _goldController = TextEditingController(text: '1');
+  final TextEditingController _goldController = TextEditingController(
+    text: '1',
+  );
   final TextEditingController _currencyController = TextEditingController();
   bool _isEditingGold = true;
   late String _locale;
@@ -37,10 +39,11 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
 
   double _parse(String text) {
     final thousandSep = _locale == 'tr_TR' ? '.' : ',';
-    final decimalSep  = _locale == 'tr_TR' ? ',' : '.';
+    final decimalSep = _locale == 'tr_TR' ? ',' : '.';
     return double.tryParse(
-      text.replaceAll(thousandSep, '').replaceAll(decimalSep, '.'),
-    ) ?? 0.0;
+          text.replaceAll(thousandSep, '').replaceAll(decimalSep, '.'),
+        ) ??
+        0.0;
   }
 
   @override
@@ -112,7 +115,10 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
     final convertedAmount = amountInTRY / currencyRate;
 
     setState(() {
-      _currencyController.text = PriceFormatter.formatCurrency(convertedAmount, _locale);
+      _currencyController.text = PriceFormatter.formatCurrency(
+        convertedAmount,
+        _locale,
+      );
     });
   }
 
@@ -144,7 +150,10 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
     // Always display result with decimal places when converting from currency
     // This allows showing precise values even for integer-only gold types
     setState(() {
-      _goldController.text = PriceFormatter.formatCurrency(convertedAmount, _locale);
+      _goldController.text = PriceFormatter.formatCurrency(
+        convertedAmount,
+        _locale,
+      );
     });
   }
 
@@ -188,7 +197,9 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                   keyboardType: GoldInputHelper.getKeyboardType(_selectedGold),
                   inputFormatters: [
                     RegexSeparatorInputFormatter(
-                      allowDecimal: GoldInputHelper.allowsDecimal(_selectedGold),
+                      allowDecimal: GoldInputHelper.allowsDecimal(
+                        _selectedGold,
+                      ),
                       locale: _locale,
                     ),
                   ],
@@ -273,7 +284,10 @@ class _GoldToCurrencySectionState extends State<GoldToCurrencySection> {
                     decimal: true,
                   ),
                   inputFormatters: [
-                    RegexSeparatorInputFormatter(allowDecimal: true, locale: _locale),
+                    RegexSeparatorInputFormatter(
+                      allowDecimal: true,
+                      locale: _locale,
+                    ),
                   ],
                   style: TextStyle(
                     fontSize: 16.sp,

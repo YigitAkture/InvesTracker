@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/home/models/portfolio_data.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
 
@@ -45,9 +45,7 @@ class _AssetDebtDetailsState extends State<AssetDebtDetails> {
           // Header
           InkWell(
             onTap: () => setState(() => _isExpanded = !_isExpanded),
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(16.r),
-            ),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
             child: Padding(
               padding: EdgeInsets.all(16.r),
               child: Row(
@@ -68,9 +66,7 @@ class _AssetDebtDetailsState extends State<AssetDebtDetails> {
                     ),
                   ),
                   Icon(
-                    _isExpanded
-                        ? Icons.expand_less
-                        : Icons.expand_more,
+                    _isExpanded ? Icons.expand_less : Icons.expand_more,
                     size: 24.sp,
                   ),
                 ],
@@ -81,7 +77,7 @@ class _AssetDebtDetailsState extends State<AssetDebtDetails> {
           // Expandable Content
           if (_isExpanded) ...[
             Divider(height: 1, color: AppColors.background2(context)),
-            
+
             if (widget.portfolioData.items.isEmpty)
               Padding(
                 padding: EdgeInsets.all(24.r),
@@ -103,7 +99,9 @@ class _AssetDebtDetailsState extends State<AssetDebtDetails> {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Divider(
                     height: 30.h,
-                    color: AppColors.background2(context).withValues(alpha: 0.5),  
+                    color: AppColors.background2(
+                      context,
+                    ).withValues(alpha: 0.5),
                   ),
                 ),
                 itemBuilder: (context, index) {
@@ -124,10 +122,7 @@ class _AssetDebtRow extends StatelessWidget {
   final AssetDebtItem item;
   final bool isVisible;
 
-  const _AssetDebtRow({
-    required this.item,
-    required this.isVisible,
-  });
+  const _AssetDebtRow({required this.item, required this.isVisible});
 
   @override
   Widget build(BuildContext context) {
@@ -157,9 +152,9 @@ class _AssetDebtRow extends StatelessWidget {
               ),
             ],
           ),
-          
+
           SizedBox(height: 12.h),
-          
+
           // Bars
           if (item.hasAsset)
             _BarRow(
@@ -172,10 +167,9 @@ class _AssetDebtRow extends StatelessWidget {
               ratio: item.hasDebt ? item.ratio : 1.0,
               isVisible: isVisible,
             ),
-          
-          if (item.hasAsset && item.hasDebt)
-            SizedBox(height: 8.h),
-          
+
+          if (item.hasAsset && item.hasDebt) SizedBox(height: 8.h),
+
           if (item.hasDebt)
             _BarRow(
               label: l10n.debt[0].toUpperCase() + l10n.debt.substring(1),
@@ -249,11 +243,7 @@ class _AssetDebtRow extends StatelessWidget {
         return SizedBox(
           width: 32.w,
           height: 32.h,
-          child: Icon(
-            Icons.diamond,
-            size: 32.sp,
-            color: item.color,
-          ),
+          child: Icon(Icons.diamond, size: 32.sp, color: item.color),
         );
     }
   }
@@ -284,8 +274,7 @@ class _BarRow extends StatefulWidget {
   State<_BarRow> createState() => _BarRowState();
 }
 
-class _BarRowState extends State<_BarRow>
-    with SingleTickerProviderStateMixin {
+class _BarRowState extends State<_BarRow> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -330,9 +319,9 @@ class _BarRowState extends State<_BarRow>
             ),
           ),
         ),
-        
+
         SizedBox(width: 8.w),
-        
+
         // Bar
         Expanded(
           child: AnimatedBuilder(
@@ -348,7 +337,7 @@ class _BarRowState extends State<_BarRow>
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                   ),
-                  
+
                   // Colored bar
                   Container(
                     height: 32.h,

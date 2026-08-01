@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/settings/widgets/info_row.dart';
 import 'package:inves_tracker/views/settings/widgets/setting_card.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -39,8 +39,11 @@ class _AboutSectionState extends State<AboutSection> {
       builder: (context) => AlertDialog(
         title: Row(
           children: [
-            Icon(Icons.info_outline,
-                color: AppColors.secondary(context), size: 24.sp),
+            Icon(
+              Icons.info_outline,
+              color: AppColors.secondary(context),
+              size: 24.sp,
+            ),
             SizedBox(width: 12.w),
             Text('InvesTracker Team', style: TextStyle(fontSize: 20.sp)),
           ],
@@ -126,8 +129,11 @@ class _AboutSectionState extends State<AboutSection> {
             value: 'InvesTracker Team',
             iconColor: AppColors.secondary(context),
             trailingWidget: IconButton(
-              icon: Icon(Icons.info_outline,
-                  size: 24.sp, color: AppColors.secondary(context)),
+              icon: Icon(
+                Icons.info_outline,
+                size: 24.sp,
+                color: AppColors.secondary(context),
+              ),
               onPressed: () => _showDeveloperInfo(context),
             ),
           ),
@@ -141,8 +147,11 @@ class _AboutSectionState extends State<AboutSection> {
             value: 'yigitakture.github.io',
             iconColor: AppColors.primary(context),
             trailingWidget: IconButton(
-              icon: Icon(Icons.open_in_new,
-                  size: 24.sp, color: AppColors.primary(context)),
+              icon: Icon(
+                Icons.open_in_new,
+                size: 24.sp,
+                color: AppColors.primary(context),
+              ),
               onPressed: () async {
                 final url = Uri.parse('https://yigitakture.github.io/');
                 if (await canLaunchUrl(url)) {
@@ -161,11 +170,15 @@ class _AboutSectionState extends State<AboutSection> {
             value: 'investrackerapp@gmail.com',
             iconColor: AppColors.secondary(context),
             trailingWidget: IconButton(
-              icon: Icon(Icons.copy,
-                  size: 24.sp, color: AppColors.secondary(context)),
+              icon: Icon(
+                Icons.copy,
+                size: 24.sp,
+                color: AppColors.secondary(context),
+              ),
               onPressed: () {
                 Clipboard.setData(
-                    const ClipboardData(text: 'investrackerapp@gmail.com'));
+                  const ClipboardData(text: 'investrackerapp@gmail.com'),
+                );
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

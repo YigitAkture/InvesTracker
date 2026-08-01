@@ -8,7 +8,7 @@ import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
 import 'package:inves_tracker/core/constants/asset_colors.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/wallet/widgets/asset_info_dialog.dart';
 import 'package:inves_tracker/views/wallet/widgets/edit_asset_dialog.dart';
 
@@ -70,7 +70,7 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
 
   Future<void> _deleteAsset(Asset asset) async {
     final l10n = AppLocalizations.of(context)!;
-    
+
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -97,7 +97,10 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(l10n.assetDeleted, style: TextStyle(color: Colors.black)), 
+              content: Text(
+                l10n.assetDeleted,
+                style: TextStyle(color: Colors.black),
+              ),
               showCloseIcon: true,
               closeIconColor: Colors.black,
               backgroundColor: AppColors.success2,
@@ -108,7 +111,10 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(l10n.failedToDeleteAsset, style: TextStyle(color: Colors.black)), 
+              content: Text(
+                l10n.failedToDeleteAsset,
+                style: TextStyle(color: Colors.black),
+              ),
               showCloseIcon: true,
               closeIconColor: Colors.black,
               backgroundColor: AppColors.danger3,
@@ -225,7 +231,7 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                   // Asset Icon
                   _buildIcon(),
                   SizedBox(width: 12.w),
-                  
+
                   // Details
                   Expanded(
                     child: Column(
@@ -248,21 +254,30 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                             final assetType = widget.assetType.toLowerCase();
                             final assetCode = widget.assetCode;
                             final totalAmount = _totalAmount;
-                            
-                            final formattedAmount = assetType == 'gold' 
-                                ? GoldInputHelper.formatAmount(assetCode, totalAmount)
-                                : PriceFormatter.formatCurrency(totalAmount, context.localeString);
-                            
+
+                            final formattedAmount = assetType == 'gold'
+                                ? GoldInputHelper.formatAmount(
+                                    assetCode,
+                                    totalAmount,
+                                  )
+                                : PriceFormatter.formatCurrency(
+                                    totalAmount,
+                                    context.localeString,
+                                  );
+
                             String unit;
                             if (assetType == 'gold') {
-                              final isDecimalType = GoldInputHelper.allowsDecimal(assetCode);
-                              unit = isDecimalType 
+                              final isDecimalType =
+                                  GoldInputHelper.allowsDecimal(assetCode);
+                              unit = isDecimalType
                                   ? (totalAmount == 1 ? l10n.gram : l10n.grams)
-                                  : (totalAmount == 1 ? l10n.piece : l10n.pieces);
+                                  : (totalAmount == 1
+                                        ? l10n.piece
+                                        : l10n.pieces);
                             } else {
                               unit = assetCode;
                             }
-                            
+
                             return '$formattedAmount $unit';
                           }(),
                           style: TextStyle(
@@ -284,14 +299,14 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                       ],
                     ),
                   ),
-                  
+
                   // Info Button
                   IconButton(
                     onPressed: _showAssetInfo,
                     icon: Icon(Icons.info_outline, size: 20.sp),
                     color: AppColors.primary(context),
                   ),
-                  
+
                   // Expand Icon
                   Icon(
                     _isExpanded
@@ -307,10 +322,10 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
           // Expanded Content
           if (_isExpanded)
             ...widget.assets.map((asset) {
-              final assetTryValue = widget.tryValue != null 
-                  ? asset.amount * widget.tryValue! 
+              final assetTryValue = widget.tryValue != null
+                  ? asset.amount * widget.tryValue!
                   : null;
-              
+
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 decoration: BoxDecoration(
@@ -331,24 +346,33 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                             () {
                               final assetType = widget.assetType.toLowerCase();
                               final assetCode = widget.assetCode;
-                              final amount = widget.assets.firstWhere((a) => a.id == asset.id).amount;
-                              
+                              final amount = widget.assets
+                                  .firstWhere((a) => a.id == asset.id)
+                                  .amount;
+
                               // Format the amount
-                              final formattedAmount = assetType == 'gold' 
-                                  ? GoldInputHelper.formatAmount(assetCode, amount)
-                                  : PriceFormatter.formatCurrency(amount, context.localeString);
-                              
+                              final formattedAmount = assetType == 'gold'
+                                  ? GoldInputHelper.formatAmount(
+                                      assetCode,
+                                      amount,
+                                    )
+                                  : PriceFormatter.formatCurrency(
+                                      amount,
+                                      context.localeString,
+                                    );
+
                               // Determine unit
                               String unit;
                               if (assetType == 'gold') {
-                                final isDecimalType = GoldInputHelper.allowsDecimal(assetCode);
-                                unit = isDecimalType 
+                                final isDecimalType =
+                                    GoldInputHelper.allowsDecimal(assetCode);
+                                unit = isDecimalType
                                     ? (amount == 1 ? l10n.gram : l10n.grams)
                                     : (amount == 1 ? l10n.piece : l10n.pieces);
                               } else {
                                 unit = assetCode;
                               }
-                              
+
                               return '$formattedAmount $unit';
                             }(),
                             style: TextStyle(
@@ -370,14 +394,14 @@ class _AssetAccordionItemState extends State<AssetAccordionItem> {
                         ],
                       ),
                     ),
-                    
+
                     // Edit Button
                     IconButton(
                       onPressed: () => _editAsset(asset),
                       icon: Icon(Icons.edit, size: 20.sp),
                       color: AppColors.primary(context),
                     ),
-                    
+
                     // Delete Button
                     IconButton(
                       onPressed: () => _deleteAsset(asset),

@@ -4,7 +4,7 @@ import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/home/models/portfolio_data.dart';
 import 'package:inves_tracker/views/home/utils/portfolio_chart_painter.dart';
 
@@ -103,9 +103,9 @@ class _PortfolioChartState extends State<PortfolioChart>
               },
             ),
           ),
-          
+
           SizedBox(height: 24.h),
-          
+
           // Legend
           if (widget.portfolioData.segments.isNotEmpty)
             Column(
@@ -120,12 +120,15 @@ class _PortfolioChartState extends State<PortfolioChart>
                       code: segment.type != 'Gold'
                           ? segment.code
                           : WalletLocalizationHelper.getLocalizedName(
-                              context, segment.code, segment.type),
+                              context,
+                              segment.code,
+                              segment.type,
+                            ),
                       percentage: segment.percentage,
                     );
                   }).toList(),
                 ),
-                
+
                 // Show More/Less Button
                 if (hasMoreThan5)
                   Padding(
@@ -205,10 +208,7 @@ class _LegendItem extends StatelessWidget {
         Container(
           width: 12.w,
           height: 12.h,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         SizedBox(width: 6.w),
         Text(

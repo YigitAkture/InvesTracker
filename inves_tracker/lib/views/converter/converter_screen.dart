@@ -6,7 +6,7 @@ import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
 import 'package:inves_tracker/core/showcase/showcase_helper.dart';
 import 'package:inves_tracker/core/showcase/showcase_keys.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/converter/widgets/currency_to_currency_section.dart';
 import 'package:inves_tracker/views/converter/widgets/gold_to_currency_section.dart';
@@ -112,9 +112,10 @@ class _ConverterScreenState extends State<ConverterScreen> {
         children: [
           CircularProgressIndicator(color: AppColors.primary(context)),
           SizedBox(height: 12.h),
-          Text(l10n.loadingConverter,
-              style: TextStyle(
-                  fontSize: 14.sp, color: AppColors.title(context))),
+          Text(
+            l10n.loadingConverter,
+            style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
+          ),
         ],
       ),
     );
@@ -127,27 +128,28 @@ class _ConverterScreenState extends State<ConverterScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline,
-                size: 48.sp, color: AppColors.danger),
+            Icon(Icons.error_outline, size: 48.sp, color: AppColors.danger),
             SizedBox(height: 12.h),
-            Text(l10n.failedToLoadMarketData,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    color: AppColors.title(context))),
+            Text(
+              l10n.failedToLoadMarketData,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.title(context),
+              ),
+            ),
             SizedBox(height: 16.h),
             ElevatedButton(
               onPressed: _loadMarketData,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary(context),
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(
-                    horizontal: 24.w, vertical: 12.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r)),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
               ),
-              child: Text(l10n.retry,
-                  style: TextStyle(fontSize: 14.sp)),
+              child: Text(l10n.retry, style: TextStyle(fontSize: 14.sp)),
             ),
           ],
         ),

@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/version_check_service.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppUpdateDialog extends StatelessWidget {
   final String updateUrl;
-  final String minimumVersion;   // shown for force-update
+  final String minimumVersion; // shown for force-update
   final String recommendedVersion; // shown for soft-update
   final bool forceUpdate;
 
@@ -46,9 +46,7 @@ class AppUpdateDialog extends StatelessWidget {
             SizedBox(width: 12.w),
             Expanded(
               child: Text(
-                forceUpdate 
-                  ? l10n.updateRequired 
-                  : l10n.updateRecommended,
+                forceUpdate ? l10n.updateRequired : l10n.updateRecommended,
                 style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),
               ),
             ),
@@ -107,7 +105,8 @@ class AppUpdateDialog extends StatelessWidget {
                     // Mark as seen so it won't appear again for this version
                     if (recommendedVersion.isNotEmpty) {
                       await VersionCheckService.markRecommendedVersionSeen(
-                          recommendedVersion);
+                        recommendedVersion,
+                      );
                     }
                     if (context.mounted) Navigator.of(context).pop();
                   }
@@ -115,8 +114,10 @@ class AppUpdateDialog extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.danger3,
                   foregroundColor: Colors.white,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 14.w,
+                    vertical: 12.h,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.r),
                   ),
@@ -127,8 +128,10 @@ class AppUpdateDialog extends StatelessWidget {
                 ),
                 label: Text(
                   forceUpdate ? l10n.later : l10n.wordContinue,
-                  style:
-                      TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
 
@@ -137,15 +140,18 @@ class AppUpdateDialog extends StatelessWidget {
                 onPressed: () async {
                   if (!forceUpdate && recommendedVersion.isNotEmpty) {
                     await VersionCheckService.markRecommendedVersionSeen(
-                        recommendedVersion);
+                      recommendedVersion,
+                    );
                   }
                   await _launchStore(updateUrl);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary(context),
                   foregroundColor: Colors.white,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 14.w,
+                    vertical: 12.h,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.r),
                   ),
@@ -153,8 +159,10 @@ class AppUpdateDialog extends StatelessWidget {
                 icon: Icon(Icons.download, size: 16.sp),
                 label: Text(
                   l10n.updateNow,
-                  style:
-                      TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],

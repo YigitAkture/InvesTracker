@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/settings/widgets/change_password_dialog.dart';
 import 'package:inves_tracker/views/settings/widgets/delete_account_dialog.dart';
 import 'package:inves_tracker/views/settings/widgets/setting_card.dart';

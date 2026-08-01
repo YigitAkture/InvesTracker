@@ -7,7 +7,7 @@ import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/debt.dart';
 import 'package:inves_tracker/core/services/debt_service.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 
 class EditDebtDialog extends StatefulWidget {
   final Debt debt;
@@ -69,7 +69,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
       final marketData = await _marketService.fetchMarketData();
       final debtType = widget.debt.debtType.toLowerCase();
       final debtCode = widget.debt.debtCode;
-      
+
       switch (debtType) {
         case 'currency':
           if (debtCode == 'TRY') return amount * 1.0;
@@ -78,21 +78,21 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
             orElse: () => throw Exception('Currency not found'),
           );
           return amount * currency.buying;
-        
+
         case 'gold':
           final gold = marketData.golds.firstWhere(
             (g) => g.code == debtCode,
             orElse: () => throw Exception('Gold not found'),
           );
           return amount * gold.selling;
-        
+
         case 'crypto':
           final crypto = marketData.cryptos.firstWhere(
             (c) => c.code == debtCode,
             orElse: () => throw Exception('Crypto not found'),
           );
           return amount * crypto.tryPrice;
-        
+
         default:
           return null;
       }
@@ -104,7 +104,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
   Future<void> _updateDebt() async {
     final l10n = AppLocalizations.of(context)!;
     final amount = double.tryParse(_amountController.text);
-    
+
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.enterValidAmount), showCloseIcon: true),
@@ -121,7 +121,10 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
       if (validationError != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(validationError, style: TextStyle(color: Colors.black)), 
+            content: Text(
+              validationError,
+              style: TextStyle(color: Colors.black),
+            ),
             showCloseIcon: true,
             closeIconColor: Colors.black,
             backgroundColor: AppColors.warning2,
@@ -148,12 +151,15 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
         note: _noteController.text.isEmpty ? null : _noteController.text,
         dueDate: _selectedDueDate,
       );
-      
+
       if (mounted) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(l10n.debtUpdated, style: TextStyle(color: Colors.black)), 
+            content: Text(
+              l10n.debtUpdated,
+              style: TextStyle(color: Colors.black),
+            ),
             showCloseIcon: true,
             backgroundColor: AppColors.success2,
             closeIconColor: Colors.black,
@@ -165,7 +171,10 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${l10n.failedToUpdateDebt}: $e', style: TextStyle(color: Colors.black)), 
+            content: Text(
+              '${l10n.failedToUpdateDebt}: $e',
+              style: TextStyle(color: Colors.black),
+            ),
             showCloseIcon: true,
             backgroundColor: AppColors.danger3,
             closeIconColor: Colors.black,
@@ -179,7 +188,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final isGold = widget.debt.debtType.toLowerCase() == 'gold';
-    
+
     return AlertDialog(
       title: Text(l10n.editDebt),
       content: SizedBox(
@@ -203,7 +212,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
                 ),
               ),
               SizedBox(height: 16.h),
-              
+
               // Amount
               TextField(
                 controller: _amountController,
@@ -214,7 +223,9 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
                 inputFormatters: isGold
                     ? GoldInputHelper.getInputFormatters(widget.debt.debtCode)
                     : [
-                        FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d*\.?\d*'),
+                        ),
                       ],
                 decoration: InputDecoration(
                   labelText: l10n.amount,
@@ -226,28 +237,29 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
                 ),
               ),
               SizedBox(height: 12.h),
-              
+
               // Note
               TextField(
                 controller: _noteController,
                 maxLines: 3,
                 maxLength: _maxNoteLength,
-                buildCounter: (BuildContext context, {
-                  required int currentLength,
-                  required int? maxLength,
-                  required bool isFocused,
-                }) {
-                  return Text(
-                    '$currentLength/$maxLength',
-                    style: TextStyle(
-                      fontSize: 11.sp,
-                      color: currentLength >= _maxNoteLength
-                          ? AppColors.danger
-                          : AppColors.title(context),
-                    ),
-                  );
-        
-                },
+                buildCounter:
+                    (
+                      BuildContext context, {
+                      required int currentLength,
+                      required int? maxLength,
+                      required bool isFocused,
+                    }) {
+                      return Text(
+                        '$currentLength/$maxLength',
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          color: currentLength >= _maxNoteLength
+                              ? AppColors.danger
+                              : AppColors.title(context),
+                        ),
+                      );
+                    },
                 decoration: InputDecoration(
                   labelText: l10n.noteOptional,
                   border: OutlineInputBorder(
@@ -258,7 +270,7 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
                 ),
               ),
               SizedBox(height: 12.h),
-              
+
               // Due Date
               InkWell(
                 onTap: _selectDueDate,
@@ -283,14 +295,16 @@ class _EditDebtDialogState extends State<EditDebtDialog> {
                   ),
                 ),
               ),
-              
+
               if (_selectedDueDate != null) ...[
                 SizedBox(height: 8.h),
                 TextButton.icon(
                   onPressed: () => setState(() => _selectedDueDate = null),
                   icon: Icon(Icons.clear, size: 16.sp),
                   label: Text(l10n.clearDueDate),
-                  style: TextButton.styleFrom(foregroundColor: AppColors.danger),
+                  style: TextButton.styleFrom(
+                    foregroundColor: AppColors.danger,
+                  ),
                 ),
               ],
             ],

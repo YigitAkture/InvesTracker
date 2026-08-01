@@ -100,2144 +100,2144 @@ abstract class AppLocalizations {
 
   /// No description provided for @welcome.
   ///
-  /// In en, this message translates to:
-  /// **'Welcome!'**
+  /// In tr, this message translates to:
+  /// **'Hoş Geldiniz!'**
   String get welcome;
 
   /// No description provided for @myWallet.
   ///
-  /// In en, this message translates to:
-  /// **'My Wallet'**
+  /// In tr, this message translates to:
+  /// **'Cüzdanım'**
   String get myWallet;
 
   /// No description provided for @exchangeRates.
   ///
-  /// In en, this message translates to:
-  /// **'Exchange Rates'**
+  /// In tr, this message translates to:
+  /// **'Döviz Kurları'**
   String get exchangeRates;
 
   /// No description provided for @addInvestment.
   ///
-  /// In en, this message translates to:
-  /// **'Add Investment'**
+  /// In tr, this message translates to:
+  /// **'Yatırım Ekle'**
   String get addInvestment;
 
   /// No description provided for @currencyConverter.
   ///
-  /// In en, this message translates to:
-  /// **'Currency Converter'**
+  /// In tr, this message translates to:
+  /// **'Döviz Çevirici'**
   String get currencyConverter;
 
   /// No description provided for @profile.
   ///
-  /// In en, this message translates to:
-  /// **'Profile'**
+  /// In tr, this message translates to:
+  /// **'Profil'**
   String get profile;
 
   /// No description provided for @currency.
   ///
-  /// In en, this message translates to:
-  /// **'Currency'**
+  /// In tr, this message translates to:
+  /// **'Döviz'**
   String get currency;
-
-  /// No description provided for @change.
-  ///
-  /// In en, this message translates to:
-  /// **'Change'**
-  String get change;
 
   /// No description provided for @crypto.
   ///
-  /// In en, this message translates to:
-  /// **'Crypto'**
+  /// In tr, this message translates to:
+  /// **'Kripto'**
   String get crypto;
 
   /// No description provided for @buying.
   ///
-  /// In en, this message translates to:
-  /// **'Buying'**
+  /// In tr, this message translates to:
+  /// **'Alış'**
   String get buying;
 
   /// No description provided for @selling.
   ///
-  /// In en, this message translates to:
-  /// **'Selling'**
+  /// In tr, this message translates to:
+  /// **'Satış'**
   String get selling;
 
   /// No description provided for @gold.
   ///
-  /// In en, this message translates to:
-  /// **'Gold'**
+  /// In tr, this message translates to:
+  /// **'Altın'**
   String get gold;
-
-  /// No description provided for @updated.
-  ///
-  /// In en, this message translates to:
-  /// **'Updated'**
-  String get updated;
 
   /// No description provided for @debt.
   ///
-  /// In en, this message translates to:
-  /// **'debt'**
+  /// In tr, this message translates to:
+  /// **'borç'**
   String get debt;
 
   /// No description provided for @asset.
   ///
-  /// In en, this message translates to:
-  /// **'asset'**
+  /// In tr, this message translates to:
+  /// **'varlık'**
   String get asset;
+
+  /// No description provided for @updated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güncellendi'**
+  String get updated;
 
   /// No description provided for @loadingMarketData.
   ///
-  /// In en, this message translates to:
-  /// **'Loading market data...'**
+  /// In tr, this message translates to:
+  /// **'Piyasa verileri yükleniyor...'**
   String get loadingMarketData;
 
   /// No description provided for @failedToLoadData.
   ///
-  /// In en, this message translates to:
-  /// **'Failed to load data'**
+  /// In tr, this message translates to:
+  /// **'Veriler yüklenemedi'**
   String get failedToLoadData;
 
   /// No description provided for @failedToLoadMarketData.
   ///
-  /// In en, this message translates to:
-  /// **'Failed to load market data'**
+  /// In tr, this message translates to:
+  /// **'Piyasa verileri yüklenemedi'**
   String get failedToLoadMarketData;
 
   /// No description provided for @retry.
   ///
-  /// In en, this message translates to:
-  /// **'Retry'**
+  /// In tr, this message translates to:
+  /// **'Tekrar Dene'**
   String get retry;
 
   /// No description provided for @noCurrencyDataAvailable.
   ///
-  /// In en, this message translates to:
-  /// **'No currency data available'**
+  /// In tr, this message translates to:
+  /// **'Döviz verisi mevcut değil'**
   String get noCurrencyDataAvailable;
 
   /// No description provided for @noGoldDataAvailable.
   ///
-  /// In en, this message translates to:
-  /// **'No gold data available'**
+  /// In tr, this message translates to:
+  /// **'Altın verisi mevcut değil'**
   String get noGoldDataAvailable;
 
   /// No description provided for @noCryptoDataAvailable.
   ///
-  /// In en, this message translates to:
-  /// **'No crypto data available'**
+  /// In tr, this message translates to:
+  /// **'Kripto verisi mevcut değil'**
   String get noCryptoDataAvailable;
 
   /// No description provided for @showLess.
   ///
-  /// In en, this message translates to:
-  /// **'Show Less...'**
+  /// In tr, this message translates to:
+  /// **'Daha Az...'**
   String get showLess;
 
   /// No description provided for @showMore.
   ///
-  /// In en, this message translates to:
-  /// **'Show More...'**
+  /// In tr, this message translates to:
+  /// **'Daha Fazla...'**
   String get showMore;
 
   /// No description provided for @currenciesAndMetals.
   ///
-  /// In en, this message translates to:
-  /// **'Currencies & Metals'**
+  /// In tr, this message translates to:
+  /// **'Döviz & Metaller'**
   String get currenciesAndMetals;
 
   /// No description provided for @cryptoCurrencies.
   ///
-  /// In en, this message translates to:
-  /// **'Crypto Currencies'**
+  /// In tr, this message translates to:
+  /// **'Kripto Para'**
   String get cryptoCurrencies;
 
   /// No description provided for @cryptoConverter.
   ///
-  /// In en, this message translates to:
-  /// **'Crypto Currency Converter'**
+  /// In tr, this message translates to:
+  /// **'Kripto Para Çevirici'**
   String get cryptoConverter;
 
   /// No description provided for @currencyConverterTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Currency Converter'**
+  /// In tr, this message translates to:
+  /// **'Döviz Çevirici'**
   String get currencyConverterTitle;
 
   /// No description provided for @metalConverter.
   ///
-  /// In en, this message translates to:
-  /// **'Precious Metal Converter'**
+  /// In tr, this message translates to:
+  /// **'Değerli Maden Çevirici'**
   String get metalConverter;
 
   /// No description provided for @loadingConverter.
   ///
-  /// In en, this message translates to:
-  /// **'Loading converter...'**
+  /// In tr, this message translates to:
+  /// **'Çevirici yükleniyor...'**
   String get loadingConverter;
 
   /// No description provided for @anErrorOccurred.
   ///
-  /// In en, this message translates to:
-  /// **'An error occurred'**
+  /// In tr, this message translates to:
+  /// **'Bir hata oluştu'**
   String get anErrorOccurred;
 
   /// No description provided for @assets.
   ///
-  /// In en, this message translates to:
-  /// **'Assets'**
+  /// In tr, this message translates to:
+  /// **'Varlıklar'**
   String get assets;
 
   /// No description provided for @debts.
   ///
-  /// In en, this message translates to:
-  /// **'Debts'**
+  /// In tr, this message translates to:
+  /// **'Borçlar'**
   String get debts;
 
   /// No description provided for @profileTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Profile'**
+  /// In tr, this message translates to:
+  /// **'Profil'**
   String get profileTitle;
 
   /// No description provided for @settings.
   ///
-  /// In en, this message translates to:
-  /// **'Settings'**
+  /// In tr, this message translates to:
+  /// **'Ayarlar'**
   String get settings;
 
   /// No description provided for @darkMode.
   ///
-  /// In en, this message translates to:
-  /// **'Dark Mode'**
+  /// In tr, this message translates to:
+  /// **'Karanlık Tema'**
   String get darkMode;
 
   /// No description provided for @lightMode.
   ///
-  /// In en, this message translates to:
-  /// **'Light Mode'**
+  /// In tr, this message translates to:
+  /// **'Aydınlık Tema'**
   String get lightMode;
 
   /// No description provided for @language.
   ///
-  /// In en, this message translates to:
-  /// **'Language'**
+  /// In tr, this message translates to:
+  /// **'Dil'**
   String get language;
 
   /// No description provided for @english.
   ///
-  /// In en, this message translates to:
-  /// **'English'**
+  /// In tr, this message translates to:
+  /// **'İngilizce'**
   String get english;
 
   /// No description provided for @turkish.
   ///
-  /// In en, this message translates to:
-  /// **'Turkish'**
+  /// In tr, this message translates to:
+  /// **'Türkçe'**
   String get turkish;
 
   /// No description provided for @about.
   ///
-  /// In en, this message translates to:
-  /// **'About'**
+  /// In tr, this message translates to:
+  /// **'Hakkında'**
   String get about;
 
   /// No description provided for @version.
   ///
-  /// In en, this message translates to:
-  /// **'Version'**
+  /// In tr, this message translates to:
+  /// **'Sürüm'**
   String get version;
 
   /// No description provided for @developer.
   ///
-  /// In en, this message translates to:
-  /// **'Developer'**
+  /// In tr, this message translates to:
+  /// **'Geliştirici'**
   String get developer;
 
   /// No description provided for @designer.
   ///
-  /// In en, this message translates to:
-  /// **'Designer'**
+  /// In tr, this message translates to:
+  /// **'Tasarımcı'**
   String get designer;
-
-  /// No description provided for @email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
 
   /// No description provided for @goldGUMUS.
   ///
-  /// In en, this message translates to:
-  /// **'Gram of Silver'**
+  /// In tr, this message translates to:
+  /// **'Gram Gümüş'**
   String get goldGUMUS;
 
   /// No description provided for @goldGPL.
   ///
-  /// In en, this message translates to:
-  /// **'Platinum'**
+  /// In tr, this message translates to:
+  /// **'Platin'**
   String get goldGPL;
 
   /// No description provided for @goldPAL.
   ///
-  /// In en, this message translates to:
-  /// **'Palladium'**
+  /// In tr, this message translates to:
+  /// **'Paladyum'**
   String get goldPAL;
 
   /// No description provided for @goldHAS.
   ///
-  /// In en, this message translates to:
-  /// **'Fine Gold'**
+  /// In tr, this message translates to:
+  /// **'Has Altın'**
   String get goldHAS;
 
   /// No description provided for @goldGRA.
   ///
-  /// In en, this message translates to:
-  /// **'Gram of Gold'**
+  /// In tr, this message translates to:
+  /// **'Gram Altın'**
   String get goldGRA;
 
   /// No description provided for @goldCEYREKALTIN.
   ///
-  /// In en, this message translates to:
-  /// **'Quarter of Gold'**
+  /// In tr, this message translates to:
+  /// **'Çeyrek Altın'**
   String get goldCEYREKALTIN;
 
   /// No description provided for @goldYARIMALTIN.
   ///
-  /// In en, this message translates to:
-  /// **'Half of Gold'**
+  /// In tr, this message translates to:
+  /// **'Yarım Altın'**
   String get goldYARIMALTIN;
 
   /// No description provided for @goldTAMALTIN.
   ///
-  /// In en, this message translates to:
-  /// **'Full of Gold'**
+  /// In tr, this message translates to:
+  /// **'Tam Altın'**
   String get goldTAMALTIN;
 
   /// No description provided for @goldATAALTIN.
   ///
-  /// In en, this message translates to:
-  /// **'Ata Gold'**
+  /// In tr, this message translates to:
+  /// **'Ata Altın'**
   String get goldATAALTIN;
 
   /// No description provided for @goldRESATALTIN.
   ///
-  /// In en, this message translates to:
-  /// **'Resat Gold'**
+  /// In tr, this message translates to:
+  /// **'Reşat Altın'**
   String get goldRESATALTIN;
 
   /// No description provided for @goldCUMHURIYETALTINI.
   ///
-  /// In en, this message translates to:
-  /// **'Republic Gold'**
+  /// In tr, this message translates to:
+  /// **'Cumhuriyet Altını'**
   String get goldCUMHURIYETALTINI;
 
   /// No description provided for @goldGREMSEALTIN.
   ///
-  /// In en, this message translates to:
-  /// **'Gremse Gold'**
+  /// In tr, this message translates to:
+  /// **'Gremse Altın'**
   String get goldGREMSEALTIN;
 
   /// No description provided for @gold14AYARALTIN.
   ///
-  /// In en, this message translates to:
-  /// **'14 Carat Gold'**
+  /// In tr, this message translates to:
+  /// **'14 Ayar Altın'**
   String get gold14AYARALTIN;
 
   /// No description provided for @gold18AYARALTIN.
   ///
-  /// In en, this message translates to:
-  /// **'18 Carat Gold'**
+  /// In tr, this message translates to:
+  /// **'18 Ayar Altın'**
   String get gold18AYARALTIN;
 
   /// No description provided for @goldYIA.
   ///
-  /// In en, this message translates to:
-  /// **'22 Carat Bracelet'**
+  /// In tr, this message translates to:
+  /// **'22 Ayar Bilezik'**
   String get goldYIA;
 
   /// No description provided for @goldIKIBUCUKALTIN.
   ///
-  /// In en, this message translates to:
-  /// **'Two and a Half Gold'**
+  /// In tr, this message translates to:
+  /// **'İkibuçuk Altın'**
   String get goldIKIBUCUKALTIN;
 
   /// No description provided for @goldBESLIALTIN.
   ///
-  /// In en, this message translates to:
-  /// **'Five Piece Gold'**
+  /// In tr, this message translates to:
+  /// **'Beşli Altın'**
   String get goldBESLIALTIN;
 
   /// No description provided for @currencyTRY.
   ///
-  /// In en, this message translates to:
-  /// **'Turkish Lira'**
+  /// In tr, this message translates to:
+  /// **'Türk Lirası'**
   String get currencyTRY;
 
   /// No description provided for @currencyUSD.
   ///
-  /// In en, this message translates to:
-  /// **'US Dollar'**
+  /// In tr, this message translates to:
+  /// **'Amerikan Doları'**
   String get currencyUSD;
 
   /// No description provided for @currencyEUR.
   ///
-  /// In en, this message translates to:
-  /// **'Euro'**
+  /// In tr, this message translates to:
+  /// **'Avro'**
   String get currencyEUR;
 
   /// No description provided for @currencyGBP.
   ///
-  /// In en, this message translates to:
-  /// **'British Pound'**
+  /// In tr, this message translates to:
+  /// **'İngiliz Sterlini'**
   String get currencyGBP;
 
   /// No description provided for @currencyCHF.
   ///
-  /// In en, this message translates to:
-  /// **'Swiss Franc'**
+  /// In tr, this message translates to:
+  /// **'İsviçre Frangı'**
   String get currencyCHF;
 
   /// No description provided for @currencyCAD.
   ///
-  /// In en, this message translates to:
-  /// **'Canadian Dollar'**
+  /// In tr, this message translates to:
+  /// **'Kanada Doları'**
   String get currencyCAD;
 
   /// No description provided for @currencyJPY.
   ///
-  /// In en, this message translates to:
-  /// **'Japanese Yen'**
+  /// In tr, this message translates to:
+  /// **'Japon Yeni'**
   String get currencyJPY;
 
   /// No description provided for @currencySAR.
   ///
-  /// In en, this message translates to:
-  /// **'Saudi Riyal'**
+  /// In tr, this message translates to:
+  /// **'Arabistan Riyali'**
   String get currencySAR;
 
   /// No description provided for @currencyRUB.
   ///
-  /// In en, this message translates to:
-  /// **'Russian Ruble'**
+  /// In tr, this message translates to:
+  /// **'Rus Rublesi'**
   String get currencyRUB;
 
   /// No description provided for @currencyAED.
   ///
-  /// In en, this message translates to:
-  /// **'UAE Dirham'**
+  /// In tr, this message translates to:
+  /// **'BAE Dirhemi'**
   String get currencyAED;
 
   /// No description provided for @currencyKWD.
   ///
-  /// In en, this message translates to:
-  /// **'Kuwaiti Dinar'**
+  /// In tr, this message translates to:
+  /// **'Kuveyt Dinarı'**
   String get currencyKWD;
 
   /// No description provided for @currencyAUD.
   ///
-  /// In en, this message translates to:
-  /// **'Australian Dollar'**
+  /// In tr, this message translates to:
+  /// **'Avustralya Doları'**
   String get currencyAUD;
 
   /// No description provided for @currencyDKK.
   ///
-  /// In en, this message translates to:
-  /// **'Danish Krone'**
+  /// In tr, this message translates to:
+  /// **'Danimarka Kronu'**
   String get currencyDKK;
 
   /// No description provided for @currencySEK.
   ///
-  /// In en, this message translates to:
-  /// **'Swedish Krona'**
+  /// In tr, this message translates to:
+  /// **'İsveç Kronu'**
   String get currencySEK;
 
   /// No description provided for @currencyNOK.
   ///
-  /// In en, this message translates to:
-  /// **'Norwegian Krone'**
+  /// In tr, this message translates to:
+  /// **'Norveç Kronu'**
   String get currencyNOK;
 
   /// No description provided for @currencyNZD.
   ///
-  /// In en, this message translates to:
-  /// **'New Zealand Dollar'**
+  /// In tr, this message translates to:
+  /// **'Yeni Zelanda Doları'**
   String get currencyNZD;
 
   /// No description provided for @currencySGD.
   ///
-  /// In en, this message translates to:
-  /// **'Singapore Dollar'**
+  /// In tr, this message translates to:
+  /// **'Singapur Doları'**
   String get currencySGD;
 
   /// No description provided for @currencyHKD.
   ///
-  /// In en, this message translates to:
-  /// **'Hong Kong Dollar'**
+  /// In tr, this message translates to:
+  /// **'Hong Kong Doları'**
   String get currencyHKD;
 
   /// No description provided for @currencyTHB.
   ///
-  /// In en, this message translates to:
-  /// **'Thai Baht'**
+  /// In tr, this message translates to:
+  /// **'Tayland Bahtı'**
   String get currencyTHB;
 
   /// No description provided for @currencyPLN.
   ///
-  /// In en, this message translates to:
-  /// **'Polish Zloty'**
+  /// In tr, this message translates to:
+  /// **'Polonya Zlotisi'**
   String get currencyPLN;
 
   /// No description provided for @currencyCZK.
   ///
-  /// In en, this message translates to:
-  /// **'Czech Koruna'**
+  /// In tr, this message translates to:
+  /// **'Çek Korunası'**
   String get currencyCZK;
 
   /// No description provided for @currencyHUF.
   ///
-  /// In en, this message translates to:
-  /// **'Hungarian Forint'**
+  /// In tr, this message translates to:
+  /// **'Macar Forinti'**
   String get currencyHUF;
 
   /// No description provided for @currencyRON.
   ///
-  /// In en, this message translates to:
-  /// **'Romanian Leu'**
+  /// In tr, this message translates to:
+  /// **'Romen Leyi'**
   String get currencyRON;
 
   /// No description provided for @currencyQAR.
   ///
-  /// In en, this message translates to:
-  /// **'Qatari Riyal'**
+  /// In tr, this message translates to:
+  /// **'Katar Riyali'**
   String get currencyQAR;
 
   /// No description provided for @currencyBHD.
   ///
-  /// In en, this message translates to:
-  /// **'Bahraini Dinar'**
+  /// In tr, this message translates to:
+  /// **'Bahreyn Dinarı'**
   String get currencyBHD;
 
   /// No description provided for @currencyOMR.
   ///
-  /// In en, this message translates to:
-  /// **'Omani Rial'**
+  /// In tr, this message translates to:
+  /// **'Umman Riyali'**
   String get currencyOMR;
 
   /// No description provided for @currencyINR.
   ///
-  /// In en, this message translates to:
-  /// **'Indian Rupee'**
+  /// In tr, this message translates to:
+  /// **'Hindistan Rupisi'**
   String get currencyINR;
 
   /// No description provided for @currencyPKR.
   ///
-  /// In en, this message translates to:
-  /// **'Pakistani Rupee'**
+  /// In tr, this message translates to:
+  /// **'Pakistan Rupisi'**
   String get currencyPKR;
 
   /// No description provided for @currencyIDR.
   ///
-  /// In en, this message translates to:
-  /// **'Indonesian Rupiah'**
+  /// In tr, this message translates to:
+  /// **'Endonezya Rupisi'**
   String get currencyIDR;
 
   /// No description provided for @currencyMYR.
   ///
-  /// In en, this message translates to:
-  /// **'Malaysian Ringgit'**
+  /// In tr, this message translates to:
+  /// **'Malezya Ringgiti'**
   String get currencyMYR;
 
   /// No description provided for @currencyPHP.
   ///
-  /// In en, this message translates to:
-  /// **'Philippine Peso'**
+  /// In tr, this message translates to:
+  /// **'Filipin Pesosu'**
   String get currencyPHP;
 
   /// No description provided for @currencyMXN.
   ///
-  /// In en, this message translates to:
-  /// **'Mexican Peso'**
+  /// In tr, this message translates to:
+  /// **'Meksika Pesosu'**
   String get currencyMXN;
 
   /// No description provided for @currencyBRL.
   ///
-  /// In en, this message translates to:
-  /// **'Brazilian Real'**
+  /// In tr, this message translates to:
+  /// **'Brezilya Reali'**
   String get currencyBRL;
 
   /// No description provided for @currencyARS.
   ///
-  /// In en, this message translates to:
-  /// **'Argentine Peso'**
+  /// In tr, this message translates to:
+  /// **'Arjantin Pesosu'**
   String get currencyARS;
 
   /// No description provided for @currencyCLP.
   ///
-  /// In en, this message translates to:
-  /// **'Chilean Peso'**
+  /// In tr, this message translates to:
+  /// **'Şili Pesosu'**
   String get currencyCLP;
 
   /// No description provided for @currencyCOP.
   ///
-  /// In en, this message translates to:
-  /// **'Colombian Peso'**
+  /// In tr, this message translates to:
+  /// **'Kolombiya Pesosu'**
   String get currencyCOP;
 
   /// No description provided for @currencyPEN.
   ///
-  /// In en, this message translates to:
-  /// **'Peruvian Sol'**
+  /// In tr, this message translates to:
+  /// **'Peru Solü'**
   String get currencyPEN;
 
   /// No description provided for @currencyUYU.
   ///
-  /// In en, this message translates to:
-  /// **'Uruguayan Peso'**
+  /// In tr, this message translates to:
+  /// **'Uruguay Pesosu'**
   String get currencyUYU;
 
   /// No description provided for @currencyCRC.
   ///
-  /// In en, this message translates to:
-  /// **'Costa Rican Colon'**
+  /// In tr, this message translates to:
+  /// **'Kosta Rika Kolonu'**
   String get currencyCRC;
 
   /// No description provided for @currencyUAH.
   ///
-  /// In en, this message translates to:
-  /// **'Ukrainian Hryvnia'**
+  /// In tr, this message translates to:
+  /// **'Ukrayna Grivnası'**
   String get currencyUAH;
 
   /// No description provided for @currencyGEL.
   ///
-  /// In en, this message translates to:
-  /// **'Georgian Lari'**
+  /// In tr, this message translates to:
+  /// **'Gürcistan Larisi'**
   String get currencyGEL;
 
   /// No description provided for @currencyAZN.
   ///
-  /// In en, this message translates to:
-  /// **'Azerbaijani Manat'**
+  /// In tr, this message translates to:
+  /// **'Azerbaycan Manatı'**
   String get currencyAZN;
 
   /// No description provided for @currencyMKD.
   ///
-  /// In en, this message translates to:
-  /// **'Macedonian Denar'**
+  /// In tr, this message translates to:
+  /// **'Makedon Dinarı'**
   String get currencyMKD;
 
   /// No description provided for @currencyBGN.
   ///
-  /// In en, this message translates to:
-  /// **'Bulgarian Lev'**
+  /// In tr, this message translates to:
+  /// **'Bulgar Levası'**
   String get currencyBGN;
 
   /// No description provided for @currencyBAM.
   ///
-  /// In en, this message translates to:
-  /// **'Bosnia and Herzegovina Mark'**
+  /// In tr, this message translates to:
+  /// **'Bosna-Hersek Markı'**
   String get currencyBAM;
 
   /// No description provided for @currencyMDL.
   ///
-  /// In en, this message translates to:
-  /// **'Moldovan Leu'**
+  /// In tr, this message translates to:
+  /// **'Moldova Leyi'**
   String get currencyMDL;
 
   /// No description provided for @currencyALL.
   ///
-  /// In en, this message translates to:
-  /// **'Albanian Lek'**
+  /// In tr, this message translates to:
+  /// **'Arnavutluk Leki'**
   String get currencyALL;
 
   /// No description provided for @currencyLBP.
   ///
-  /// In en, this message translates to:
-  /// **'Lebanese Pound'**
+  /// In tr, this message translates to:
+  /// **'Lübnan Lirası'**
   String get currencyLBP;
 
   /// No description provided for @currencyEGP.
   ///
-  /// In en, this message translates to:
-  /// **'Egyptian Pound'**
+  /// In tr, this message translates to:
+  /// **'Mısır Lirası'**
   String get currencyEGP;
 
   /// No description provided for @currencyDZD.
   ///
-  /// In en, this message translates to:
-  /// **'Algerian Dinar'**
+  /// In tr, this message translates to:
+  /// **'Cezayir Dinarı'**
   String get currencyDZD;
 
   /// No description provided for @currencyTND.
   ///
-  /// In en, this message translates to:
-  /// **'Tunisian Dinar'**
+  /// In tr, this message translates to:
+  /// **'Tunus Dinarı'**
   String get currencyTND;
 
   /// No description provided for @currencySYP.
   ///
-  /// In en, this message translates to:
-  /// **'Syrian Pound'**
+  /// In tr, this message translates to:
+  /// **'Suriye Lirası'**
   String get currencySYP;
 
   /// No description provided for @currencyISK.
   ///
-  /// In en, this message translates to:
-  /// **'Icelandic Krona'**
+  /// In tr, this message translates to:
+  /// **'İzlanda Kronu'**
   String get currencyISK;
 
   /// No description provided for @currencyKZT.
   ///
-  /// In en, this message translates to:
-  /// **'Kazakhstani Tenge'**
+  /// In tr, this message translates to:
+  /// **'Kazakistan Tengesi'**
   String get currencyKZT;
 
   /// No description provided for @currencyCNY.
   ///
-  /// In en, this message translates to:
-  /// **'Chinese Yuan'**
+  /// In tr, this message translates to:
+  /// **'Çin Yuanı'**
   String get currencyCNY;
 
   /// No description provided for @currencyTWD.
   ///
-  /// In en, this message translates to:
-  /// **'New Taiwan Dollar'**
+  /// In tr, this message translates to:
+  /// **'Yeni Tayvan Doları'**
   String get currencyTWD;
 
   /// No description provided for @currencyKRW.
   ///
-  /// In en, this message translates to:
-  /// **'South Korean Won'**
+  /// In tr, this message translates to:
+  /// **'Güney Kore Wonu'**
   String get currencyKRW;
 
   /// No description provided for @currencyILS.
   ///
-  /// In en, this message translates to:
-  /// **'Israeli New Shekel'**
+  /// In tr, this message translates to:
+  /// **'İsrail Yeni Şekeli'**
   String get currencyILS;
 
   /// No description provided for @currencyIQD.
   ///
-  /// In en, this message translates to:
-  /// **'Iraqi Dinar'**
+  /// In tr, this message translates to:
+  /// **'Irak Dinarı'**
   String get currencyIQD;
 
   /// No description provided for @currencyLYD.
   ///
-  /// In en, this message translates to:
-  /// **'Libyan Dinar'**
+  /// In tr, this message translates to:
+  /// **'Libya Dinarı'**
   String get currencyLYD;
 
   /// No description provided for @currencyIRR.
   ///
-  /// In en, this message translates to:
-  /// **'Iranian Rial'**
+  /// In tr, this message translates to:
+  /// **'İran Riyali'**
   String get currencyIRR;
 
   /// No description provided for @currencyMAD.
   ///
-  /// In en, this message translates to:
-  /// **'Moroccan Dirham'**
+  /// In tr, this message translates to:
+  /// **'Fas Dirhemi'**
   String get currencyMAD;
 
   /// No description provided for @currencyZAR.
   ///
-  /// In en, this message translates to:
-  /// **'South African Rand'**
+  /// In tr, this message translates to:
+  /// **'Güney Afrika Randı'**
   String get currencyZAR;
 
   /// No description provided for @currencyLKR.
   ///
-  /// In en, this message translates to:
-  /// **'Sri Lankan Rupee'**
+  /// In tr, this message translates to:
+  /// **'Sri Lanka Rupisi'**
   String get currencyLKR;
 
   /// No description provided for @myAssets.
   ///
-  /// In en, this message translates to:
-  /// **'My Assets'**
+  /// In tr, this message translates to:
+  /// **'Varlıklarım'**
   String get myAssets;
 
   /// No description provided for @myDebts.
   ///
-  /// In en, this message translates to:
-  /// **'My Debts'**
+  /// In tr, this message translates to:
+  /// **'Borçlarım'**
   String get myDebts;
 
   /// No description provided for @addAsset.
   ///
-  /// In en, this message translates to:
-  /// **'Add Asset'**
+  /// In tr, this message translates to:
+  /// **'Varlık Ekle'**
   String get addAsset;
 
   /// No description provided for @addDebt.
   ///
-  /// In en, this message translates to:
-  /// **'Add Debt'**
+  /// In tr, this message translates to:
+  /// **'Borç Ekle'**
   String get addDebt;
 
   /// No description provided for @editAsset.
   ///
-  /// In en, this message translates to:
-  /// **'Edit Asset'**
+  /// In tr, this message translates to:
+  /// **'Varlık Düzenle'**
   String get editAsset;
 
   /// No description provided for @editDebt.
   ///
-  /// In en, this message translates to:
-  /// **'Edit Debt'**
+  /// In tr, this message translates to:
+  /// **'Borç Düzenle'**
   String get editDebt;
 
   /// No description provided for @debtDetails.
   ///
-  /// In en, this message translates to:
-  /// **'Debt Details'**
+  /// In tr, this message translates to:
+  /// **'Borç Detayları'**
   String get debtDetails;
 
   /// No description provided for @amount.
   ///
-  /// In en, this message translates to:
-  /// **'Amount'**
+  /// In tr, this message translates to:
+  /// **'Miktar'**
   String get amount;
 
   /// No description provided for @purchasePrice.
   ///
-  /// In en, this message translates to:
-  /// **'Purchase Price'**
+  /// In tr, this message translates to:
+  /// **'Alış Fiyatı'**
   String get purchasePrice;
 
   /// No description provided for @note.
   ///
-  /// In en, this message translates to:
-  /// **'Note'**
+  /// In tr, this message translates to:
+  /// **'Not'**
   String get note;
 
   /// No description provided for @dueDate.
   ///
-  /// In en, this message translates to:
-  /// **'Due Date'**
+  /// In tr, this message translates to:
+  /// **'Son Ödeme Tarihi'**
   String get dueDate;
 
   /// No description provided for @optional.
   ///
-  /// In en, this message translates to:
-  /// **'Optional'**
+  /// In tr, this message translates to:
+  /// **'Opsiyonel'**
   String get optional;
 
   /// No description provided for @exchangeType.
   ///
-  /// In en, this message translates to:
-  /// **'Exchange Type'**
+  /// In tr, this message translates to:
+  /// **'Döviz Tipi'**
   String get exchangeType;
 
   /// No description provided for @selectCurrency.
   ///
-  /// In en, this message translates to:
-  /// **'Select Currency'**
+  /// In tr, this message translates to:
+  /// **'Para Birimi Seç'**
   String get selectCurrency;
 
   /// No description provided for @selectGold.
   ///
-  /// In en, this message translates to:
-  /// **'Select Gold'**
+  /// In tr, this message translates to:
+  /// **'Altın Seç'**
   String get selectGold;
 
   /// No description provided for @selectCrypto.
   ///
-  /// In en, this message translates to:
-  /// **'Select Crypto'**
+  /// In tr, this message translates to:
+  /// **'Kripto Seç'**
   String get selectCrypto;
 
   /// No description provided for @preciousMetals.
   ///
-  /// In en, this message translates to:
-  /// **'Precious Metals'**
+  /// In tr, this message translates to:
+  /// **'Değerli Madenler'**
   String get preciousMetals;
 
   /// No description provided for @metal.
   ///
-  /// In en, this message translates to:
-  /// **'Metal'**
+  /// In tr, this message translates to:
+  /// **'Maden'**
   String get metal;
 
   /// No description provided for @totalAmount.
   ///
-  /// In en, this message translates to:
-  /// **'Total Amount'**
+  /// In tr, this message translates to:
+  /// **'Toplam Miktar'**
   String get totalAmount;
 
   /// No description provided for @noAssetsYet.
   ///
-  /// In en, this message translates to:
-  /// **'No assets yet'**
+  /// In tr, this message translates to:
+  /// **'Henüz varlık yok'**
   String get noAssetsYet;
 
   /// No description provided for @noDebtsYet.
   ///
-  /// In en, this message translates to:
-  /// **'No debts yet'**
+  /// In tr, this message translates to:
+  /// **'Henüz borç yok'**
   String get noDebtsYet;
 
   /// No description provided for @deleteAsset.
   ///
-  /// In en, this message translates to:
-  /// **'Delete Asset'**
+  /// In tr, this message translates to:
+  /// **'Varlık Sil'**
   String get deleteAsset;
 
   /// No description provided for @deleteDebt.
   ///
-  /// In en, this message translates to:
-  /// **'Delete Debt'**
+  /// In tr, this message translates to:
+  /// **'Borç Sil'**
   String get deleteDebt;
 
   /// No description provided for @confirmDelete.
   ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this?'**
+  /// In tr, this message translates to:
+  /// **'Bunu silmek istediğinizden emin misiniz?'**
   String get confirmDelete;
 
   /// No description provided for @confirmDeleteAsset.
   ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this asset?'**
+  /// In tr, this message translates to:
+  /// **'Bu varlığı silmek istediğinizden emin misiniz?'**
   String get confirmDeleteAsset;
 
   /// No description provided for @confirmDeleteDebt.
   ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this debt?'**
+  /// In tr, this message translates to:
+  /// **'Bu borcu silmek istediğinizden emin misiniz?'**
   String get confirmDeleteDebt;
 
   /// No description provided for @assetDeleted.
   ///
-  /// In en, this message translates to:
-  /// **'Asset deleted successfully'**
+  /// In tr, this message translates to:
+  /// **'Varlık başarıyla silindi'**
   String get assetDeleted;
 
   /// No description provided for @debtDeleted.
   ///
-  /// In en, this message translates to:
-  /// **'Debt deleted successfully'**
+  /// In tr, this message translates to:
+  /// **'Borç başarıyla silindi'**
   String get debtDeleted;
 
   /// No description provided for @assetAdded.
   ///
-  /// In en, this message translates to:
-  /// **'Asset added successfully'**
+  /// In tr, this message translates to:
+  /// **'Varlık başarıyla eklendi'**
   String get assetAdded;
 
   /// No description provided for @debtAdded.
   ///
-  /// In en, this message translates to:
-  /// **'Debt added successfully'**
+  /// In tr, this message translates to:
+  /// **'Borç başarıyla eklendi'**
   String get debtAdded;
 
   /// No description provided for @assetUpdated.
   ///
-  /// In en, this message translates to:
-  /// **'Asset updated successfully'**
+  /// In tr, this message translates to:
+  /// **'Varlık başarıyla güncellendi'**
   String get assetUpdated;
 
   /// No description provided for @debtUpdated.
   ///
-  /// In en, this message translates to:
-  /// **'Debt updated successfully'**
+  /// In tr, this message translates to:
+  /// **'Borç başarıyla güncellendi'**
   String get debtUpdated;
 
   /// No description provided for @failedToDeleteAsset.
   ///
-  /// In en, this message translates to:
-  /// **'Failed to delete asset'**
+  /// In tr, this message translates to:
+  /// **'Varlık silinirken bir hata oluştu'**
   String get failedToDeleteAsset;
 
   /// No description provided for @failedToDeleteDebt.
   ///
-  /// In en, this message translates to:
-  /// **'Failed to delete debt'**
+  /// In tr, this message translates to:
+  /// **'Borç silinirken bir hata oluştu'**
   String get failedToDeleteDebt;
 
   /// No description provided for @failedToAddAsset.
   ///
-  /// In en, this message translates to:
-  /// **'Failed to add asset'**
+  /// In tr, this message translates to:
+  /// **'Varlık eklenirken bir hata oluştu'**
   String get failedToAddAsset;
 
   /// No description provided for @failedToAddDebt.
   ///
-  /// In en, this message translates to:
-  /// **'Failed to add debt'**
+  /// In tr, this message translates to:
+  /// **'Borç eklenirken bir hata oluştu'**
   String get failedToAddDebt;
 
   /// No description provided for @failedToUpdateAsset.
   ///
-  /// In en, this message translates to:
-  /// **'Failed to update asset'**
+  /// In tr, this message translates to:
+  /// **'Varlık güncellenirken bir hata oluştu'**
   String get failedToUpdateAsset;
 
   /// No description provided for @failedToUpdateDebt.
   ///
-  /// In en, this message translates to:
-  /// **'Failed to update debt'**
+  /// In tr, this message translates to:
+  /// **'Borç güncellenirken bir hata oluştu'**
   String get failedToUpdateDebt;
 
   /// No description provided for @subscriptionRequired.
   ///
-  /// In en, this message translates to:
-  /// **'Premium subscription required to add more debts'**
+  /// In tr, this message translates to:
+  /// **'Daha fazla borç eklemek için Premium abonelik gerekli'**
   String get subscriptionRequired;
 
   /// No description provided for @debtLimitReached.
   ///
-  /// In en, this message translates to:
-  /// **'Free users can only have 1 debt'**
+  /// In tr, this message translates to:
+  /// **'Ücretsiz kullanıcılar sadece 1 borç ekleyebilir'**
   String get debtLimitReached;
 
   /// No description provided for @cancel.
   ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
+  /// In tr, this message translates to:
+  /// **'İptal'**
   String get cancel;
 
   /// No description provided for @update.
   ///
-  /// In en, this message translates to:
-  /// **'Update'**
+  /// In tr, this message translates to:
+  /// **'Güncelle'**
   String get update;
 
   /// No description provided for @delete.
   ///
-  /// In en, this message translates to:
-  /// **'Delete'**
+  /// In tr, this message translates to:
+  /// **'Sil'**
   String get delete;
 
   /// No description provided for @created.
   ///
-  /// In en, this message translates to:
-  /// **'Created'**
+  /// In tr, this message translates to:
+  /// **'Oluşturuldu'**
   String get created;
 
   /// No description provided for @totalDebt.
   ///
-  /// In en, this message translates to:
-  /// **'Total Debt'**
+  /// In tr, this message translates to:
+  /// **'Toplam Borç'**
   String get totalDebt;
 
   /// No description provided for @pleaseSelectEntity.
   ///
-  /// In en, this message translates to:
-  /// **'Please select an entity'**
+  /// In tr, this message translates to:
+  /// **'Lütfen bir birim seçiniz'**
   String get pleaseSelectEntity;
 
   /// No description provided for @enterValidAmount.
   ///
-  /// In en, this message translates to:
-  /// **'Please enter a valid amount'**
+  /// In tr, this message translates to:
+  /// **'Lütfen geçerli bir miktar giriniz'**
   String get enterValidAmount;
 
   /// No description provided for @noteOptional.
   ///
-  /// In en, this message translates to:
-  /// **'Note (Optional)'**
+  /// In tr, this message translates to:
+  /// **'Not (Opsiyonel)'**
   String get noteOptional;
 
   /// No description provided for @dueDateOptional.
   ///
-  /// In en, this message translates to:
-  /// **'Due Date (Optional)'**
+  /// In tr, this message translates to:
+  /// **'Ödeme Tarihi (Opsiyonel)'**
   String get dueDateOptional;
 
   /// No description provided for @clearDueDate.
   ///
-  /// In en, this message translates to:
-  /// **'Clear due date'**
+  /// In tr, this message translates to:
+  /// **'Ödeme tarihini temizle'**
   String get clearDueDate;
 
   /// No description provided for @selectDate.
   ///
-  /// In en, this message translates to:
-  /// **'Select date'**
+  /// In tr, this message translates to:
+  /// **'Tarih seçiniz'**
   String get selectDate;
 
   /// No description provided for @freeUsersCanOnlyHaveOneDebt.
   ///
-  /// In en, this message translates to:
-  /// **'Free users can only have 1 debt record. Please upgrade to Premium to add unlimited debts.'**
+  /// In tr, this message translates to:
+  /// **'Ücretsiz kullanıcıların yalnızca 1 borç kaydedebilir. Sınırsız borç eklemek için lütfen Premium\'a yükseltin.'**
   String get freeUsersCanOnlyHaveOneDebt;
 
   /// No description provided for @login.
   ///
-  /// In en, this message translates to:
-  /// **'Login'**
+  /// In tr, this message translates to:
+  /// **'Giriş Yap'**
   String get login;
 
   /// No description provided for @register.
   ///
-  /// In en, this message translates to:
-  /// **'Register'**
+  /// In tr, this message translates to:
+  /// **'Kayıt Ol'**
   String get register;
 
   /// No description provided for @logout.
   ///
-  /// In en, this message translates to:
-  /// **'Logout'**
+  /// In tr, this message translates to:
+  /// **'Çıkış Yap'**
   String get logout;
+
+  /// No description provided for @email.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta'**
+  String get email;
 
   /// No description provided for @password.
   ///
-  /// In en, this message translates to:
-  /// **'Password'**
+  /// In tr, this message translates to:
+  /// **'Şifre'**
   String get password;
 
   /// No description provided for @repeatPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Repeat Password'**
+  /// In tr, this message translates to:
+  /// **'Şifre Tekrar'**
   String get repeatPassword;
 
   /// No description provided for @firstName.
   ///
-  /// In en, this message translates to:
-  /// **'First Name'**
+  /// In tr, this message translates to:
+  /// **'Ad'**
   String get firstName;
 
   /// No description provided for @lastName.
   ///
-  /// In en, this message translates to:
-  /// **'Last Name'**
+  /// In tr, this message translates to:
+  /// **'Soyad'**
   String get lastName;
 
   /// No description provided for @phoneNumber.
   ///
-  /// In en, this message translates to:
-  /// **'Phone Number'**
+  /// In tr, this message translates to:
+  /// **'Telefon Numarası'**
   String get phoneNumber;
 
   /// No description provided for @invalidEmailOrPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Invalid email or password'**
+  /// In tr, this message translates to:
+  /// **'E-posta veya şifre geçersiz'**
   String get invalidEmailOrPassword;
 
   /// No description provided for @dontHaveAnAccount.
   ///
-  /// In en, this message translates to:
-  /// **'Don\'t have an account?'**
+  /// In tr, this message translates to:
+  /// **'Hesabınız yok mu?'**
   String get dontHaveAnAccount;
 
   /// No description provided for @alreadyHaveAccount.
   ///
-  /// In en, this message translates to:
-  /// **'Already have an account?'**
+  /// In tr, this message translates to:
+  /// **'Zaten hesabınız var mı?'**
   String get alreadyHaveAccount;
 
   /// No description provided for @pleaseEnterEmail.
   ///
-  /// In en, this message translates to:
-  /// **'Please enter your email'**
+  /// In tr, this message translates to:
+  /// **'Lütfen e-postanızı girin'**
   String get pleaseEnterEmail;
 
   /// No description provided for @pleaseEnterValidEmail.
   ///
-  /// In en, this message translates to:
-  /// **'Please enter a valid email'**
+  /// In tr, this message translates to:
+  /// **'Lütfen geçerli bir e-posta girin'**
   String get pleaseEnterValidEmail;
 
   /// No description provided for @pleaseEnterPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Please enter your password'**
+  /// In tr, this message translates to:
+  /// **'Lütfen şifrenizi girin'**
   String get pleaseEnterPassword;
 
   /// No description provided for @pleaseRepeatPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Please repeat your password'**
+  /// In tr, this message translates to:
+  /// **'Lütfen şifrenizi tekrar girin'**
   String get pleaseRepeatPassword;
 
   /// No description provided for @passwordsDoNotMatch.
   ///
-  /// In en, this message translates to:
-  /// **'Passwords do not match'**
+  /// In tr, this message translates to:
+  /// **'Şifreler eşleşmiyor'**
   String get passwordsDoNotMatch;
 
   /// No description provided for @passwordMustBeAtLeast8Characters.
   ///
-  /// In en, this message translates to:
-  /// **'Password must be at least 8 characters'**
+  /// In tr, this message translates to:
+  /// **'Şifre en az 8 karakter olmalıdır'**
   String get passwordMustBeAtLeast8Characters;
 
   /// No description provided for @pleaseEnterFirstName.
   ///
-  /// In en, this message translates to:
-  /// **'Please enter your first name'**
+  /// In tr, this message translates to:
+  /// **'Lütfen adınızı girin'**
   String get pleaseEnterFirstName;
 
   /// No description provided for @pleaseEnterLastName.
   ///
-  /// In en, this message translates to:
-  /// **'Please enter your last name'**
+  /// In tr, this message translates to:
+  /// **'Lütfen soyadınızı girin'**
   String get pleaseEnterLastName;
 
   /// No description provided for @pleaseEnterPhoneNumber.
   ///
-  /// In en, this message translates to:
-  /// **'Please enter your phone number'**
+  /// In tr, this message translates to:
+  /// **'Lütfen telefon numaranızı girin'**
   String get pleaseEnterPhoneNumber;
 
   /// No description provided for @logoutConfirmation.
   ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to logout?'**
+  /// In tr, this message translates to:
+  /// **'Çıkış yapmak istediğinizden emin misiniz?'**
   String get logoutConfirmation;
 
   /// No description provided for @yes.
   ///
-  /// In en, this message translates to:
-  /// **'Yes'**
+  /// In tr, this message translates to:
+  /// **'Evet'**
   String get yes;
 
   /// No description provided for @no.
   ///
-  /// In en, this message translates to:
-  /// **'No'**
+  /// In tr, this message translates to:
+  /// **'Hayır'**
   String get no;
 
   /// No description provided for @close.
   ///
-  /// In en, this message translates to:
-  /// **'Close'**
+  /// In tr, this message translates to:
+  /// **'Kapat'**
   String get close;
 
   /// No description provided for @iAccept.
   ///
-  /// In en, this message translates to:
-  /// **'I accept'**
+  /// In tr, this message translates to:
+  /// **'Kabul ediyorum'**
   String get iAccept;
 
   /// No description provided for @dataProtectionNotice.
   ///
-  /// In en, this message translates to:
-  /// **'Data Protection Notice'**
+  /// In tr, this message translates to:
+  /// **'Kişisel Verilerin Korunması Bildirimi'**
   String get dataProtectionNotice;
 
   /// No description provided for @privacyPolicy.
   ///
-  /// In en, this message translates to:
-  /// **'Privacy Policy'**
+  /// In tr, this message translates to:
+  /// **'Gizlilik Politikası'**
   String get privacyPolicy;
 
   /// No description provided for @explicitConsent.
   ///
-  /// In en, this message translates to:
-  /// **'Explicit Consent'**
+  /// In tr, this message translates to:
+  /// **'Açık Rıza Metni'**
   String get explicitConsent;
 
   /// No description provided for @pleaseAcceptAllConsents.
   ///
-  /// In en, this message translates to:
-  /// **'Please accept all consents to continue'**
+  /// In tr, this message translates to:
+  /// **'Devam etmek için lütfen tüm onayları kabul edin'**
   String get pleaseAcceptAllConsents;
 
   /// No description provided for @dataProtectionNoticeText.
   ///
-  /// In en, this message translates to:
-  /// **'PERSONAL DATA PROCESSING NOTICE\n\nThis notice has been prepared by InvesTracker as the data controller in accordance with Article 10 of the Law on the Protection of Personal Data No. 6698 (“KVKK”). InvesTracker processes personal data within the scope of using the mobile application for account creation, financial tracking services, application functionality, and service continuity. The processed data includes first name, last name, phone number, password, and the foreign currency, gold, cryptocurrency asset, and debt information declared by the user.\n\nData is collected electronically and automatically. Processing is based on KVKK Article 5/2(c), 5/2(ç), and 5/2(f). No special categories of personal data are processed.\n\nPersonal data is not shared with any third party, is not transferred domestically or internationally, and is stored only on secure servers located in Turkey. Data may be shared only when legally required.\n\nData is retained as long as the account is active. Upon deletion request, all data is permanently removed.\n\nUnder Article 11 of KVKK, you may request information, correction, deletion, or restriction of your data. Requests can be submitted to investrackerapp@gmail.com.'**
+  /// In tr, this message translates to:
+  /// **'KİŞİSEL VERİLERİN İŞLENMESİ AYDINLATMA METNİ\n\nBu aydınlatma metni, 6698 sayılı Kişisel Verilerin Korunması Kanununun (“KVKK”) 10 uncu maddesi uyarınca veri sorumlusu sıfatıyla InvesTracker tarafından hazırlanmıştır. InvesTracker, mobil uygulamanın kullanımı kapsamında kullanıcı hesaplarının oluşturulması ve yönetilmesi, finansal takip hizmetinin sunulması, uygulama fonksiyonlarının işletilmesi ve hizmet sürekliliğinin sağlanması amacıyla kişisel veri işlemektedir. Bu kapsamda ad, soyad, telefon numarası, şifre bilgisi ile kullanıcı tarafından uygulama üzerinden beyan edilen döviz, altın, kripto varlık ve borç bilgileri, uygulamanın sağladığı hizmetlerden yararlanılabilmesi için işlenen kişisel verilerdir.\n\nKişisel veriler elektronik ortamda otomatik yollarla elde edilmekte olup, kullanıcı hesabı oluşturma ve finansal veri girişleri sırasında işlenmektedir. Veriler KVKK m.5/2(c), m.5/2(ç) ve m.5/2(f) hükümlerine dayanılarak işlenmektedir. Uygulama kapsamında özel nitelikli kişisel veri işlenmemektedir.\n\nİşlenen kişisel veriler InvesTracker ekibi dışında üçüncü kişilerle paylaşılmamakta, yurt içine veya yurt dışına aktarılmamakta ve yalnızca Türkiye’de bulunan güvenli sunucularda saklanmaktadır. Yasal zorunluluk halinde ilgili kamu kurumları ile paylaşılabilir.\n\nKullanıcı hesabı aktif olduğu sürece veriler saklanır. Hesap veya veri silme talebi üzerine tüm bilgiler kalıcı olarak silinir.\n\nKVKK madde 11 kapsamında; kişisel verilerinize ilişkin bilgi talep etme, düzeltilmesini veya silinmesini isteme, işleme faaliyetlerine itiraz etme gibi haklara sahipsiniz. Taleplerinizi investrackerapp@gmail.com adresine iletebilirsiniz.'**
   String get dataProtectionNoticeText;
 
   /// No description provided for @privacyPolicyText.
   ///
-  /// In en, this message translates to:
-  /// **'PRIVACY POLICY\n\nAt InvesTracker, we prioritize the privacy and security of users’ personal data. This Privacy Policy explains how data collected through the mobile application is stored, processed, used, and protected. The application processes personal information such as name, surname, phone number, password, and user-declared foreign currency, gold, cryptocurrency assets, and debt information solely for providing financial tracking services.\n\nData is securely stored and not used for purposes other than account creation, application functionality, and service continuity. Data is not shared with third parties nor transferred domestically or internationally. It may be shared only with authorized authorities when required by law.\n\nUsers may request account or data deletion at any time. All data will be permanently erased. Updates to this Privacy Policy will be announced through the application.'**
+  /// In tr, this message translates to:
+  /// **'GİZLİLİK POLİTİKASI\n\nInvesTracker olarak kullanıcılarımızın kişisel verilerinin gizliliğine ve güvenliğine önem veriyoruz. Bu Gizlilik Politikası, mobil uygulamada toplanan kişisel verilerin işlenmesi, saklanması, kullanılması ve korunmasına ilişkin esasları açıklar. Uygulamada ad, soyad, telefon numarası, şifre bilgisi ve kullanıcı tarafından beyan edilen döviz, altın, kripto varlık ve borç bilgileri yalnızca finansal takip hizmetinin sunulması amacıyla işlenmektedir.\n\nVeriler güvenli sunucularda saklanmakta olup, hesap yönetimi ve uygulamanın çalışması dışında kullanılmamaktadır. Üçüncü kişilerle paylaşılmamakta, yurt içi veya yurt dışına aktarılmamaktadır. Yasal zorunluluk halinde yetkili kurumlarla paylaşım yapılabilir.\n\nKullanıcılar istedikleri zaman hesap veya veri silme talebinde bulunabilir. Tüm veriler kalıcı olarak silinir. Politika güncellemeleri uygulama üzerinden duyurulacaktır.'**
   String get privacyPolicyText;
 
   /// No description provided for @explicitConsentText.
   ///
-  /// In en, this message translates to:
-  /// **'CONSENT FORM\n\nBy using the services offered by InvesTracker, the financial data you declare (foreign currency, gold, cryptocurrency assets, debts) is processed solely to enable financial tracking features. No special categories of personal data are processed.\n\nAlthough personal data related to account creation is processed under KVKK legal grounds, explicit consent is required for storing financial data within the application. These data are stored on secure servers in Turkey and not shared with third parties. Upon account or data deletion request, all financial data will be permanently erased.\n\nYou may withdraw your consent at any time by contacting investrackerapp@gmail.com. Upon withdrawal, all related data will be deleted from our systems.'**
+  /// In tr, this message translates to:
+  /// **'AÇIK RIZA METNİ\n\nInvesTracker tarafından sunulan hizmetler kapsamında mobil uygulama üzerinden beyan ettiğiniz döviz, altın, kripto varlık ve borç bilgileri finansal takip fonksiyonunun yerine getirilmesi amacıyla işlenmektedir. Bu veriler yalnızca hizmetin sunulması için kullanılmakta olup özel nitelikli kişisel veri işlenmemektedir.\n\nKullanıcı hesabının oluşturulması ve hizmetlerin yürütülmesi KVKK’da belirtilen işleme şartlarına dayansa da, finansal verilerinizin saklanması için açık rızanız gerekmektedir. Veriler Türkiye’deki güvenli sunucularda tutulmakta ve üçüncü kişilere aktarılmamaktadır. Hesap veya veri silme talebi üzerine tüm finansal veriler kalıcı olarak silinir.\n\nAçık rızanızı dilediğiniz zaman investrackerapp@gmail.com aracılığıyla geri çekebilirsiniz. Geri çekme halinde tüm verileriniz silinir.'**
   String get explicitConsentText;
 
   /// No description provided for @totalBalance.
   ///
-  /// In en, this message translates to:
-  /// **'Total Balance'**
+  /// In tr, this message translates to:
+  /// **'Toplam Bakiye'**
   String get totalBalance;
 
   /// No description provided for @totalAssets.
   ///
-  /// In en, this message translates to:
-  /// **'Total Assets'**
+  /// In tr, this message translates to:
+  /// **'Toplam Varlıklar'**
   String get totalAssets;
 
   /// No description provided for @portfolioBreakdown.
   ///
-  /// In en, this message translates to:
-  /// **'Portfolio Breakdown'**
+  /// In tr, this message translates to:
+  /// **'Portföy Dağılımı'**
   String get portfolioBreakdown;
 
   /// No description provided for @noAssetsOrDebtsYet.
   ///
-  /// In en, this message translates to:
-  /// **'No assets or debts yet'**
+  /// In tr, this message translates to:
+  /// **'Henüz bir varlık ya da borç yok'**
   String get noAssetsOrDebtsYet;
 
   /// No description provided for @thousand.
   ///
-  /// In en, this message translates to:
-  /// **'K'**
+  /// In tr, this message translates to:
+  /// **'B'**
   String get thousand;
 
   /// No description provided for @million.
   ///
-  /// In en, this message translates to:
+  /// In tr, this message translates to:
   /// **'M'**
   String get million;
 
   /// No description provided for @billion.
   ///
-  /// In en, this message translates to:
-  /// **'B'**
+  /// In tr, this message translates to:
+  /// **'Mr'**
   String get billion;
 
   /// No description provided for @deleteMyAccount.
   ///
-  /// In en, this message translates to:
-  /// **'Delete My Account'**
+  /// In tr, this message translates to:
+  /// **'Hesabımı Sil'**
   String get deleteMyAccount;
 
   /// No description provided for @profileUpdatedSuccessfully.
   ///
-  /// In en, this message translates to:
-  /// **'Profile updated successfully'**
+  /// In tr, this message translates to:
+  /// **'Profil başarıyla güncellendi'**
   String get profileUpdatedSuccessfully;
 
   /// No description provided for @profileDeletedSuccessfully.
   ///
-  /// In en, this message translates to:
-  /// **'Profile deleted successfully'**
+  /// In tr, this message translates to:
+  /// **'Profil başarıyla silindi'**
   String get profileDeletedSuccessfully;
+
+  /// No description provided for @failedToDeleteProfile.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil silinirken bir hata oluştu'**
+  String get failedToDeleteProfile;
 
   /// No description provided for @errorUpdatingProfile.
   ///
-  /// In en, this message translates to:
-  /// **'Error updating profile'**
+  /// In tr, this message translates to:
+  /// **'Profil güncellenmemedi'**
   String get errorUpdatingProfile;
 
   /// No description provided for @editProfile.
   ///
-  /// In en, this message translates to:
-  /// **'Edit Profile'**
+  /// In tr, this message translates to:
+  /// **'Profili Düzenle'**
   String get editProfile;
-
-  /// No description provided for @failedToDeleteProfile.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to delete profile'**
-  String get failedToDeleteProfile;
 
   /// No description provided for @preferences.
   ///
-  /// In en, this message translates to:
-  /// **'Preferences'**
+  /// In tr, this message translates to:
+  /// **'Tercihler'**
   String get preferences;
 
   /// No description provided for @userInformation.
   ///
-  /// In en, this message translates to:
-  /// **'User Informaiton'**
+  /// In tr, this message translates to:
+  /// **'Kullanıcı Bilgileri'**
   String get userInformation;
 
   /// No description provided for @enterPasswordToDeleteAccount.
   ///
-  /// In en, this message translates to:
-  /// **'To delete your account, please enter your password. This action is irreversible.'**
+  /// In tr, this message translates to:
+  /// **'Hesabınızı silmek için lütfen şifrenizi girin. Bu işlem geri alınamaz.'**
   String get enterPasswordToDeleteAccount;
 
   /// No description provided for @warning.
   ///
-  /// In en, this message translates to:
-  /// **'Warning'**
+  /// In tr, this message translates to:
+  /// **'Uyarı'**
   String get warning;
 
   /// No description provided for @areYouSureToDeleteYourAccount.
   ///
-  /// In en, this message translates to:
-  /// **'You are about to delete your account. This action is irreversible and all your data will be permanently deleted. Are you sure?'**
+  /// In tr, this message translates to:
+  /// **'Hesabınızı silmek üzeresiniz. Bu işlem geri alınamaz ve tüm verileriniz kalıcı olarak silinecektir. Emin misiniz?'**
   String get areYouSureToDeleteYourAccount;
 
   /// No description provided for @wordContinue.
   ///
-  /// In en, this message translates to:
-  /// **'Continue'**
+  /// In tr, this message translates to:
+  /// **'Devam Et'**
   String get wordContinue;
 
   /// No description provided for @changePassword.
   ///
-  /// In en, this message translates to:
-  /// **'Change Password'**
+  /// In tr, this message translates to:
+  /// **'Şifreyi Değiştir'**
   String get changePassword;
 
   /// No description provided for @currentPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Current Password'**
+  /// In tr, this message translates to:
+  /// **'Mevcut Şifre'**
   String get currentPassword;
 
   /// No description provided for @newPassword.
   ///
-  /// In en, this message translates to:
-  /// **'New Password'**
+  /// In tr, this message translates to:
+  /// **'Yeni Şifre'**
   String get newPassword;
 
   /// No description provided for @confirmNewPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Confirm New Password'**
+  /// In tr, this message translates to:
+  /// **'Yeni Şifre Tekrar'**
   String get confirmNewPassword;
 
   /// No description provided for @pleaseEnterCurrentPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Please enter your current password'**
+  /// In tr, this message translates to:
+  /// **'Lütfen mevcut şifrenizi girin'**
   String get pleaseEnterCurrentPassword;
 
   /// No description provided for @pleaseEnterNewPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Please enter your new password'**
+  /// In tr, this message translates to:
+  /// **'Lütfen yeni şifrenizi girin'**
   String get pleaseEnterNewPassword;
 
   /// No description provided for @pleaseConfirmNewPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Please confirm your new password'**
+  /// In tr, this message translates to:
+  /// **'Lütfen yeni şifrenizi onaylayın'**
   String get pleaseConfirmNewPassword;
 
   /// No description provided for @newPasswordMustBeDifferent.
   ///
-  /// In en, this message translates to:
-  /// **'New password must be different from current password'**
+  /// In tr, this message translates to:
+  /// **'Yeni şifre mevcut şifreden farklı olmalıdır'**
   String get newPasswordMustBeDifferent;
 
   /// No description provided for @passwordChangedSuccessfully.
   ///
-  /// In en, this message translates to:
-  /// **'Password changed successfully'**
+  /// In tr, this message translates to:
+  /// **'Şifre başarıyla değiştirildi'**
   String get passwordChangedSuccessfully;
 
   /// No description provided for @failedToChangePassword.
   ///
-  /// In en, this message translates to:
-  /// **'Failed to change password'**
+  /// In tr, this message translates to:
+  /// **'Şifre değiştirilemedi'**
   String get failedToChangePassword;
 
   /// No description provided for @errorChangingPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Error changing password'**
+  /// In tr, this message translates to:
+  /// **'Şifre değiştirme hatası'**
   String get errorChangingPassword;
 
   /// No description provided for @security.
   ///
-  /// In en, this message translates to:
-  /// **'Security'**
+  /// In tr, this message translates to:
+  /// **'Güvenlik'**
   String get security;
 
   /// No description provided for @updateRequired.
   ///
-  /// In en, this message translates to:
-  /// **'Update Required'**
+  /// In tr, this message translates to:
+  /// **'Güncelleme Gerekli'**
   String get updateRequired;
 
   /// No description provided for @updateRecommended.
   ///
-  /// In en, this message translates to:
-  /// **'Update Recommend'**
+  /// In tr, this message translates to:
+  /// **'Güncelleme Önerilir'**
   String get updateRecommended;
 
   /// No description provided for @updateRequiredMessage.
   ///
-  /// In en, this message translates to:
-  /// **'A new version of InvesTracker is required to continue. Please update from the Play Store.'**
+  /// In tr, this message translates to:
+  /// **'InvesTracker\'ı kullanmaya devam etmek için yeni bir sürüm gereklidir. Lütfen Play Store\'dan güncelleyin.'**
   String get updateRequiredMessage;
 
   /// No description provided for @updateRecommendedMessage.
   ///
-  /// In en, this message translates to:
-  /// **'A new version of InvesTracker is available. We recommend updating for the best experience.'**
+  /// In tr, this message translates to:
+  /// **'InvesTracker\'ın yeni bir sürümü mevcut. En iyi deneyim için güncellemenizi öneririz.'**
   String get updateRecommendedMessage;
 
   /// No description provided for @minimumVersion.
   ///
-  /// In en, this message translates to:
-  /// **'Minimum version'**
+  /// In tr, this message translates to:
+  /// **'Minimum sürüm'**
   String get minimumVersion;
 
   /// No description provided for @recommendedVersion.
   ///
-  /// In en, this message translates to:
-  /// **'Recommend version'**
+  /// In tr, this message translates to:
+  /// **'Önerilen sürüm'**
   String get recommendedVersion;
 
   /// No description provided for @updateNow.
   ///
-  /// In en, this message translates to:
-  /// **'Update Now'**
+  /// In tr, this message translates to:
+  /// **'Şimdi Güncelle'**
   String get updateNow;
 
   /// No description provided for @later.
   ///
-  /// In en, this message translates to:
-  /// **'Later'**
+  /// In tr, this message translates to:
+  /// **'Sonra'**
   String get later;
 
   /// No description provided for @forgotPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Forgot Password'**
+  /// In tr, this message translates to:
+  /// **'Şifremi unuttum'**
   String get forgotPassword;
 
   /// No description provided for @resetPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Reset Password'**
+  /// In tr, this message translates to:
+  /// **'Şifreyi sıfırla'**
   String get resetPassword;
 
   /// No description provided for @sendVerificationCode.
   ///
-  /// In en, this message translates to:
-  /// **'Send Verification Code'**
+  /// In tr, this message translates to:
+  /// **'Doğrulama kodu gönder'**
   String get sendVerificationCode;
 
   /// No description provided for @verificationCode.
   ///
-  /// In en, this message translates to:
-  /// **'Verification Code'**
+  /// In tr, this message translates to:
+  /// **'Doğrulama kodu'**
   String get verificationCode;
 
   /// No description provided for @enterVerificationCode.
   ///
-  /// In en, this message translates to:
-  /// **'Please enter the verification code'**
+  /// In tr, this message translates to:
+  /// **'Lütfen doğrulama kodunu giriniz'**
   String get enterVerificationCode;
 
   /// No description provided for @codeMustBe6Digits.
   ///
-  /// In en, this message translates to:
-  /// **'Code must be 6 digits'**
+  /// In tr, this message translates to:
+  /// **'Kod 6 haneli olmalıdır'**
   String get codeMustBe6Digits;
 
   /// No description provided for @checkYourEmail.
   ///
-  /// In en, this message translates to:
-  /// **'Check your email'**
+  /// In tr, this message translates to:
+  /// **'E-postanızı kontrol ediniz'**
   String get checkYourEmail;
 
   /// No description provided for @weSentCodeTo.
   ///
-  /// In en, this message translates to:
-  /// **'We sent a 6-digit code to'**
+  /// In tr, this message translates to:
+  /// **'6 haneli bir kod gönderdik'**
   String get weSentCodeTo;
 
   /// No description provided for @didntReceiveCode.
   ///
-  /// In en, this message translates to:
-  /// **'Didn\'t receive code? Request new one'**
+  /// In tr, this message translates to:
+  /// **'Kod almadınız mı? Yeni bir kod isteyin.'**
   String get didntReceiveCode;
 
   /// No description provided for @resetPasswordSuccess.
   ///
-  /// In en, this message translates to:
-  /// **'Password reset successfully'**
+  /// In tr, this message translates to:
+  /// **'Şifre başarıyla sıfırlandı'**
   String get resetPasswordSuccess;
 
   /// No description provided for @passwordResetSuccessMessage.
   ///
-  /// In en, this message translates to:
-  /// **'Your password has been reset successfully. You can now log in with your new password.'**
+  /// In tr, this message translates to:
+  /// **'Parolanız başarıyla sıfırlandı. Artık yeni parolanızla giriş yapabilirsiniz.'**
   String get passwordResetSuccessMessage;
 
   /// No description provided for @backToLogin.
   ///
-  /// In en, this message translates to:
-  /// **'Back to Login'**
+  /// In tr, this message translates to:
+  /// **'Girişe Geri Dön'**
   String get backToLogin;
 
   /// No description provided for @verificationCodeSent.
   ///
-  /// In en, this message translates to:
-  /// **'Verification code sent to your email'**
+  /// In tr, this message translates to:
+  /// **'Doğrulama kodu e-posta adresinize gönderildi'**
   String get verificationCodeSent;
 
   /// No description provided for @failedToSendVerificationCode.
   ///
-  /// In en, this message translates to:
-  /// **'Failed to send verification code'**
+  /// In tr, this message translates to:
+  /// **'Doğrulama kodu gönderilemedi'**
   String get failedToSendVerificationCode;
 
   /// No description provided for @enterEmailForVerification.
   ///
-  /// In en, this message translates to:
-  /// **'Enter your email address and we\'ll send you a verification code to reset your password.'**
+  /// In tr, this message translates to:
+  /// **'E-posta adresinizi girin, size şifrenizi sıfırlamak için bir doğrulama kodu göndereceğiz.'**
   String get enterEmailForVerification;
 
   /// No description provided for @failedToResetPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Failed to reset password'**
+  /// In tr, this message translates to:
+  /// **'Şifre sıfırlama başarısız oldu'**
   String get failedToResetPassword;
 
   /// No description provided for @success.
   ///
-  /// In en, this message translates to:
-  /// **'Success!'**
+  /// In tr, this message translates to:
+  /// **'Başarılı!'**
   String get success;
 
   /// No description provided for @ok.
   ///
-  /// In en, this message translates to:
-  /// **'Ok'**
+  /// In tr, this message translates to:
+  /// **'Tamam'**
   String get ok;
 
   /// No description provided for @incorrectPassword.
   ///
-  /// In en, this message translates to:
-  /// **'Incorrect password. Please try again.'**
+  /// In tr, this message translates to:
+  /// **'Şifre hatalı. Lütfen tekrar deneyin.'**
   String get incorrectPassword;
 
   /// No description provided for @website.
   ///
-  /// In en, this message translates to:
-  /// **'Website'**
+  /// In tr, this message translates to:
+  /// **'Web Sitesi'**
   String get website;
 
   /// No description provided for @copiedToClipboard.
   ///
-  /// In en, this message translates to:
-  /// **'Email copied to clipboard'**
+  /// In tr, this message translates to:
+  /// **'E-posta panoya kopyalandı'**
   String get copiedToClipboard;
 
   /// No description provided for @piece.
   ///
-  /// In en, this message translates to:
-  /// **'Piece'**
+  /// In tr, this message translates to:
+  /// **'Adet'**
   String get piece;
 
   /// No description provided for @pieces.
   ///
-  /// In en, this message translates to:
-  /// **'Pieces'**
+  /// In tr, this message translates to:
+  /// **'Adet'**
   String get pieces;
 
   /// No description provided for @gram.
   ///
-  /// In en, this message translates to:
+  /// In tr, this message translates to:
   /// **'Gram'**
   String get gram;
 
   /// No description provided for @grams.
   ///
-  /// In en, this message translates to:
-  /// **'Grams'**
+  /// In tr, this message translates to:
+  /// **'Gram'**
   String get grams;
 
   /// No description provided for @assetDetails.
   ///
-  /// In en, this message translates to:
-  /// **'Asset Details'**
+  /// In tr, this message translates to:
+  /// **'Varlık Detayları'**
   String get assetDetails;
 
   /// No description provided for @lastUpdated.
   ///
-  /// In en, this message translates to:
-  /// **'Last Updated'**
+  /// In tr, this message translates to:
+  /// **'Son Güncelleme'**
   String get lastUpdated;
 
   /// No description provided for @initialValue.
   ///
-  /// In en, this message translates to:
-  /// **'Initial Value'**
+  /// In tr, this message translates to:
+  /// **'İlk Değer'**
   String get initialValue;
 
   /// No description provided for @valueAtUpdate.
   ///
-  /// In en, this message translates to:
-  /// **'Value at Update'**
+  /// In tr, this message translates to:
+  /// **'Güncelleme Anındaki Değer'**
   String get valueAtUpdate;
 
   /// No description provided for @currentValue.
   ///
-  /// In en, this message translates to:
-  /// **'Current Value'**
+  /// In tr, this message translates to:
+  /// **'Güncel Değer'**
   String get currentValue;
 
   /// No description provided for @notAvailable.
   ///
-  /// In en, this message translates to:
-  /// **'Not Available'**
+  /// In tr, this message translates to:
+  /// **'Mevcut Değil'**
   String get notAvailable;
 
   /// No description provided for @profit.
   ///
-  /// In en, this message translates to:
-  /// **'Profit'**
+  /// In tr, this message translates to:
+  /// **'Kâr'**
   String get profit;
 
   /// No description provided for @loss.
   ///
-  /// In en, this message translates to:
-  /// **'Loss'**
+  /// In tr, this message translates to:
+  /// **'Zarar'**
   String get loss;
+
+  /// No description provided for @change.
+  ///
+  /// In tr, this message translates to:
+  /// **'Değişim'**
+  String get change;
 
   /// No description provided for @stable.
   ///
-  /// In en, this message translates to:
-  /// **'Stable'**
+  /// In tr, this message translates to:
+  /// **'Stabil'**
   String get stable;
 
   /// No description provided for @debtIncreased.
   ///
-  /// In en, this message translates to:
-  /// **'Debt Increased'**
+  /// In tr, this message translates to:
+  /// **'Borç Arttı'**
   String get debtIncreased;
 
   /// No description provided for @debtDecreased.
   ///
-  /// In en, this message translates to:
-  /// **'Debt Decreased'**
+  /// In tr, this message translates to:
+  /// **'Borç Azaldı'**
   String get debtDecreased;
 
   /// No description provided for @debtNotChanged.
   ///
-  /// In en, this message translates to:
-  /// **'Debt Not Changed'**
+  /// In tr, this message translates to:
+  /// **'Borç Değişmedi'**
   String get debtNotChanged;
 
   /// No description provided for @debtDueDateApproachingNotificationTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Debt Payment Approaching!'**
+  /// In tr, this message translates to:
+  /// **'Borç Son Ödeme Tarihi Yaklaşıyor!'**
   String get debtDueDateApproachingNotificationTitle;
 
   /// Debt due date approaching notification with amount and currency
   ///
-  /// In en, this message translates to:
-  /// **'Your {amount}{currency} debt is due in 3 days.'**
+  /// In tr, this message translates to:
+  /// **'{amount}{currency} değerindeki borcunuzun son ödeme tarihine 3 gün kaldı.'**
   String debtDueDateApproachingNotificationBody(double amount, String currency);
 
   /// No description provided for @debtDueDateNotificationTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Debt Payment Has Arrived!'**
+  /// In tr, this message translates to:
+  /// **'Borç Son Ödeme Tarihi Geldi!'**
   String get debtDueDateNotificationTitle;
 
   /// Debt due date notification with amount and currency
   ///
-  /// In en, this message translates to:
-  /// **'Your {amount} {currency} debt is due today!'**
+  /// In tr, this message translates to:
+  /// **'{amount} {currency} değerindeki borcunuzun son ödeme tarihi bugün!'**
   String debtDueDateNotificationBody(double amount, String currency);
 
   /// No description provided for @notifications.
   ///
-  /// In en, this message translates to:
-  /// **'Notifications'**
+  /// In tr, this message translates to:
+  /// **'Bildirimler'**
   String get notifications;
 
   /// No description provided for @reminderNotifications.
   ///
-  /// In en, this message translates to:
-  /// **'Reminder Notifications'**
+  /// In tr, this message translates to:
+  /// **'Hatırlatma Bildirimleri'**
   String get reminderNotifications;
 
   /// No description provided for @reminderNotificationsDescription.
   ///
-  /// In en, this message translates to:
-  /// **'Get weekly reminders to check your investments and market updates'**
+  /// In tr, this message translates to:
+  /// **'Yatırımlarınızı kontrol etmeniz için haftalık hatırlatmalar ve piyasa güncellemeleri alın'**
   String get reminderNotificationsDescription;
 
   /// No description provided for @debtNotifications.
   ///
-  /// In en, this message translates to:
-  /// **'Debt Payment Reminders'**
+  /// In tr, this message translates to:
+  /// **'Borç Ödeme Hatırlatmaları'**
   String get debtNotifications;
 
   /// No description provided for @debtNotificationsDescription.
   ///
-  /// In en, this message translates to:
-  /// **'Get notified when your debt payments are approaching'**
+  /// In tr, this message translates to:
+  /// **'Borç ödemeleriniz yaklaştığında bildirim alın'**
   String get debtNotificationsDescription;
 
   /// No description provided for @appReminderNotificationTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Investment Reminder'**
+  /// In tr, this message translates to:
+  /// **'Yatırım Hatırlatması'**
   String get appReminderNotificationTitle;
 
   /// No description provided for @marketUpdateNotificationTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Market Update'**
+  /// In tr, this message translates to:
+  /// **'Piyasa Güncellemesi'**
   String get marketUpdateNotificationTitle;
 
   /// Market update notification with currency and value
   ///
-  /// In en, this message translates to:
-  /// **'The current value of {currency} is {value} TRY'**
+  /// In tr, this message translates to:
+  /// **'{currency} güncel değeri {value} TRY'**
   String marketUpdateNotificationBody(String currency, double value);
 
   /// No description provided for @reminderCheckAssetValue.
   ///
-  /// In en, this message translates to:
-  /// **'Check the current value of your assets and debts'**
+  /// In tr, this message translates to:
+  /// **'Varlıklarınızın ve borçlarınızın güncel değerini kontrol edin'**
   String get reminderCheckAssetValue;
 
   /// No description provided for @reminderReviewPortfolio.
   ///
-  /// In en, this message translates to:
-  /// **'Review your investment portfolio today'**
+  /// In tr, this message translates to:
+  /// **'Bugün yatırım portföyünüzü gözden geçirin'**
   String get reminderReviewPortfolio;
 
   /// No description provided for @reminderUpdateInvestments.
   ///
-  /// In en, this message translates to:
-  /// **'Have you updated your investments recently?'**
+  /// In tr, this message translates to:
+  /// **'Yatırımlarınızı son zamanlarda güncellediniz mi?'**
   String get reminderUpdateInvestments;
 
   /// No description provided for @reminderTrackMarket.
   ///
-  /// In en, this message translates to:
-  /// **'Track the latest market changes'**
+  /// In tr, this message translates to:
+  /// **'Son piyasa değişikliklerini takip edin'**
   String get reminderTrackMarket;
 
   /// No description provided for @reminderMonitorDebts.
   ///
-  /// In en, this message translates to:
-  /// **'Don\'t forget to monitor your debt payments'**
+  /// In tr, this message translates to:
+  /// **'Borç ödemelerinizi takip etmeyi unutmayın'**
   String get reminderMonitorDebts;
 
   /// No description provided for @reminderNotificationsEnabled.
   ///
-  /// In en, this message translates to:
-  /// **'Reminder notifications on'**
+  /// In tr, this message translates to:
+  /// **'Hatırlatma bildirimleri açık'**
   String get reminderNotificationsEnabled;
 
   /// No description provided for @reminderNotificationsDisabled.
   ///
-  /// In en, this message translates to:
-  /// **'Reminder notifications off'**
+  /// In tr, this message translates to:
+  /// **'Hatırlatma bildirimleri kapalı'**
   String get reminderNotificationsDisabled;
 
   /// No description provided for @debtNotificationsEnabled.
   ///
-  /// In en, this message translates to:
-  /// **'Debt notifications on'**
+  /// In tr, this message translates to:
+  /// **'Borç bildirimleri açık'**
   String get debtNotificationsEnabled;
 
   /// No description provided for @debtNotificationsDisabled.
   ///
-  /// In en, this message translates to:
-  /// **'Debt notifications off'**
+  /// In tr, this message translates to:
+  /// **'Borç bildirimleri kapalı'**
   String get debtNotificationsDisabled;
 
   /// No description provided for @notificationPermissionRequired.
   ///
-  /// In en, this message translates to:
-  /// **'Notification Permission Required'**
+  /// In tr, this message translates to:
+  /// **'Bildirim İzni Gerekli'**
   String get notificationPermissionRequired;
 
   /// No description provided for @notificationPermissionRequiredMessage.
   ///
-  /// In en, this message translates to:
-  /// **'Please enable notifications in your device settings to receive reminders and updates.'**
+  /// In tr, this message translates to:
+  /// **'Hatırlatmalar ve güncellemeler almak için lütfen cihaz ayarlarınızdan bildirimleri etkinleştirin.'**
   String get notificationPermissionRequiredMessage;
 
   /// No description provided for @notificationPermissionDeniedMessage.
   ///
-  /// In en, this message translates to:
-  /// **'Notification permission was denied. Please enable it in your device settings to use this feature.'**
+  /// In tr, this message translates to:
+  /// **'Bildirim izni reddedildi. Bu özelliği kullanmak için lütfen cihaz ayarlarınızdan etkinleştirin.'**
   String get notificationPermissionDeniedMessage;
 
   /// No description provided for @notificationPermissionGranted.
   ///
-  /// In en, this message translates to:
-  /// **'Notification permission granted'**
+  /// In tr, this message translates to:
+  /// **'Bildirim izni verildi'**
   String get notificationPermissionGranted;
 
   /// No description provided for @notificationPermissionNotGranted.
   ///
-  /// In en, this message translates to:
-  /// **'Notification permission not granted. Tap \'Enable\' to allow notifications'**
+  /// In tr, this message translates to:
+  /// **'Bildirim izni verilmedi. Bildirimlere izin vermek için \'Etkinleştir\'e dokunun.'**
   String get notificationPermissionNotGranted;
 
   /// No description provided for @openSettings.
   ///
-  /// In en, this message translates to:
-  /// **'Open Settings'**
+  /// In tr, this message translates to:
+  /// **'Ayarları Aç'**
   String get openSettings;
 
   /// No description provided for @enable.
   ///
-  /// In en, this message translates to:
-  /// **'Enable'**
+  /// In tr, this message translates to:
+  /// **'Etkinleştir'**
   String get enable;
 
   /// No description provided for @replayTour.
   ///
-  /// In en, this message translates to:
-  /// **'Replay App Tour'**
+  /// In tr, this message translates to:
+  /// **'Turu Tekrar Göster'**
   String get replayTour;
 
   /// No description provided for @replayTourDescription.
   ///
-  /// In en, this message translates to:
-  /// **'See the feature walkthrough again'**
+  /// In tr, this message translates to:
+  /// **'Özellik turunu tekrar görüntüle'**
   String get replayTourDescription;
 
   /// No description provided for @showcaseNavHomeTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Home'**
+  /// In tr, this message translates to:
+  /// **'Ana Sayfa'**
   String get showcaseNavHomeTitle;
 
   /// No description provided for @showcaseNavHomeDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Your personal portfolio overview — total balance, assets, and debts all in one place.'**
+  /// In tr, this message translates to:
+  /// **'Kişisel portföy özetiniz — toplam bakiye, varlıklar ve borçlar tek bir yerde.'**
   String get showcaseNavHomeDesc;
 
   /// No description provided for @showcaseNavMarketTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Exchange Rates'**
+  /// In tr, this message translates to:
+  /// **'Döviz Kurları'**
   String get showcaseNavMarketTitle;
 
   /// No description provided for @showcaseTabMarketTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Exchange Rates'**
+  /// In tr, this message translates to:
+  /// **'Döviz Kurları'**
   String get showcaseTabMarketTitle;
 
   /// No description provided for @showcaseNavMarketDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Live rates for currencies, gold, and crypto. Pull down on any list to refresh.'**
+  /// In tr, this message translates to:
+  /// **'Döviz, altın ve kripto için anlık kurlar. Listeyi yenilemek için aşağı çekin.'**
   String get showcaseNavMarketDesc;
 
   /// No description provided for @showcaseTabMarketDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Switch between Forex - Metals and Crypto'**
+  /// In tr, this message translates to:
+  /// **'Döviz - Maden ve Kripto arası geçiş yapın.'**
   String get showcaseTabMarketDesc;
 
   /// No description provided for @showcaseNavWalletTitle.
   ///
-  /// In en, this message translates to:
-  /// **'My Investments'**
+  /// In tr, this message translates to:
+  /// **'Yatırımlarım'**
   String get showcaseNavWalletTitle;
 
   /// No description provided for @showcaseTabWalletTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Assets and Debts'**
+  /// In tr, this message translates to:
+  /// **'Yatırımlar ve Borçlar'**
   String get showcaseTabWalletTitle;
 
   /// No description provided for @showcaseNavWalletDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Add and manage your assets and debts. Track multiple holdings in one place.'**
+  /// In tr, this message translates to:
+  /// **'Varlık ve borçlarınızı ekleyin ve yönetin. Birden fazla yatırımı tek yerden takip edin.'**
   String get showcaseNavWalletDesc;
 
   /// No description provided for @showcaseTabWalletDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Switch between assets and debts.'**
+  /// In tr, this message translates to:
+  /// **'Yatırımlar ve borçlar arası geçiş yapın.'**
   String get showcaseTabWalletDesc;
 
   /// No description provided for @showcaseNavConverterTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Converter'**
+  /// In tr, this message translates to:
+  /// **'Çevirici'**
   String get showcaseNavConverterTitle;
 
   /// No description provided for @showcaseCardConverterTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Converter'**
+  /// In tr, this message translates to:
+  /// **'Çevirici'**
   String get showcaseCardConverterTitle;
 
   /// No description provided for @showcaseNavConverterDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Instantly convert between currencies, gold types, and crypto currencies.'**
+  /// In tr, this message translates to:
+  /// **'Dövizler, altın türleri ve kripto paralar arasında anında dönüşüm yapın.'**
   String get showcaseNavConverterDesc;
 
   /// No description provided for @showcaseCardConverterDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Perform bidirectional conversions between currencies.'**
+  /// In tr, this message translates to:
+  /// **'Birimler arası iki yönlü çeviri yapın.'**
   String get showcaseCardConverterDesc;
 
   /// No description provided for @showcaseNavSettingsTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Settings'**
+  /// In tr, this message translates to:
+  /// **'Ayarlar'**
   String get showcaseNavSettingsTitle;
 
   /// No description provided for @showcaseNavSettingsDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Adjust theme, language, notifications, and your account settings.'**
+  /// In tr, this message translates to:
+  /// **'Tema, dil, bildirimler ve hesap ayarlarınızı buradan düzenleyin.'**
   String get showcaseNavSettingsDesc;
 
   /// No description provided for @showcaseHomeChartTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Portfolio Chart'**
+  /// In tr, this message translates to:
+  /// **'Portföy Grafiği'**
   String get showcaseHomeChartTitle;
 
   /// No description provided for @showcaseHomeChartDesc.
   ///
-  /// In en, this message translates to:
-  /// **'This chart shows how your assets are spread across currencies, gold, and crypto. Tap the eye icon to hide or show amounts.'**
+  /// In tr, this message translates to:
+  /// **'Bu grafik varlıklarınızın döviz, altın ve kripto arasındaki dağılımını gösterir. Tutarları gizlemek veya göstermek için göz ikonuna dokunun.'**
   String get showcaseHomeChartDesc;
 
   /// No description provided for @showcaseHomeBalanceTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Total Balance'**
+  /// In tr, this message translates to:
+  /// **'Toplam Bakiye'**
   String get showcaseHomeBalanceTitle;
 
   /// No description provided for @showcaseHomeBalanceDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Your net worth, total assets and debts are shown in Turkish Liras.'**
+  /// In tr, this message translates to:
+  /// **'Toplam bakiyenizi, varlıklarınızın ve borçlarınızın toplamını Türk Lirası cinsinden görüntüleyin.'**
   String get showcaseHomeBalanceDesc;
 
   /// No description provided for @showcaseAddAssetBoxTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Add an Asset'**
+  /// In tr, this message translates to:
+  /// **'Varlık Ekle'**
   String get showcaseAddAssetBoxTitle;
 
   /// No description provided for @showcaseAddAssetBoxDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Save your assets from here.'**
+  /// In tr, this message translates to:
+  /// **'Sahip olduğunuz varlığınızı kaydedin.'**
   String get showcaseAddAssetBoxDesc;
 
   /// No description provided for @showcaseAssetTypeTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Asset Type'**
+  /// In tr, this message translates to:
+  /// **'Varlık Türü'**
   String get showcaseAssetTypeTitle;
 
   /// No description provided for @showcaseAssetTypeDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Choose your asset type from among forex, metals, or crypto currencies.'**
+  /// In tr, this message translates to:
+  /// **'Döviz, maden veya kripto arasından varlık türünü seçin.'**
   String get showcaseAssetTypeDesc;
 
   /// No description provided for @showcaseAssetCodeTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Select Asset'**
+  /// In tr, this message translates to:
+  /// **'Varlık Seçin'**
   String get showcaseAssetCodeTitle;
 
   /// No description provided for @showcaseAssetCodeDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Pick the exact currency, gold type, or crypto that your asset is in.'**
+  /// In tr, this message translates to:
+  /// **'Varlığınızın hangi döviz, altın türü veya kriptoda olduğunu seçin.'**
   String get showcaseAssetCodeDesc;
 
   /// No description provided for @showcaseAssetAmountTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Amount'**
+  /// In tr, this message translates to:
+  /// **'Miktar'**
   String get showcaseAssetAmountTitle;
 
   /// No description provided for @showcaseAssetAmountDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Enter how much of this asset you own.'**
+  /// In tr, this message translates to:
+  /// **'Bu varlıktan ne kadar sahip olduğunuzu girin.'**
   String get showcaseAssetAmountDesc;
 
   /// No description provided for @showcaseAddDebtBoxTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Add a Debt'**
+  /// In tr, this message translates to:
+  /// **'Borç Ekle'**
   String get showcaseAddDebtBoxTitle;
 
   /// No description provided for @showcaseAddDebtBoxDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Save your debt.'**
+  /// In tr, this message translates to:
+  /// **'Borcunuzu kaydedin.'**
   String get showcaseAddDebtBoxDesc;
 
   /// No description provided for @showcaseDebtTypeTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Debt Type'**
+  /// In tr, this message translates to:
+  /// **'Borç Türü'**
   String get showcaseDebtTypeTitle;
 
   /// No description provided for @showcaseDebtTypeDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Choose the type of debt — currency, gold, or crypto — that matches what you borrowed or owe.'**
+  /// In tr, this message translates to:
+  /// **'Döviz, maden veya kripto arasından borç türünü seçin.'**
   String get showcaseDebtTypeDesc;
 
   /// No description provided for @showcaseDebtCodeTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Select Debt'**
+  /// In tr, this message translates to:
+  /// **'Borç Seçin'**
   String get showcaseDebtCodeTitle;
 
   /// No description provided for @showcaseDebtCodeDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Pick the exact currency, gold type, or crypto that your debt is in.'**
+  /// In tr, this message translates to:
+  /// **'Borcunuzun hangi döviz, altın türü veya kriptoda olduğunu seçin.'**
   String get showcaseDebtCodeDesc;
 
   /// No description provided for @showcaseDebtAmountTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Debt Amount'**
+  /// In tr, this message translates to:
+  /// **'Borç Miktarı'**
   String get showcaseDebtAmountTitle;
 
   /// No description provided for @showcaseDebtAmountDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Enter the amount you owe.'**
+  /// In tr, this message translates to:
+  /// **'Borçlu olduğunuz miktarı girin.'**
   String get showcaseDebtAmountDesc;
 
   /// No description provided for @showcaseDebtNoteTitle.
   ///
-  /// In en, this message translates to:
-  /// **'Note & Due Date'**
+  /// In tr, this message translates to:
+  /// **'Not ve Son Tarih'**
   String get showcaseDebtNoteTitle;
 
   /// No description provided for @showcaseDebtNoteDesc.
   ///
-  /// In en, this message translates to:
-  /// **'Optionally add a short note about this debt and a due date. You will receive a notification reminder before the payment is due.'**
+  /// In tr, this message translates to:
+  /// **'İsteğe bağlı olarak bu borç için kısa bir not ve son ödeme tarihi ekleyin. Ödeme tarihinden önce hatırlatma bildirimi alacaksınız.'**
   String get showcaseDebtNoteDesc;
 
   /// No description provided for @theme.
   ///
-  /// In en, this message translates to:
-  /// **'Theme'**
+  /// In tr, this message translates to:
+  /// **'Tema'**
   String get theme;
 
   /// No description provided for @trueDarkMode.
   ///
-  /// In en, this message translates to:
-  /// **'True Dark'**
+  /// In tr, this message translates to:
+  /// **'Tam Karanlık'**
   String get trueDarkMode;
 
   /// No description provided for @defaultTheme.
   ///
-  /// In en, this message translates to:
-  /// **'Default Theme'**
+  /// In tr, this message translates to:
+  /// **'Varsayılan Tema'**
   String get defaultTheme;
 }
 

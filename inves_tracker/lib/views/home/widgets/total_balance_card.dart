@@ -4,7 +4,7 @@ import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
 import 'package:inves_tracker/views/home/models/portfolio_data.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 
 class TotalBalanceCard extends StatefulWidget {
   final PortfolioData portfolioData;
@@ -44,9 +44,12 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
     super.didUpdateWidget(oldWidget);
 
     // If portfolio data changed — restart animation so children get new progress
-    if (oldWidget.portfolioData.totalBalance != widget.portfolioData.totalBalance ||
-        oldWidget.portfolioData.totalAssetValue != widget.portfolioData.totalAssetValue ||
-        oldWidget.portfolioData.totalDebtValue != widget.portfolioData.totalDebtValue) {
+    if (oldWidget.portfolioData.totalBalance !=
+            widget.portfolioData.totalBalance ||
+        oldWidget.portfolioData.totalAssetValue !=
+            widget.portfolioData.totalAssetValue ||
+        oldWidget.portfolioData.totalDebtValue !=
+            widget.portfolioData.totalDebtValue) {
       _controller
         ..reset()
         ..forward();
@@ -76,14 +79,14 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
                   AppColors.title(context).withValues(alpha: 0.1),
                 ]
               : isPositive
-                  ? [
-                      AppColors.success.withValues(alpha: 0.2),
-                      AppColors.success.withValues(alpha: 0.1),
-                    ]
-                  : [
-                      AppColors.danger.withValues(alpha: 0.2),
-                      AppColors.danger.withValues(alpha: 0.1),
-                    ],
+              ? [
+                  AppColors.success.withValues(alpha: 0.2),
+                  AppColors.success.withValues(alpha: 0.1),
+                ]
+              : [
+                  AppColors.danger.withValues(alpha: 0.2),
+                  AppColors.danger.withValues(alpha: 0.1),
+                ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -92,18 +95,19 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
           color: isZero
               ? AppColors.title(context)
               : isPositive
-                  ? AppColors.success.withValues(alpha: 0.8)
-                  : AppColors.danger.withValues(alpha: 0.8),
+              ? AppColors.success.withValues(alpha: 0.8)
+              : AppColors.danger.withValues(alpha: 0.8),
           width: 3.w,
         ),
         boxShadow: [
           BoxShadow(
-            color: (isZero
-                    ? AppColors.title(context)
-                    : isPositive
+            color:
+                (isZero
+                        ? AppColors.title(context)
+                        : isPositive
                         ? AppColors.success
                         : AppColors.danger)
-                .withValues(alpha: 0.1),
+                    .withValues(alpha: 0.1),
             blurRadius: 20.r,
             offset: Offset(0, 10.h),
           ),
@@ -116,7 +120,8 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
           // progress value from 0 -> 1 while animation runs
           final progress = _animation.value;
           final animatedTotal = widget.portfolioData.totalBalance * progress;
-          final animatedAssets = widget.portfolioData.totalAssetValue * progress;
+          final animatedAssets =
+              widget.portfolioData.totalAssetValue * progress;
           final animatedDebts = widget.portfolioData.totalDebtValue * progress;
 
           return Column(
@@ -128,13 +133,13 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
                     isZero
                         ? Icons.trending_flat
                         : isPositive
-                            ? Icons.trending_up
-                            : Icons.trending_down,
+                        ? Icons.trending_up
+                        : Icons.trending_down,
                     color: isZero
                         ? AppColors.title(context)
                         : isPositive
-                            ? AppColors.success
-                            : AppColors.danger,
+                        ? AppColors.success
+                        : AppColors.danger,
                     size: 24.sp,
                   ),
                   SizedBox(width: 8.w),
@@ -153,7 +158,11 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
               // Animated total balance text (driven by the same controller)
               Text(
                 widget.isVisible
-                    ? '${isZero ? '' : isPositive ? '+' : '-'} ${formatNumber(animatedTotal.abs(), l10n, context)}₺'
+                    ? '${isZero
+                          ? ''
+                          : isPositive
+                          ? '+'
+                          : '-'} ${formatNumber(animatedTotal.abs(), l10n, context)}₺'
                     : '••,•• ₺',
                 style: TextStyle(
                   fontSize: 32.sp,
@@ -161,8 +170,8 @@ class _TotalBalanceCardState extends State<TotalBalanceCard>
                   color: isZero
                       ? AppColors.title(context)
                       : isPositive
-                          ? AppColors.success
-                          : AppColors.danger,
+                      ? AppColors.success
+                      : AppColors.danger,
                   letterSpacing: 1.2,
                   shadows: [
                     Shadow(

@@ -7,7 +7,6 @@
   "currencyConverter": "Currency Converter",
   "profile": "Profile",
   "currency": "Currency",
-  "change": "Change",
   "crypto": "Crypto",
   "buying": "Buying",
   "selling": "Selling",
@@ -44,7 +43,6 @@
   "version": "Version",
   "developer": "Developer",
   "designer": "Designer",
-  "email": "Email",
   "goldGUMUS": "Gram of Silver",
   "goldGPL": "Platinum",
   "goldPAL": "Palladium",
@@ -287,13 +285,13 @@
   "change": "Change",
   "debtIncreased": "Debt Increased",
   "debtDecreased": "Debt Decreased",
-  "debtNotChanged": "Debt Not Changed", 
+  "debtNotChanged": "Debt Not Changed",
   "debtDueDateApproachingNotificationTitle": "Debt Payment Approaching!",
   "debtDueDateApproachingNotificationBody": "Your {amount}{currency} debt is due in 3 days.",
-  "@debtDueDateApproachingNotificationBody":{
+  "@debtDueDateApproachingNotificationBody": {
     "description": "Debt due date approaching notification with amount and currency",
     "placeholders": {
-      "amount": { 
+      "amount": {
         "type": "double"
       },
       "currency": {
@@ -303,7 +301,7 @@
   },
   "debtDueDateNotificationTitle": "Debt Payment Has Arrived!",
   "debtDueDateNotificationBody": "Your {amount} {currency} debt is due today!",
-  "@debtDueDateNotificationBody":{
+  "@debtDueDateNotificationBody": {
     "description": "Debt due date notification with amount and currency",
     "placeholders": {
       "amount": {
@@ -314,7 +312,7 @@
       }
     }
   },
-"notifications": "Notifications",
+  "notifications": "Notifications",
   "reminderNotifications": "Reminder Notifications",
   "reminderNotificationsDescription": "Get weekly reminders to check your investments and market updates",
   "debtNotifications": "Debt Payment Reminders",
@@ -322,7 +320,7 @@
   "appReminderNotificationTitle": "Investment Reminder",
   "marketUpdateNotificationTitle": "Market Update",
   "marketUpdateNotificationBody": "The current value of {currency} is {value} TRY",
-  "@marketUpdateNotificationBody":{
+  "@marketUpdateNotificationBody": {
     "description": "Market update notification with currency and value",
     "placeholders": {
       "currency": {

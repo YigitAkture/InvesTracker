@@ -41,7 +41,7 @@ import 'package:inves_tracker/core/services/auth_service.dart';
 import 'package:inves_tracker/core/services/showcase_service.dart';
 import 'package:inves_tracker/core/showcase/showcase_helper.dart';
 import 'package:inves_tracker/core/showcase/showcase_keys.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/custom_app_bar.dart';
 import 'package:inves_tracker/views/converter/converter_screen.dart';
 import 'package:inves_tracker/views/market/market_screen.dart';
@@ -76,53 +76,53 @@ class MainLayoutState extends State<MainLayout> {
   final _walletScreenKey = GlobalKey<WalletScreenState>();
 
   // ── Showcase GlobalKeys ───────────────────────────────────────────────────
-  final _navHomeKey      = GlobalKey();
-  final _navMarketKey    = GlobalKey();
-  final _navWalletKey    = GlobalKey();
+  final _navHomeKey = GlobalKey();
+  final _navMarketKey = GlobalKey();
+  final _navWalletKey = GlobalKey();
   final _navConverterKey = GlobalKey();
-  final _navSettingsKey  = GlobalKey();
-  final _homeChartKey    = GlobalKey();
-  final _homeBalanceKey  = GlobalKey();
-  final _marketTabKey    = GlobalKey();
-  final _walletTabKey    = GlobalKey();
-  final _walletAddAssetBoxKey    = GlobalKey();
-  final _walletAddAssetTypeKey   = GlobalKey();
-  final _walletAddAssetCodeKey   = GlobalKey();
+  final _navSettingsKey = GlobalKey();
+  final _homeChartKey = GlobalKey();
+  final _homeBalanceKey = GlobalKey();
+  final _marketTabKey = GlobalKey();
+  final _walletTabKey = GlobalKey();
+  final _walletAddAssetBoxKey = GlobalKey();
+  final _walletAddAssetTypeKey = GlobalKey();
+  final _walletAddAssetCodeKey = GlobalKey();
   final _walletAddAssetAmountKey = GlobalKey();
-  final _walletAddAssetKey       = GlobalKey();
-  final _walletAddDebtBoxKey    = GlobalKey();
-  final _walletAddDebtTypeKey   = GlobalKey();
-  final _walletAddDebtCodeKey   = GlobalKey();
+  final _walletAddAssetKey = GlobalKey();
+  final _walletAddDebtBoxKey = GlobalKey();
+  final _walletAddDebtTypeKey = GlobalKey();
+  final _walletAddDebtCodeKey = GlobalKey();
   final _walletAddDebtAmountKey = GlobalKey();
-  final _walletAddDebtNoteKey   = GlobalKey();
-  final _walletAddDebtKey       = GlobalKey();
+  final _walletAddDebtNoteKey = GlobalKey();
+  final _walletAddDebtKey = GlobalKey();
   final _converterSwapKey = GlobalKey();
 
   // ── Tour key list ─────────────────────────────────────────────────────────
 
   List<GlobalKey> _allKeys() => [
-        _navHomeKey,              //  0
-        _homeChartKey,            //  1
-        _homeBalanceKey,          //  2
-        _navMarketKey,            //  3
-        _marketTabKey,            //  4
-        _navWalletKey,            //  5
-        _walletTabKey,            //  6
-        _walletAddAssetBoxKey,    //  7
-        _walletAddAssetTypeKey,   //  8
-        _walletAddAssetCodeKey,   //  9
-        _walletAddAssetAmountKey, // 10
-        _walletAddAssetKey,       // 11
-        _walletAddDebtBoxKey,     // 12
-        _walletAddDebtTypeKey,    // 13
-        _walletAddDebtCodeKey,    // 14
-        _walletAddDebtAmountKey,  // 15
-        _walletAddDebtNoteKey,    // 16
-        _walletAddDebtKey,        // 17
-        _navConverterKey,         // 18
-        _converterSwapKey,        // 19
-        _navSettingsKey,          // 20
-      ];
+    _navHomeKey, //  0
+    _homeChartKey, //  1
+    _homeBalanceKey, //  2
+    _navMarketKey, //  3
+    _marketTabKey, //  4
+    _navWalletKey, //  5
+    _walletTabKey, //  6
+    _walletAddAssetBoxKey, //  7
+    _walletAddAssetTypeKey, //  8
+    _walletAddAssetCodeKey, //  9
+    _walletAddAssetAmountKey, // 10
+    _walletAddAssetKey, // 11
+    _walletAddDebtBoxKey, // 12
+    _walletAddDebtTypeKey, // 13
+    _walletAddDebtCodeKey, // 14
+    _walletAddDebtAmountKey, // 15
+    _walletAddDebtNoteKey, // 16
+    _walletAddDebtKey, // 17
+    _navConverterKey, // 18
+    _converterSwapKey, // 19
+    _navSettingsKey, // 20
+  ];
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -205,8 +205,8 @@ class MainLayoutState extends State<MainLayout> {
           curve: Curves.easeInOut,
         )
         .then((_) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => launch());
-    });
+          WidgetsBinding.instance.addPostFrameCallback((_) => launch());
+        });
   }
 
   void _onStepComplete(int? index, GlobalKey key) {
@@ -243,11 +243,16 @@ class MainLayoutState extends State<MainLayout> {
 
   int? _pageForCompletedStep(int completedIndex) {
     switch (completedIndex) {
-      case 2:  return 1; // homeBalance   → Market
-      case 4:  return 2; // marketTab     → Wallet
-      case 17: return 3; // walletAddDebt → Converter
-      case 19: return 4; // converterSwap → Settings (jumpToPage)
-      default: return null;
+      case 2:
+        return 1; // homeBalance   → Market
+      case 4:
+        return 2; // marketTab     → Wallet
+      case 17:
+        return 3; // walletAddDebt → Converter
+      case 19:
+        return 4; // converterSwap → Settings (jumpToPage)
+      default:
+        return null;
     }
   }
 
@@ -279,18 +284,18 @@ class MainLayoutState extends State<MainLayout> {
   // ── Screens ───────────────────────────────────────────────────────────────
 
   List<Widget> get _screens => [
-        HomeScreen(userId: _userId ?? ''),
-        const MarketScreen(),
-        WalletScreen(key: _walletScreenKey, userId: _userId ?? ''),
-        const ConverterScreen(),
-        const SettingsScreen(),
-      ];
+    HomeScreen(userId: _userId ?? ''),
+    const MarketScreen(),
+    WalletScreen(key: _walletScreenKey, userId: _userId ?? ''),
+    const ConverterScreen(),
+    const SettingsScreen(),
+  ];
 
   void _onNavBarTap(int index) => _pageController.animateToPage(
-        index,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+    index,
+    duration: const Duration(milliseconds: 300),
+    curve: Curves.easeInOut,
+  );
 
   void _onPageChanged(int index) => setState(() => _currentIndex = index);
 
@@ -310,27 +315,27 @@ class MainLayoutState extends State<MainLayout> {
     }
 
     final showcaseKeys = ShowcaseKeys(
-      navHome:              _navHomeKey,
-      navMarket:            _navMarketKey,
-      navWallet:            _navWalletKey,
-      navConverter:         _navConverterKey,
-      navSettings:          _navSettingsKey,
-      homeChart:            _homeChartKey,
-      homeBalance:          _homeBalanceKey,
-      marketTabSwitcher:    _marketTabKey,
-      walletTabSwitcher:    _walletTabKey,
-      walletAddAssetBox:    _walletAddAssetBoxKey,
-      walletAddAssetType:   _walletAddAssetTypeKey,
-      walletAddAssetCode:   _walletAddAssetCodeKey,
+      navHome: _navHomeKey,
+      navMarket: _navMarketKey,
+      navWallet: _navWalletKey,
+      navConverter: _navConverterKey,
+      navSettings: _navSettingsKey,
+      homeChart: _homeChartKey,
+      homeBalance: _homeBalanceKey,
+      marketTabSwitcher: _marketTabKey,
+      walletTabSwitcher: _walletTabKey,
+      walletAddAssetBox: _walletAddAssetBoxKey,
+      walletAddAssetType: _walletAddAssetTypeKey,
+      walletAddAssetCode: _walletAddAssetCodeKey,
       walletAddAssetAmount: _walletAddAssetAmountKey,
-      walletAddAsset:       _walletAddAssetKey,
-      walletAddDebtBox:     _walletAddDebtBoxKey,
-      walletAddDebtType:    _walletAddDebtTypeKey,
-      walletAddDebtCode:    _walletAddDebtCodeKey,
-      walletAddDebtAmount:  _walletAddDebtAmountKey,
-      walletAddDebtNote:    _walletAddDebtNoteKey,
-      walletAddDebt:        _walletAddDebtKey,
-      converterSwap:        _converterSwapKey,
+      walletAddAsset: _walletAddAssetKey,
+      walletAddDebtBox: _walletAddDebtBoxKey,
+      walletAddDebtType: _walletAddDebtTypeKey,
+      walletAddDebtCode: _walletAddDebtCodeKey,
+      walletAddDebtAmount: _walletAddDebtAmountKey,
+      walletAddDebtNote: _walletAddDebtNoteKey,
+      walletAddDebt: _walletAddDebtKey,
+      converterSwap: _converterSwapKey,
     );
 
     final pageTitles = [
@@ -358,11 +363,11 @@ class MainLayoutState extends State<MainLayout> {
           currentIndex: _currentIndex,
           onTap: _onNavBarTap,
           keys: (
-            home:      _navHomeKey,
-            market:    _navMarketKey,
-            wallet:    _navWalletKey,
+            home: _navHomeKey,
+            market: _navMarketKey,
+            wallet: _navWalletKey,
             converter: _navConverterKey,
-            settings:  _navSettingsKey,
+            settings: _navSettingsKey,
           ),
           l10n: l10n,
         ),
@@ -384,11 +389,7 @@ class _CloseTourButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => ShowcaseView.get().dismiss(),
-      child: Icon(
-        Icons.close_rounded,
-        color: Colors.white,
-        size: 26.sp,
-      ),
+      child: Icon(Icons.close_rounded, color: Colors.white, size: 26.sp),
     );
   }
 }
@@ -423,11 +424,36 @@ class _ShowcasedBottomNav extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final items = [
-      (key: keys.home,      icon: Icons.home_outlined,             title: l10n.showcaseNavHomeTitle,      desc: l10n.showcaseNavHomeDesc),
-      (key: keys.market,    icon: Icons.trending_up,               title: l10n.showcaseNavMarketTitle,    desc: l10n.showcaseNavMarketDesc),
-      (key: keys.wallet,    icon: Icons.add_circle_outline,        title: l10n.showcaseNavWalletTitle,    desc: l10n.showcaseNavWalletDesc),
-      (key: keys.converter, icon: Icons.currency_exchange_outlined, title: l10n.showcaseNavConverterTitle, desc: l10n.showcaseNavConverterDesc),
-      (key: keys.settings,  icon: Icons.settings,                  title: l10n.showcaseNavSettingsTitle,  desc: l10n.showcaseNavSettingsDesc),
+      (
+        key: keys.home,
+        icon: Icons.home_outlined,
+        title: l10n.showcaseNavHomeTitle,
+        desc: l10n.showcaseNavHomeDesc,
+      ),
+      (
+        key: keys.market,
+        icon: Icons.trending_up,
+        title: l10n.showcaseNavMarketTitle,
+        desc: l10n.showcaseNavMarketDesc,
+      ),
+      (
+        key: keys.wallet,
+        icon: Icons.add_circle_outline,
+        title: l10n.showcaseNavWalletTitle,
+        desc: l10n.showcaseNavWalletDesc,
+      ),
+      (
+        key: keys.converter,
+        icon: Icons.currency_exchange_outlined,
+        title: l10n.showcaseNavConverterTitle,
+        desc: l10n.showcaseNavConverterDesc,
+      ),
+      (
+        key: keys.settings,
+        icon: Icons.settings,
+        title: l10n.showcaseNavSettingsTitle,
+        desc: l10n.showcaseNavSettingsDesc,
+      ),
     ];
 
     return Container(
@@ -461,7 +487,10 @@ class _ShowcasedBottomNav extends StatelessWidget {
                   onTap: () => onTap(i),
                   behavior: HitTestBehavior.opaque,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 8.h,
+                    ),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? selectColor.withValues(alpha: 0.15)

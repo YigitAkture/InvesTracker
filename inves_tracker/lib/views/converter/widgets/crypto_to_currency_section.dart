@@ -6,7 +6,7 @@ import 'package:inves_tracker/core/models/crypto_data.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
 import 'package:inves_tracker/core/utils/regex_separator_input_formatter.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/converter/widgets/converter_card.dart';
 import 'package:inves_tracker/views/converter/widgets/crypto_dropdown.dart';
 import 'package:inves_tracker/views/converter/widgets/currency_dropdown.dart';
@@ -29,7 +29,9 @@ class CryptoToCurrencySection extends StatefulWidget {
 class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
   String _selectedCrypto = 'BTC';
   String _selectedCurrency = 'TRY';
-  final TextEditingController _cryptoController = TextEditingController(text: '1');
+  final TextEditingController _cryptoController = TextEditingController(
+    text: '1',
+  );
   final TextEditingController _currencyController = TextEditingController();
   bool _isEditingCrypto = true;
   late String _locale;
@@ -37,10 +39,11 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
 
   double _parse(String text) {
     final thousandSep = _locale == 'tr_TR' ? '.' : ',';
-    final decimalSep  = _locale == 'tr_TR' ? ',' : '.';
+    final decimalSep = _locale == 'tr_TR' ? ',' : '.';
     return double.tryParse(
-      text.replaceAll(thousandSep, '').replaceAll(decimalSep, '.'),
-    ) ?? 0.0;
+          text.replaceAll(thousandSep, '').replaceAll(decimalSep, '.'),
+        ) ??
+        0.0;
   }
 
   @override
@@ -85,7 +88,10 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
     final convertedAmount = amountInTRY / currencyRate;
 
     setState(() {
-      _currencyController.text = PriceFormatter.formatCurrency(convertedAmount, _locale);
+      _currencyController.text = PriceFormatter.formatCurrency(
+        convertedAmount,
+        _locale,
+      );
     });
   }
 
@@ -157,11 +163,19 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
           child: isEditable
               ? TextField(
                   controller: _cryptoController,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   inputFormatters: [
-                    RegexSeparatorInputFormatter(allowDecimal: true, locale: _locale),
+                    RegexSeparatorInputFormatter(
+                      allowDecimal: true,
+                      locale: _locale,
+                    ),
                   ],
-                  style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                   textAlign: TextAlign.end,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
@@ -185,7 +199,10 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   },
                 )
               : Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 14.h,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.background2(context),
                     borderRadius: BorderRadius.circular(10.r),
@@ -193,7 +210,10 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   alignment: Alignment.centerRight,
                   child: Text(
                     _cryptoController.text,
-                    style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
         ),
@@ -227,11 +247,19 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
           child: isEditable
               ? TextField(
                   controller: _currencyController,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   inputFormatters: [
-                    RegexSeparatorInputFormatter(allowDecimal: true, locale: _locale),
+                    RegexSeparatorInputFormatter(
+                      allowDecimal: true,
+                      locale: _locale,
+                    ),
                   ],
-                  style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                   textAlign: TextAlign.end,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
@@ -255,7 +283,10 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   },
                 )
               : Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 14.h,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.background2(context),
                     borderRadius: BorderRadius.circular(10.r),
@@ -263,7 +294,10 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   alignment: Alignment.centerRight,
                   child: Text(
                     _currencyController.text,
-                    style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
         ),
@@ -296,7 +330,11 @@ class _CryptoToCurrencySectionState extends State<CryptoToCurrencySection> {
                   color: AppColors.pink.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.swap_vert, size: 28.sp, color: AppColors.pink),
+                child: Icon(
+                  Icons.swap_vert,
+                  size: 28.sp,
+                  color: AppColors.pink,
+                ),
               ),
             ),
           ),

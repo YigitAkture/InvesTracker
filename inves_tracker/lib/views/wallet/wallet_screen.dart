@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/showcase/showcase_helper.dart';
 import 'package:inves_tracker/core/showcase/showcase_keys.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/wallet/widgets/assets_tab.dart';
 import 'package:inves_tracker/views/wallet/widgets/debts_tab.dart';
 
@@ -91,12 +91,18 @@ class WalletScreenState extends State<WalletScreen> {
           children: [
             Expanded(
               child: _tabButton(
-                context, l10n.assets, 0, AppColors.primary(context),
+                context,
+                l10n.assets,
+                0,
+                AppColors.primary(context),
               ),
             ),
             Expanded(
               child: _tabButton(
-                context, l10n.debts, 1, AppColors.secondary(context),
+                context,
+                l10n.debts,
+                1,
+                AppColors.secondary(context),
               ),
             ),
           ],
@@ -130,8 +136,8 @@ class WalletScreenState extends State<WalletScreen> {
             color: _selectedTab == index
                 ? Colors.white
                 : Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white70
-                    : Colors.black54,
+                ? Colors.white70
+                : Colors.black54,
           ),
         ),
       ),

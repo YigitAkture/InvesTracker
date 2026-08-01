@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/market/currency/widgets/currency_box.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 
 class CurrencyRates extends StatefulWidget {
   final List<CurrencyData> currencies;
-  
-  const CurrencyRates({
-    super.key,
-    required this.currencies,
-  });
+
+  const CurrencyRates({super.key, required this.currencies});
 
   @override
   State<CurrencyRates> createState() => CurrencyRatesState();
@@ -96,10 +93,10 @@ class CurrencyRatesState extends State<CurrencyRates> {
             ),
           ),
 
-          // Banner Ad
-          SizedBox(height: 8.h),
-          const Center(child: BannerAdd()),
-          SizedBox(height: 8.h),
+        // Banner Ad
+        SizedBox(height: 8.h),
+        const Center(child: BannerAdd()),
+        SizedBox(height: 8.h),
       ],
     );
   }

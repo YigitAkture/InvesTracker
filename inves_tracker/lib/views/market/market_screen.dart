@@ -11,7 +11,7 @@ import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/services/home_widget_service.dart';
 import 'package:inves_tracker/core/showcase/showcase_helper.dart';
 import 'package:inves_tracker/core/showcase/showcase_keys.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/market/currency/currency_rates.dart';
 import 'package:inves_tracker/views/market/gold/gold_rates.dart';
 import 'package:inves_tracker/views/market/crypto/crypto_rates.dart';
@@ -168,8 +168,8 @@ class _MarketScreenState extends State<MarketScreen> {
             color: _selectedTab == index
                 ? Colors.white
                 : Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white70
-                    : Colors.black54,
+                ? Colors.white70
+                : Colors.black54,
           ),
         ),
       ),
@@ -182,15 +182,11 @@ class _MarketScreenState extends State<MarketScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Icon(Icons.access_time,
-              size: 14.sp, color: AppColors.title(context)),
+          Icon(Icons.access_time, size: 14.sp, color: AppColors.title(context)),
           SizedBox(width: 4.w),
           Text(
             '${l10n.updated}: $_updateTime',
-            style: TextStyle(
-              fontSize: 12.sp,
-              color: AppColors.title(context),
-            ),
+            style: TextStyle(fontSize: 12.sp, color: AppColors.title(context)),
           ),
         ],
       ),
@@ -229,9 +225,10 @@ class _MarketScreenState extends State<MarketScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title,
-              style:
-                  TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600)),
+          Text(
+            title,
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+          ),
           Row(
             children: [
               _headerCell(l10n.change, 70.w),
@@ -269,9 +266,10 @@ class _MarketScreenState extends State<MarketScreen> {
         children: [
           CircularProgressIndicator(color: AppColors.primary(context)),
           SizedBox(height: 12.h),
-          Text(l10n.loadingMarketData,
-              style: TextStyle(
-                  fontSize: 14.sp, color: AppColors.title(context))),
+          Text(
+            l10n.loadingMarketData,
+            style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
+          ),
         ],
       ),
     );
@@ -284,27 +282,28 @@ class _MarketScreenState extends State<MarketScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline,
-                size: 48.sp, color: AppColors.danger),
+            Icon(Icons.error_outline, size: 48.sp, color: AppColors.danger),
             SizedBox(height: 12.h),
-            Text(l10n.failedToLoadMarketData,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    color: AppColors.title(context))),
+            Text(
+              l10n.failedToLoadMarketData,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.title(context),
+              ),
+            ),
             SizedBox(height: 16.h),
             ElevatedButton(
               onPressed: _loadMarketData,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary(context),
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(
-                    horizontal: 24.w, vertical: 12.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r)),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
               ),
-              child: Text(l10n.retry,
-                  style: TextStyle(fontSize: 14.sp)),
+              child: Text(l10n.retry, style: TextStyle(fontSize: 14.sp)),
             ),
           ],
         ),

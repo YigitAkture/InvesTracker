@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/user_service.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 
 class ChangePasswordDialog extends StatefulWidget {
   const ChangePasswordDialog({super.key});
@@ -13,11 +13,13 @@ class ChangePasswordDialog extends StatefulWidget {
 
 class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final UserService _userService = UserService();
-  
+
   bool _isLoading = false;
   bool _obscureCurrentPassword = true;
   bool _obscureNewPassword = true;
@@ -100,9 +102,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
     final l10n = AppLocalizations.of(context)!;
 
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.r),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       child: Container(
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 0.7,
@@ -170,7 +170,10 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                                   : Icons.visibility,
                             ),
                             onPressed: () {
-                              setState(() => _obscureCurrentPassword = !_obscureCurrentPassword);
+                              setState(
+                                () => _obscureCurrentPassword =
+                                    !_obscureCurrentPassword,
+                              );
                             },
                           ),
                           border: OutlineInputBorder(
@@ -202,7 +205,10 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                                   : Icons.visibility,
                             ),
                             onPressed: () {
-                              setState(() => _obscureNewPassword = !_obscureNewPassword);
+                              setState(
+                                () =>
+                                    _obscureNewPassword = !_obscureNewPassword,
+                              );
                             },
                           ),
                           border: OutlineInputBorder(
@@ -240,7 +246,10 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                                   : Icons.visibility,
                             ),
                             onPressed: () {
-                              setState(() => _obscureConfirmPassword = !_obscureConfirmPassword);
+                              setState(
+                                () => _obscureConfirmPassword =
+                                    !_obscureConfirmPassword,
+                              );
                             },
                           ),
                           border: OutlineInputBorder(
@@ -272,7 +281,9 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: _isLoading ? null : () => Navigator.pop(context, false),
+                      onPressed: _isLoading
+                          ? null
+                          : () => Navigator.pop(context, false),
                       style: OutlinedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 12.h),
                         shape: RoundedRectangleBorder(

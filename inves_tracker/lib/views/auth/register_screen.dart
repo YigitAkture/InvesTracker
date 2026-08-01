@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/auth_service.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/navigation/main_layout.dart';
 import 'package:inves_tracker/views/auth/widgets/legal_text_dialog.dart';
 
@@ -21,7 +21,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _repeatPasswordController = TextEditingController();
+  final TextEditingController _repeatPasswordController =
+      TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   bool _obscurePassword = true;
@@ -44,20 +45,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _showLegalDialog(String title, String content) {
     showDialog(
       context: context,
-      builder: (context) => LegalTextDialog(
-        title: title,
-        content: content,
-      ),
+      builder: (context) => LegalTextDialog(title: title, content: content),
     );
   }
 
   bool _validateConsents() {
-    if (!_acceptedDataProtection || !_acceptedPrivacyPolicy || !_acceptedExplicitConsent) {
+    if (!_acceptedDataProtection ||
+        !_acceptedPrivacyPolicy ||
+        !_acceptedExplicitConsent) {
       final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           closeIconColor: Colors.white,
-          content: Text(l10n.pleaseAcceptAllConsents, style: TextStyle(color: Colors.white)),
+          content: Text(
+            l10n.pleaseAcceptAllConsents,
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: AppColors.danger3,
           showCloseIcon: true,
         ),
@@ -91,12 +94,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         if (result['success']) {
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (_) => const MainLayout(startShowcase: true)),
+            MaterialPageRoute(
+              builder: (_) => const MainLayout(startShowcase: true),
+            ),
             (route) => false,
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(result['message'] ?? 'Registration failed'), showCloseIcon: true),
+            SnackBar(
+              content: Text(result['message'] ?? 'Registration failed'),
+              showCloseIcon: true,
+            ),
           );
         }
       }
@@ -113,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       backgroundColor: AppColors.background(context),
       appBar: AppBar(
@@ -133,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: 24.h),
-                
+
                 Text(
                   l10n.register,
                   textAlign: TextAlign.center,
@@ -261,7 +269,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             : Icons.visibility,
                       ),
                       onPressed: () {
-                        setState(() => _obscureRepeatPassword = !_obscureRepeatPassword);
+                        setState(
+                          () =>
+                              _obscureRepeatPassword = !_obscureRepeatPassword,
+                        );
                       },
                     ),
                     border: OutlineInputBorder(
@@ -300,7 +311,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _ConsentCheckbox(
                         value: _acceptedDataProtection,
                         onChanged: (value) {
-                          setState(() => _acceptedDataProtection = value ?? false);
+                          setState(
+                            () => _acceptedDataProtection = value ?? false,
+                          );
                         },
                         label: l10n.dataProtectionNotice,
                         onTap: () => _showLegalDialog(
@@ -314,7 +327,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _ConsentCheckbox(
                         value: _acceptedPrivacyPolicy,
                         onChanged: (value) {
-                          setState(() => _acceptedPrivacyPolicy = value ?? false);
+                          setState(
+                            () => _acceptedPrivacyPolicy = value ?? false,
+                          );
                         },
                         label: l10n.privacyPolicy,
                         onTap: () => _showLegalDialog(
@@ -328,7 +343,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _ConsentCheckbox(
                         value: _acceptedExplicitConsent,
                         onChanged: (value) {
-                          setState(() => _acceptedExplicitConsent = value ?? false);
+                          setState(
+                            () => _acceptedExplicitConsent = value ?? false,
+                          );
                         },
                         label: l10n.explicitConsent,
                         onTap: () => _showLegalDialog(
@@ -395,7 +412,7 @@ class _ConsentCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

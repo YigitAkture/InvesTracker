@@ -4,7 +4,7 @@ import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/reminder_notification_service.dart';
 import 'package:inves_tracker/core/services/preferences_service.dart';
 import 'package:inves_tracker/core/helpers/notification_permission_helper.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/settings/widgets/setting_card.dart';
 
 class NotificationSettingsSection extends StatefulWidget {
@@ -361,7 +361,10 @@ class _NotificationToggleItem extends StatelessWidget {
               if (states.contains(WidgetState.selected)) {
                 return HSLColor.fromColor(iconColor)
                     .withLightness(
-                      (HSLColor.fromColor(iconColor).lightness - 0.05).clamp(0.0, 1.0),
+                      (HSLColor.fromColor(iconColor).lightness - 0.05).clamp(
+                        0.0,
+                        1.0,
+                      ),
                     )
                     .toColor();
               }

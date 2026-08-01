@@ -3,17 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/auth_service.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/auth/login_screen.dart';
 
 /// Step 2: Enter verification code and new password
 class ResetPasswordScreen extends StatefulWidget {
   final String email;
 
-  const ResetPasswordScreen({
-    super.key,
-    required this.email,
-  });
+  const ResetPasswordScreen({super.key, required this.email});
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -23,7 +20,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final AuthService _authService = AuthService();
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   bool _isLoading = false;
@@ -65,7 +63,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       if (result['success']) {
         // Show success dialog
         await _showSuccessDialog();
-        
+
         // Navigate back to login
         if (mounted) {
           Navigator.of(context).pushAndRemoveUntil(
@@ -94,16 +92,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         ),
         title: Row(
           children: [
-            Icon(
-              Icons.check_circle,
-              color: AppColors.success,
-              size: 28.sp,
-            ),
+            Icon(Icons.check_circle, color: AppColors.success, size: 28.sp),
             SizedBox(width: 12.w),
-            Text(
-              l10n.success,
-              style: TextStyle(fontSize: 20.sp),
-            ),
+            Text(l10n.success, style: TextStyle(fontSize: 20.sp)),
           ],
         ),
         content: Text(
@@ -115,10 +106,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             onPressed: () => Navigator.pop(context),
             child: Text(
               l10n.ok,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
           ),
         ],
@@ -145,10 +133,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.foreground(context),
         elevation: 0,
-        title: Text(
-          l10n.resetPassword,
-          style: TextStyle(fontSize: 20.sp),
-        ),
+        title: Text(l10n.resetPassword, style: TextStyle(fontSize: 20.sp)),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -251,7 +236,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             : Icons.visibility,
                       ),
                       onPressed: () {
-                        setState(() => _obscureNewPassword = !_obscureNewPassword);
+                        setState(
+                          () => _obscureNewPassword = !_obscureNewPassword,
+                        );
                       },
                     ),
                     border: OutlineInputBorder(
@@ -287,7 +274,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             : Icons.visibility,
                       ),
                       onPressed: () {
-                        setState(() => _obscureConfirmPassword = !_obscureConfirmPassword);
+                        setState(
+                          () => _obscureConfirmPassword =
+                              !_obscureConfirmPassword,
+                        );
                       },
                     ),
                     border: OutlineInputBorder(

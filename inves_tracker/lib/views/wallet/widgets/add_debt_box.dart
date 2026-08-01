@@ -8,7 +8,7 @@ import 'package:inves_tracker/core/services/debt_service.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/showcase/showcase_helper.dart';
 import 'package:inves_tracker/core/showcase/showcase_keys.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/wallet/utils/crypto_dropdown.dart';
 import 'package:inves_tracker/views/wallet/utils/currency_dropdown.dart';
 import 'package:inves_tracker/views/wallet/utils/gold_dropdown.dart';
@@ -47,26 +47,129 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
   final Map<ExchangeType, List<String>> _codesByType = {
     ExchangeType.currency: [
-      'TRY', 'USD', 'EUR', 'GBP', 'CHF', 'CAD', 'RUB', 'AED', 'AUD', 'DKK',
-      'SEK', 'NOK', 'ISK', 'JPY', 'SGD', 'NZD', 'HKD', 'THB', 'PLN', 'CZK',
-      'HUF', 'RON', 'QAR', 'SAR', 'BHD', 'OMR', 'KWD', 'IQD', 'LYD', 'IRR',
-      'LKR', 'INR', 'PKR', 'IDR', 'MYR', 'PHP', 'MXN', 'BRL', 'ARS', 'CLP',
-      'COP', 'PEN', 'UYU', 'CRC', 'UAH', 'GEL', 'AZN', 'MKD', 'BGN', 'BAM',
-      'MDL', 'ALL', 'LBP', 'EGP', 'DZD', 'TND', 'SYP', 'KRW', 'KZT', 'CNY',
+      'TRY',
+      'USD',
+      'EUR',
+      'GBP',
+      'CHF',
+      'CAD',
+      'RUB',
+      'AED',
+      'AUD',
+      'DKK',
+      'SEK',
+      'NOK',
+      'ISK',
+      'JPY',
+      'SGD',
+      'NZD',
+      'HKD',
+      'THB',
+      'PLN',
+      'CZK',
+      'HUF',
+      'RON',
+      'QAR',
+      'SAR',
+      'BHD',
+      'OMR',
+      'KWD',
+      'IQD',
+      'LYD',
+      'IRR',
+      'LKR',
+      'INR',
+      'PKR',
+      'IDR',
+      'MYR',
+      'PHP',
+      'MXN',
+      'BRL',
+      'ARS',
+      'CLP',
+      'COP',
+      'PEN',
+      'UYU',
+      'CRC',
+      'UAH',
+      'GEL',
+      'AZN',
+      'MKD',
+      'BGN',
+      'BAM',
+      'MDL',
+      'ALL',
+      'LBP',
+      'EGP',
+      'DZD',
+      'TND',
+      'SYP',
+      'KRW',
+      'KZT',
+      'CNY',
       'TWD',
     ],
     ExchangeType.gold: [
-      'HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN', 'ATAALTIN',
-      'RESATALTIN', 'CUMHURIYETALTINI', 'GREMSEALTIN', '14AYARALTIN',
-      '18AYARALTIN', 'YIA', 'IKIBUCUKALTIN', 'BESLIALTIN', 'GUMUS', 'GPL',
+      'HAS',
+      'GRA',
+      'CEYREKALTIN',
+      'YARIMALTIN',
+      'TAMALTIN',
+      'ATAALTIN',
+      'RESATALTIN',
+      'CUMHURIYETALTINI',
+      'GREMSEALTIN',
+      '14AYARALTIN',
+      '18AYARALTIN',
+      'YIA',
+      'IKIBUCUKALTIN',
+      'BESLIALTIN',
+      'GUMUS',
+      'GPL',
       'PAL',
     ],
     ExchangeType.crypto: [
-      'BTC', 'ETH', 'USDT', 'XRP', 'BNB', 'SOL', 'USDC', 'STETH', 'DOGE',
-      'TRX', 'ADA', 'SHIB', 'WSTETH', 'WBTC', 'HYPE', 'TON', 'LINK', 'BCH',
-      'AVAX', 'XLM', 'SUI', 'DOT', 'UNI', 'ZEC', 'LTC', 'XMR', 'CRO',
-      'NEAR', 'WETH', 'LEO', 'MNT', 'PYUSD', 'USDS', 'USDE', 'CBBTC',
-      'WEETH', 'SUSDE', 'SUSDS', 'TAO', 'WBETH', 'CC',
+      'BTC',
+      'ETH',
+      'USDT',
+      'XRP',
+      'BNB',
+      'SOL',
+      'USDC',
+      'STETH',
+      'DOGE',
+      'TRX',
+      'ADA',
+      'SHIB',
+      'WSTETH',
+      'WBTC',
+      'HYPE',
+      'TON',
+      'LINK',
+      'BCH',
+      'AVAX',
+      'XLM',
+      'SUI',
+      'DOT',
+      'UNI',
+      'ZEC',
+      'LTC',
+      'XMR',
+      'CRO',
+      'NEAR',
+      'WETH',
+      'LEO',
+      'MNT',
+      'PYUSD',
+      'USDS',
+      'USDE',
+      'CBBTC',
+      'WEETH',
+      'SUSDE',
+      'SUSDS',
+      'TAO',
+      'WBETH',
+      'CC',
     ],
   };
 
@@ -110,22 +213,24 @@ class _AddDebtBoxState extends State<AddDebtBox> {
   }
 
   Future<double?> _calculateCurrentTryValue(
-      String code, String type, double amount) async {
+    String code,
+    String type,
+    double amount,
+  ) async {
     try {
       final marketData = await _marketService.fetchMarketData();
       switch (type.toLowerCase()) {
         case 'currency':
           if (code == 'TRY') return amount * 1.0;
-          final currency =
-              marketData.currencies.firstWhere((c) => c.code == code);
+          final currency = marketData.currencies.firstWhere(
+            (c) => c.code == code,
+          );
           return amount * currency.buying;
         case 'gold':
-          final gold =
-              marketData.golds.firstWhere((g) => g.code == code);
+          final gold = marketData.golds.firstWhere((g) => g.code == code);
           return amount * gold.selling;
         case 'crypto':
-          final crypto =
-              marketData.cryptos.firstWhere((c) => c.code == code);
+          final crypto = marketData.cryptos.firstWhere((c) => c.code == code);
           return amount * crypto.tryPrice;
         default:
           return null;
@@ -139,39 +244,50 @@ class _AddDebtBoxState extends State<AddDebtBox> {
     final l10n = AppLocalizations.of(context)!;
 
     if (_selectedCode == null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(l10n.pleaseSelectEntity,
-            style: const TextStyle(color: Colors.black)),
-        showCloseIcon: true,
-        closeIconColor: Colors.black,
-        backgroundColor: AppColors.warning2,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            l10n.pleaseSelectEntity,
+            style: const TextStyle(color: Colors.black),
+          ),
+          showCloseIcon: true,
+          closeIconColor: Colors.black,
+          backgroundColor: AppColors.warning2,
+        ),
+      );
       return;
     }
 
     final amount = double.tryParse(_amountController.text);
     if (amount == null || amount <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(l10n.enterValidAmount,
-            style: const TextStyle(color: Colors.black)),
-        showCloseIcon: true,
-        closeIconColor: Colors.black,
-        backgroundColor: AppColors.warning2,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            l10n.enterValidAmount,
+            style: const TextStyle(color: Colors.black),
+          ),
+          showCloseIcon: true,
+          closeIconColor: Colors.black,
+          backgroundColor: AppColors.warning2,
+        ),
+      );
       return;
     }
 
     if (_selectedType == ExchangeType.gold) {
       final err = GoldInputHelper.validateAmount(
-          _selectedCode!, _amountController.text);
+        _selectedCode!,
+        _amountController.text,
+      );
       if (err != null) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content:
-              Text(err, style: const TextStyle(color: Colors.black)),
-          showCloseIcon: true,
-          closeIconColor: Colors.black,
-          backgroundColor: AppColors.warning2,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(err, style: const TextStyle(color: Colors.black)),
+            showCloseIcon: true,
+            closeIconColor: Colors.black,
+            backgroundColor: AppColors.warning2,
+          ),
+        );
         return;
       }
     }
@@ -180,7 +296,10 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
     try {
       final currentTryValue = await _calculateCurrentTryValue(
-          _selectedCode!, _getTypeApiName(_selectedType), amount);
+        _selectedCode!,
+        _getTypeApiName(_selectedType),
+        amount,
+      );
 
       if (currentTryValue == null) {
         throw Exception('Failed to calculate current TRY value');
@@ -205,13 +324,17 @@ class _AddDebtBoxState extends State<AddDebtBox> {
           _isLoading = false;
         });
         widget.onDebtAdded();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(l10n.debtAdded,
-              style: const TextStyle(color: Colors.black)),
-          showCloseIcon: true,
-          backgroundColor: AppColors.success2,
-          closeIconColor: Colors.black,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.debtAdded,
+              style: const TextStyle(color: Colors.black),
+            ),
+            showCloseIcon: true,
+            backgroundColor: AppColors.success2,
+            closeIconColor: Colors.black,
+          ),
+        );
       }
     } catch (e) {
       if (mounted) {
@@ -232,13 +355,17 @@ class _AddDebtBoxState extends State<AddDebtBox> {
             ),
           );
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Failed to add debt: $e',
-                style: const TextStyle(color: Colors.white)),
-            showCloseIcon: true,
-            backgroundColor: AppColors.danger3,
-            closeIconColor: Colors.white,
-          ));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Failed to add debt: $e',
+                style: const TextStyle(color: Colors.white),
+              ),
+              showCloseIcon: true,
+              backgroundColor: AppColors.danger3,
+              closeIconColor: Colors.white,
+            ),
+          );
         }
       }
     }
@@ -268,8 +395,7 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                     : AppColors.background2(context),
                 borderRadius: BorderRadius.circular(8.r),
                 border: isSelected
-                    ? Border.all(
-                        color: AppColors.secondary(context), width: 2)
+                    ? Border.all(color: AppColors.secondary(context), width: 2)
                     : null,
               ),
               child: Text(
@@ -277,10 +403,8 @@ class _AddDebtBoxState extends State<AddDebtBox> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 12.sp,
-                  fontWeight:
-                      isSelected ? FontWeight.w600 : FontWeight.w500,
-                  color:
-                      isSelected ? AppColors.secondary(context) : null,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                  color: isSelected ? AppColors.secondary(context) : null,
                 ),
               ),
             ),
@@ -300,8 +424,9 @@ class _AddDebtBoxState extends State<AddDebtBox> {
 
     // ── Code dropdown ─────────────────────────────────────────────────────────
     Widget codeDropdown = Theme(
-      data: Theme.of(context)
-          .copyWith(canvasColor: AppColors.background2(context)),
+      data: Theme.of(
+        context,
+      ).copyWith(canvasColor: AppColors.background2(context)),
       child: DropdownButtonFormField<String>(
         initialValue: _selectedCode,
         alignment: Alignment.centerLeft,
@@ -309,29 +434,30 @@ class _AddDebtBoxState extends State<AddDebtBox> {
         menuMaxHeight: 450.h,
         borderRadius: BorderRadius.circular(12.r),
         items: _codesByType[_selectedType]!
-            .map((code) => DropdownMenuItem<String>(
-                  value: code,
-                  child: IntrinsicWidth(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (_selectedType == ExchangeType.currency)
-                          CurrencyDropdown(code: code)
-                        else if (_selectedType == ExchangeType.gold)
-                          GoldDropdown(code: code)
-                        else
-                          CryptoDropdown(code: code),
-                      ],
-                    ),
+            .map(
+              (code) => DropdownMenuItem<String>(
+                value: code,
+                child: IntrinsicWidth(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (_selectedType == ExchangeType.currency)
+                        CurrencyDropdown(code: code)
+                      else if (_selectedType == ExchangeType.gold)
+                        GoldDropdown(code: code)
+                      else
+                        CryptoDropdown(code: code),
+                    ],
                   ),
-                ))
+                ),
+              ),
+            )
             .toList(),
         decoration: InputDecoration(
           labelText: _getTypeName(_selectedType, l10n),
           filled: true,
           fillColor: AppColors.background2(context),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.r)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.r)),
         ),
         onChanged: (value) => setState(() => _selectedCode = value),
       ),
@@ -349,18 +475,16 @@ class _AddDebtBoxState extends State<AddDebtBox> {
     // ── Amount field ──────────────────────────────────────────────────────────
     Widget amountField = TextField(
       controller: _amountController,
-      keyboardType: _selectedType == ExchangeType.gold &&
-              _selectedCode != null
+      keyboardType: _selectedType == ExchangeType.gold && _selectedCode != null
           ? GoldInputHelper.getKeyboardType(_selectedCode!)
           : const TextInputType.numberWithOptions(decimal: true),
-      inputFormatters: _selectedType == ExchangeType.gold &&
-              _selectedCode != null
+      inputFormatters:
+          _selectedType == ExchangeType.gold && _selectedCode != null
           ? GoldInputHelper.getInputFormatters(_selectedCode!)
           : [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))],
       decoration: InputDecoration(
         labelText: l10n.amount,
-        border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
         filled: true,
         fillColor: AppColors.background2(context),
       ),
@@ -383,24 +507,28 @@ class _AddDebtBoxState extends State<AddDebtBox> {
           controller: _noteController,
           maxLines: 2,
           maxLength: _maxNoteLength,
-          buildCounter: (ctx,
-              {required currentLength,
-              required maxLength,
-              required isFocused}) {
-            return Text(
-              '$currentLength/$maxLength',
-              style: TextStyle(
-                fontSize: 11.sp,
-                color: currentLength >= _maxNoteLength
-                    ? AppColors.danger
-                    : AppColors.title(context),
-              ),
-            );
-          },
+          buildCounter:
+              (
+                ctx, {
+                required currentLength,
+                required maxLength,
+                required isFocused,
+              }) {
+                return Text(
+                  '$currentLength/$maxLength',
+                  style: TextStyle(
+                    fontSize: 11.sp,
+                    color: currentLength >= _maxNoteLength
+                        ? AppColors.danger
+                        : AppColors.title(context),
+                  ),
+                );
+              },
           decoration: InputDecoration(
             labelText: l10n.noteOptional,
             border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r)),
+              borderRadius: BorderRadius.circular(8.r),
+            ),
             filled: true,
             fillColor: AppColors.background2(context),
           ),
@@ -412,7 +540,8 @@ class _AddDebtBoxState extends State<AddDebtBox> {
             decoration: InputDecoration(
               labelText: l10n.dueDateOptional,
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.r)),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
               filled: true,
               fillColor: AppColors.background2(context),
               suffixIcon: const Icon(Icons.calendar_today),
@@ -431,12 +560,12 @@ class _AddDebtBoxState extends State<AddDebtBox> {
         if (_selectedDueDate != null) ...[
           SizedBox(height: 8.h),
           TextButton.icon(
-            onPressed: () =>
-                setState(() => _selectedDueDate = null),
+            onPressed: () => setState(() => _selectedDueDate = null),
             icon: Icon(Icons.clear, size: 16.sp),
             label: Text(l10n.clearDueDate),
             style: TextButton.styleFrom(
-                foregroundColor: AppColors.secondary(context)),
+              foregroundColor: AppColors.secondary(context),
+            ),
           ),
         ],
       ],
@@ -461,18 +590,22 @@ class _AddDebtBoxState extends State<AddDebtBox> {
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 12.h),
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.r)),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
         ),
         child: _isLoading
             ? SizedBox(
                 width: 20.w,
                 height: 20.h,
                 child: const CircularProgressIndicator(
-                    strokeWidth: 2, color: Colors.white),
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
               )
-            : Text(l10n.addDebt,
-                style: TextStyle(
-                    fontSize: 14.sp, fontWeight: FontWeight.w600)),
+            : Text(
+                l10n.addDebt,
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
+              ),
       ),
     );
 
@@ -494,9 +627,10 @@ class _AddDebtBoxState extends State<AddDebtBox> {
         child: Row(
           children: [
             Expanded(
-              child: Text(l10n.addDebt,
-                  style: TextStyle(
-                      fontSize: 16.sp, fontWeight: FontWeight.w600)),
+              child: Text(
+                l10n.addDebt,
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+              ),
             ),
             Icon(
               _isExpanded ? Icons.expand_less : Icons.expand_more,

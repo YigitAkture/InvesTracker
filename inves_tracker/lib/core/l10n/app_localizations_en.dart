@@ -30,9 +30,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get currency => 'Currency';
 
   @override
-  String get change => 'Change';
-
-  @override
   String get crypto => 'Crypto';
 
   @override
@@ -45,13 +42,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gold => 'Gold';
 
   @override
-  String get updated => 'Updated';
-
-  @override
   String get debt => 'debt';
 
   @override
   String get asset => 'asset';
+
+  @override
+  String get updated => 'Updated';
 
   @override
   String get loadingMarketData => 'Loading market data...';
@@ -139,9 +136,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get designer => 'Designer';
-
-  @override
-  String get email => 'Email';
 
   @override
   String get goldGUMUS => 'Gram of Silver';
@@ -555,6 +549,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logout => 'Logout';
 
   @override
+  String get email => 'Email';
+
+  @override
   String get password => 'Password';
 
   @override
@@ -677,13 +674,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileDeletedSuccessfully => 'Profile deleted successfully';
 
   @override
+  String get failedToDeleteProfile => 'Failed to delete profile';
+
+  @override
   String get errorUpdatingProfile => 'Error updating profile';
 
   @override
   String get editProfile => 'Edit Profile';
-
-  @override
-  String get failedToDeleteProfile => 'Failed to delete profile';
 
   @override
   String get preferences => 'Preferences';
@@ -868,6 +865,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loss => 'Loss';
+
+  @override
+  String get change => 'Change';
 
   @override
   String get stable => 'Stable';

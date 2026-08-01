@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/user_service.dart';
 import 'package:inves_tracker/core/services/auth_service.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/auth/login_screen.dart';
 
 class DeleteAccountDialog extends StatefulWidget {
@@ -55,7 +55,7 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
       // If password is incorrect, show error and stop
       if (loginResult['success'] != true) {
         setState(() => _isLoading = false);
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -79,8 +79,11 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
           return AlertDialog(
             title: Row(
               children: [
-                Icon(Icons.warning_amber_rounded,
-                    color: AppColors.danger, size: 24.sp),
+                Icon(
+                  Icons.warning_amber_rounded,
+                  color: AppColors.danger,
+                  size: 24.sp,
+                ),
                 SizedBox(width: 8.w),
                 Text(l10n.warning),
               ],
@@ -96,9 +99,7 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
               ),
               TextButton(
                 onPressed: () => Navigator.pop(dialogContext, true),
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColors.danger,
-                ),
+                style: TextButton.styleFrom(foregroundColor: AppColors.danger),
                 child: Text(l10n.wordContinue),
               ),
             ],
@@ -176,9 +177,7 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
     final l10n = AppLocalizations.of(context)!;
 
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.r),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       child: Padding(
         padding: EdgeInsets.all(20.r),
         child: Column(
@@ -233,8 +232,11 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline,
-                      color: AppColors.danger, size: 20.sp),
+                  Icon(
+                    Icons.info_outline,
+                    color: AppColors.danger,
+                    size: 20.sp,
+                  ),
                   SizedBox(width: 8.w),
                   Expanded(
                     child: Text(
@@ -292,8 +294,7 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog> {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed:
-                        _isLoading ? null : () => Navigator.pop(context),
+                    onPressed: _isLoading ? null : () => Navigator.pop(context),
                     child: Text(l10n.cancel),
                   ),
                 ),

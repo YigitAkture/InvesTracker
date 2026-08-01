@@ -4,7 +4,7 @@ import 'package:home_widget/home_widget.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/config/widget_config.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 
 /// REFACTORED: Clean home widget service
 /// - Uses exactly 4 items per category

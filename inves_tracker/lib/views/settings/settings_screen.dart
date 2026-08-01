@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/showcase_service.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/navigation/main_layout.dart';
 import 'package:inves_tracker/views/settings/widgets/section_header.dart';
 import 'package:inves_tracker/views/settings/widgets/security_section.dart';
@@ -48,7 +48,7 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(height: 8.h),
                 themeCard, // ← showcased
                 SizedBox(height: 12.h),
-                langCard,  // ← showcased
+                langCard, // ← showcased
                 SizedBox(height: 12.h),
 
                 // Notifications
@@ -81,8 +81,7 @@ class SettingsScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.foreground(context),
                     borderRadius: BorderRadius.circular(16.r),
-                    border:
-                        Border.all(color: AppColors.danger, width: 1.5.w),
+                    border: Border.all(color: AppColors.danger, width: 1.5.w),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withValues(alpha: 0.35),
@@ -122,8 +121,8 @@ class _ReplayTourButton extends StatelessWidget {
         if (!context.mounted) return;
 
         // Walk up the tree to find MainLayout's state and call startShowcaseManually.
-        final mainLayoutState =
-            context.findAncestorStateOfType<_MainLayoutState>();
+        final mainLayoutState = context
+            .findAncestorStateOfType<_MainLayoutState>();
         if (mainLayoutState != null) {
           mainLayoutState.startShowcaseManually();
         } else {
@@ -159,8 +158,7 @@ class _ReplayTourButton extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(10.r),
               decoration: BoxDecoration(
-                color:
-                    AppColors.primary(context).withValues(alpha: 0.15),
+                color: AppColors.primary(context).withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: Icon(
@@ -192,8 +190,7 @@ class _ReplayTourButton extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(Icons.arrow_forward_ios,
-                size: 18.sp, color: Colors.grey),
+            Icon(Icons.arrow_forward_ios, size: 18.sp, color: Colors.grey),
           ],
         ),
       ),

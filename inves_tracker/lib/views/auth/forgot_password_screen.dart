@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/auth_service.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/auth/reset_password_screen.dart';
 
 /// Step 1: Request verification code
@@ -46,9 +46,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => ResetPasswordScreen(
-              email: _emailController.text.trim(),
-            ),
+            builder: (_) =>
+                ResetPasswordScreen(email: _emailController.text.trim()),
           ),
         );
 
@@ -92,10 +91,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.foreground(context),
         elevation: 0,
-        title: Text(
-          l10n.forgotPassword,
-          style: TextStyle(fontSize: 20.sp),
-        ),
+        title: Text(l10n.forgotPassword, style: TextStyle(fontSize: 20.sp)),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

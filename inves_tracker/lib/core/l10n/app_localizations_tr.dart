@@ -30,9 +30,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get currency => 'Döviz';
 
   @override
-  String get change => 'Değişim';
-
-  @override
   String get crypto => 'Kripto';
 
   @override
@@ -45,13 +42,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get gold => 'Altın';
 
   @override
-  String get updated => 'Güncellendi';
-
-  @override
   String get debt => 'borç';
 
   @override
   String get asset => 'varlık';
+
+  @override
+  String get updated => 'Güncellendi';
 
   @override
   String get loadingMarketData => 'Piyasa verileri yükleniyor...';
@@ -139,9 +136,6 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get designer => 'Tasarımcı';
-
-  @override
-  String get email => 'E-posta';
 
   @override
   String get goldGUMUS => 'Gram Gümüş';
@@ -557,6 +551,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get logout => 'Çıkış Yap';
 
   @override
+  String get email => 'E-posta';
+
+  @override
   String get password => 'Şifre';
 
   @override
@@ -679,13 +676,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileDeletedSuccessfully => 'Profil başarıyla silindi';
 
   @override
+  String get failedToDeleteProfile => 'Profil silinirken bir hata oluştu';
+
+  @override
   String get errorUpdatingProfile => 'Profil güncellenmemedi';
 
   @override
   String get editProfile => 'Profili Düzenle';
-
-  @override
-  String get failedToDeleteProfile => 'Profil silinirken bir hata oluştu';
 
   @override
   String get preferences => 'Tercihler';
@@ -871,6 +868,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get loss => 'Zarar';
+
+  @override
+  String get change => 'Değişim';
 
   @override
   String get stable => 'Stabil';

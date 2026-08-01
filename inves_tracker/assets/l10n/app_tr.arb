@@ -8,7 +8,6 @@
   "profile": "Profil",
   "currency": "Döviz",
   "crypto": "Kripto",
-  "change": "Değişim",
   "buying": "Alış",
   "selling": "Satış",
   "gold": "Altın",
@@ -44,7 +43,6 @@
   "version": "Sürüm",
   "developer": "Geliştirici",
   "designer": "Tasarımcı",
-  "email": "E-posta",
   "goldGUMUS": "Gram Gümüş",
   "goldGPL": "Platin",
   "goldPAL": "Paladyum",
@@ -290,10 +288,10 @@
   "debtNotChanged": "Borç Değişmedi",
   "debtDueDateApproachingNotificationTitle": "Borç Son Ödeme Tarihi Yaklaşıyor!",
   "debtDueDateApproachingNotificationBody": "{amount}{currency} değerindeki borcunuzun son ödeme tarihine 3 gün kaldı.",
-  "@debtDueDateApproachingNotificationBody":{
+  "@debtDueDateApproachingNotificationBody": {
     "description": "Debt due date approaching notification with amount and currency",
     "placeholders": {
-      "amount": { 
+      "amount": {
         "type": "double"
       },
       "currency": {
@@ -303,7 +301,7 @@
   },
   "debtDueDateNotificationTitle": "Borç Son Ödeme Tarihi Geldi!",
   "debtDueDateNotificationBody": "{amount} {currency} değerindeki borcunuzun son ödeme tarihi bugün!",
-  "@debtDueDateNotificationBody":{
+  "@debtDueDateNotificationBody": {
     "description": "Debt due date notification with amount and currency",
     "placeholders": {
       "amount": {
@@ -322,7 +320,7 @@
   "appReminderNotificationTitle": "Yatırım Hatırlatması",
   "marketUpdateNotificationTitle": "Piyasa Güncellemesi",
   "marketUpdateNotificationBody": "{currency} güncel değeri {value} TRY",
-  "@marketUpdateNotificationBody":{
+  "@marketUpdateNotificationBody": {
     "description": "Market update notification with currency and value",
     "placeholders": {
       "currency": {

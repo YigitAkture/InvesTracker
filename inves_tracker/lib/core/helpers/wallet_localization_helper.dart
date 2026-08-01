@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 
 class WalletLocalizationHelper {
   /// Get localized name for asset/debt code based on type
@@ -9,7 +9,7 @@ class WalletLocalizationHelper {
     String type,
   ) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     switch (type.toLowerCase()) {
       case 'currency':
         return _getCurrencyName(code, l10n);

@@ -5,7 +5,7 @@ import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
 import 'package:inves_tracker/core/models/market_response.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/wallet/widgets/asset_accordion_item.dart';
 import 'package:inves_tracker/views/wallet/widgets/add_asset_box.dart';
@@ -79,21 +79,21 @@ class _AssetsTabState extends State<AssetsTab> {
           orElse: () => _marketData!.currencies.first,
         );
         return currency.buying;
-      
+
       case 'gold':
         final gold = _marketData!.golds.firstWhere(
           (g) => g.code == assetCode,
           orElse: () => _marketData!.golds.first,
         );
         return gold.selling;
-      
+
       case 'crypto':
         final crypto = _marketData!.cryptos.firstWhere(
           (c) => c.code == assetCode,
           orElse: () => _marketData!.cryptos.first,
         );
         return crypto.tryPrice;
-      
+
       default:
         return null;
     }
@@ -105,23 +105,25 @@ class _AssetsTabState extends State<AssetsTab> {
     return totalAmount * tryValue;
   }
 
-  List<MapEntry<String, List<Asset>>> _getSortedAssets(Map<String, List<Asset>> groupedAssets) {
+  List<MapEntry<String, List<Asset>>> _getSortedAssets(
+    Map<String, List<Asset>> groupedAssets,
+  ) {
     final entries = groupedAssets.entries.toList();
-    
+
     entries.sort((a, b) {
       final assetTypeA = a.value.first.assetType;
       final assetTypeB = b.value.first.assetType;
-      
+
       final tryValueA = _getTryValue(a.key, assetTypeA);
       final tryValueB = _getTryValue(b.key, assetTypeB);
-      
+
       final totalValueA = _getTotalTryValue(a.value, tryValueA);
       final totalValueB = _getTotalTryValue(b.value, tryValueB);
-      
+
       // Sort in descending order (highest value first)
       return totalValueB.compareTo(totalValueA);
     });
-    
+
     return entries;
   }
 
@@ -142,15 +144,9 @@ class _AssetsTabState extends State<AssetsTab> {
           children: [
             Icon(Icons.error_outline, size: 48.sp, color: AppColors.danger),
             SizedBox(height: 12.h),
-            Text(
-              l10n.anErrorOccurred,
-              style: TextStyle(fontSize: 14.sp),
-            ),
+            Text(l10n.anErrorOccurred, style: TextStyle(fontSize: 14.sp)),
             SizedBox(height: 16.h),
-            ElevatedButton(
-              onPressed: _loadData,
-              child: Text(l10n.retry),
-            ),
+            ElevatedButton(onPressed: _loadData, child: Text(l10n.retry)),
           ],
         ),
       );
@@ -171,10 +167,7 @@ class _AssetsTabState extends State<AssetsTab> {
             SizedBox(height: 16.h),
 
             // Add Asset Box
-            AddAssetBox(
-              userId: widget.userId,
-              onAssetAdded: _loadData,
-            ),
+            AddAssetBox(userId: widget.userId, onAssetAdded: _loadData),
 
             SizedBox(height: 24.h),
 
@@ -208,7 +201,7 @@ class _AssetsTabState extends State<AssetsTab> {
               ...sortedAssets.map((entry) {
                 final assetType = entry.value.first.assetType;
                 final tryValue = _getTryValue(entry.key, assetType);
-                
+
                 return AssetAccordionItem(
                   assetCode: entry.key,
                   assetType: assetType,

@@ -6,7 +6,7 @@ import 'package:inves_tracker/core/services/debt_service.dart';
 import 'package:inves_tracker/core/services/reminder_notification_service.dart';
 import 'package:inves_tracker/core/services/home_widget_service.dart';
 import 'package:inves_tracker/core/utils/localization_manager.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/auth/auth_wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:inves_tracker/core/utils/theme_notifier.dart';

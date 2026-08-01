@@ -10,7 +10,7 @@ import 'package:inves_tracker/core/models/market_response.dart';
 import 'package:inves_tracker/core/showcase/showcase_helper.dart';
 import 'package:inves_tracker/core/showcase/showcase_keys.dart';
 import 'package:inves_tracker/core/utils/visibility_notifier.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/shared/banner_add.dart';
 import 'package:inves_tracker/views/home/widgets/portfolio_chart.dart';
 import 'package:inves_tracker/views/home/widgets/total_balance_card.dart';
@@ -92,7 +92,10 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 12.h),
             Text(
               l10n.failedToLoadData,
-              style: TextStyle(fontSize: 14.sp, color: AppColors.title(context)),
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.title(context),
+              ),
             ),
             SizedBox(height: 16.h),
             ElevatedButton(

@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/models/gold_data.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/market/gold/widgets/gold_box.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 
 class GoldRates extends StatefulWidget {
   final List<GoldData> golds;
-  
-  const GoldRates({
-    super.key,
-    required this.golds,
-  });
+
+  const GoldRates({super.key, required this.golds});
 
   @override
   State<GoldRates> createState() => GoldRatesState();
@@ -31,7 +28,13 @@ class GoldRatesState extends State<GoldRates> {
       return widget.golds;
     } else {
       // Show only first 5 gold types (default ones)
-      const defaultCodes = ['HAS', 'GRA', 'CEYREKALTIN', 'YARIMALTIN', 'TAMALTIN'];
+      const defaultCodes = [
+        'HAS',
+        'GRA',
+        'CEYREKALTIN',
+        'YARIMALTIN',
+        'TAMALTIN',
+      ];
       return widget.golds
           .where((gold) => defaultCodes.contains(gold.code))
           .toList();
@@ -41,7 +44,7 @@ class GoldRatesState extends State<GoldRates> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     if (widget.golds.isEmpty) {
       return Container(
         height: 100.h,
@@ -60,9 +63,7 @@ class GoldRatesState extends State<GoldRates> {
       children: [
         // Gold list
         Column(
-          children: displayedGolds
-              .map((gold) => GoldBox(gold: gold))
-              .toList(),
+          children: displayedGolds.map((gold) => GoldBox(gold: gold)).toList(),
         ),
 
         // Show More/Less button

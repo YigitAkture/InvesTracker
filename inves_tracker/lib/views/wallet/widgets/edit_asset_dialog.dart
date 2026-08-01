@@ -7,7 +7,7 @@ import 'package:inves_tracker/core/helpers/wallet_localization_helper.dart';
 import 'package:inves_tracker/core/models/asset.dart';
 import 'package:inves_tracker/core/services/asset_service.dart';
 import 'package:inves_tracker/core/services/market_service.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 
 class EditAssetDialog extends StatefulWidget {
   final Asset asset;
@@ -50,7 +50,7 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
       final marketData = await _marketService.fetchMarketData();
       final assetType = widget.asset.assetType.toLowerCase();
       final assetCode = widget.asset.assetCode;
-      
+
       switch (assetType) {
         case 'currency':
           if (assetCode == 'TRY') return amount * 1.0;
@@ -59,21 +59,21 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
             orElse: () => throw Exception('Currency not found'),
           );
           return amount * currency.buying;
-        
+
         case 'gold':
           final gold = marketData.golds.firstWhere(
             (g) => g.code == assetCode,
             orElse: () => throw Exception('Gold not found'),
           );
           return amount * gold.selling;
-        
+
         case 'crypto':
           final crypto = marketData.cryptos.firstWhere(
             (c) => c.code == assetCode,
             orElse: () => throw Exception('Crypto not found'),
           );
           return amount * crypto.tryPrice;
-        
+
         default:
           return null;
       }
@@ -85,11 +85,14 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
   Future<void> _updateAsset() async {
     final l10n = AppLocalizations.of(context)!;
     final amount = double.tryParse(_amountController.text);
-    
+
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(l10n.enterValidAmount, style: TextStyle(color: Colors.black)), 
+          content: Text(
+            l10n.enterValidAmount,
+            style: TextStyle(color: Colors.black),
+          ),
           showCloseIcon: true,
           closeIconColor: Colors.black,
           backgroundColor: AppColors.warning2,
@@ -107,7 +110,10 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
       if (validationError != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(validationError, style: TextStyle(color: Colors.black)), 
+            content: Text(
+              validationError,
+              style: TextStyle(color: Colors.black),
+            ),
             showCloseIcon: true,
             closeIconColor: Colors.black,
             backgroundColor: AppColors.warning2,
@@ -132,12 +138,15 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
         amount,
         currentTryValue, // Send calculated value
       );
-      
+
       if (mounted) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(l10n.assetUpdated, style: TextStyle(color: Colors.black)), 
+            content: Text(
+              l10n.assetUpdated,
+              style: TextStyle(color: Colors.black),
+            ),
             showCloseIcon: true,
             closeIconColor: Colors.black,
             backgroundColor: AppColors.success2,
@@ -149,7 +158,10 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
         setState(() => _isLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${l10n.failedToUpdateAsset}: $e', style: TextStyle(color: Colors.black)), 
+            content: Text(
+              '${l10n.failedToUpdateAsset}: $e',
+              style: TextStyle(color: Colors.black),
+            ),
             showCloseIcon: true,
             closeIconColor: Colors.black,
             backgroundColor: AppColors.danger3,
@@ -163,7 +175,7 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final isGold = widget.asset.assetType.toLowerCase() == 'gold';
-    
+
     return AlertDialog(
       title: Text(l10n.editAsset),
       content: SizedBox(
@@ -194,9 +206,7 @@ class _EditAssetDialogState extends State<EditAssetDialog> {
                   : const TextInputType.numberWithOptions(decimal: true),
               inputFormatters: isGold
                   ? GoldInputHelper.getInputFormatters(widget.asset.assetCode)
-                  : [
-                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-                    ],
+                  : [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))],
               decoration: InputDecoration(
                 labelText: l10n.amount,
                 border: OutlineInputBorder(

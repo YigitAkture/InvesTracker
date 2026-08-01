@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/services/auth_service.dart';
 import 'package:inves_tracker/core/utils/locale_notifier.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/navigation/main_layout.dart';
 import 'package:inves_tracker/views/auth/forgot_password_screen.dart';
 import 'package:inves_tracker/views/auth/register_screen.dart';
@@ -289,9 +289,7 @@ class _LoginScreenState extends State<LoginScreen> {
       suffixIcon: suffix,
       filled: true,
       fillColor: AppColors.foreground(context),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.r),
-      ),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.r)),
     );
   }
 
@@ -360,10 +358,7 @@ class _LanguageButton extends StatelessWidget {
               : Colors.transparent,
           borderRadius: BorderRadius.circular(8.r),
           border: isSelected
-              ? Border.all(
-                  color: AppColors.primary(context),
-                  width: 2.w,
-                )
+              ? Border.all(color: AppColors.primary(context), width: 2.w)
               : null,
         ),
         child: ClipRRect(

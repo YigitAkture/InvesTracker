@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inves_tracker/core/constants/app_colors.dart';
 import 'package:inves_tracker/core/utils/locale_notifier.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class LanguageSettingItem extends StatelessWidget {
@@ -28,10 +28,7 @@ class LanguageSettingItem extends StatelessWidget {
               SizedBox(width: 12.w),
               Text(
                 l10n.language,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -114,15 +111,12 @@ class _LanguageButtonState extends State<_LanguageButton>
       duration: const Duration(milliseconds: 320),
     );
 
-    final curve = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    );
+    final curve = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
 
     // 0.0 → 1.0 general progress, used to lerp colors inside build()
-    _progressAnim   = Tween<double>(begin: 0, end: 1).animate(curve);
-    _flagScaleAnim  = Tween<double>(begin: 0.72, end: 1.0).animate(curve);
-    _fontSizeAnim   = Tween<double>(begin: 12, end: 16).animate(curve);
+    _progressAnim = Tween<double>(begin: 0, end: 1).animate(curve);
+    _flagScaleAnim = Tween<double>(begin: 0.72, end: 1.0).animate(curve);
+    _fontSizeAnim = Tween<double>(begin: 12, end: 16).animate(curve);
     _fontWeightAnim = Tween<double>(begin: 0, end: 1).animate(curve);
 
     // Snap to the correct initial state with no animation
@@ -157,7 +151,7 @@ class _LanguageButtonState extends State<_LanguageButton>
   Widget build(BuildContext context) {
     // Read inherited widgets here — always safe during the build phase
     final primaryColor = AppColors.primary(context);
-    final bg2Color     = AppColors.background2(context);
+    final bg2Color = AppColors.background2(context);
 
     return GestureDetector(
       onTap: widget.onTap,
@@ -168,11 +162,7 @@ class _LanguageButtonState extends State<_LanguageButton>
 
           // Lerp colors inside build() so no inherited widget is ever
           // accessed outside a normal build call
-          final borderColor = Color.lerp(
-            Colors.transparent,
-            primaryColor,
-            t,
-          )!;
+          final borderColor = Color.lerp(Colors.transparent, primaryColor, t)!;
           final bgColor = Color.lerp(
             bg2Color,
             primaryColor.withValues(alpha: 0.10),

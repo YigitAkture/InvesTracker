@@ -5,28 +5,26 @@ import 'package:inves_tracker/core/helpers/locale_helper.dart';
 import 'package:inves_tracker/core/models/currency_data.dart';
 import 'package:inves_tracker/core/utils/price_formatter.dart';
 import 'package:inves_tracker/core/utils/regex_separator_input_formatter.dart';
-import 'package:inves_tracker/l10n/app_localizations.dart';
+import 'package:inves_tracker/core/l10n/app_localizations.dart';
 import 'package:inves_tracker/views/converter/widgets/converter_card.dart';
 import 'package:inves_tracker/views/converter/widgets/currency_dropdown.dart';
 
 class CurrencyToCurrencySection extends StatefulWidget {
   final List<CurrencyData> currencies;
 
-  const CurrencyToCurrencySection({
-    super.key,
-    required this.currencies,
-  });
+  const CurrencyToCurrencySection({super.key, required this.currencies});
 
   @override
   State<CurrencyToCurrencySection> createState() =>
       _CurrencyToCurrencySectionState();
 }
 
-class _CurrencyToCurrencySectionState
-    extends State<CurrencyToCurrencySection> {
+class _CurrencyToCurrencySectionState extends State<CurrencyToCurrencySection> {
   String _fromCurrency = 'USD';
   String _toCurrency = 'TRY';
-  final TextEditingController _amountController = TextEditingController(text: '1');
+  final TextEditingController _amountController = TextEditingController(
+    text: '1',
+  );
   // Replaces the raw double _result — now stored as formatted text
   final TextEditingController _resultController = TextEditingController();
   late String _locale;
@@ -34,10 +32,11 @@ class _CurrencyToCurrencySectionState
 
   double _parse(String text) {
     final thousandSep = _locale == 'tr_TR' ? '.' : ',';
-    final decimalSep  = _locale == 'tr_TR' ? ',' : '.';
+    final decimalSep = _locale == 'tr_TR' ? ',' : '.';
     return double.tryParse(
-      text.replaceAll(thousandSep, '').replaceAll(decimalSep, '.'),
-    ) ?? 0.0;
+          text.replaceAll(thousandSep, '').replaceAll(decimalSep, '.'),
+        ) ??
+        0.0;
   }
 
   @override
@@ -82,7 +81,10 @@ class _CurrencyToCurrencySectionState
     final convertedAmount = amountInTRY / toRate;
 
     setState(() {
-      _resultController.text = PriceFormatter.formatCurrency(convertedAmount, _locale);
+      _resultController.text = PriceFormatter.formatCurrency(
+        convertedAmount,
+        _locale,
+      );
     });
   }
 
@@ -133,10 +135,14 @@ class _CurrencyToCurrencySectionState
                 flex: 3,
                 child: TextField(
                   controller: _amountController,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   inputFormatters: [
-                    RegexSeparatorInputFormatter(allowDecimal: true, locale: _locale),
+                    RegexSeparatorInputFormatter(
+                      allowDecimal: true,
+                      locale: _locale,
+                    ),
                   ],
                   style: TextStyle(
                     fontSize: 16.sp,
