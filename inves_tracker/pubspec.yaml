@@ -1,25 +1,26 @@
 name: inves_tracker
 description: "A investment tracker app for your daily use."
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.3+16
+version: 1.0.4+17
 
 environment:
-  sdk: ^3.9.2
+  sdk: ">=3.12.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+
+  intl: ^0.20.2
   riverpod: ^3.0.3
-  cupertino_icons: ^1.0.8
   provider: ^6.1.5+1
+  cupertino_icons: ^1.0.8
   flutter_screenutil: ^5.9.3
   http: ^1.6.0
   shared_preferences: ^2.5.4
-  intl: ^0.20.2
   flutter_gen: ^5.12.0
   google_fonts: ^6.3.3
   google_mobile_ads: ^7.0.0

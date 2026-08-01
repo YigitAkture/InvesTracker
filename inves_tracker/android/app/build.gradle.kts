@@ -47,7 +47,7 @@ android {
     defaultConfig {
         applicationId = "com.yigit.investrackerapp"
         minSdk = flutter.minSdkVersion
-        targetSdk = 35
+        targetSdk = 37
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
